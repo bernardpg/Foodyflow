@@ -14,6 +14,15 @@
 		A948AA9E285B0B7500355C59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A948AA9D285B0B7500355C59 /* Assets.xcassets */; };
 		A948AAA1285B0B7500355C59 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A948AA9F285B0B7500355C59 /* LaunchScreen.storyboard */; };
 		A948AAA9285B1BF300355C59 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A948AAA8285B1BF300355C59 /* GoogleService-Info.plist */; };
+		A948AAB1285B309E00355C59 /* ShoppingProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAAF285B309E00355C59 /* ShoppingProductDetailViewController.swift */; };
+		A948AAB2285B309E00355C59 /* ShoppingProductDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A948AAB0285B309E00355C59 /* ShoppingProductDetailViewController.xib */; };
+		A948AAB6285B3B4400355C59 /* UIConstraint+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAB5285B3B4400355C59 /* UIConstraint+Extension.swift */; };
+		A948AAB8285B3C0D00355C59 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAB7285B3C0D00355C59 /* UIFont+Extension.swift */; };
+		A948AABA285B3C4700355C59 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAB9285B3C4700355C59 /* UIColor+Extension.swift */; };
+		A948AABC285B3C9800355C59 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AABB285B3C9800355C59 /* UIScreen+Extension.swift */; };
+		A948AABE285B3CBF00355C59 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AABD285B3CBF00355C59 /* UIView+Extension.swift */; };
+		A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AABF285B3D0100355C59 /* UITableView+Extension.swift */; };
+		A948AAC2285B3D3400355C59 /* UICollectionVIew+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAC1285B3D3400355C59 /* UICollectionVIew+Extension.swift */; };
 		EDE22383516BBDB6FD3B700C /* Pods_Foodyflow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +38,15 @@
 		A948AAA0285B0B7500355C59 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A948AAA2285B0B7500355C59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A948AAA8285B1BF300355C59 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A948AAAF285B309E00355C59 /* ShoppingProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingProductDetailViewController.swift; sourceTree = "<group>"; };
+		A948AAB0285B309E00355C59 /* ShoppingProductDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingProductDetailViewController.xib; sourceTree = "<group>"; };
+		A948AAB5285B3B4400355C59 /* UIConstraint+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIConstraint+Extension.swift"; sourceTree = "<group>"; };
+		A948AAB7285B3C0D00355C59 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		A948AAB9285B3C4700355C59 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		A948AABB285B3C9800355C59 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		A948AABD285B3CBF00355C59 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		A948AABF285B3D0100355C59 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		A948AAC1285B3D3400355C59 /* UICollectionVIew+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionVIew+Extension.swift"; sourceTree = "<group>"; };
 		C26E8DACC2F7432C24AA3475 /* Pods-Foodyflow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodyflow.debug.xcconfig"; path = "Target Support Files/Pods-Foodyflow/Pods-Foodyflow.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,9 +92,12 @@
 		A948AA93285B0B7400355C59 /* Foodyflow */ = {
 			isa = PBXGroup;
 			children = (
+				A948AAAE285B2CE500355C59 /* Extension */,
+				A948AAAD285B2CBF00355C59 /* Controller */,
+				A948AAAC285B2CB800355C59 /* Model */,
+				A948AAAB285B2CB000355C59 /* View */,
 				A948AA94285B0B7400355C59 /* AppDelegate.swift */,
 				A948AA96285B0B7400355C59 /* SceneDelegate.swift */,
-				A948AA98285B0B7400355C59 /* ViewController.swift */,
 				A948AA9A285B0B7400355C59 /* Main.storyboard */,
 				A948AA9D285B0B7500355C59 /* Assets.xcassets */,
 				A948AA9F285B0B7500355C59 /* LaunchScreen.storyboard */,
@@ -84,6 +105,44 @@
 				A948AAA8285B1BF300355C59 /* GoogleService-Info.plist */,
 			);
 			path = Foodyflow;
+			sourceTree = "<group>";
+		};
+		A948AAAB285B2CB000355C59 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A948AAAC285B2CB800355C59 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A948AAAD285B2CBF00355C59 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A948AAAF285B309E00355C59 /* ShoppingProductDetailViewController.swift */,
+				A948AAB0285B309E00355C59 /* ShoppingProductDetailViewController.xib */,
+				A948AA98285B0B7400355C59 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		A948AAAE285B2CE500355C59 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A948AAB5285B3B4400355C59 /* UIConstraint+Extension.swift */,
+				A948AAB7285B3C0D00355C59 /* UIFont+Extension.swift */,
+				A948AAB9285B3C4700355C59 /* UIColor+Extension.swift */,
+				A948AABB285B3C9800355C59 /* UIScreen+Extension.swift */,
+				A948AABD285B3CBF00355C59 /* UIView+Extension.swift */,
+				A948AABF285B3D0100355C59 /* UITableView+Extension.swift */,
+				A948AAC1285B3D3400355C59 /* UICollectionVIew+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		D34D5DAADC47A17E2531A2E3 /* Frameworks */ = {
@@ -156,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A948AAA1285B0B7500355C59 /* LaunchScreen.storyboard in Resources */,
+				A948AAB2285B309E00355C59 /* ShoppingProductDetailViewController.xib in Resources */,
 				A948AAA9285B1BF300355C59 /* GoogleService-Info.plist in Resources */,
 				A948AA9E285B0B7500355C59 /* Assets.xcassets in Resources */,
 				A948AA9C285B0B7400355C59 /* Main.storyboard in Resources */,
@@ -229,9 +289,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A948AABA285B3C4700355C59 /* UIColor+Extension.swift in Sources */,
+				A948AABC285B3C9800355C59 /* UIScreen+Extension.swift in Sources */,
+				A948AAB8285B3C0D00355C59 /* UIFont+Extension.swift in Sources */,
+				A948AABE285B3CBF00355C59 /* UIView+Extension.swift in Sources */,
 				A948AA99285B0B7400355C59 /* ViewController.swift in Sources */,
 				A948AA95285B0B7400355C59 /* AppDelegate.swift in Sources */,
 				A948AA97285B0B7400355C59 /* SceneDelegate.swift in Sources */,
+				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
+				A948AAB1285B309E00355C59 /* ShoppingProductDetailViewController.swift in Sources */,
+				A948AAB6285B3B4400355C59 /* UIConstraint+Extension.swift in Sources */,
+				A948AAC2285B3D3400355C59 /* UICollectionVIew+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
