@@ -14,5 +14,6 @@ target 'Foodyflow' do
   pod 'IQKeyboardManagerSwift'
   pod 'MBProgressHUD'
   pod  'SwiftLint'
+  pod  'FirebaseFirestoreSwift'
 
 end

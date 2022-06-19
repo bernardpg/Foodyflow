@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gfe-fe-Dn1">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,7 +13,7 @@
             <objects>
                 <viewController id="e5Y-et-Oyn" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tsl-tb-SQ7">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rne-cv-j3Y">
@@ -37,7 +38,7 @@
             <objects>
                 <viewController id="ei7-3v-D8M" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZdC-zq-sXg">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="IaV-gv-pWH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -53,18 +54,11 @@
             <objects>
                 <viewController id="Uji-7U-UfB" customClass="RefrigeViewController" customModule="Foodyflow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m5q-e2-J1L">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G9b-12-hlj">
-                                <rect key="frame" x="102" y="149" width="426" height="128"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <segue destination="wLR-lB-bm6" kind="embed" id="lIW-Wx-eQd"/>
-                                </connections>
-                            </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TkE-wk-fxp">
-                                <rect key="frame" x="102" y="149" width="426" height="128"/>
+                                <rect key="frame" x="87" y="627" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <segue destination="aqm-Ay-rgM" kind="embed" id="6xy-NT-rmG"/>
@@ -76,10 +70,17 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xp0-aK-bKd">
-                                <rect key="frame" x="102" y="149" width="426" height="128"/>
+                                <rect key="frame" x="87" y="627" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <segue destination="YNX-zE-rCi" kind="embed" id="G0w-7g-evG"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G9b-12-hlj">
+                                <rect key="frame" x="87" y="627" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="wLR-lB-bm6" kind="embed" id="lIW-Wx-eQd"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -157,7 +158,7 @@
             <objects>
                 <viewController id="wLR-lB-bm6" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sTK-1z-GUs">
-                        <rect key="frame" x="0.0" y="0.0" width="426" height="128"/>
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="8cU-Tb-1ck"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -172,7 +173,7 @@
             <objects>
                 <viewController id="aqm-Ay-rgM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5eK-ZI-lqb">
-                        <rect key="frame" x="0.0" y="0.0" width="426" height="128"/>
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="wys-Xc-oUN"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -187,7 +188,7 @@
             <objects>
                 <viewController id="YNX-zE-rCi" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OQM-Iq-T68">
-                        <rect key="frame" x="0.0" y="0.0" width="426" height="128"/>
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="851-HE-RgD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -221,7 +222,7 @@
             <objects>
                 <viewController id="gYh-tv-e7f" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FbE-ee-Ji4">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="pwV-gI-0kL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

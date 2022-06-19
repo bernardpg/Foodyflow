@@ -11,6 +11,8 @@ class RefrigeViewController: UIViewController {
     
     private var refrigeTableView = UITableView()
     
+    private var tapButton = UIButton()
+    
     var models = [Model]()
     
     var tabIndex: Int?
@@ -38,6 +40,21 @@ class RefrigeViewController: UIViewController {
 
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        refrigeTableView.layoutIfNeeded() // jordan
+        tapButton.layer.cornerRadius = (tapButton.frame.height)/2
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = true 
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     func setUI() {
         view.addSubview(refrigeTableView)
         refrigeTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +63,21 @@ class RefrigeViewController: UIViewController {
         refrigeTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         refrigeTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                             constant: 0).isActive = true
+        
+        refrigeTableView.addSubview(tapButton)
+        tapButton.translatesAutoresizingMaskIntoConstraints = false
+        tapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+        tapButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        tapButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        tapButton.backgroundColor = .black
+        tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
+    }
+    
+    @objc func addNewFood() {
+        let shoppingVC = ShoppingProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
+        self.navigationController!.pushViewController(shoppingVC, animated: true)
+        
     }
     
 }

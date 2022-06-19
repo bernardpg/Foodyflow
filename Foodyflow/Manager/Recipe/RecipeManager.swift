@@ -1,23 +1,23 @@
 //
-//  FoodManager.swift
+//  RecipeManager.swift
 //  Foodyflow
 //
-//  Created by 曹珮綺 on 6/18/22.
+//  Created by 曹珮綺 on 6/19/22.
 //
 
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
-class FoodManager {
+class RecipeManager {
     
-    static let shared = FoodManager()
+    static let shared = RecipeManager()
     
-    lazy var db = Firestore.firestore()
+    lazy var db = Firestore.firestore()/*
     
     func fetchFoods(completion: @escaping (Result<[FoodInfo], Error>) -> Void) {
         
-        db.collection("foods").order(by: "createdTime", descending: true).getDocuments() { (querySnapshot, error) in
+        db.collection("articles").order(by: "createdTime", descending: true).getDocuments() { (querySnapshot, error) in
             
                 if let error = error {
                     
@@ -48,10 +48,9 @@ class FoodManager {
     
     func publishFood(food: inout FoodInfo, completion: @escaping (Result<String, Error>) -> Void) {
         
-        let document = db.collection("foods").document()
+        let document = db.collection("articles").document()
         food.foodId = document.documentID
-        food.foodBrand = "33"
-        food.createdTime = Date.now.millisecondsSince1970
+        food.createdTime = Date().millisecondsSince1970
         document.setData(food.toDict) { error in
             
             if let error = error {
@@ -63,4 +62,6 @@ class FoodManager {
             }
         }
     }
+                                        */
 }
+
