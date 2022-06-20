@@ -9,8 +9,7 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
-
-class CategoryManager{
+class CategoryManager {
     
     static let shared = CategoryManager()
     
@@ -18,50 +17,24 @@ class CategoryManager{
     
     func fetchArticles(completion: @escaping (Result<[Category], Error>) -> Void) {
         
-        db.collection("category").getDocuments() { (querySnapshot, error) in
-                if let error = error {
-                    
-                    completion(.failure(error))
-                } else {
-                    
-                    var articles = [Category]()
-                    print(articles)
-                    
-                    for document in querySnapshot!.documents {
-
-                        do {
-                            let article =  try document.data(as: Category.self, decoder: Firestore.Decoder())
-                            articles.append(article)
-                        } catch {
-                            
-                            completion(.failure(error))
-                        }
-                    }
-                    
-                    completion(.success(articles))
-                }
-        }
-    }
-    /*
-    func publishFoodOnRefrige(refrige: inout Category, completion: @escaping (Result<String, Error>) -> Void) {
+       let docref = db.collection("category").document("v8pyHTdy3fm6FiEg3Ea1")
         
-        let document = db.collection("category").document(refrige.id)
-        document.updateData(["foodID" : refrige.foodID]) { error in
-            
+        docref.getDocument { (document, error) in
             if let error = error {
-                
                 completion(.failure(error))
             } else {
+                var articles = [Category]()
+                do {
+                    let article =  try document?.data(as: Category.self, decoder: Firestore.Decoder())
+                    guard let article = article else { return }
+                    articles.append(article)
+                } catch {
+                    
+                    completion(.failure(error))
+                }
                 
-//                article.foodID.append(foodId!)
-//                articles.append(article)
-
-                completion(.success("Success"))
-            }
+                completion(.success(articles))
+        }
         }
     }
-}
-
-*/
-    
 }

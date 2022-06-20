@@ -9,7 +9,7 @@ import Foundation
 
 struct Category: Codable {
     
-    var type: String?
+    var type: [String?]
     
     enum CodingKeys: String, CodingKey {
         case type
@@ -17,7 +17,7 @@ struct Category: Codable {
     
     var toDict: [String: Any] {
         return [
-            "type": type as Any,
+            "type": type as Any
         ]
     }
     

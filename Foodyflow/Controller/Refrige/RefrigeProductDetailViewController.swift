@@ -14,9 +14,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class RefrigeProductDetailViewController: UIViewController {
-    
-    typealias CompletionHandler = ([ String : Any ]) -> Void
-    
+        
     var completion: CompletionHandler?
     
     var selectedImage: UIImage?

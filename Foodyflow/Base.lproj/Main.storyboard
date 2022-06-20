@@ -210,6 +210,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="a8p-tX-C9b"/>
+                    <connections>
+                        <outlet property="addRefrigeButton" destination="YOt-D5-WkK" id="Khp-Rf-DtR"/>
+                        <outlet property="personalSettingButton" destination="Fgs-o2-REo" id="mSo-w2-bDF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i04-kF-a4L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -8,11 +8,11 @@
 import Foundation
 
 struct Model {
+    
     var id: String
     var text: String
-    var foodID: [String]
-    
-    init(id: String ,text: String,foodID: [String]) {
+    var foodID: [FoodInfo]
+    init(id: String ,text: String,foodID: [FoodInfo]) {
         self.id = id
         self.text = text
         self.foodID = foodID

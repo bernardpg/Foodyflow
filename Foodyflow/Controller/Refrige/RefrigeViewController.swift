@@ -15,7 +15,13 @@ class RefrigeViewController: UIViewController {
     
     var refrige: [Refrige] = []
     
+    var completion: CompletionHandler?
+    
+    var cate = Category.init(type: [""])
+    
     var models = [Model]()
+    
+    var foodInfo: [FoodInfo] = []
     
     var tabIndex: Int?
     
@@ -29,24 +35,22 @@ class RefrigeViewController: UIViewController {
         refrigeTableView.delegate = self
         refrigeTableView.dataSource = self
         
-        fetchallRefrige()
-  
-        models.append(Model(id: "", text: "", foodID: [""]))
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        refrigeTableView.layoutIfNeeded() // jordan
+        refrigeTableView.layoutIfNeeded()
         tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-//        self.tabBarController?.tabBar.isHidden = true 
-    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchallRefrige()
+        // viewwillappear 打完重劃
+        fetchAllCate()
+        fetchAllRefrige { [weak self ] refrige in
+            self?.fetAllFood()
+        }
         refrigeTableView.reloadData()
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -76,23 +80,38 @@ class RefrigeViewController: UIViewController {
         
     }
     
-    func fetchallRefrige() {
-        RefrigeManager.shared.fetchArticles { [weak self] result in
-            switch result{
-            case .success(let refrige):
-                self?.refrige = refrige
-                if self?.models[0].text != ""{
-                self?.models.append(Model(id: refrige[0].id, text: refrige[0].title, foodID: refrige[0].foodID))
-                }
-                else {
-                    self?.models[0].id = refrige[0].id
-                    self?.models[0].text = refrige[0].title
-                    self?.models[0].foodID = refrige[0].foodID
-                }
+    func fetchAllCate() {
+        CategoryManager.shared.fetchArticles(completion: { [weak self] result in
+            switch result {
+            case .success(let cate):
+                self?.cate.type = cate[0].type
                 self?.refrigeTableView.reloadData()
         case .failure:
             print("cannot fetceeeeh data")
                 
+            }
+        })
+    }
+    func fetchAllRefrige(completion: @escaping (CompletionHandler)){
+        RefrigeManager.shared.fetchArticles { [weak self] result in
+            switch result{
+            case .success(let refrige):
+                self?.refrige = refrige
+                completion(["refrige" : refrige])
+            case .failure:
+                print("cannot fetch data")
+            }
+        }
+    }
+    func fetAllFood() {
+        FoodManager.shared.fetchSpecifyFood(refrige: self.refrige[0]) { [weak self] result in
+            switch result {
+            case .success(let foodInfo):
+                self?.foodInfo.append(foodInfo[0])
+                // completion 完 作reload
+                self?.refrigeTableView.reloadData()
+            case .failure:
+                print("fetch food error")
             }
         }
     }
@@ -101,28 +120,24 @@ class RefrigeViewController: UIViewController {
 extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  models[0].id.count
+        cate.type.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = refrigeTableView.dequeueReusableCell(withIdentifier: "refrigeCatTableViewCell",
             for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
+        cell.cateFood.text = self.cate.type[indexPath.row]
+        // selection cell
+        //
+        cell.configure(with: models)
         cell.index = indexPath.row
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
-            
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
-            guard let text = self?.models[0].foodID[colIndex] else { return }
-            self?.foodDetail?(text) // callback way
-            guard let refrige = self?.refrige[0] else { return }
-            shoppingVC.refrige = refrige
-            shoppingVC.setFoodName(with: text)
-            self?.navigationController!.pushViewController(shoppingVC, animated: true)
+            self?.navigationController?.pushViewController(shoppingVC, animated: true)
 
-        }
-
-        cell.configure(with: models)
+            }
         
         return cell
     }
@@ -131,3 +146,12 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         250.0
     }
 }
+
+/*
+ //            guard let text = self?.models[0].foodID[colIndex] else { return }
+ //            self?.foodDetail?(text) // callback way
+ //            guard let refrige = self?.refrige[0] else { return }
+  //           shoppingVC.refrige = refrige
+ //            shoppingVC.setFoodName(with: text)
+
+ */

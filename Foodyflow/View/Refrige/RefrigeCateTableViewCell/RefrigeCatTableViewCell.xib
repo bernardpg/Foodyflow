@@ -46,6 +46,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="cateFood" destination="N0f-Js-Erm" id="T0L-oS-VQI"/>
                 <outlet property="inCatCollectionView" destination="mej-ks-AWA" id="bmq-gp-vtL"/>
             </connections>
             <point key="canvasLocation" x="155.07246376811597" y="104.79910714285714"/>

@@ -20,30 +20,30 @@ class FoodManager {
         
         db.collection("foods").order(by: "createdTime", descending: true).getDocuments() { (querySnapshot, error) in
             
-                if let error = error {
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                var foods = [FoodInfo]()
+                
+                for document in querySnapshot!.documents {
                     
-                    completion(.failure(error))
-                } else {
-                    
-                    var foods = [FoodInfo]()
-                    
-                    for document in querySnapshot!.documents {
-
-                        do {
-                            let food =  try document.data(as: FoodInfo.self, decoder: Firestore.Decoder())
-                            foods.append(food)
-                            //let article = try document.data(as: Article.self, decoder: Firestore.Decoder()) {
-                           //     articles.append(article)
-                            
-                        } catch {
-                            
-                            completion(.failure(error))
-//                            completion(.failure(FirebaseError.documentError))
-                        }
+                    do {
+                        let food =  try document.data(as: FoodInfo.self, decoder: Firestore.Decoder())
+                        foods.append(food)
+                        //let article = try document.data(as: Article.self, decoder: Firestore.Decoder()) {
+                        //     articles.append(article)
+                        
+                    } catch {
+                        
+                        completion(.failure(error))
+                        //                            completion(.failure(FirebaseError.documentError))
                     }
-                    
-                    completion(.success(foods))
                 }
+                
+                completion(.success(foods))
+            }
         }
     }
     
@@ -62,6 +62,31 @@ class FoodManager {
             } else {
                 
                 completion(.success("Success"))
+            }
+        }
+    }
+    func fetchSpecifyFood(refrige: Refrige,completion: @escaping (Result<[FoodInfo], Error>) -> Void) {
+        
+        let colref = db.collection("foods")
+        var articles = [FoodInfo]()
+        for food in refrige.foodID {
+            colref.document(food).getDocument { (document, error) in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    
+                    do {
+                        let article =  try document?.data(as: FoodInfo.self, decoder: Firestore.Decoder())
+                        guard let article = article else { return }
+                        print(article)
+                        articles.append(article)
+                    } catch {
+                        
+                        completion(.failure(error))
+                    }
+                    
+                    completion(.success(articles))
+                }
             }
         }
     }

@@ -19,6 +19,7 @@ class RefrigeCatTableViewCell: UITableViewCell {
     }
     
     @IBOutlet var inCatCollectionView: UICollectionView!
+    @IBOutlet weak var cateFood: UILabel!
     
     var foodInfo: [FoodInfo] = []
     
@@ -48,7 +49,8 @@ extension RefrigeCatTableViewCell: UICollectionViewDelegate,
                                    UICollectionViewDataSource,
                                    UICollectionViewDelegateFlowLayout {
 func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    models[0].foodID.count
+    1
+    //models[0].foodID.count
     
 }
 
@@ -57,7 +59,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
         for: indexPath) as? InCatCollectionViewCell
     guard let cell = cell else { return UICollectionViewCell() }
     cell.backgroundColor = .systemPink
-    cell.myLabel.text = models[0].foodID[indexPath.row]
+//    cell.myLabel.text = models[0].foodID[indexPath.row]
 //    cell.configute(with: models[indexPath.row])
     return cell
     
@@ -67,6 +69,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: 170, height: 170 )
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
