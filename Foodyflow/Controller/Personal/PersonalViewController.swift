@@ -11,6 +11,8 @@ class PersonalViewController: UIViewController {
 
     @IBOutlet weak var addRefrigeButton: UIButton!
     @IBOutlet weak var personalSettingButton: UIButton!
+    
+    @IBOutlet weak var personalImage: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,6 +20,11 @@ class PersonalViewController: UIViewController {
         
         personalSettingButton.addTarget(self, action: #selector(personalSetting), for: .touchUpInside)
 
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        personalImage.layer.cornerRadius = (personalImage.frame.height)/2
     }
     
     @objc func addRefri() {
