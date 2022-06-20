@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShoppingProductDetailViewController" customModule="Foodyflow" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RefrigeProductDetailViewController" customModule="Foodyflow" customModuleProvider="target">
             <connections>
                 <outlet property="expireDate" destination="gPh-EW-lDF" id="1aN-mf-HZF"/>
                 <outlet property="expireDateTextfield" destination="Jri-kX-Etm" id="L04-hw-zB5"/>

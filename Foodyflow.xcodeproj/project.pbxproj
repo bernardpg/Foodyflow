@@ -28,7 +28,7 @@
 		A948AA9E285B0B7500355C59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A948AA9D285B0B7500355C59 /* Assets.xcassets */; };
 		A948AAA1285B0B7500355C59 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A948AA9F285B0B7500355C59 /* LaunchScreen.storyboard */; };
 		A948AAA9285B1BF300355C59 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A948AAA8285B1BF300355C59 /* GoogleService-Info.plist */; };
-		A948AAB1285B309E00355C59 /* ShoppingProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAAF285B309E00355C59 /* ShoppingProductDetailViewController.swift */; };
+		A948AAB1285B309E00355C59 /* RefrigeProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAAF285B309E00355C59 /* RefrigeProductDetailViewController.swift */; };
 		A948AAB2285B309E00355C59 /* ShoppingProductDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A948AAB0285B309E00355C59 /* ShoppingProductDetailViewController.xib */; };
 		A948AAB6285B3B4400355C59 /* UIConstraint+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAB5285B3B4400355C59 /* UIConstraint+Extension.swift */; };
 		A948AAB8285B3C0D00355C59 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAB7285B3C0D00355C59 /* UIFont+Extension.swift */; };
@@ -37,9 +37,13 @@
 		A948AABE285B3CBF00355C59 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AABD285B3CBF00355C59 /* UIView+Extension.swift */; };
 		A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AABF285B3D0100355C59 /* UITableView+Extension.swift */; };
 		A948AAC2285B3D3400355C59 /* UICollectionVIew+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAC1285B3D3400355C59 /* UICollectionVIew+Extension.swift */; };
+		A96DA97128600949008993BB /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96DA96F28600949008993BB /* PersonalViewController.swift */; };
+		A96DA979286012CC008993BB /* ShoppingListProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96DA977286012CC008993BB /* ShoppingListProductDetailViewController.swift */; };
+		A96DA97A286012CC008993BB /* ShoppingListProductDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96DA978286012CC008993BB /* ShoppingListProductDetailViewController.xib */; };
+		A96DA97C286035C9008993BB /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96DA97B286035C9008993BB /* Category.swift */; };
+		A96DA97F2860365A008993BB /* CategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96DA97E2860365A008993BB /* CategoryManager.swift */; };
 		A96EA158285F50D900941433 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EA157285F50D900941433 /* ImageHelper.swift */; };
 		A96EA15E285FB99100941433 /* ShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EA15D285FB99100941433 /* ShoppingListViewController.swift */; };
-		A96EA160285FBA5600941433 /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EA15F285FBA5600941433 /* PersonalViewController.swift */; };
 		A96EA162285FBAA700941433 /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EA161285FBAA700941433 /* RecipeViewController.swift */; };
 		EDE22383516BBDB6FD3B700C /* Pods_Foodyflow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */; };
 /* End PBXBuildFile section */
@@ -70,7 +74,7 @@
 		A948AAA0285B0B7500355C59 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A948AAA2285B0B7500355C59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A948AAA8285B1BF300355C59 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A948AAAF285B309E00355C59 /* ShoppingProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingProductDetailViewController.swift; sourceTree = "<group>"; };
+		A948AAAF285B309E00355C59 /* RefrigeProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefrigeProductDetailViewController.swift; sourceTree = "<group>"; };
 		A948AAB0285B309E00355C59 /* ShoppingProductDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingProductDetailViewController.xib; sourceTree = "<group>"; };
 		A948AAB5285B3B4400355C59 /* UIConstraint+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIConstraint+Extension.swift"; sourceTree = "<group>"; };
 		A948AAB7285B3C0D00355C59 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
@@ -79,9 +83,13 @@
 		A948AABD285B3CBF00355C59 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		A948AABF285B3D0100355C59 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		A948AAC1285B3D3400355C59 /* UICollectionVIew+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionVIew+Extension.swift"; sourceTree = "<group>"; };
+		A96DA96F28600949008993BB /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
+		A96DA977286012CC008993BB /* ShoppingListProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListProductDetailViewController.swift; sourceTree = "<group>"; };
+		A96DA978286012CC008993BB /* ShoppingListProductDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingListProductDetailViewController.xib; sourceTree = "<group>"; };
+		A96DA97B286035C9008993BB /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		A96DA97E2860365A008993BB /* CategoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryManager.swift; sourceTree = "<group>"; };
 		A96EA157285F50D900941433 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		A96EA15D285FB99100941433 /* ShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListViewController.swift; sourceTree = "<group>"; };
-		A96EA15F285FBA5600941433 /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
 		A96EA161285FBAA700941433 /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
 		C26E8DACC2F7432C24AA3475 /* Pods-Foodyflow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodyflow.debug.xcconfig"; path = "Target Support Files/Pods-Foodyflow/Pods-Foodyflow.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,6 +145,7 @@
 		A92F6BB8285C4DFB0090EE90 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				A96DA97D28603648008993BB /* Category */,
 				A944E699285EB7750068D7DD /* Recipe */,
 				A944E68D285DDFBF0068D7DD /* Refrige */,
 				A944E68C285DDFB70068D7DD /* Account */,
@@ -256,6 +265,7 @@
 				A92F6BB9285C54240090EE90 /* RefrigeModel.swift */,
 				A944E69C285F0A100068D7DD /* Refrige.swift */,
 				A944E697285EAB1F0068D7DD /* Food.swift */,
+				A96DA97B286035C9008993BB /* Category.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,6 +295,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		A96DA97D28603648008993BB /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				A96DA97E2860365A008993BB /* CategoryManager.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 		A96EA159285FB8AC00941433 /* Recipe */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +315,8 @@
 			isa = PBXGroup;
 			children = (
 				A96EA15D285FB99100941433 /* ShoppingListViewController.swift */,
+				A96DA977286012CC008993BB /* ShoppingListProductDetailViewController.swift */,
+				A96DA978286012CC008993BB /* ShoppingListProductDetailViewController.xib */,
 			);
 			path = ShoppingList;
 			sourceTree = "<group>";
@@ -304,7 +324,7 @@
 		A96EA15B285FB8B700941433 /* Refrige */ = {
 			isa = PBXGroup;
 			children = (
-				A948AAAF285B309E00355C59 /* ShoppingProductDetailViewController.swift */,
+				A948AAAF285B309E00355C59 /* RefrigeProductDetailViewController.swift */,
 				A948AAB0285B309E00355C59 /* ShoppingProductDetailViewController.xib */,
 				A948AA98285B0B7400355C59 /* RefrigeViewController.swift */,
 			);
@@ -314,7 +334,7 @@
 		A96EA15C285FB8BA00941433 /* Personal */ = {
 			isa = PBXGroup;
 			children = (
-				A96EA15F285FBA5600941433 /* PersonalViewController.swift */,
+				A96DA96F28600949008993BB /* PersonalViewController.swift */,
 			);
 			path = Personal;
 			sourceTree = "<group>";
@@ -391,6 +411,7 @@
 				A948AAA1285B0B7500355C59 /* LaunchScreen.storyboard in Resources */,
 				A948AAB2285B309E00355C59 /* ShoppingProductDetailViewController.xib in Resources */,
 				A948AAA9285B1BF300355C59 /* GoogleService-Info.plist in Resources */,
+				A96DA97A286012CC008993BB /* ShoppingListProductDetailViewController.xib in Resources */,
 				A92F6BCC285C94270090EE90 /* InCatCollectionViewCell.xib in Resources */,
 				A948AA9E285B0B7500355C59 /* Assets.xcassets in Resources */,
 				A948AA9C285B0B7400355C59 /* Main.storyboard in Resources */,
@@ -470,6 +491,7 @@
 				A96EA15E285FB99100941433 /* ShoppingListViewController.swift in Sources */,
 				A944E69D285F0A100068D7DD /* Refrige.swift in Sources */,
 				A944E693285DE3B70068D7DD /* UserManager.swift in Sources */,
+				A96DA97F2860365A008993BB /* CategoryManager.swift in Sources */,
 				A944E68F285DE1210068D7DD /* RefrigeManeger.swift in Sources */,
 				A948AABC285B3C9800355C59 /* UIScreen+Extension.swift in Sources */,
 				A944E696285E0EE60068D7DD /* DateHelper.swift in Sources */,
@@ -478,17 +500,19 @@
 				A948AA99285B0B7400355C59 /* RefrigeViewController.swift in Sources */,
 				A92F6BBA285C54240090EE90 /* RefrigeModel.swift in Sources */,
 				A948AA95285B0B7400355C59 /* AppDelegate.swift in Sources */,
+				A96DA97128600949008993BB /* PersonalViewController.swift in Sources */,
 				A948AA97285B0B7400355C59 /* SceneDelegate.swift in Sources */,
 				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
 				A944E691285DE1300068D7DD /* FoodManager.swift in Sources */,
 				A944E698285EAB1F0068D7DD /* Food.swift in Sources */,
-				A948AAB1285B309E00355C59 /* ShoppingProductDetailViewController.swift in Sources */,
+				A948AAB1285B309E00355C59 /* RefrigeProductDetailViewController.swift in Sources */,
+				A96DA979286012CC008993BB /* ShoppingListProductDetailViewController.swift in Sources */,
 				A948AAB6285B3B4400355C59 /* UIConstraint+Extension.swift in Sources */,
 				A944E69B285EB78F0068D7DD /* RecipeManager.swift in Sources */,
 				A92F6BC0285C79CF0090EE90 /* ContainerView.swift in Sources */,
 				A948AAC2285B3D3400355C59 /* UICollectionVIew+Extension.swift in Sources */,
-				A96EA160285FBA5600941433 /* PersonalViewController.swift in Sources */,
 				A92F6BCB285C94270090EE90 /* InCatCollectionViewCell.swift in Sources */,
+				A96DA97C286035C9008993BB /* Category.swift in Sources */,
 				A92F6BC7285C927B0090EE90 /* RefrigeCatTableViewCell.swift in Sources */,
 				A96EA158285F50D900941433 /* ImageHelper.swift in Sources */,
 				A96EA162285FBAA700941433 /* RecipeViewController.swift in Sources */,

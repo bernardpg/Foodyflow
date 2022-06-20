@@ -1,43 +1,36 @@
 //
-//  RefrigeManeger.swift
+//  CategoryManager.swift
 //  Foodyflow
 //
-//  Created by 曹珮綺 on 6/18/22.
+//  Created by 曹珮綺 on 6/20/22.
 //
 
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
-enum FirebaseError: Error {
-    case documentError
-}
 
-enum MasterError: Error {
-    case youKnowNothingError(String)
-}
-
-class RefrigeManager {
+class CategoryManager{
     
-    static let shared = RefrigeManager()
+    static let shared = CategoryManager()
     
     lazy var db = Firestore.firestore()
     
-    func fetchArticles(completion: @escaping (Result<[Refrige], Error>) -> Void) {
+    func fetchArticles(completion: @escaping (Result<[Category], Error>) -> Void) {
         
-        db.collection("Refrige").getDocuments() { (querySnapshot, error) in
+        db.collection("category").getDocuments() { (querySnapshot, error) in
                 if let error = error {
                     
                     completion(.failure(error))
                 } else {
                     
-                    var articles = [Refrige]()
+                    var articles = [Category]()
                     print(articles)
                     
                     for document in querySnapshot!.documents {
 
                         do {
-                            let article =  try document.data(as: Refrige.self, decoder: Firestore.Decoder())
+                            let article =  try document.data(as: Category.self, decoder: Firestore.Decoder())
                             articles.append(article)
                         } catch {
                             
@@ -49,10 +42,10 @@ class RefrigeManager {
                 }
         }
     }
-    
-    func publishFoodOnRefrige(refrige: inout Refrige, completion: @escaping (Result<String, Error>) -> Void) {
+    /*
+    func publishFoodOnRefrige(refrige: inout Category, completion: @escaping (Result<String, Error>) -> Void) {
         
-        let document = db.collection("Refrige").document(refrige.id)
+        let document = db.collection("category").document(refrige.id)
         document.updateData(["foodID" : refrige.foodID]) { error in
             
             if let error = error {
@@ -67,4 +60,8 @@ class RefrigeManager {
             }
         }
     }
+}
+
+*/
+    
 }

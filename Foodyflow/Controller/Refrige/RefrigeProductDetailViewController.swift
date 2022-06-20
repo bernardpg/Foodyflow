@@ -1,5 +1,5 @@
 //
-//  ShoppingProductDetailViewController.swift
+//  RefrigeProductDetailViewController.swift
 //  Foodyflow
 //
 //  Created by 曹珮綺 on 6/16/22.
@@ -13,7 +13,7 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
 
-class ShoppingProductDetailViewController: UIViewController {
+class RefrigeProductDetailViewController: UIViewController {
     
     typealias CompletionHandler = ([ String : Any ]) -> Void
     
@@ -21,9 +21,7 @@ class ShoppingProductDetailViewController: UIViewController {
     
     var selectedImage: UIImage?
     
-    
     var onPublished: (()->())?
-    
     @IBOutlet weak var imageUpload: UIButton!
     
     @IBOutlet weak var foodNameTextField: UITextField!
@@ -69,7 +67,6 @@ class ShoppingProductDetailViewController: UIViewController {
         foodCate.text = "食物種類"
         purchaseDate.text = "購買日期"
         expireDate.text = "過期日期"
-        print(refrige.foodID)
         
         self.foodNameTextField.text = foodItemName
         
@@ -110,7 +107,7 @@ class ShoppingProductDetailViewController: UIViewController {
                 print("publishArticle.failure: \(error)")
             }
         }
-        guard let foodId = foodId else { return }  // bugs 
+        guard let foodId = foodId else { return }  // bugs
         refrige.foodID.append(foodId)
         RefrigeManager.shared.publishFoodOnRefrige(refrige: &self.refrige) { result in
             
@@ -193,7 +190,7 @@ class ShoppingProductDetailViewController: UIViewController {
         }
 }
 
-extension ShoppingProductDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension RefrigeProductDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         

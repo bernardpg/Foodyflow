@@ -32,18 +32,6 @@ class RefrigeViewController: UIViewController {
         fetchallRefrige()
   
         models.append(Model(id: "", text: "", foodID: [""]))
-//        models.append(Model(text: "ee"))
-//        models.append(Model(text: "22"))
-//        models.append(Model(text: "12"))
-//        models.append(Model(text: "42"))
-//        models.append(Model(text: "rr"))
-//        models.append(Model(text: "gg"))
-//        models.append(Model(text: "dd"))
-//        models.append(Model(text: "ww"))
-//        models.append(Model(text: "qq"))
-//        models.append(Model(text: "11"))
-//        models.append(Model(text: "nn"))
-
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,6 +46,8 @@ class RefrigeViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchallRefrige()
+        refrigeTableView.reloadData()
         self.tabBarController?.tabBar.isHidden = false
     }
     
@@ -80,7 +70,7 @@ class RefrigeViewController: UIViewController {
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     @objc func addNewFood() {
-        let shoppingVC = ShoppingProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
+        let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
         shoppingVC.refrige = refrige[0]
         self.navigationController!.pushViewController(shoppingVC, animated: true)
         
@@ -122,7 +112,7 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             
-            let shoppingVC = ShoppingProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
+            let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
             guard let text = self?.models[0].foodID[colIndex] else { return }
             self?.foodDetail?(text) // callback way
             guard let refrige = self?.refrige[0] else { return }
