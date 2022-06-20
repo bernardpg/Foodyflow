@@ -13,6 +13,9 @@ class RecipeViewController: UIViewController {
     private var collectionRecipeView = UIView()
 
     @IBOutlet weak var indicatorView: UIView!
+    
+    @IBOutlet weak var buttomLineView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,22 +25,25 @@ class RecipeViewController: UIViewController {
     }
     
     func setUI() {
-        
-        view.addSubview(recipeView)
         recipeView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(recipeView)
+        recipeView.backgroundColor = .black
         recipeView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 0).isActive = true
         recipeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
-        recipeView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
-        recipeView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+        recipeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        recipeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         
-        view.addSubview(collectionRecipeView)
         collectionRecipeView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(collectionRecipeView)
+        collectionRecipeView.backgroundColor = UIColor.B2
         collectionRecipeView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 0).isActive = true
         collectionRecipeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
-        collectionRecipeView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
-        collectionRecipeView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
-
+        collectionRecipeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        collectionRecipeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         
     }
+    
+    // container View didset
+    
     
 }

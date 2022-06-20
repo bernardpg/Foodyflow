@@ -90,6 +90,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="mPb-RO-eIi"/>
                     <connections>
+                        <outlet property="buttomLineView" destination="esp-dt-zg7" id="4JR-dT-uzW"/>
                         <outlet property="indicatorView" destination="qnl-Nw-rS1" id="iWr-Aq-UMw"/>
                     </connections>
                 </viewController>
