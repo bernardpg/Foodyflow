@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+var foodId: String?
 
 class FoodManager {
     
@@ -49,6 +50,7 @@ class FoodManager {
     func publishFood(food: inout FoodInfo, completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection("foods").document()
+        foodId = document.documentID
         food.foodId = document.documentID
         food.foodBrand = "33"
         food.createdTime = Date.now.millisecondsSince1970

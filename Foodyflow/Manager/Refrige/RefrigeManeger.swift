@@ -17,35 +17,31 @@ enum MasterError: Error {
     case youKnowNothingError(String)
 }
 
-class XXXManager {
+class RefrigeManager {
     
-    static let shared = XXXManager()
+    static let shared = RefrigeManager()
     
     lazy var db = Firestore.firestore()
     
-    func fetchArticles(completion: @escaping (Result<[Article], Error>) -> Void) {
+    func fetchArticles(completion: @escaping (Result<[Refrige], Error>) -> Void) {
         
-        db.collection("articles").order(by: "createdTime", descending: true).getDocuments() { (querySnapshot, error) in
-            
+        db.collection("Refrige").getDocuments() { (querySnapshot, error) in
                 if let error = error {
                     
                     completion(.failure(error))
                 } else {
                     
-                    var articles = [Article]()
+                    var articles = [Refrige]()
+                    print(articles)
                     
                     for document in querySnapshot!.documents {
 
                         do {
-                            let article =  try document.data(as: Article.self, decoder: Firestore.Decoder())
+                            let article =  try document.data(as: Refrige.self, decoder: Firestore.Decoder())
                             articles.append(article)
-                            //let article = try document.data(as: Article.self, decoder: Firestore.Decoder()) {
-                           //     articles.append(article)
-                            
                         } catch {
                             
                             completion(.failure(error))
-//                            completion(.failure(FirebaseError.documentError))
                         }
                     }
                     
@@ -54,18 +50,21 @@ class XXXManager {
         }
     }
     
-    func publishArticle(article: inout Article, completion: @escaping (Result<String, Error>) -> Void) {
+    func publishFoodOnRefrige(refrige: inout Refrige, completion: @escaping (Result<String, Error>) -> Void) {
         
-        let document = db.collection("articles").document()
-        article.id = document.documentID
-        article.createdTime = Date().millisecondsSince1970
-        document.setData(article.toDict) { error in
+        let document = db.collection("Refrige").document(refrige.id)
+//        article.id = document.documentID
+//        article.createdTime = Date().millisecondsSince1970
+        document.updateData(["foodID":foodId]) { error in
             
             if let error = error {
                 
                 completion(.failure(error))
             } else {
                 
+//                article.foodID.append(foodId!)
+//                articles.append(article)
+
                 completion(.success("Success"))
             }
         }

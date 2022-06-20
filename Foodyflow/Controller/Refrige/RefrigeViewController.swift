@@ -13,6 +13,8 @@ class RefrigeViewController: UIViewController {
     
     private var tapButton = UIButton()
     
+    var refrige: [Refrige] = []
+    
     var models = [Model]()
     
     var tabIndex: Int?
@@ -21,22 +23,26 @@ class RefrigeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setUI()
         refrigeTableView.register(RefrigeCatTableViewCell.nib(), forCellReuseIdentifier: "refrigeCatTableViewCell")
         refrigeTableView.delegate = self
         refrigeTableView.dataSource = self
         
-        models.append(Model(text: "ee"))
-        models.append(Model(text: "22"))
-        models.append(Model(text: "12"))
-        models.append(Model(text: "42"))
-        models.append(Model(text: "rr"))
-        models.append(Model(text: "gg"))
-        models.append(Model(text: "dd"))
-        models.append(Model(text: "ww"))
-        models.append(Model(text: "qq"))
-        models.append(Model(text: "11"))
-        models.append(Model(text: "nn"))
+        fetchallRefrige()
+  
+        models.append(Model(id: "", text: "", foodID: [""]))
+//        models.append(Model(text: "ee"))
+//        models.append(Model(text: "22"))
+//        models.append(Model(text: "12"))
+//        models.append(Model(text: "42"))
+//        models.append(Model(text: "rr"))
+//        models.append(Model(text: "gg"))
+//        models.append(Model(text: "dd"))
+//        models.append(Model(text: "ww"))
+//        models.append(Model(text: "qq"))
+//        models.append(Model(text: "11"))
+//        models.append(Model(text: "nn"))
 
     }
     
@@ -48,7 +54,7 @@ class RefrigeViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = true 
+//        self.tabBarController?.tabBar.isHidden = true 
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -73,18 +79,39 @@ class RefrigeViewController: UIViewController {
         tapButton.backgroundColor = .black
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
-    
     @objc func addNewFood() {
         let shoppingVC = ShoppingProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
+        shoppingVC.refrige = refrige[0]
         self.navigationController!.pushViewController(shoppingVC, animated: true)
         
+    }
+    
+    func fetchallRefrige() {
+        RefrigeManager.shared.fetchArticles { [weak self] result in
+            switch result{
+            case .success(let refrige):
+                self?.refrige = refrige
+                if self?.models[0].text != ""{
+                self?.models.append(Model(id: refrige[0].id, text: refrige[0].title, foodID: refrige[0].foodID))
+                }
+                else {
+                    self?.models[0].id = refrige[0].id
+                    self?.models[0].text = refrige[0].title
+                    self?.models[0].foodID = refrige[0].foodID
+                }
+                self?.refrigeTableView.reloadData()
+        case .failure:
+            print("cannot fetceeeeh data")
+                
+            }
+        }
     }
     
 }
 extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3 // cate count
+        return  models[0].id.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,13 +123,15 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             
             let shoppingVC = ShoppingProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
-            guard let text = self?.models[colIndex].text else { return }
+            guard let text = self?.models[0].foodID[colIndex] else { return }
             self?.foodDetail?(text) // callback way
+            guard let refrige = self?.refrige[0] else { return }
+            shoppingVC.refrige = refrige
             shoppingVC.setFoodName(with: text)
-            
             self?.navigationController!.pushViewController(shoppingVC, animated: true)
 
         }
+
         cell.configure(with: models)
         
         return cell

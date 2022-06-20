@@ -1,29 +1,17 @@
 //
-//  RefrigeModel.swift
+//  Refrige.swift
 //  Foodyflow
 //
-//  Created by 曹珮綺 on 6/17/22.
+//  Created by 曹珮綺 on 6/19/22.
 //
 
 import Foundation
 
-struct Model {
-    var id: String
-    var text: String
-    var foodID: [String]
-    
-    init(id: String ,text: String,foodID: [String]) {
-        self.id = id
-        self.text = text
-        self.foodID = foodID
-    }
-}
-
-struct Article: Codable {
+struct Refrige: Codable {
     
     var id: String
     var title: String
-    var content: String
+    var foodID: [String]
     var createdTime: Int64
     var category: String
 //    var author: Author?
@@ -31,7 +19,7 @@ struct Article: Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case title
-        case content
+        case foodID
         case createdTime
         case category = "tag"
 //        case author
@@ -41,9 +29,9 @@ struct Article: Codable {
         return [
             "id": id as Any,
             "title": title as Any,
-            "content": content as Any,
+            "foodID": foodID as Any,
             "createdTime": createdTime as Any,
-            "tag": category as Any,
+            "tag": category as Any
  //           "author": author?.toDict
         ]
     }

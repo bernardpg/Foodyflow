@@ -13,7 +13,8 @@ class RecipeManager {
     
     static let shared = RecipeManager()
     
-    lazy var db = Firestore.firestore()/*
+    lazy var db = Firestore.firestore()
+    /*
     
     func fetchFoods(completion: @escaping (Result<[FoodInfo], Error>) -> Void) {
         
@@ -64,4 +65,3 @@ class RecipeManager {
     }
                                         */
 }
-

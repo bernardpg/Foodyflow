@@ -13,7 +13,7 @@ struct FoodInfo: Codable {
     
     var foodImages: String?
     
-    var foodCategory: Int?
+    var foodCategory: String?
     
     var foodName: String?
     
