@@ -68,5 +68,21 @@ class RefrigeManager {
         }
     }
     
-    func 
+    func createFrige(refrige: inout Refrige, completion: @escaping (Result<String, Error>) -> Void){
+        
+        let document = db.collection("Refrige").document()
+        refrige.id = document.documentID
+        refrige.createdTime = Date.now.millisecondsSince1970
+        document.setData(refrige.toDict) { error in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                completion(.success("Success"))
+            }
+        }
+        
+    }
 }

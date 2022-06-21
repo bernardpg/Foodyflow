@@ -56,7 +56,8 @@ class RefrigeProductDetailViewController: UIViewController {
         title: "我得冰箱",
         foodID: [""], // foodID is too
         createdTime: -1,
-        category: ""
+        category: "",
+        shoppingList: []
     )
     
     override func viewDidLoad() {
