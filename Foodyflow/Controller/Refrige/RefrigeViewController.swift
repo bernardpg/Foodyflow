@@ -35,7 +35,6 @@ class RefrigeViewController: UIViewController {
         refrigeTableView.delegate = self
         refrigeTableView.dataSource = self
         
-        
     }
     
     override func viewDidLayoutSubviews() {

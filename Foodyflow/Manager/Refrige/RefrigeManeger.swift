@@ -67,4 +67,6 @@ class RefrigeManager {
             }
         }
     }
+    
+    func 
 }
