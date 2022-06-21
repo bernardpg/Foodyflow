@@ -95,15 +95,17 @@ class PersonalViewController: UIViewController {
         personalTableView.topAnchor.constraint(equalTo: personalName.bottomAnchor, constant: 30).isActive = true
         personalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         personalTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
-        personalTableView.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        personalTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40).isActive = true
+//        personalTableView.heightAnchor.constraint(equalToConstant: 400).isActive = true
         personalTableView.backgroundColor = .lightGray
         
         notificationLabel.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(notificationLabel)
         
-        notificationLabel.topAnchor.constraint(equalTo: personalTableView.bottomAnchor, constant:  10).isActive = true
+        notificationLabel.topAnchor.constraint(equalTo: personalTableView.bottomAnchor, constant:  5).isActive = true
         notificationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        notificationLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
         notificationLabel.text = "開啟菜價提醒通知"
         notificationSwitch.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(notificationSwitch)

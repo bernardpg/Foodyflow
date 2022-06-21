@@ -21,9 +21,9 @@ class RefrigeCatTableViewCell: UITableViewCell {
     @IBOutlet var inCatCollectionView: UICollectionView!
     @IBOutlet weak var cateFood: UILabel!
     
-    var foodInfo: [FoodInfo] = []
+    var foodsInfo: [FoodInfo] = []
     
-    var models = [Model]()
+//    var models: [Model] = []
     var index: Int?
     var didSelectClosure: DidSelectClosure?
 
@@ -40,8 +40,8 @@ class RefrigeCatTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
     }
-    func configure(with models: [Model]) {
-        self.models = models
+    func configure(with models: [FoodInfo]) {
+        self.foodsInfo = models
         inCatCollectionView.reloadData()
     }
 }
@@ -50,13 +50,7 @@ extension RefrigeCatTableViewCell: UICollectionViewDelegate,
                                    UICollectionViewDelegateFlowLayout {
 func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     
-    if (models[0].foodID.count == nil) {
-        return 0
-    }
-    else {
-        return models[0].foodID.count
-    }
-    //models[0].foodID.count
+    foodsInfo.count
     
 }
 
@@ -66,7 +60,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     guard let cell = cell else { return UICollectionViewCell() }
     cell.backgroundColor = .systemPink
 //    cell.myLabel.text = models[0].foodID[indexPath.row]
-//    cell.configute(with: models[indexPath.row])
+    cell.configute(with: foodsInfo[indexPath.row])
     return cell
     
 }
@@ -75,7 +69,6 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: 170, height: 170 )
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         

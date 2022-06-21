@@ -65,10 +65,9 @@ class FoodManager {
             }
         }
     }
-    func fetchSpecifyFood(refrige: Refrige,completion: @escaping (Result<[FoodInfo], Error>) -> Void) {
-        
+    
+    func fetchSpecifyFood(refrige: Refrige,completion: @escaping (Result<FoodInfo, Error>) -> Void) {
         let colref = db.collection("foods")
-        var articles = [FoodInfo]()
         for food in refrige.foodID {
             colref.document(food).getDocument { (document, error) in
                 if let error = error {
@@ -76,15 +75,12 @@ class FoodManager {
                 } else {
                     
                     do {
-                        let article =  try document?.data(as: FoodInfo.self, decoder: Firestore.Decoder())
-                        guard let article = article else { return }
-                        print(article)
-                        articles.append(article)
+                        if let foodInfo = try document?.data(as: FoodInfo.self, decoder: Firestore.Decoder()) {
+                            completion(.success(foodInfo))
+                        }
                     } catch {
-                        
                         completion(.failure(error))
                     }
-                    completion(.success(articles))
                 }
             }
         }

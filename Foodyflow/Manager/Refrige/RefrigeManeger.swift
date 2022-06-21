@@ -53,7 +53,7 @@ class RefrigeManager {
     func publishFoodOnRefrige(refrige: inout Refrige, completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection("Refrige").document(refrige.id)
-        document.updateData(["foodID" : refrige.foodID]) { error in
+        document.updateData(["foodID": refrige.foodID]) { error in
             
             if let error = error {
                 

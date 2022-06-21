@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Model {
+struct AllFoodSortModel {
     
     var id: String
     var text: String

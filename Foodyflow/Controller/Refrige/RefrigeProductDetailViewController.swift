@@ -88,7 +88,7 @@ class RefrigeProductDetailViewController: UIViewController {
     @objc func finishUpdate() {
         
         foodInfo.foodName = foodNameTextField.text
-        foodInfo.foodCategory = "雞肉"
+        foodInfo.foodCategory = "水果類"
         foodInfo.foodStatus = 3
 //        foodInfo.foodCategory = "\(foodWeightAmount.text)"
 //        foodInfo.purchaseDate = "\(Int64(purchaseDateTextfield.text))"

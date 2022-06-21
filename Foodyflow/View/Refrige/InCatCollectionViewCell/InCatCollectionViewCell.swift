@@ -23,8 +23,9 @@ class InCatCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
     
-    public func configute(with model: Model) {
-        self.myLabel.text = model.text
+    public func configute(with model: FoodInfo) {
+        self.myLabel.text = model.foodName
+//        self.myLabel.text = model.text
     }
 
 }
