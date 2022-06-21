@@ -84,7 +84,6 @@ class FoodManager {
                         
                         completion(.failure(error))
                     }
-                    
                     completion(.success(articles))
                 }
             }

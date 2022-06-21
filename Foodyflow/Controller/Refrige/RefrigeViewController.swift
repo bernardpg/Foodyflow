@@ -25,6 +25,8 @@ class RefrigeViewController: UIViewController {
     
     var tabIndex: Int?
     
+    var onPublished: (()->(Void))?
+    
     var foodDetail: ((String) -> Void)?  // callback
     
     override func viewDidLoad() {
@@ -48,7 +50,12 @@ class RefrigeViewController: UIViewController {
         // viewwillappear 打完重劃
         fetchAllCate()
         fetchAllRefrige { [weak self ] refrige in
-            self?.fetAllFood()
+            self?.fetAllFood(completion: { foodinfo21 in
+                        print(foodinfo21)
+                for info in foodinfo21 {
+                    info.foodName
+                }
+            })
         }
         refrigeTableView.reloadData()
         self.tabBarController?.tabBar.isHidden = false
@@ -84,7 +91,9 @@ class RefrigeViewController: UIViewController {
             switch result {
             case .success(let cate):
                 self?.cate.type = cate[0].type
-                self?.refrigeTableView.reloadData()
+                DispatchQueue.main.async {
+                    self?.refrigeTableView.reloadData()
+                }
         case .failure:
             print("cannot fetceeeeh data")
                 
@@ -102,20 +111,22 @@ class RefrigeViewController: UIViewController {
             }
         }
     }
-    func fetAllFood() {
+    func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
         FoodManager.shared.fetchSpecifyFood(refrige: self.refrige[0]) { [weak self] result in
             switch result {
             case .success(let foodInfo):
                 self?.foodInfo.append(foodInfo[0])
-                // completion 完 作reload
-                self?.refrigeTableView.reloadData()
+                guard let allFoodInfo =  self?.foodInfo else {
+                    return
+                }
+                completion(allFoodInfo)
             case .failure:
                 print("fetch food error")
             }
         }
     }
-    
 }
+
 extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

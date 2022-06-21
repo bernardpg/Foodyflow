@@ -49,7 +49,13 @@ extension RefrigeCatTableViewCell: UICollectionViewDelegate,
                                    UICollectionViewDataSource,
                                    UICollectionViewDelegateFlowLayout {
 func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    1
+    
+    if (models[0].foodID.count == nil) {
+        return 0
+    }
+    else {
+        return models[0].foodID.count
+    }
     //models[0].foodID.count
     
 }
