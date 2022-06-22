@@ -11,11 +11,7 @@ import CoreMIDI
 
 class RefrigeViewController: UIViewController {
     
-    private var refrigeTableView = UITableView(){
-        didSet{
-            refrigeTableView.reloadData()
-        }
-    }
+    private var refrigeTableView = UITableView()
     
     private var tapButton = UIButton()
     
@@ -24,7 +20,7 @@ class RefrigeViewController: UIViewController {
     var completion: CompletionHandler?
     
     var cate: [String?] = []
-    
+        
     var arry = [[FoodInfo]]()
     
     var foodsInfo: [FoodInfo] = []
@@ -73,74 +69,6 @@ class RefrigeViewController: UIViewController {
         tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        // viewwillappear 打完重劃
-        let task1 = DispatchQueue(label: "task1")
-        let semaphore = DispatchSemaphore(value: 0)
-        task1.async {
-            self.fetchAllCate()
-            semaphore.signal()
-        }
-        semaphore.wait()
-        task1.async {
-            self.fetchAllRefrige { [weak self ] refrige in
-                self?.fetAllFood(completion: { foodinfo21 in
-                    guard let foodsInfo = self?.foodsInfo else { return }
-                    guard let cates = self?.cate else { return }
-                    for foodInfo in foodsInfo {
-                        for cate in cates {
-                            if foodInfo.foodCategory! == cate! && cate! == "肉類"{
-                                self?.meatsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "豆類"{
-                                self?.beansInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "雞蛋類"{
-                                self?.eggsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "青菜類"{
-                                self?.vegsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "醃製類"{
-                                self?.picklesInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "水果類"{
-                                self?.fruitsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "魚類"{
-                                self?.fishesInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "海鮮類"{
-                                self?.seafoodsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "飲料類"{
-                                self?.beveragesInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "調味料類"{
-                                self?.seasonsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "其他"{
-                                self?.othersInfo.append(foodInfo)
-                            }
-                            else {
-                            }
-                        }
-                    }
-                    semaphore.signal()
-                    DispatchQueue.main.async {
-                        self?.arry.append(self?.meatsInfo ?? foodsInfo)
-                        self?.arry.append(self?.beansInfo ?? foodsInfo)
-                        self?.arry.append(self?.eggsInfo ?? foodsInfo)
-                        self?.arry.append(self?.vegsInfo ?? foodsInfo)
-                        self?.arry.append(self?.picklesInfo ?? foodsInfo)
-                        self?.arry.append(self?.fruitsInfo ?? foodsInfo)
-                        self?.arry.append(self?.fishesInfo ?? foodsInfo)
-                        self?.arry.append(self?.seafoodsInfo ?? foodsInfo)
-                        self?.arry.append(self?.beveragesInfo ?? foodsInfo)
-                        self?.arry.append(self?.seasonsInfo ?? foodsInfo)
-                        self?.arry.append(self?.othersInfo ?? foodsInfo)
-                        self?.refrigeTableView.reloadData()
-                    }
-                })
-            }
-            semaphore.signal()
-        }
-        semaphore.wait()
-        
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // viewwillappear 打完重劃
@@ -153,51 +81,47 @@ class RefrigeViewController: UIViewController {
         semaphore.wait()
         task1.async {
             self.fetchAllRefrige { [weak self ] refrige in
+                self?.meatsInfo = []
+                self?.beansInfo = []
+                self?.eggsInfo = []
+                self?.vegsInfo = []
+                self?.picklesInfo = []
+                self?.fruitsInfo = []
+                self?.fishesInfo = []
+                self?.seafoodsInfo = []
+                self?.beveragesInfo = []
+                self?.seasonsInfo = []
+                self?.othersInfo = []
                 self?.fetAllFood(completion: { foodinfo21 in
-                    guard let foodsInfo = self?.foodsInfo else { return }
                     guard let cates = self?.cate else { return }
-                    for foodInfo in foodsInfo {
-                        for cate in cates {
-                            if foodInfo.foodCategory! == cate! && cate! == "肉類"{
-                                self?.meatsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "豆類"{
-                                self?.beansInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "雞蛋類"{
-                                self?.eggsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "青菜類"{
-                                self?.vegsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "醃製類"{
-                                self?.picklesInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "水果類"{
-                                self?.fruitsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "魚類"{
-                                self?.fishesInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "海鮮類"{
-                                self?.seafoodsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "飲料類"{
-                                self?.beveragesInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "調味料類"{
-                                self?.seasonsInfo.append(foodInfo)}
-                            else if foodInfo.foodCategory! == cate! && cate! == "其他"{
-                                self?.othersInfo.append(foodInfo)
-                            }
-                            else {
+                    for foodInfo in foodinfo21 {
+                            for cate in cates {
+                                if foodInfo.foodCategory! == cate! && cate! == "肉類" 
+                                { self?.meatsInfo.append(foodInfo) }
+                                 else if foodInfo.foodCategory! == cate! && cate! == "豆類"
+                                {self?.beansInfo.append(foodInfo)}
+                                else if foodInfo.foodCategory! == cate! && cate! == "雞蛋類"
+                                {self?.eggsInfo.append(foodInfo)}
+                                else if foodInfo.foodCategory! == cate! && cate! == "青菜類"
+                                {self?.vegsInfo.append(foodInfo)}
+                                else if foodInfo.foodCategory! == cate! && cate! == "醃製類"
+                                {self?.picklesInfo.append(foodInfo)}
+                                else if foodInfo.foodCategory! == cate! && cate! == "水果類"
+                                {self?.fruitsInfo.append(foodInfo)}
+                                else if foodInfo.foodCategory! == cate! && cate! == "魚類"
+                                {self?.fishesInfo.append(foodInfo)}
+                                else if foodInfo.foodCategory! == cate! && cate! == "海鮮類"
+                                {self?.seafoodsInfo.append(foodInfo)}
+                                else if foodInfo.foodCategory! == cate! && cate! == "飲料類"
+                                {self?.beveragesInfo.append(foodInfo)}
+                                else if foodInfo.foodCategory! == cate! && cate! == "調味料類"
+                                {self?.seasonsInfo.append(foodInfo)}
+                                else if foodInfo.foodCategory! == cate! && cate! == "其他"
+                                {self?.othersInfo.append(foodInfo)}
                             }
                         }
-                    }
-                    semaphore.signal()
+                        semaphore.signal()
                     DispatchQueue.main.async {
-                        self?.arry.append(self?.meatsInfo ?? foodsInfo)
-                        self?.arry.append(self?.beansInfo ?? foodsInfo)
-                        self?.arry.append(self?.eggsInfo ?? foodsInfo)
-                        self?.arry.append(self?.vegsInfo ?? foodsInfo)
-                        self?.arry.append(self?.picklesInfo ?? foodsInfo)
-                        self?.arry.append(self?.fruitsInfo ?? foodsInfo)
-                        self?.arry.append(self?.fishesInfo ?? foodsInfo)
-                        self?.arry.append(self?.seafoodsInfo ?? foodsInfo)
-                        self?.arry.append(self?.beveragesInfo ?? foodsInfo)
-                        self?.arry.append(self?.seasonsInfo ?? foodsInfo)
-                        self?.arry.append(self?.othersInfo ?? foodsInfo)
                         self?.refrigeTableView.reloadData()
                     }
                 })
@@ -216,7 +140,7 @@ class RefrigeViewController: UIViewController {
         refrigeTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
         refrigeTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         refrigeTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                                 constant: 0).isActive = true
+                                            constant: 0).isActive = true
         
         refrigeTableView.addSubview(tapButton)
         tapButton.translatesAutoresizingMaskIntoConstraints = false
@@ -228,7 +152,9 @@ class RefrigeViewController: UIViewController {
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     @objc func addNewFood() {
-        let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
+        let shoppingVC = RefrigeProductDetailViewController(
+        nibName: "ShoppingProductDetailViewController",
+        bundle: nil)
         shoppingVC.refrige = refrige[0]
         self.navigationController!.pushViewController(shoppingVC, animated: true)
         
@@ -239,8 +165,8 @@ class RefrigeViewController: UIViewController {
             switch result {
             case .success(let cate):
                 self?.cate = cate[0].type
-            case .failure:
-                print("cannot fetceeeeh data")
+        case .failure:
+            print("cannot fetceeeeh data")
                 
             }
         })
@@ -263,8 +189,7 @@ class RefrigeViewController: UIViewController {
             case .success(let foodInfo):
                 self?.foodsInfo.append(foodInfo)
                 if self?.foodsInfo.count == self?.refrige[0].foodID.count {
-                    completion(self?.foodsInfo ?? [foodInfo])
-                }
+                    completion(self?.foodsInfo ?? [foodInfo])}
                 else {
                     print("append  no yet ")
                 }
@@ -276,29 +201,53 @@ class RefrigeViewController: UIViewController {
 }
 
 extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cate.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = refrigeTableView.dequeueReusableCell(withIdentifier: "refrigeCatTableViewCell",
-                                                        for: indexPath) as? RefrigeCatTableViewCell
+            for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
         // need to change for dictionary to solve
-        print(arry[indexPath.row])
         
-        cell.configure(with: arry[indexPath.row])
+        switch indexPath.row {
+        case 0:
+            cell.configure(with: meatsInfo)
+        case 1:
+            cell.configure(with: beansInfo)
+        case 2:
+            cell.configure(with: eggsInfo)
+        case 3:
+            cell.configure(with: vegsInfo)
+        case 4:
+            cell.configure(with: picklesInfo)
+        case 5:
+            cell.configure(with: fruitsInfo)
+        case 6:
+            cell.configure(with: fishesInfo)
+        case 7:
+            cell.configure(with: seafoodsInfo)
+        case 8:
+            cell.configure(with: beveragesInfo)
+        case 9:
+            cell.configure(with: seasonsInfo)
+        case 10:
+            cell.configure(with: othersInfo)
+        default:
+            cell.configure(with: foodsInfo)
+        }
+        
+//        cell.configure(with: arry[indexPath.row]) // cell 內info
         cell.index = indexPath.row
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
- //           guard let refrige = refrige else { return }
- //           shoppingVC.refrige = refrige.first
             self?.navigationController?.pushViewController(shoppingVC, animated: true)
-            
-        }
+
+            }
         
         return cell
     }
@@ -312,7 +261,7 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
  //            guard let text = self?.models[0].foodID[colIndex] else { return }
  //            self?.foodDetail?(text) // callback way
  //            guard let refrige = self?.refrige[0] else { return }
- //           shoppingVC.refrige = refrige
+  //           shoppingVC.refrige = refrige
  //            shoppingVC.setFoodName(with: text)
- 
+
  */

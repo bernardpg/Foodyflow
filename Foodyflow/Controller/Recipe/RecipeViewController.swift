@@ -37,13 +37,14 @@ class RecipeViewController: UIViewController {
         view.addSubview(collectionRecipeView)
         collectionRecipeView.backgroundColor = UIColor.B2
         collectionRecipeView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 0).isActive = true
-        collectionRecipeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        collectionRecipeView.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            constant: 0).isActive = true
         collectionRecipeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         collectionRecipeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         
     }
     
     // container View didset
-    
     
 }

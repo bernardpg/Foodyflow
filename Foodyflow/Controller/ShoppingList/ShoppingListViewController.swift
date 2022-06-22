@@ -8,7 +8,7 @@
 import UIKit
 
 class ShoppingListViewController: UIViewController {
-    private var shoppingListCollectionView : UICollectionView!
+    private var shoppingListCollectionView: UICollectionView!
     private var tapButton = UIButton()
     
     var tabIndex: Int?
@@ -58,14 +58,18 @@ class ShoppingListViewController: UIViewController {
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     @objc func addNewFood() {
-        let shoppingVC = ShoppingListProductDetailViewController(nibName: "ShoppingListProductDetailViewController", bundle: nil)
+        
+        let shoppingVC = ShoppingListProductDetailViewController(
+            nibName: "ShoppingListProductDetailViewController",
+            bundle: nil)
 //        shoppingVC.refrige = refrige[0]
         self.navigationController!.pushViewController(shoppingVC, animated: true)
 
     }
 
 }
-extension ShoppingListViewController: UICollectionViewDataSource,UICollectionViewDelegate{
+extension ShoppingListViewController: UICollectionViewDataSource,UICollectionViewDelegate {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
             return 1
         }

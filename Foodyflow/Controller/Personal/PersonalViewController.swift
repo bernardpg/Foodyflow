@@ -26,7 +26,7 @@ class PersonalViewController: UIViewController {
     
     var refrige = Refrige.init(id: "", title: "robust", foodID: [], createdTime: 0, category: "", shoppingList: [])
     
-    var refrigeAmount : [Refrige] = []
+    var refrigeAmount: [Refrige] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +54,7 @@ class PersonalViewController: UIViewController {
         
         openAlert(controller: self, mainTitle: "請選擇", firstTitle: "創建新食光", secondTitle: "邀請加入xxx食光", cancelTitle: "取消")
         cameraAc3tion()
-        func cameraAc3tion(){
+        func cameraAc3tion() {
             RefrigeManager.shared.createFrige(refrige: &self.refrige) { result in
                 self.onPublished?()
             }
@@ -66,7 +66,12 @@ class PersonalViewController: UIViewController {
         openAlert(controller: self, mainTitle: "更換個人設定", firstTitle: "更換照片", secondTitle: "更換暱稱", cancelTitle: "取消")
     }
     
-    func openAlert(controller: UIViewController,mainTitle: String, firstTitle:String, secondTitle: String, cancelTitle: String) {
+    func openAlert(
+        controller: UIViewController,
+        mainTitle: String,
+        firstTitle:String,
+        secondTitle: String,
+        cancelTitle: String) {
         
         let alertController = UIAlertController(title: "\(mainTitle)", message: "", preferredStyle: .alert)
         alertController.view.tintColor = UIColor.gray
@@ -95,7 +100,9 @@ class PersonalViewController: UIViewController {
         personalTableView.topAnchor.constraint(equalTo: personalName.bottomAnchor, constant: 30).isActive = true
         personalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         personalTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
-        personalTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40).isActive = true
+        personalTableView.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            constant: -40).isActive = true
 //        personalTableView.heightAnchor.constraint(equalToConstant: 400).isActive = true
         personalTableView.backgroundColor = .lightGray
         
@@ -103,9 +110,13 @@ class PersonalViewController: UIViewController {
         
         view.addSubview(notificationLabel)
         
-        notificationLabel.topAnchor.constraint(equalTo: personalTableView.bottomAnchor, constant:  5).isActive = true
+        notificationLabel.topAnchor.constraint(
+            equalTo: personalTableView.bottomAnchor,
+            constant:  5).isActive = true
         notificationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        notificationLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        notificationLabel.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            constant: 0).isActive = true
         notificationLabel.text = "開啟菜價提醒通知"
         notificationSwitch.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(notificationSwitch)
