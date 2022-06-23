@@ -59,8 +59,8 @@ class ContainerView: UIView {
     weak var delegate: SelectionViewDelegate?
     
     weak var datasource: SelectionViewDataSource?
-    {
-        didSet{
+     {
+        didSet {
             setUI()
         }
     }
@@ -74,7 +74,7 @@ class ContainerView: UIView {
     
     // MARK: - SetUI()
     
-    func setUI(){
+    func setUI() {
         
         let totalNumber = datasource?.totalButtomNumber(self)
         guard let totalNumber = totalNumber else { return }

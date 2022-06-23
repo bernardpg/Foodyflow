@@ -32,7 +32,7 @@ class FoodManager {
                     do {
                         let food =  try document.data(as: FoodInfo.self, decoder: Firestore.Decoder())
                         foods.append(food)
-                        //let article = try document.data(as: Article.self, decoder: Firestore.Decoder()) {
+                        //  let article = try document.data(as: Article.self, decoder: Firestore.Decoder()) {
                         //     articles.append(article)
                         
                     } catch {
@@ -52,7 +52,7 @@ class FoodManager {
         let document = db.collection("foods").document()
         foodId = document.documentID
         food.foodId = document.documentID
-        food.foodBrand = "33"
+        food.foodBrand = "33" // rename 
         food.createdTime = Date.now.millisecondsSince1970
         document.setData(food.toDict) { error in
             
@@ -65,10 +65,32 @@ class FoodManager {
             }
         }
     }
-    
-    func fetchSpecifyFood(refrige: Refrige,completion: @escaping (Result<FoodInfo, Error>) -> Void) {
+    // need to refactor
+    func fetchSpecifyFood(refrige: Refrige, completion: @escaping (Result<FoodInfo, Error>) -> Void) {
         let colref = db.collection("foods")
         for food in refrige.foodID {
+            colref.document(food).getDocument { (document, error) in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    
+                    do {
+                        if let foodInfo = try document?.data(as: FoodInfo.self, decoder: Firestore.Decoder()) {
+                            completion(.success(foodInfo))
+                        }
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchSpecifyFoodInShopping(foods: [String?], completion: @escaping (Result<FoodInfo,Error>) -> Void) {
+        let colref = db.collection("foods")
+        
+        for food in foods {
+            guard let food = food else { return }
             colref.document(food).getDocument { (document, error) in
                 if let error = error {
                     completion(.failure(error))

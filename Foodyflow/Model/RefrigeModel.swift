@@ -12,7 +12,7 @@ struct AllFoodSortModel {
     var id: String
     var text: String
     var foodID: [FoodInfo]
-    init(id: String ,text: String,foodID: [FoodInfo]) {
+    init(id: String, text: String, foodID: [FoodInfo]) {
         self.id = id
         self.text = text
         self.foodID = foodID
@@ -43,7 +43,7 @@ struct Article: Codable {
             "title": title as Any,
             "content": content as Any,
             "createdTime": createdTime as Any,
-            "tag": category as Any,
+            "tag": category as Any
  //           "author": author?.toDict
         ]
     }

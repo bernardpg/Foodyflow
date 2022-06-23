@@ -17,6 +17,7 @@ enum MasterError: Error {
     case youKnowNothingError(String)
 }
 
+
 class RefrigeManager {
     
     static let shared = RefrigeManager()

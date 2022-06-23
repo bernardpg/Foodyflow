@@ -18,7 +18,7 @@ class RefrigeProductDetailViewController: UIViewController {
     var completion: CompletionHandler?
     
     var selectedImage: UIImage?
-    
+        
     var onPublished: (()->())?
     @IBOutlet weak var imageUpload: UIButton!
     
@@ -168,7 +168,7 @@ class RefrigeProductDetailViewController: UIViewController {
             
             guard let imageData = imageData else { return }
     //        Storage.storage().reference()
-            let storageRef =         FirebaseStorage.Storage.storage().reference()
+            let storageRef =   FirebaseStorage.Storage.storage().reference()
 
             // file Name
             
