@@ -11,7 +11,7 @@ struct ShoppingList: Codable {
     
 //    var id: String
 //    var title: String
-    var foodID: [String]
+    var foodID: [String?]
 //    var createdTime: Int64
 //    var category: String
 //    var author: Author?

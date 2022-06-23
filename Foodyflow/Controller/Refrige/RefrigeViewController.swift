@@ -180,6 +180,7 @@ class RefrigeViewController: UIViewController {
         tapButton.backgroundColor = .black
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
+    
     @objc func addNewFood() {
         let shoppingVC = RefrigeProductDetailViewController(
         nibName: "ShoppingProductDetailViewController",
@@ -271,7 +272,7 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
-            self?.navigationController?.pushViewController(shoppingVC, animated: true)
+            self?.navigationController?.pushViewController(shoppingVC,animated: true)
 
             }
         

@@ -10,6 +10,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShoppingListProductDetailViewController" customModule="Foodyflow" customModuleProvider="target">
             <connections>
+                <outlet property="foodAddidtional" destination="cYp-yh-3DL" id="ONQ-Sq-7p2"/>
+                <outlet property="foodAdditionalTextVIew" destination="0Ug-0q-Sms" id="cVI-2G-NSI"/>
+                <outlet property="foodBrand" destination="dzy-oI-3yN" id="ihN-gz-66u"/>
+                <outlet property="foodBrandTextField" destination="2yx-8W-USb" id="BJ0-iT-gne"/>
+                <outlet property="foodBuy" destination="fHe-xP-AV1" id="0bb-DP-XRO"/>
+                <outlet property="foodBuyPlaceTextfield" destination="9ZJ-Gn-zta" id="xA4-nv-Txg"/>
+                <outlet property="foodCateName" destination="f31-bg-7ba" id="G4A-rM-3p0"/>
+                <outlet property="foodCateTextField" destination="L3W-4S-BFb" id="1rg-rM-fBh"/>
+                <outlet property="foodName" destination="Lnb-vW-Xm0" id="ewk-LI-lL2"/>
+                <outlet property="foodNameTextField" destination="L5v-qU-dyo" id="oTW-Xm-gIP"/>
+                <outlet property="foodWeightTextField" destination="HNJ-uW-xoO" id="IgS-FS-AO0"/>
+                <outlet property="updateButton" destination="IQU-9d-u4X" id="Q4q-YV-tbt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -42,8 +54,8 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PK8-KI-Qgq">
-                    <rect key="frame" x="16" y="413" width="42" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="數量" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PK8-KI-Qgq">
+                    <rect key="frame" x="16" y="413" width="35" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>

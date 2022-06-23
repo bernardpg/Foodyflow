@@ -17,8 +17,10 @@ class ShoppingListViewController: UIViewController {
     
     var foodManager = FoodManager.shared
     
+    // 狀態有改 reload filter 之後的篩選
+    
+    
     var shoppingLists: [String?] = []
-//    var shoppingLists : Refrige.init(id: "", title: "", foodID: [], createdTime: "", category: "", shoppingList: [])
     
     var foodsInShoppingList: [String?] = []
     
@@ -114,6 +116,8 @@ class ShoppingListViewController: UIViewController {
         let shoppingVC = ShoppingListProductDetailViewController(
             nibName: "ShoppingListProductDetailViewController",
             bundle: nil)
+        
+        shoppingVC.shoppingList.foodID = foodsInShoppingList
 //        shoppingVC.refrige = refrige[0]
         self.navigationController!.pushViewController(shoppingVC, animated: true)
 
@@ -215,6 +219,14 @@ class ShoppingListViewController: UIViewController {
                 print("fetch shopplinglist food error")
             }
         })
+    }
+    
+    func finishShoppingToRefrige() {
+        
+    }
+    
+    func deleteFoodOnShoppingList() {
+        
     }
 
 }

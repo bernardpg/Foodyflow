@@ -55,9 +55,21 @@ class ShoppingListManager {
         }
     }
     
+    func postFoodOnShoppingList(shoppingList: inout ShoppingList, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        let document = db.collection("shoppingList").document(shoppingListNowID)
+        
+        document.updateData(["foodID": shoppingList.foodID])
+//        do {
+//           try  document.setData(from: shoppingList, merge: true)}
+        
+//        catch {
+//            print("upload error")
+//        }
+    }
+    
     // post refrige shoppingList  UUID
     // post shoppingList  on shoppingList UUID and foodID UUID
-    // post foods on foods UUID
         /*
         db.collection(refrigeNowID).getDocuments() { (querySnapshot, error) in
                 if let error = error {
