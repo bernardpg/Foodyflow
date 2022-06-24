@@ -51,6 +51,12 @@ class ShoppingListViewController: UIViewController {
 
     
     @IBOutlet weak var shoppingList: UICollectionView!
+    {
+        didSet{
+            
+            shoppingList.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -232,12 +238,18 @@ class ShoppingListViewController: UIViewController {
         RefrigeManager.shared.publishFoodOnRefrige(refrige: refrigeNow!) { result in
             switch result {
             case .success:
+                // change food status
                 self.foodManager.changeFoodStatus(foodId: foodId, foodStatus: 3) {
-                    self.onPublished?()
+//                    self.onPublished?()
                     RefrigeManager.shared.fetchSingleRefrigeInfo(refrige: refrigeNow!) { result in
                         switch result {
                         case .success(let refrigeInfo):
                             refrigeNow = refrigeInfo
+                            
+
+                            // 抓 fetch shoppingList foodInfo
+                            // remove foodID
+                            // d
 
                         case .failure:
                             print("cannot fetch cate data")
@@ -252,8 +264,43 @@ class ShoppingListViewController: UIViewController {
     }
     
     
-    func deleteFoodOnShoppingList() {
+    func deleteFoodOnShoppingList(foodId: String, complection: @escaping() -> Void) {
         
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        DispatchQueue.global().async {
+        
+        self.fetchAllFoodInfoInSingleShopList { foodsInfos in
+            
+            var newshoppingList: ShoppingList = ShoppingList(
+                foodID: [""])
+//                                var newshoppingList = foodsInfos.filter { $0 != foodId }
+            newshoppingList.foodID = foodsInfos.filter { $0 != foodId }
+            self.shoppingLists = newshoppingList.foodID
+
+            ShoppingListManager.shared.postFoodOnShoppingList(shoppingList: &newshoppingList) { result in
+                switch result{
+                case .success:
+                    self.fetAllFood(foodID: self.shoppingLists) { allfoodInfo in
+                        self.resetRefrigeFood()
+                        if let cates = self.cate as? [String] {
+                        self.cateFilter(allFood: allfoodInfo, cates: cates)
+                        DispatchQueue.main.async {
+                            // lottie 消失
+                            self.shoppingList.reloadData()
+                            semaphore.signal()
+                        }
+                            
+                        }
+                    }
+                case .failure(let error):
+                    print("publishArticle.failure: \(error)")
+                }
+            }
+            
+        }
+            semaphore.wait()
+        }
     }
 
 }
@@ -395,6 +442,9 @@ extension ShoppingListViewController: UICollectionViewDataSource,
         case 5:
             finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
                 print("success to reFirge ")
+            }
+            deleteFoodOnShoppingList(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
+                print("success to delete " )
             }
         case 6:
             finishShoppingToRefrige(foodId: fishesInfo[indexPath.item].foodId ?? "2") {

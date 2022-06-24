@@ -108,7 +108,7 @@ class FoodManager {
         }
     }
     
-    func changeFoodStatus(foodId: String?, foodStatus: Int , completion: @escaping () -> Void) {
+    func changeFoodStatus(foodId: String?, foodStatus: Int, completion: @escaping () -> Void) {
         
         let colref = db.collection("foods")
         

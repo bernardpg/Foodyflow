@@ -40,9 +40,10 @@ class ShoppingListManager {
     
     func fetchfoodInfoInsideSingleShoppingList(completion: @escaping (Result<[String?], Error>) -> Void) {
         
-        guard let shoppingListNowID = shoppingListNowID else { return }
         
-        let docRef = db.collection("shoppingList").document(shoppingListNowID)
+        //guard let shoppingListNowID = shoppingListNowID else { return }
+        
+        let docRef = db.collection("shoppingList").document(shoppingListNowID!)
         docRef.getDocument { (document, error) in
             
             var foodsInfo = [String?]()
@@ -61,27 +62,38 @@ class ShoppingListManager {
     
     func postFoodOnShoppingList(shoppingList: inout ShoppingList, completion: @escaping (Result<String, Error>) -> Void) {
         
-        guard let shoppingListNowID = shoppingListNowID else { return }
-        let document = db.collection("shoppingList").document(shoppingListNowID)
+     //   guard let shoppingListNowID = shoppingListNowID else { return }
+        let document = db.collection("shoppingList").document(shoppingListNowID!)
         
+        do {
         document.updateData(["foodID": shoppingList.foodID]) // bug fix
+            completion(.success("Success"))
+        } catch {
+            completion(.failure(error))
+        }
+        
+    }
+        
+        
 //        do {
 //           try  document.setData(from: shoppingList, merge: true)}
         
 //        catch {
 //            print("upload error")
 //        }
-    }
+  //  }
     
     // delete shopping
     
-    func finishShoppingDeleteFood(foodID: String , completion: @escaping () -> Void) {
+  //  func finishShoppingDeleteFood(shoppingListNowID: String, foodID: String, completion: @escaping () -> Void){
         
-        guard let shoppingListNowID = shoppingListNowID else { return }
+  //      fetchfoodInfoInsideSingleShoppingList { <#Result<[String?], Error>#> in
+  //          <#code#>
+  //      }
         
-        let document = db.collection("shoppingList").document(shoppingListNowID)
         
-        var foodsID: [String?]
+        
+        
         
  //       document.getDocument { <#DocumentSnapshot?#>, <#Error?#> in
 //            <#code#>
@@ -97,7 +109,7 @@ class ShoppingListManager {
   //          }
  //       }
         
-    }
+   // }
     
     // post refrige shoppingList  UUID
     // post shoppingList  on shoppingList UUID and foodID UUID
