@@ -128,10 +128,11 @@ class PersonalViewController: UIViewController {
     }
     
     @objc func settingNotification() {
+        //unfinish
         print("dd")
     }
     
-    func fetchAllRefrige(){
+    func fetchAllRefrige() {
         RefrigeManager.shared.fetchArticles { [weak self] result in
             switch result{
             case .success(let refrigeAmount):
@@ -143,6 +144,23 @@ class PersonalViewController: UIViewController {
                 print("cannot fetch data")
             }
         }
+    }
+    
+    func deleteRefrige(needtoRemove: String, completion: @escaping () -> Void ) {
+        RefrigeManager.shared.removeFrige(refrigeID: needtoRemove) { result in
+            switch result{
+            case.success:
+                self.fetchAllRefrige()
+            case.failure:
+                print(LocalizedError.self)
+            }
+            
+        }
+        
+    }
+    
+    private func changeRefrige() {
+        
     }
 }
 
@@ -158,6 +176,17 @@ extension PersonalViewController: UITableViewDelegate,UITableViewDataSource {
         cell.refreigeName.text = refrigeAmount[indexPath.row].title
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // change refrige
+        var removeRefrige = refrigeAmount[indexPath.row].id
+        
+        deleteRefrige(needtoRemove: "\(removeRefrige)") {
+ //           self.fetchAllRefrige()
+        }
+        // delete refrige
+        
     }
     
 }

@@ -17,6 +17,8 @@ class ShoppingListManager {
         
     func fetchAllShoppingListInSingleRefrige(completion: @escaping (Result<[String?], Error>) -> Void) {
         
+        guard let refrigeNowID = refrigeNowID else { return }
+        
         let docRef = db.collection("Refrige").document(refrigeNowID)
         //.collection("dwdwdwd")
 
@@ -38,6 +40,8 @@ class ShoppingListManager {
     
     func fetchfoodInfoInsideSingleShoppingList(completion: @escaping (Result<[String?], Error>) -> Void) {
         
+        guard let shoppingListNowID = shoppingListNowID else { return }
+        
         let docRef = db.collection("shoppingList").document(shoppingListNowID)
         docRef.getDocument { (document, error) in
             
@@ -57,15 +61,42 @@ class ShoppingListManager {
     
     func postFoodOnShoppingList(shoppingList: inout ShoppingList, completion: @escaping (Result<String, Error>) -> Void) {
         
+        guard let shoppingListNowID = shoppingListNowID else { return }
         let document = db.collection("shoppingList").document(shoppingListNowID)
         
-        document.updateData(["foodID": shoppingList.foodID])
+        document.updateData(["foodID": shoppingList.foodID]) // bug fix
 //        do {
 //           try  document.setData(from: shoppingList, merge: true)}
         
 //        catch {
 //            print("upload error")
 //        }
+    }
+    
+    // delete shopping
+    
+    func finishShoppingDeleteFood(foodID: String , completion: @escaping () -> Void) {
+        
+        guard let shoppingListNowID = shoppingListNowID else { return }
+        
+        let document = db.collection("shoppingList").document(shoppingListNowID)
+        
+        var foodsID: [String?]
+        
+ //       document.getDocument { <#DocumentSnapshot?#>, <#Error?#> in
+//            <#code#>
+ //       }
+ //       document.ge { error in
+            
+ //           if let error = error {
+                
+ //               completion()
+ //           } else {
+                
+ //               completion()
+  //          }
+ //       }
+        
     }
     
     // post refrige shoppingList  UUID

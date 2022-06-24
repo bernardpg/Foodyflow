@@ -53,7 +53,7 @@ class FoodManager {
         foodId = document.documentID
         food.foodId = document.documentID
         food.foodBrand = "33" // rename 
-        food.createdTime = Date.now.millisecondsSince1970
+        food.createdTime = Date().millisecondsSince1970
         document.setData(food.toDict) { error in
             
             if let error = error {
@@ -107,4 +107,21 @@ class FoodManager {
             }
         }
     }
+    
+    func changeFoodStatus(foodId: String?, foodStatus: Int , completion: @escaping () -> Void) {
+        
+        let colref = db.collection("foods")
+        
+        guard let foodId = foodId else {
+            return
+        }
+        
+        colref.document(foodId).setData(["foodStatus":foodStatus], merge: true)
+    }
+    
+    
+    
+  //  func deleteFood(foodId: String? completion: @escaping () -> Void) {
+        
+  //  }
 }

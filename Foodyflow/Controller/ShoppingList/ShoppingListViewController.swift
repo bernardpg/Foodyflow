@@ -19,7 +19,6 @@ class ShoppingListViewController: UIViewController {
     
     // 狀態有改 reload filter 之後的篩選
     
-    
     var shoppingLists: [String?] = []
     
     var foodsInShoppingList: [String?] = []
@@ -47,6 +46,9 @@ class ShoppingListViewController: UIViewController {
     var seasonsInfo: [FoodInfo] = []
     
     var othersInfo: [FoodInfo] = []
+    
+    var onPublished: (()->())?
+
     
     @IBOutlet weak var shoppingList: UICollectionView!
     
@@ -178,7 +180,7 @@ class ShoppingListViewController: UIViewController {
         })
     }
     // fetch shoppingList number
-    func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void){
+    func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
         refrigeNowID = "2" // rename
         ShoppingListManager.shared.fetchAllShoppingListInSingleRefrige { result in
             switch result {
@@ -221,9 +223,34 @@ class ShoppingListViewController: UIViewController {
         })
     }
     
-    func finishShoppingToRefrige() {
+    func finishShoppingToRefrige(foodId: String, complection: @escaping() -> Void) {
         
+//        guard var refrigeNow = refrigeNow else { return }
+//        guard let foodId = foodId else { return }  // bugs
+        
+        refrigeNow!.foodID.append(foodId) // global
+        RefrigeManager.shared.publishFoodOnRefrige(refrige: refrigeNow!) { result in
+            switch result {
+            case .success:
+                self.foodManager.changeFoodStatus(foodId: foodId, foodStatus: 3) {
+                    self.onPublished?()
+                    RefrigeManager.shared.fetchSingleRefrigeInfo(refrige: refrigeNow!) { result in
+                        switch result {
+                        case .success(let refrigeInfo):
+                            refrigeNow = refrigeInfo
+
+                        case .failure:
+                            print("cannot fetch cate data")
+                        }
+                    }
+                }
+            case .failure(let error):
+                
+                print("publishArticle.failure: \(error)")
+            }
+        }
     }
+    
     
     func deleteFoodOnShoppingList() {
         
@@ -317,10 +344,10 @@ extension ShoppingListViewController: UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
 
-        if let sectionHeader = collectionView.dequeueReusableSupplementaryView(
+        if let sectionHeader = collectionView.dequeueReusableSupplementaryView (
             ofKind: kind,
             withReuseIdentifier: "ShoppingListCollectionReusableView",
-            for: indexPath) as? ShoppingListCollectionReusableView{
+            for: indexPath) as? ShoppingListCollectionReusableView {
             sectionHeader.sectionHeaderlabel.text = cate[indexPath.section]
             return sectionHeader
         }
@@ -336,50 +363,74 @@ extension ShoppingListViewController: UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView,
                     layout collectionViewLayout: UICollectionViewLayout,
                     sizeForItemAt indexPath: IndexPath) -> CGSize {
-//    return CGSize(width: (screenSize - 16*2 - 15)/2, height: (screenSize - 16*2 - 15)/2 * 1.34)
     return CGSize(width: 200, height: 200)
         
     }
     
-//  func collectionView(_ collectionView: UICollectionView,
-//    layout collectionViewLayout: UICollectionViewLayout,
-//    minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//    return 50 }
-
-//  func collectionView(_ collectionView: UICollectionView,
-//    layout collectionViewLayout: UICollectionViewLayout,
-//    minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    
-//        return 15
-
-//  func collectionView(_ collectionView: UICollectionView,
-//    layout collectionViewLayout: UICollectionViewLayout,
-//    insetForSectionAt section: Int) -> UIEdgeInsets {
-//    return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        // MARK: - Delegate
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            print("row: \(indexPath.row)")
+        switch indexPath.section {
+        case 0:
+            finishShoppingToRefrige(foodId: meatsInfo[indexPath.item].foodId ?? "2") {
+                
+            }
+        case 1:
+            finishShoppingToRefrige(foodId: beansInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+        case 2:
+            finishShoppingToRefrige(foodId: eggsInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+
+        case 3:
+            finishShoppingToRefrige(foodId: vegsInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+
+        case 4:
+            finishShoppingToRefrige(foodId: picklesInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+        case 5:
+            finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+        case 6:
+            finishShoppingToRefrige(foodId: fishesInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+        case 7:
+            finishShoppingToRefrige(foodId: seafoodsInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+        case 8:
+            finishShoppingToRefrige(foodId: beveragesInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+
+        case 9:
+            finishShoppingToRefrige(foodId: seasonsInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+
+        case 10:
+            finishShoppingToRefrige(foodId: othersInfo[indexPath.item].foodId ?? "2") {
+                print("success to reFirge ")
+            }
+
+        default:
+            print("dd")
         }
-    
+    }
+
 }
 
 
-/*
-let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-   
-   layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-   // section與section之間的距離(如果只有一個section，可以想像成frame)
-   layout.itemSize = CGSize(width: (self.view.frame.size.width - 30) / 2, height: 120)
-   // cell的寬、高
-   layout.minimumLineSpacing = CGFloat(integerLiteral: 10) // 滑動方向為「垂直」的話即「上下」的間距;滑動方向為「平行」則為「左右」的間距
-   layout.minimumInteritemSpacing = CGFloat(integerLiteral: 10) // 滑動方向為「垂直」的話即「左右」的間距;滑動方向為「平行」則為「上下」的間距
-   layout.scrollDirection = UICollectionView.ScrollDirection.vertical //UICollectionViewScrollDirection.vertical
-   shoppingListCollectionView = UICollectionView()
-           
-   shoppingListCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height), collectionViewLayout: layout)
-   
-   shoppingListCollectionView.dataSource = self
-   shoppingListCollectionView.delegate = self
-   */
- //  shoppingListCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+// MARK: - Delegate
+//    return CGSize(width: (screenSize - 16*2 - 15)/2, height: (screenSize - 16*2 - 15)/2 * 1.34)
+
+//      func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//          print("row: \(indexPath.row)")
+//      }
+// delete or change to Refrige

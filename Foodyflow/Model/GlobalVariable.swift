@@ -7,5 +7,8 @@
 
 import Foundation
 
-var refrigeNowID = ""
-var shoppingListNowID = ""
+var refrigeNowID: String?
+var shoppingListNowID: String?
+var refrigeDeleteID: String?
+
+var refrigeNow: Refrige?

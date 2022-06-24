@@ -33,7 +33,7 @@ class RefrigeManager {
                 } else {
                     
                     var articles = [Refrige]()
-                    print(articles)
+ 
                     
                     for document in querySnapshot!.documents {
 
@@ -51,7 +51,25 @@ class RefrigeManager {
         }
     }
     
-    func publishFoodOnRefrige(refrige: inout Refrige, completion: @escaping (Result<String, Error>) -> Void) {
+    func fetchSingleRefrigeInfo(refrige: Refrige, completion: @escaping ((Result<Refrige,Error>) -> Void)) {
+        let colref = db.collection("Refrige")
+        colref.document(refrige.id).getDocument{ (document, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                
+                do {
+                    if let refrigeInfo = try document?.data(as: Refrige.self, decoder: Firestore.Decoder()) {
+                        completion(.success(refrigeInfo))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+    
+    func publishFoodOnRefrige(refrige: Refrige, completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection("Refrige").document(refrige.id)
         document.updateData(["foodID": refrige.foodID]) { error in
@@ -69,12 +87,33 @@ class RefrigeManager {
         }
     }
     
-    func createFrige(refrige: inout Refrige, completion: @escaping (Result<String, Error>) -> Void){
+    
+    func createFrige(refrige: inout Refrige, completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection("Refrige").document()
         refrige.id = document.documentID
-        refrige.createdTime = Date.now.millisecondsSince1970
+        refrige.createdTime = Date().millisecondsSince1970
         document.setData(refrige.toDict) { error in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                completion(.success("Success"))
+            }
+        }
+    }
+    
+    func removeFrige(refrigeID: String, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        refrigeNowID = refrigeID
+        
+        guard let refrigeNowID = refrigeNowID else { return }
+        
+        let document = db.collection("Refrige").document(refrigeNowID)
+        
+        document.delete { error in
             
             if let error = error {
                 

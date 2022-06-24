@@ -101,6 +101,9 @@ class RefrigeViewController: UIViewController {
                     DispatchQueue.main.async {
                         // lottie 消失
                         self?.refrigeTableView.reloadData()
+                        
+                        refrigeNow = self?.refrige[0]
+
                         semaphore.signal()
                     }
                 })
@@ -180,6 +183,9 @@ class RefrigeViewController: UIViewController {
         tapButton.backgroundColor = .black
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
+    
+    // change refrige
+//    refrigeNow = refrige[0]
     
     @objc func addNewFood() {
         let shoppingVC = RefrigeProductDetailViewController(

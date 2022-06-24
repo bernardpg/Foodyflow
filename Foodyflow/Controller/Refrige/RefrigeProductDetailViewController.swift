@@ -111,17 +111,19 @@ class RefrigeProductDetailViewController: UIViewController {
         }
         guard let foodId = foodId else { return }  // bugs
         refrige.foodID.append(foodId)
-        RefrigeManager.shared.publishFoodOnRefrige(refrige: &self.refrige) { result in
+        RefrigeManager.shared.publishFoodOnRefrige(refrige: self.refrige) {
+
+            result in
             
             self.onPublished?()
             
         }
 
-        self.navigationController?.popViewController(animated: true)
-    }
+        self.navigationController?.popViewController(animated: true)}
     
     @objc func selectPhoto(recognizer:UITapGestureRecognizer) {
-        if  recognizer.state == .began{
+        
+        if  recognizer.state == .began {
             action()
         }
 
