@@ -52,7 +52,7 @@ class FoodManager {
         let document = db.collection("foods").document()
         foodId = document.documentID
         food.foodId = document.documentID
-        food.foodBrand = "33" // rename 
+        food.foodBrand = "33" // rename
         food.createdTime = Date().millisecondsSince1970
         document.setData(food.toDict) { error in
             
@@ -112,16 +112,30 @@ class FoodManager {
         
         let colref = db.collection("foods")
         
-        guard let foodId = foodId else {
-            return
-        }
+        guard let foodId = foodId else { return }
         
-        colref.document(foodId).setData(["foodStatus":foodStatus], merge: true)
+        colref.document( foodId ).setData( [ "foodStatus": foodStatus ], merge: true )
+    }
+    
+    // delete food by foodID
+    
+    func deleteFood(foodId: String?, completion: @escaping (Result<String?, Error>) -> Void) {
+        
+        let colref = db.collection("foods")
+        
+        guard let foodId = foodId else { return }
+        
+        colref.document(foodId).delete { error in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                completion(.success("Success"))
+            }
+        }
     }
     
     
-    
-  //  func deleteFood(foodId: String? completion: @escaping () -> Void) {
-        
-  //  }
 }

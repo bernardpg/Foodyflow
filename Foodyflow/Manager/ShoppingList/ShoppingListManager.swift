@@ -59,7 +59,8 @@ class ShoppingListManager {
                 completion(.success(foodsInfo))
         }
     }
-    
+     // need to fix bugs while Delete
+    //MARK: -  delete Food error     //MARK: - delete Food while reload
     func postFoodOnShoppingList(shoppingList: inout ShoppingList, completion: @escaping (Result<String, Error>) -> Void) {
         
      //   guard let shoppingListNowID = shoppingListNowID else { return }
@@ -73,93 +74,6 @@ class ShoppingListManager {
         }
         
     }
-        
-        
-//        do {
-//           try  document.setData(from: shoppingList, merge: true)}
-        
-//        catch {
-//            print("upload error")
-//        }
-  //  }
     
-    // delete shopping
     
-  //  func finishShoppingDeleteFood(shoppingListNowID: String, foodID: String, completion: @escaping () -> Void){
-        
-  //      fetchfoodInfoInsideSingleShoppingList { <#Result<[String?], Error>#> in
-  //          <#code#>
-  //      }
-        
-        
-        
-        
-        
- //       document.getDocument { <#DocumentSnapshot?#>, <#Error?#> in
-//            <#code#>
- //       }
- //       document.ge { error in
-            
- //           if let error = error {
-                
- //               completion()
- //           } else {
-                
- //               completion()
-  //          }
- //       }
-        
-   // }
-    
-    // post refrige shoppingList  UUID
-    // post shoppingList  on shoppingList UUID and foodID UUID
-        /*
-        db.collection(refrigeNowID).getDocuments() { (querySnapshot, error) in
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    
-                    var articles = [ShoppingList]()
-                    
-                    for document in querySnapshot!.documents {
-
-                        do {
-                            let article =  try document.data(as: ShoppingList.self, decoder: Firestore.Decoder())
-                            articles.append(article)
-                        } catch {
-                            
-                            completion(.failure(error))
-                        }
-                    }
-                    
-                    completion(.success(articles))
-                }
-        }*/
-
-    /*
-    func fetchAllFoodInSingleShoppingList(completion: @escaping (Result<[FoodInfo], Error>) -> Void){
-        
-        db.collection(refrigeNowID).getDocuments() { (querySnapshot, error) in
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    
-                    var articles = [ShoppingList]()
-                    
-                    for document in querySnapshot!.documents {
-
-                        do {
-                            let article =  try document.data(as: ShoppingList.self, decoder: Firestore.Decoder())
-                            articles.append(article)
-                        } catch {
-                            
-                            completion(.failure(error))
-                        }
-                    }
-                    
-                    completion(.success(articles))
-                }
-        }
-    }
-     */
 }

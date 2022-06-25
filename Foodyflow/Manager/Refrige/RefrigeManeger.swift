@@ -125,4 +125,10 @@ class RefrigeManager {
         }
         
     }
+    
+    
+    func deleteFoodInrefrigeDB(refrige: inout Refrige, completion: @escaping(Result<Refrige, Error>) -> Void) {
+        
+        
+    }
 }

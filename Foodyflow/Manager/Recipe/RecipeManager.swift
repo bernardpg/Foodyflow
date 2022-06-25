@@ -14,4 +14,22 @@ class RecipeManager {
     static let shared = RecipeManager()
     
     lazy var db = Firestore.firestore()
+    
+    func createRecipe () {
+        
+    }
+    
+    func deleteRecipe () {
+        
+    }
+    
+    func fetchAllRecipe () {
+        
+    }
+    
+    func fetchFoodinRecipe () {
+        
+    }
+    
+    
 }

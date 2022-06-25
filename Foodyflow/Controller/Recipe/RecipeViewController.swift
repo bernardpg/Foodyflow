@@ -24,6 +24,14 @@ class RecipeViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        FoodManager.shared.deleteFood(foodId: "22") { error11 in
+            print("\(error11)")
+        }
+        
+    }
+    
     func setUI() {
         recipeView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(recipeView)

@@ -85,7 +85,7 @@ class ShoppingListViewController: UIViewController {
             }
             
             // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
-            
+            // w for fix error 應該先fetch 在回來抓
             self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
                 self?.shoppingLists = shoppingLists
                 shoppingListNowID = "dwdwdwd" // fetch initial
