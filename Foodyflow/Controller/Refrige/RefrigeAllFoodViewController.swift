@@ -1,15 +1,13 @@
 //
-//  WithinThreeDaysRefirgeViewController.swift
+//  RefrigeAllFoodViewController.swift
 //  Foodyflow
 //
 //  Created by 曹珮綺 on 6/26/22.
 //
 
-// makesure UI okay
-
 import UIKit
 
-class WithinThreeDaysRefirgeViewController: UIViewController {
+class RefrigeAllFoodViewController: UIViewController {
     
     private var refrigeTableView = UITableView() {
         didSet{refrigeTableView.reloadData() }
@@ -54,8 +52,6 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     
     var foodDetail: ((String) -> Void)?  // callback
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,7 +65,6 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         refrigeTableView.layoutIfNeeded()
-        refrigeTableView.backgroundColor = .lightGray
         tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
@@ -235,7 +230,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     }
 }
 
-extension WithinThreeDaysRefirgeViewController: UITableViewDelegate, UITableViewDataSource {
+extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cate.count

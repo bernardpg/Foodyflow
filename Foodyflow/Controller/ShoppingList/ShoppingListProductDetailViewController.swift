@@ -25,7 +25,6 @@ class ShoppingListProductDetailViewController: UIViewController {
     
     @IBOutlet weak var foodBuy: UILabel!
     
-    
     @IBOutlet weak var foodBuyPlaceTextfield: UITextField!
     
     @IBOutlet weak var foodAddidtional: UILabel!
@@ -106,6 +105,5 @@ class ShoppingListProductDetailViewController: UIViewController {
 //        }
         self.navigationController?.popViewController(animated: true)
     }
-    
     
 }

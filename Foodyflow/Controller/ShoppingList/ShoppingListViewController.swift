@@ -7,9 +7,9 @@
 
 import UIKit
 import BTNavigationDropdownMenu
+import LZViewPager
 
-
-class ShoppingListViewController: UIViewController {
+class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDataSource {
     
     private var tapButton = UIButton()
     
@@ -52,32 +52,21 @@ class ShoppingListViewController: UIViewController {
     var onPublished: (()->())?
     
     var menuView: BTNavigationDropdownMenu!
+        
+    private var viewPager =  LZViewPager()
     
-    @IBOutlet weak var shoppingList: UICollectionView!
-    {
-        didSet{
-            
-            shoppingList.reloadData()
-        }
-    }
-    
+    private lazy var containerView: [UIViewController] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        shoppingList.delegate = self
-        shoppingList.dataSource = self
-        shoppingList.addSubview(tapButton)
-        setUI()
         setDropdown()
-        
-
+        viewPagerProperties()
 //        shoppingList.collectionViewLayout = UICollectionViewLayout()
 
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        shoppingList.layoutIfNeeded()
-        tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,7 +91,7 @@ class ShoppingListViewController: UIViewController {
                         DispatchQueue.main.async {
                             // lottie 消失
                             
-                            self?.shoppingList.reloadData()
+//                            self?.shoppingList.reloadData()
                             semaphore.signal()
                         }
                     })
@@ -112,6 +101,56 @@ class ShoppingListViewController: UIViewController {
             semaphore.wait()
             
         }
+    }
+    
+    // MARK: - Main VC
+    func viewPagerProperties() {
+        view.addSubview(viewPager)
+        
+        viewPager.translatesAutoresizingMaskIntoConstraints = false
+        viewPager.leadingAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            constant: 0).isActive = true
+        viewPager.trailingAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            constant: 0).isActive = true
+        viewPager.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        viewPager.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            constant: 0).isActive = true
+        
+        viewPager.delegate = self
+        viewPager.dataSource = self
+        viewPager.hostController = self
+        
+        let wishListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
+                
+        let inshoppingListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "inshoppingListVC") as? InshoppingViewController
+        
+        guard let wishListVC = wishListVC else { return }
+        guard let inshoppingListVC = inshoppingListVC else { return }
+
+        wishListVC.title = "WishList"
+        inshoppingListVC.title = "InshopplingList"
+        
+        containerView = [wishListVC,inshoppingListVC]
+        viewPager.reload()
+    }
+    
+    func numberOfItems() -> Int {
+        containerView.count
+    }
+    
+    func controller(at index: Int) -> UIViewController {
+        containerView[index]
+    }
+    
+    func button(at index: Int) -> UIButton {
+        let button = UIButton()
+        button.setTitleColor(UIColor.B1, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.backgroundColor = .black
+        return button
     }
     
     // wait for change 
@@ -149,27 +188,6 @@ class ShoppingListViewController: UIViewController {
         self.navigationItem.titleView = menuView
     }
 
-    func setUI() {
-
-        tapButton.translatesAutoresizingMaskIntoConstraints = false
-        tapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-        tapButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.backgroundColor = .black
-        tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
-    }
-    @objc func addNewFood() {
-        
-        let shoppingVC = ShoppingListProductDetailViewController(
-            nibName: "ShoppingListProductDetailViewController",
-            bundle: nil)
-        
-        shoppingVC.shoppingList.foodID = foodsInShoppingList
-//        shoppingVC.refrige = refrige[0]
-        self.navigationController!.pushViewController(shoppingVC, animated: true)
-
-    }
     func resetRefrigeFood() {
         meatsInfo = []
         beansInfo = []
@@ -303,7 +321,6 @@ class ShoppingListViewController: UIViewController {
         }
     }
     
-    
     func deleteFoodOnShoppingList(foodId: String, complection: @escaping() -> Void) {
         
         let semaphore = DispatchSemaphore(value: 0)
@@ -327,7 +344,7 @@ class ShoppingListViewController: UIViewController {
                         self.cateFilter(allFood: allfoodInfo, cates: cates)
                         DispatchQueue.main.async {
                             // lottie 消失
-                            self.shoppingList.reloadData()
+//                            self.shoppingList.reloadData()
                             semaphore.signal()
                         }
                             
@@ -342,180 +359,7 @@ class ShoppingListViewController: UIViewController {
             semaphore.wait()
         }
     }
-
 }
-extension ShoppingListViewController: UICollectionViewDataSource,
-                                      UICollectionViewDelegate,
-                                      UICollectionViewDelegateFlowLayout {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return cate.count // 食物種類
-        }
-    
-        
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return meatsInfo.count
-        case 1:
-            return beansInfo.count
-        case 2:
-            return eggsInfo.count
-        case 3:
-            return vegsInfo.count
-        case 4:
-            return picklesInfo.count
-        case 5:
-            return fruitsInfo.count
-        case 6:
-            return fishesInfo.count
-        case 7:
-            return seafoodsInfo.count
-        case 8:
-            return beveragesInfo.count
-        case 9:
-           return seasonsInfo.count
-        case 10:
-          return othersInfo.count
-        default:
-          return foodsInfo.count
-        }
-        
-    }
-        
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "shoppingListCollectionViewCell",
-                for: indexPath) as? ShoppingListCollectionViewCell
-        guard let cell = cell else { return UICollectionViewCell() }
-        switch indexPath.section {
-        case 0:
-            cell.shoppingName.text = meatsInfo[indexPath.item].foodName
-        case 1:
-            cell.shoppingName.text = beansInfo[indexPath.item].foodName
-
-        case 2:
-            cell.shoppingName.text = eggsInfo[indexPath.item].foodName
-
-        case 3:
-            cell.shoppingName.text = vegsInfo[indexPath.item].foodName
-
-        case 4:
-            cell.shoppingName.text = picklesInfo[indexPath.item].foodName
-
-        case 5:
-            cell.shoppingName.text = fruitsInfo[indexPath.item].foodName
-
-        case 6:
-            cell.shoppingName.text = fishesInfo[indexPath.item].foodName
-
-        case 7:
-            cell.shoppingName.text = seafoodsInfo[indexPath.item].foodName
-
-        case 8:
-            cell.shoppingName.text = beveragesInfo[indexPath.item].foodName
-
-        case 9:
-            cell.shoppingName.text = seasonsInfo[indexPath.item].foodName
-
-        case 10:
-            cell.shoppingName.text = othersInfo[indexPath.item].foodName
-
-        default:
-            cell.shoppingName.text = foodsInfo[indexPath.item].foodName
-            
-        }
-        return cell
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-
-        if let sectionHeader = collectionView.dequeueReusableSupplementaryView (
-            ofKind: kind,
-            withReuseIdentifier: "ShoppingListCollectionReusableView",
-            for: indexPath) as? ShoppingListCollectionReusableView {
-            sectionHeader.sectionHeaderlabel.text = cate[indexPath.section]
-            return sectionHeader
-        }
-        return UICollectionReusableView()
-    }
-
-    private func collectionView(_ collectionView: UICollectionView,
-                                layout collectionViewLayout: UICollectionViewLayout,
-                                sizeForItemAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20.0, left: 16.0, bottom: 10.0, right: 16.0)
-        }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                    layout collectionViewLayout: UICollectionViewLayout,
-                    sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: 200, height: 200)
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        switch indexPath.section {
-        case 0:
-            finishShoppingToRefrige(foodId: meatsInfo[indexPath.item].foodId ?? "2") {
-                
-            }
-        case 1:
-            finishShoppingToRefrige(foodId: beansInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-        case 2:
-            finishShoppingToRefrige(foodId: eggsInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-
-        case 3:
-            finishShoppingToRefrige(foodId: vegsInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-
-        case 4:
-            finishShoppingToRefrige(foodId: picklesInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-        case 5:
-            finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-            deleteFoodOnShoppingList(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
-                print("success to delete " )
-            }
-        case 6:
-            finishShoppingToRefrige(foodId: fishesInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-        case 7:
-            finishShoppingToRefrige(foodId: seafoodsInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-        case 8:
-            finishShoppingToRefrige(foodId: beveragesInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-
-        case 9:
-            finishShoppingToRefrige(foodId: seasonsInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-
-        case 10:
-            finishShoppingToRefrige(foodId: othersInfo[indexPath.item].foodId ?? "2") {
-                print("success to reFirge ")
-            }
-
-        default:
-            print("dd")
-        }
-    }
-
-}
-
 
 // MARK: - Delegate
 //    return CGSize(width: (screenSize - 16*2 - 15)/2, height: (screenSize - 16*2 - 15)/2 * 1.34)

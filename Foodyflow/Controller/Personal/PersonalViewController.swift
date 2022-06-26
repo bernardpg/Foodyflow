@@ -117,7 +117,7 @@ class PersonalViewController: UIViewController {
         notificationLabel.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: 0).isActive = true
-        notificationLabel.text = "開啟菜價提醒通知"
+        notificationLabel.text = "開啟即將到期提醒通知"
         notificationSwitch.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(notificationSwitch)
         

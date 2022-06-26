@@ -25,7 +25,16 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     private lazy var threeDaysRefrigeVC = WithinThreeDaysRefirgeViewController()
     
+    private lazy var refrigeAllFoodVC = RefrigeAllFoodViewController()
     
+    // this vc inside it
+    
+    private var viewPager =  LZViewPager()
+    
+    private lazy var containerView: [UIViewController] = []
+    
+    var menuView: BTNavigationDropdownMenu!
+
     private var tapButton = UIButton()
     
     var refrige: [Refrige] = []
@@ -66,31 +75,17 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     var foodDetail: ((String) -> Void)?  // callback
     
-    @IBOutlet weak var indicatorVIew: UIView!
-    
-    private var viewPager =  LZViewPager()
-    
-    private lazy var containerView: [UIViewController] = []
-        
-    var menuView: BTNavigationDropdownMenu!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUI()
         setDropdown()
-        refrigeTableView.register(RefrigeCatTableViewCell.nib(), forCellReuseIdentifier: "refrigeCatTableViewCell")
-        refrigeTableView.delegate = self
-        refrigeTableView.dataSource = self
-        
         viewPagerProperties()
         
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        refrigeTableView.layoutIfNeeded()
-        tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -227,7 +222,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         viewPager.trailingAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.trailingAnchor,
             constant: 0).isActive = true
-        viewPager.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        viewPager.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         viewPager.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: 0).isActive = true
@@ -235,12 +230,13 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         viewPager.delegate = self
         viewPager.dataSource = self
         viewPager.hostController = self
-        
+
+
+        refrigeAllFoodVC.title = "allFood"
         threeDaysRefrigeVC.title = "threeDaysExpire"
         expiredRefrigeVC.title = "expired"
         
-        containerView = [threeDaysRefrigeVC,expiredRefrigeVC]
-        
+        containerView = [refrigeAllFoodVC,threeDaysRefrigeVC,expiredRefrigeVC]
         viewPager.reload()
     }
     
@@ -259,43 +255,11 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         button.backgroundColor = .black
         return button
     }
-
     
-    func setUI() {
-        view.addSubview(refrigeTableView)
-        refrigeTableView.translatesAutoresizingMaskIntoConstraints = false
-        refrigeTableView.leadingAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-            constant: 0).isActive = true
-        refrigeTableView.trailingAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-            constant: 0).isActive = true
-        refrigeTableView.topAnchor.constraint(equalTo: indicatorVIew.topAnchor, constant: 5).isActive = true
-        refrigeTableView.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-            constant: 0).isActive = true
-        
-        refrigeTableView.addSubview(tapButton)
-        tapButton.translatesAutoresizingMaskIntoConstraints = false
-        tapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-        tapButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.backgroundColor = .black
-        tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
-    }
     
     // change refrige
 //    refrigeNow = refrige[0]
     
-    @objc func addNewFood() {
-        let shoppingVC = RefrigeProductDetailViewController(
-        nibName: "ShoppingProductDetailViewController",
-        bundle: nil)
-        shoppingVC.refrige = refrige[0]
-        self.navigationController!.pushViewController(shoppingVC, animated: true)
-        
-    }
     
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
         CategoryManager.shared.fetchArticles(completion: { result in
