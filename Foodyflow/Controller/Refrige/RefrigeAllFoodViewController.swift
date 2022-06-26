@@ -153,8 +153,6 @@ class RefrigeAllFoodViewController: UIViewController {
 
     }
     
-    
-    
     func setUI() {
         view.addSubview(refrigeTableView)
         refrigeTableView.translatesAutoresizingMaskIntoConstraints = false

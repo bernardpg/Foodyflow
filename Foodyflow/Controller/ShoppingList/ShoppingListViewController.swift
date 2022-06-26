@@ -49,7 +49,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     var othersInfo: [FoodInfo] = []
     
-    var onPublished: (()->())?
+    var onPublished: (() -> Void)?
     
     var menuView: BTNavigationDropdownMenu!
         

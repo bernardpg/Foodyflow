@@ -54,8 +54,6 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     
     var foodDetail: ((String) -> Void)?  // callback
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -157,8 +155,6 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
             }
 
     }
-    
-    
     
     func setUI() {
         view.addSubview(refrigeTableView)

@@ -11,15 +11,16 @@ import CoreMIDI
 import BTNavigationDropdownMenu
 import LZViewPager
 
+// MARK: - fetch for change UI and add photos
+// MARK: - create Recipe Page
+// MARK: = change Refrige and shoppingList
 
 class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDataSource {
     
     // 先抓第一個冰箱 再依照用戶選擇哪一個再去抓下面那層
     // 如果沒有的話 就要顯示創立冰箱 // 空的 VC
     
-    private var refrigeTableView = UITableView() {
-        didSet{refrigeTableView.reloadData() }
-    }
+    var refrigeTableView = UITableView() //{didSet{refrigeTableView.reloadData() }}
     
     private lazy var expiredRefrigeVC = ExpiredRefirgeViewController()
     
@@ -75,11 +76,12 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     var foodDetail: ((String) -> Void)?  // callback
     
-    
+    var didSelectDifferentRef: Int? {didSet{reloadRefrige()}}
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setDropdown()
+//        setDropdown()
         viewPagerProperties()
         
     }
@@ -103,6 +105,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             
             self.fetchAllRefrige { [weak self] refrige in
                 
+                self?.setDropdown(self?.refrige)
+
                 self?.resetRefrigeFood()
                 
                 self?.fetAllFood(completion: { foodinfo21 in
@@ -127,6 +131,21 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    func fetchAllRefrige() {
+        RefrigeManager.shared.fetchArticles { [weak self] result in
+            switch result{
+            case .success(let refrigeAmount):
+                self?.refrige = refrigeAmount
+                DispatchQueue.main.async{
+//                    self?.personalTableView.reloadData()
+                }
+            case .failure:
+                print("cannot fetch data")
+            }
+        }
+    }
+
+    
     func resetRefrigeFood() {
         meatsInfo = []
         beansInfo = []
@@ -143,47 +162,79 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     }
     
     func cateFilter(allFood: [FoodInfo], cates: [String?]) {
-        
         for foodInfo in allFood {
                 for cate in cates {
-                    if foodInfo.foodCategory! == cate! && cate! == "肉類"
+                    guard let foodCategory = foodInfo.foodCategory
+                    else { return }
+                    if foodCategory == cate! && cate! == "肉類"
                     { self.meatsInfo.append(foodInfo) }
-                     else if foodInfo.foodCategory! == cate! && cate! == "豆類"
+                     else if foodCategory == cate! && cate! == "豆類"
                     {self.beansInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "雞蛋類"
+                    else if foodCategory == cate! && cate! == "雞蛋類"
                     {self.eggsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "青菜類"
+                    else if foodCategory == cate! && cate! == "青菜類"
                     {self.vegsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "醃製類"
+                    else if foodCategory == cate! && cate! == "醃製類"
                     { self.picklesInfo.append(foodInfo) }
-                    else if foodInfo.foodCategory! == cate! && cate! == "水果類"
+                    else if foodCategory == cate! && cate! == "水果類"
                     {self.fruitsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "魚類"
+                    else if foodCategory == cate! && cate! == "魚類"
                     {self.fishesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "海鮮類"
+                    else if foodCategory == cate! && cate! == "海鮮類"
                     {self.seafoodsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "飲料類"
+                    else if foodCategory == cate! && cate! == "飲料類"
                     {self.beveragesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "調味料類"
+                    else if foodCategory == cate! && cate! == "調味料類"
                     {self.seasonsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "其他"
+                    else if foodCategory == cate! && cate! == "其他"
                     {self.othersInfo.append(foodInfo)}
                 }
             }
 
     }
     
+    func reloadRefrige() {
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        DispatchQueue.global().async {
+
+        self.resetRefrigeFood()
+        
+        self.fetAllFood(completion: { foodinfo21 in
+            
+            self.cateFilter(allFood: foodinfo21, cates: self.cate)
+            
+            DispatchQueue.main.async {
+                // lottie 消失
+                self.refrigeTableView.reloadData()
+                guard let didSelectDifferentRef = self.didSelectDifferentRef else { return }
+                refrigeNow = self.refrige[didSelectDifferentRef]
+                semaphore.signal()
+  
+            }
+            semaphore.wait()}
+        )
+        }
+    }
+    
     //  wait for change
-    func setDropdown() {
-        let items = ["Most Popular", "Latest", "Trending", "Nearest", "Top Picks"]
+    func setDropdown(_ refriges: [Refrige]?) {
+        var items: [String] = []
+        
+        guard let refriges = refriges else {
+            return
+        }
+        for refrige in refriges {
+            items.append(refrige.title )
+        }
+//        let items = ["Most Popular", "Latest", "Trending", "Nearest", "Top Picks"]
       //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0/255.0, green:180/255.0, blue:220/255.0, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-
         // "Old" version
         // menuView = BTNavigationDropdownMenu(navigationController: self.navigationController, containerView: self.navigationController!.view, title: "Dropdown Menu", items: items)
-
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
             containerView: self.navigationController!.view,
@@ -191,7 +242,6 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
 // W fetch return
         // Another way to initialize:
         // menuView = BTNavigationDropdownMenu(navigationController: self.navigationController, containerView: self.navigationController!.view, title: BTTitle.title("Dropdown Menu"), items: items)
-
         menuView.cellHeight = 50
         menuView.cellBackgroundColor = self.navigationController?.navigationBar.barTintColor
         menuView.cellSelectionColor = UIColor(red: 0.0/255.0, green:160.0/255.0, blue:195.0/255.0, alpha: 1.0)
@@ -205,6 +255,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         menuView.maskBackgroundOpacity = 0.3
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")
+        self.didSelectDifferentRef = indexPath
      //       self.selectedCellLabel.text = items[indexPath]
         }
         
@@ -231,13 +282,14 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         viewPager.dataSource = self
         viewPager.hostController = self
 
-
         refrigeAllFoodVC.title = "allFood"
         threeDaysRefrigeVC.title = "threeDaysExpire"
         expiredRefrigeVC.title = "expired"
         
         containerView = [refrigeAllFoodVC,threeDaysRefrigeVC,expiredRefrigeVC]
+        
         viewPager.reload()
+        
     }
     
     func numberOfItems() -> Int {
@@ -256,10 +308,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         return button
     }
     
-    
     // change refrige
 //    refrigeNow = refrige[0]
-    
     
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
         CategoryManager.shared.fetchArticles(completion: { result in
@@ -287,12 +337,13 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     // change refrige need to reload
     func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []
-        FoodManager.shared.fetchSpecifyFood(refrige: self.refrige[0]) { [weak self] result in
+        FoodManager.shared.fetchSpecifyFood(refrige: self.refrige[self.didSelectDifferentRef ?? 0]) { [weak self] result in
             switch result {
             case .success(let foodInfo):
-                self?.foodsInfo.append(foodInfo)
-                if self?.foodsInfo.count == self?.refrige[0].foodID.count {completion(self?.foodsInfo ?? [foodInfo])}
-                else {print("append not finish yet ")}
+                if ((foodInfo.foodId?.isEmpty) != nil) {                self?.foodsInfo.append(foodInfo)
+                    if self?.foodsInfo.count == self?.refrige[self?.didSelectDifferentRef ?? 0].foodID.count {completion(self?.foodsInfo ?? [foodInfo])}
+                    else {print("append not finish yet ")}}
+                else {completion([foodInfo])}
             case .failure:
                 print("fetch food error")
             }
@@ -345,8 +396,7 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
-            self?.navigationController?.pushViewController(shoppingVC,animated: true)
-            }
+            self?.navigationController?.pushViewController(shoppingVC,animated: true)}
         
         return cell
     }

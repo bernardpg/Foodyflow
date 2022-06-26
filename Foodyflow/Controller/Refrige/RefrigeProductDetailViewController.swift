@@ -19,7 +19,7 @@ class RefrigeProductDetailViewController: UIViewController {
     
     var selectedImage: UIImage?
         
-    var onPublished: (()->())?
+    var onPublished: (() -> Void)?
     
     @IBOutlet weak var imageUpload: UIButton!
     

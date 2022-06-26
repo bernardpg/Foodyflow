@@ -47,7 +47,7 @@ class InshoppingViewController: UIViewController {
     
     var othersInfo: [FoodInfo] = []
     
-    var onPublished: (()->())?
+    var onPublished: (() -> Void)?
     
     @IBOutlet weak var inShoppingList: UICollectionView!
     

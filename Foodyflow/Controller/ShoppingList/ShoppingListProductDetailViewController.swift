@@ -33,7 +33,7 @@ class ShoppingListProductDetailViewController: UIViewController {
     
     @IBOutlet weak var updateButton: UIButton!
     
-    var onPublished: (()->())?
+    var onPublished: (() -> Void)?
     
     var foodInfo = FoodInfo()
     
