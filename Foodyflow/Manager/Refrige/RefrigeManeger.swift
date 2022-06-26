@@ -69,6 +69,8 @@ class RefrigeManager {
         }
     }
     
+    
+    // delete / add within this function 
     func publishFoodOnRefrige(refrige: Refrige, completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection("Refrige").document(refrige.id)
@@ -126,9 +128,4 @@ class RefrigeManager {
         
     }
     
-    
-    func deleteFoodInrefrigeDB(refrige: inout Refrige, completion: @escaping(Result<Refrige, Error>) -> Void) {
-        
-        
-    }
 }

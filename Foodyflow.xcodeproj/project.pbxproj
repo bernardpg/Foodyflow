@@ -51,6 +51,12 @@
 		A98D50EC2863F8BA00B326AC /* ShoppingListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */; };
 		A98D50EE28640AB900B326AC /* ShoppingListCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */; };
 		A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50EF28643F6000B326AC /* GlobalVariable.swift */; };
+		A9ED9568286843B300FBF68A /* LoadingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED9567286843B300FBF68A /* LoadingExtension.swift */; };
+		A9ED956A286849BB00FBF68A /* ExpiredRefirgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED9569286849BB00FBF68A /* ExpiredRefirgeViewController.swift */; };
+		A9ED956C286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED956B286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift */; };
+		A9ED956E28684A0300FBF68A /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED956D28684A0300FBF68A /* WishListViewController.swift */; };
+		A9ED957028684A1D00FBF68A /* InshoppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED956F28684A1D00FBF68A /* InshoppingViewController.swift */; };
+		A9ED957228684A4A00FBF68A /* PersonalLikeREcipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED957128684A4A00FBF68A /* PersonalLikeREcipeViewController.swift */; };
 		EDE22383516BBDB6FD3B700C /* Pods_Foodyflow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +109,12 @@
 		A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListManager.swift; sourceTree = "<group>"; };
 		A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCollectionReusableView.swift; sourceTree = "<group>"; };
 		A98D50EF28643F6000B326AC /* GlobalVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariable.swift; sourceTree = "<group>"; };
+		A9ED9567286843B300FBF68A /* LoadingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingExtension.swift; sourceTree = "<group>"; };
+		A9ED9569286849BB00FBF68A /* ExpiredRefirgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredRefirgeViewController.swift; sourceTree = "<group>"; };
+		A9ED956B286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithinThreeDaysRefirgeViewController.swift; sourceTree = "<group>"; };
+		A9ED956D28684A0300FBF68A /* WishListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
+		A9ED956F28684A1D00FBF68A /* InshoppingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InshoppingViewController.swift; sourceTree = "<group>"; };
+		A9ED957128684A4A00FBF68A /* PersonalLikeREcipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalLikeREcipeViewController.swift; sourceTree = "<group>"; };
 		C26E8DACC2F7432C24AA3475 /* Pods-Foodyflow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodyflow.debug.xcconfig"; path = "Target Support Files/Pods-Foodyflow/Pods-Foodyflow.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -238,6 +250,7 @@
 		A948AA93285B0B7400355C59 /* Foodyflow */ = {
 			isa = PBXGroup;
 			children = (
+				A9ED95662868438900FBF68A /* Protocol */,
 				A944E694285E0ED10068D7DD /* Helper */,
 				A92F6BB8285C4DFB0090EE90 /* Manager */,
 				A948AAAE285B2CE500355C59 /* Extension */,
@@ -316,6 +329,7 @@
 			isa = PBXGroup;
 			children = (
 				A96EA161285FBAA700941433 /* RecipeViewController.swift */,
+				A9ED957128684A4A00FBF68A /* PersonalLikeREcipeViewController.swift */,
 			);
 			path = Recipe;
 			sourceTree = "<group>";
@@ -326,6 +340,8 @@
 				A96EA15D285FB99100941433 /* ShoppingListViewController.swift */,
 				A96DA977286012CC008993BB /* ShoppingListProductDetailViewController.swift */,
 				A96DA978286012CC008993BB /* ShoppingListProductDetailViewController.xib */,
+				A9ED956D28684A0300FBF68A /* WishListViewController.swift */,
+				A9ED956F28684A1D00FBF68A /* InshoppingViewController.swift */,
 			);
 			path = ShoppingList;
 			sourceTree = "<group>";
@@ -336,6 +352,8 @@
 				A948AAAF285B309E00355C59 /* RefrigeProductDetailViewController.swift */,
 				A948AAB0285B309E00355C59 /* ShoppingProductDetailViewController.xib */,
 				A948AA98285B0B7400355C59 /* RefrigeViewController.swift */,
+				A9ED9569286849BB00FBF68A /* ExpiredRefirgeViewController.swift */,
+				A9ED956B286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift */,
 			);
 			path = Refrige;
 			sourceTree = "<group>";
@@ -363,6 +381,14 @@
 				A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */,
 			);
 			path = ShoppingList;
+			sourceTree = "<group>";
+		};
+		A9ED95662868438900FBF68A /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				A9ED9567286843B300FBF68A /* LoadingExtension.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		D34D5DAADC47A17E2531A2E3 /* Frameworks */ = {
@@ -517,8 +543,10 @@
 				A92F6BB1285C34530090EE90 /* ShoppingList.swift in Sources */,
 				A95B6CAE286165CC003153B0 /* PersonalTableViewCell.swift in Sources */,
 				A96EA15E285FB99100941433 /* ShoppingListViewController.swift in Sources */,
+				A9ED956A286849BB00FBF68A /* ExpiredRefirgeViewController.swift in Sources */,
 				A944E69D285F0A100068D7DD /* Refrige.swift in Sources */,
 				A98D50EE28640AB900B326AC /* ShoppingListCollectionReusableView.swift in Sources */,
+				A9ED957228684A4A00FBF68A /* PersonalLikeREcipeViewController.swift in Sources */,
 				A944E693285DE3B70068D7DD /* UserManager.swift in Sources */,
 				A96DA97F2860365A008993BB /* CategoryManager.swift in Sources */,
 				A944E68F285DE1210068D7DD /* RefrigeManeger.swift in Sources */,
@@ -537,16 +565,20 @@
 				A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */,
 				A944E698285EAB1F0068D7DD /* Food.swift in Sources */,
 				A948AAB1285B309E00355C59 /* RefrigeProductDetailViewController.swift in Sources */,
+				A9ED9568286843B300FBF68A /* LoadingExtension.swift in Sources */,
 				A96DA979286012CC008993BB /* ShoppingListProductDetailViewController.swift in Sources */,
 				A948AAB6285B3B4400355C59 /* UIConstraint+Extension.swift in Sources */,
+				A9ED956C286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift in Sources */,
 				A98D50EC2863F8BA00B326AC /* ShoppingListManager.swift in Sources */,
 				A944E69B285EB78F0068D7DD /* RecipeManager.swift in Sources */,
+				A9ED957028684A1D00FBF68A /* InshoppingViewController.swift in Sources */,
 				A92F6BC0285C79CF0090EE90 /* ContainerView.swift in Sources */,
 				A948AAC2285B3D3400355C59 /* UICollectionVIew+Extension.swift in Sources */,
 				A92F6BCB285C94270090EE90 /* InCatCollectionViewCell.swift in Sources */,
 				A96DA97C286035C9008993BB /* Category.swift in Sources */,
 				A92F6BC7285C927B0090EE90 /* RefrigeCatTableViewCell.swift in Sources */,
 				A96EA158285F50D900941433 /* ImageHelper.swift in Sources */,
+				A9ED956E28684A0300FBF68A /* WishListViewController.swift in Sources */,
 				A96EA162285FBAA700941433 /* RecipeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

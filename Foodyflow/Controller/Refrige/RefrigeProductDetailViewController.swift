@@ -205,3 +205,6 @@ extension RefrigeProductDetailViewController: UIImagePickerControllerDelegate, U
         }
     }
 }
+
+
+

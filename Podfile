@@ -9,6 +9,8 @@ target 'Foodyflow' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
   pod 'FirebaseStorage'
+  pod 'BTNavigationDropdownMenu'
+  pod 'LZViewPager', '~> 1.2.5'
 
   pod 'MJRefresh'
   pod 'IQKeyboardManagerSwift'

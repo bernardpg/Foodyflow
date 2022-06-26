@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gfe-fe-Dn1">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -241,15 +242,65 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GkP-6i-0Hz">
+                                <rect key="frame" x="0.0" y="90" width="414" height="31"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kD0-g4-9P1">
+                                        <rect key="frame" x="0.0" y="0.0" width="138" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="全部食材"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLh-RP-3T3">
+                                        <rect key="frame" x="138" y="0.0" width="138" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="三日內過期"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5vD-9m-0WH">
+                                        <rect key="frame" x="276" y="0.0" width="138" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="已過期"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ogH-e5-580">
+                                <rect key="frame" x="0.0" y="123" width="414" height="2"/>
+                                <color key="backgroundColor" systemColor="systemCyanColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="MpX-6A-VeU"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Et3-5m-7tq">
+                                <rect key="frame" x="0.0" y="127" width="414" height="2"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="msH-F0-oHC"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="z66-ce-0UE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Et3-5m-7tq" firstAttribute="leading" secondItem="z66-ce-0UE" secondAttribute="leading" id="0Dp-Np-ZnY"/>
+                            <constraint firstItem="GkP-6i-0Hz" firstAttribute="top" secondItem="z66-ce-0UE" secondAttribute="top" constant="2" id="53c-3g-kf2"/>
+                            <constraint firstItem="Et3-5m-7tq" firstAttribute="top" secondItem="ogH-e5-580" secondAttribute="bottom" constant="2" id="B1m-UA-hc7"/>
+                            <constraint firstItem="z66-ce-0UE" firstAttribute="trailing" secondItem="Et3-5m-7tq" secondAttribute="trailing" id="INw-fA-u1G"/>
+                            <constraint firstItem="z66-ce-0UE" firstAttribute="trailing" secondItem="ogH-e5-580" secondAttribute="trailing" id="Kr6-rI-6sn"/>
+                            <constraint firstItem="z66-ce-0UE" firstAttribute="trailing" secondItem="GkP-6i-0Hz" secondAttribute="trailing" id="Kt3-u9-N7W"/>
+                            <constraint firstItem="GkP-6i-0Hz" firstAttribute="leading" secondItem="z66-ce-0UE" secondAttribute="leading" id="Q4N-0e-Zcr"/>
+                            <constraint firstItem="ogH-e5-580" firstAttribute="leading" secondItem="z66-ce-0UE" secondAttribute="leading" id="bNM-7H-jj5"/>
+                            <constraint firstItem="ogH-e5-580" firstAttribute="top" secondItem="GkP-6i-0Hz" secondAttribute="bottom" constant="2" id="bUA-s2-vYE"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="SvP-g1-7v5"/>
+                    <navigationItem key="navigationItem" id="SvP-g1-7v5">
+                        <nil key="title"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="indicatorVIew" destination="Et3-5m-7tq" id="z8h-cP-w58"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uz2-k6-flq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2786" y="-976"/>
+            <point key="canvasLocation" x="2785.507246376812" y="-976.33928571428567"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="0TT-Iu-DY9">
@@ -429,6 +480,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemCyanColor">
+            <color red="0.19607843137254902" green="0.67843137254901964" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
