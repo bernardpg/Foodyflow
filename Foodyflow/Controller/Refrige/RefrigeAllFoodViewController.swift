@@ -278,6 +278,8 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
             for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
+//        cell.lkCornerRadius = cell.frame.width/2
+//        cell.backgroundColor = .systemPink
         // need to change for dictionary to solve
         
         switch indexPath.row {

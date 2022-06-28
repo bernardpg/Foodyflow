@@ -298,7 +298,6 @@ extension WishListViewController: UICollectionViewDataSource,
         return cate.count // 食物種類
         }
     
-        
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -334,6 +333,8 @@ extension WishListViewController: UICollectionViewDataSource,
             withReuseIdentifier: "shoppingListCollectionViewCell",
                 for: indexPath) as? ShoppingListCollectionViewCell
         guard let cell = cell else { return UICollectionViewCell() }
+        cell.layer.backgroundColor = UIColor(red: 1, green: 0.964, blue: 0.929, alpha: 1).cgColor
+        cell.layer.cornerRadius = 20
         switch indexPath.section {
         case 0:
             cell.shoppingName.text = meatsInfo[indexPath.item].foodName
