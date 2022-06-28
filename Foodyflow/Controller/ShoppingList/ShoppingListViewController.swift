@@ -107,18 +107,13 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     func viewPagerProperties() {
         view.addSubview(viewPager)
         
-        viewPager.translatesAutoresizingMaskIntoConstraints = false
-        viewPager.leadingAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-            constant: 0).isActive = true
-        viewPager.trailingAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-            constant: 0).isActive = true
-        viewPager.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        viewPager.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-            constant: 0).isActive = true
-        
+        viewPager.snp.makeConstraints { make in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.top.equalTo(view)
+            make.bottom.equalTo(view)
+        }
+
         viewPager.delegate = self
         viewPager.dataSource = self
         viewPager.hostController = self
