@@ -141,26 +141,17 @@ class InshoppingViewController: UIViewController {
                 for cate in cates {
                     if foodInfo.foodCategory! == cate! && cate! == "肉類"
                     { self.meatsInfo.append(foodInfo) }
-                     else if foodInfo.foodCategory! == cate! && cate! == "豆類"
-                    {self.beansInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "雞蛋類"
-                    {self.eggsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "青菜類"
-                    {self.vegsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "醃製類"
-                    { self.picklesInfo.append(foodInfo) }
-                    else if foodInfo.foodCategory! == cate! && cate! == "水果類"
-                    {self.fruitsInfo.append(foodInfo)}
+                     else if foodInfo.foodCategory! == cate! && cate! == "豆類" { self.beansInfo.append(foodInfo) }
+                    else if foodInfo.foodCategory! == cate! && cate! == "雞蛋類" { self.eggsInfo.append(foodInfo) }
+                    else if foodInfo.foodCategory! == cate! && cate! == "青菜類" { self.vegsInfo.append(foodInfo) }
+                    else if foodInfo.foodCategory! == cate! && cate! == "醃製類" { self.picklesInfo.append(foodInfo) }
+                    else if foodInfo.foodCategory! == cate! && cate! == "水果類" { self.fruitsInfo.append(foodInfo) }
                     else if foodInfo.foodCategory! == cate! && cate! == "魚類"
-                    {self.fishesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "海鮮類"
-                    {self.seafoodsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "飲料類"
-                    {self.beveragesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "調味料類"
-                    {self.seasonsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "其他"
-                    {self.othersInfo.append(foodInfo)}
+                    { self.fishesInfo.append(foodInfo) }
+                    else if foodInfo.foodCategory! == cate! && cate! == "海鮮類" { self.seafoodsInfo.append(foodInfo) }
+                    else if foodInfo.foodCategory! == cate! && cate! == "飲料類" { self.beveragesInfo.append(foodInfo) }
+                    else if foodInfo.foodCategory! == cate! && cate! == "調味料類" { self.seasonsInfo.append(foodInfo) }
+                    else if foodInfo.foodCategory! == cate! && cate! == "其他" { self.othersInfo.append(foodInfo) }
                 }
             }
 
@@ -205,13 +196,14 @@ class InshoppingViewController: UIViewController {
     }
     
 //    shoppingListNowID
-    func fetAllFood(foodID: [String?],completion: @escaping([FoodInfo]) -> Void) {
+    func fetAllFood(foodID: [String?], completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []
         foodManager.fetchSpecifyFoodInShopping(foods: foodID, completion: { result in
             switch result {
             case .success(let foodsinfo):
                 self.foodsInfo.append(foodsinfo)
-                if self.foodsInfo.count == self.foodsInShoppingList.count {completion(self.foodsInfo)}
+                if self.foodsInfo.count == self.foodsInShoppingList.count
+                { completion(self.foodsInfo) }
             else {print("append not finish yet ")}
 
             case .failure:
@@ -236,8 +228,7 @@ class InshoppingViewController: UIViewController {
                         switch result {
                         case .success(let refrigeInfo):
                             refrigeNow = refrigeInfo
-                            
-
+        
                             // 抓 fetch shoppingList foodInfo
                             // remove foodID
                             // d
@@ -264,12 +255,11 @@ class InshoppingViewController: UIViewController {
             
             var newshoppingList: ShoppingList = ShoppingList(
                 foodID: [""])
-//                                var newshoppingList = foodsInfos.filter { $0 != foodId }
             newshoppingList.foodID = foodsInfos.filter { $0 != foodId }
             self.shoppingLists = newshoppingList.foodID
 
             ShoppingListManager.shared.postFoodOnShoppingList(shoppingList: &newshoppingList) { result in
-                switch result{
+                switch result {
                 case .success:
                     self.fetAllFood(foodID: self.shoppingLists) { allfoodInfo in
                         self.resetRefrigeFood()
@@ -303,8 +293,8 @@ extension InshoppingViewController: UICollectionViewDataSource,
         return cate.count // 食物種類
         }
     
-        
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
             return meatsInfo.count
@@ -334,7 +324,8 @@ extension InshoppingViewController: UICollectionViewDataSource,
         
     }
         
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "shoppingListCollectionViewCell",
                 for: indexPath) as? ShoppingListCollectionViewCell
@@ -380,7 +371,9 @@ extension InshoppingViewController: UICollectionViewDataSource,
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
 
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView (
             ofKind: kind,
@@ -405,8 +398,9 @@ extension InshoppingViewController: UICollectionViewDataSource,
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath)
+    {
         switch indexPath.section {
         case 0:
             finishShoppingToRefrige(foodId: meatsInfo[indexPath.item].foodId ?? "2") {
@@ -432,6 +426,9 @@ extension InshoppingViewController: UICollectionViewDataSource,
             }
         case 5:
             finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
+                self.deleteFoodOnShoppingList(foodId: self.fruitsInfo[indexPath.item].foodId ?? "2", complection: {
+                    print("success reload")
+                })
                 print("success to reFirge ")
             }
             deleteFoodOnShoppingList(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {

@@ -25,7 +25,6 @@ class InCatCollectionViewCell: UICollectionViewCell {
     
     public func configute(with model: FoodInfo) {
         self.myLabel.text = model.foodName
-//        self.myLabel.text = model.text
     }
 
 }

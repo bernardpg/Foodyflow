@@ -8,7 +8,9 @@
 import UIKit
 
 class PersonalLikeREcipeViewController: UIViewController {
-
+    
+    @IBOutlet weak var personalLikeTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

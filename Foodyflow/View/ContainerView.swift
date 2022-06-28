@@ -58,15 +58,14 @@ class ContainerView: UIView {
     
     weak var delegate: SelectionViewDelegate?
     
-    weak var datasource: SelectionViewDataSource?
-     {
+    weak var datasource: SelectionViewDataSource?{
         didSet {
-            setUI()
+            setUIProperty()
         }
     }
     
     var indicatorCenterXConstraint = NSLayoutConstraint()
-    var myButtonColor = [UIColor.yellow,UIColor.blue]
+    var myButtonColor = [UIColor.yellow, UIColor.blue]
     let buttonStack = UIStackView()
     var myButtonArray = [UIButton]()
     let anamationView = UIView()
@@ -74,7 +73,7 @@ class ContainerView: UIView {
     
     // MARK: - SetUI()
     
-    func setUI() {
+    func setUIProperty() {
         
         let totalNumber = datasource?.totalButtomNumber(self)
         guard let totalNumber = totalNumber else { return }

@@ -23,7 +23,6 @@ class RefrigeCatTableViewCell: UITableViewCell {
     
     var foodsInfo: [FoodInfo] = []
     
-//    var models: [Model] = []
     var index: Int?
     var didSelectClosure: DidSelectClosure?
 
@@ -58,7 +57,6 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InCatCollectionViewCell.identifier,
         for: indexPath) as? InCatCollectionViewCell
     guard let cell = cell else { return UICollectionViewCell() }
-    cell.backgroundColor = .systemPink
 //    cell.myLabel.text = models[0].foodID[indexPath.row]
     cell.configute(with: foodsInfo[indexPath.row])
     return cell

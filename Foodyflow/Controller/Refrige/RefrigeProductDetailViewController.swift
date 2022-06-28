@@ -45,8 +45,6 @@ class RefrigeProductDetailViewController: UIViewController {
     var foodItemName: String?
     var foodCateType = ["肉類", "海鮮", "蛋類", "菜類", "其他"]
     
-    
-    
     var foodInfo: FoodInfo = FoodInfo(
         foodId: "",
         foodName: "",

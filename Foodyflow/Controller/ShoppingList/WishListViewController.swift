@@ -69,9 +69,9 @@ class WishListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let semaphore = DispatchSemaphore(value: 0)
+//        let semaphore = DispatchSemaphore(value: 0)
         
-        DispatchQueue.global().async {
+//        DispatchQueue.global().async {
             self.fetchAllCate { [weak self] cate in
                 self?.cate = cate
             }
@@ -90,15 +90,15 @@ class WishListViewController: UIViewController {
                             // lottie 消失
                             
                             self?.wishList.reloadData()
-                            semaphore.signal()
+  //                          semaphore.signal()
                         }
                     })
                 }
             }
             
-            semaphore.wait()
+  //          semaphore.wait()
             
-        }
+//        }
     }
     
     func setUI() {
@@ -106,9 +106,11 @@ class WishListViewController: UIViewController {
         tapButton.translatesAutoresizingMaskIntoConstraints = false
         tapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-        tapButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.backgroundColor = .black
+        tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        tapButton.layer.backgroundColor = UIColor.hexStringToUIColor(hex:  "F4943A").cgColor
+        tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        tapButton.imageView?.tintColor = .white
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     @objc func addNewFood() {
@@ -140,28 +142,29 @@ class WishListViewController: UIViewController {
         
         for foodInfo in allFood {
                 for cate in cates {
-                    if foodInfo.foodCategory! == cate! && cate! == "肉類"
+                    guard let foodCategory = foodInfo.foodCategory else { return }
+                    if foodCategory == cate! && cate! == "肉類"
                     { self.meatsInfo.append(foodInfo) }
-                     else if foodInfo.foodCategory! == cate! && cate! == "豆類"
-                    {self.beansInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "雞蛋類"
-                    {self.eggsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "青菜類"
-                    {self.vegsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "醃製類"
+                     else if foodCategory == cate! && cate! == "豆類"
+                    { self.beansInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "雞蛋類"
+                    { self.eggsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "青菜類"
+                    { self.vegsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "醃製類"
                     { self.picklesInfo.append(foodInfo) }
-                    else if foodInfo.foodCategory! == cate! && cate! == "水果類"
-                    {self.fruitsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "魚類"
-                    {self.fishesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "海鮮類"
-                    {self.seafoodsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "飲料類"
-                    {self.beveragesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "調味料類"
-                    {self.seasonsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "其他"
-                    {self.othersInfo.append(foodInfo)}
+                    else if foodCategory == cate! && cate! == "水果類"
+                    { self.fruitsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "魚類"
+                    { self.fishesInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "海鮮類"
+                    { self.seafoodsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "飲料類"
+                    { self.beveragesInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "調味料類"
+                    { self.seasonsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "其他"
+                    { self.othersInfo.append(foodInfo) }
                 }
             }
 
@@ -232,45 +235,36 @@ class WishListViewController: UIViewController {
             case .success:
                 // change food status
                 self.foodManager.changeFoodStatus(foodId: foodId, foodStatus: 3) {
-//                    self.onPublished?()
-                    RefrigeManager.shared.fetchSingleRefrigeInfo(refrige: refrigeNow!) { result in
-                        switch result {
-                        case .success(let refrigeInfo):
-                            refrigeNow = refrigeInfo
-                            
-
-                            // 抓 fetch shoppingList foodInfo
-                            // remove foodID
-                            // d
-
-                        case .failure:
-                            print("cannot fetch cate data")
+                    self.deleteFoodOnShoppingList(foodId: foodId) {
+                        print("delete okay")
+                    }
+                    // 抓 fetch shoppingList foodInfo
+                    // remove foodID
+                                // d
+                    
+                }
+            case .failure:
+                print("cannot fetch cate data")
                         }
                     }
                 }
-            case .failure(let error):
-                
-                print("publishArticle.failure: \(error)")
-            }
-        }
-    }
     
     func deleteFoodOnShoppingList(foodId: String, complection: @escaping() -> Void) {
         
-        let semaphore = DispatchSemaphore(value: 0)
+//        let semaphore = DispatchSemaphore(value: 0)
         
-        DispatchQueue.global().async {
+//        DispatchQueue.global().async {
         
         self.fetchAllFoodInfoInSingleShopList { foodsInfos in
             
             var newshoppingList: ShoppingList = ShoppingList(
                 foodID: [""])
-//                                var newshoppingList = foodsInfos.filter { $0 != foodId }
+            
             newshoppingList.foodID = foodsInfos.filter { $0 != foodId }
             self.shoppingLists = newshoppingList.foodID
 
             ShoppingListManager.shared.postFoodOnShoppingList(shoppingList: &newshoppingList) { result in
-                switch result{
+                switch result {
                 case .success:
                     self.fetAllFood(foodID: self.shoppingLists) { allfoodInfo in
                         self.resetRefrigeFood()
@@ -279,7 +273,7 @@ class WishListViewController: UIViewController {
                         DispatchQueue.main.async {
                             // lottie 消失
                             self.wishList.reloadData()
-                            semaphore.signal()
+  //                          semaphore.signal()
                         }
                             
                         }
@@ -290,9 +284,9 @@ class WishListViewController: UIViewController {
             }
             
         }
-            semaphore.wait()
+ //           semaphore.wait()
         }
-    }
+ //   }
 
 }
 
@@ -435,9 +429,9 @@ extension WishListViewController: UICollectionViewDataSource,
             finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
                 print("success to reFirge ")
             }
-            deleteFoodOnShoppingList(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
-                print("success to delete " )
-            }
+//            deleteFoodOnShoppingList(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
+//                print("success to delete " )
+//            }
         case 6:
             finishShoppingToRefrige(foodId: fishesInfo[indexPath.item].foodId ?? "2") {
                 print("success to reFirge ")

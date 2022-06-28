@@ -17,7 +17,6 @@ enum MasterError: Error {
     case youKnowNothingError(String)
 }
 
-
 class RefrigeManager {
     
     static let shared = RefrigeManager()
@@ -34,7 +33,6 @@ class RefrigeManager {
                     
                     var articles = [Refrige]()
  
-                    
                     for document in querySnapshot!.documents {
 
                         do {
@@ -68,7 +66,6 @@ class RefrigeManager {
             }
         }
     }
-    
     
     // delete / add within this function 
     func publishFoodOnRefrige(refrige: Refrige, completion: @escaping (Result<String, Error>) -> Void) {

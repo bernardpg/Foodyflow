@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class PersonalViewController: UIViewController {
 
@@ -22,7 +23,7 @@ class PersonalViewController: UIViewController {
     
     private let notificationSwitch = UISwitch()
     
-    var onPublished: (()->(Void))?
+    var onPublished: (() -> (Void))?
     
     var refrige = Refrige.init(id: "", title: "robust", foodID: [], createdTime: 0, category: "", shoppingList: [])
     
@@ -30,7 +31,8 @@ class PersonalViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        addRefrigeButton.titleLabel?.text = ""
+        personalSettingButton.titleLabel?.text = ""
         addRefrigeButton.addTarget(self, action: #selector(addRefri), for: .touchUpInside)
         
         personalSettingButton.addTarget(self, action: #selector(personalSetting), for: .touchUpInside)
@@ -94,7 +96,9 @@ class PersonalViewController: UIViewController {
     
     private func setUI() {
         
-        personalTableView.register(UINib(nibName: "PersonalTableViewCell", bundle: nil), forCellReuseIdentifier: "PersonalTableViewCell")
+        personalTableView.register(
+            UINib(nibName: "PersonalTableViewCell", bundle: nil),
+            forCellReuseIdentifier: "PersonalTableViewCell")
         personalTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(personalTableView)
         personalTableView.topAnchor.constraint(equalTo: personalName.bottomAnchor, constant: 30).isActive = true
@@ -103,7 +107,6 @@ class PersonalViewController: UIViewController {
         personalTableView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: -40).isActive = true
-//        personalTableView.heightAnchor.constraint(equalToConstant: 400).isActive = true
         personalTableView.backgroundColor = .lightGray
         
         notificationLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -128,16 +131,16 @@ class PersonalViewController: UIViewController {
     }
     
     @objc func settingNotification() {
-        //unfinish
+        // unfinish
         print("dd")
     }
     
     func fetchAllRefrige() {
         RefrigeManager.shared.fetchArticles { [weak self] result in
-            switch result{
+            switch result {
             case .success(let refrigeAmount):
                 self?.refrigeAmount = refrigeAmount
-                DispatchQueue.main.async{
+                DispatchQueue.main.async {
                     self?.personalTableView.reloadData()
                 }
             case .failure:
@@ -148,7 +151,7 @@ class PersonalViewController: UIViewController {
     
     func deleteRefrige(needtoRemove: String, completion: @escaping () -> Void ) {
         RefrigeManager.shared.removeFrige(refrigeID: needtoRemove) { result in
-            switch result{
+            switch result {
             case.success:
                 self.fetchAllRefrige()
             case.failure:

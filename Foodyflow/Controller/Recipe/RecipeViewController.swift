@@ -12,17 +12,9 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
     
     private var recipeView = UIView()
     private var collectionRecipeView = UIView()
-
-    @IBOutlet weak var indicatorView: UIView!
-    
-    @IBOutlet weak var buttomLineView: UIView!
     
     private var viewPager =  LZViewPager()
-    
-    private lazy var recipeVC = AllRecipeViewController()
-    
-    private lazy var personalRecipeVC = PersonalLikeREcipeViewController()
-    
+        
     private lazy var containerView: [UIViewController] = []
     
     override func viewDidLoad() {
@@ -61,21 +53,21 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
         viewPager.dataSource = self
         viewPager.hostController = self
         
-
+        let allRecipeVC = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "allRecipeViewController")
+        as? AllRecipeViewController
         
-//        let wishListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
-                
-//        let inshoppingListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "inshoppingListVC") as? InshoppingViewController
+        let personalLikeVC = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "personalLikeREcipeViewController")
+        as? PersonalLikeREcipeViewController
         
- //       guard let wishListVC = wishListVC else { return }
- //       guard let inshoppingListVC = inshoppingListVC else { return }
+        guard let allRecipeVC = allRecipeVC else { return }
+        guard let personalLikeVC = personalLikeVC else { return }
         
+        allRecipeVC.title = "Recipe"
+        personalLikeVC.title = "PresonalRecipe"
         
-
-        recipeVC.title = "Recipe"
-        personalRecipeVC.title = "PresonalRecipe"
-        
-        containerView = [recipeVC,personalRecipeVC]
+        containerView = [allRecipeVC,personalLikeVC]
         viewPager.reload()
     }
     
@@ -94,13 +86,12 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
         button.backgroundColor = .black
         return button
     }
-
     
     func setUI() {
         recipeView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(recipeView)
 //        recipeView.backgroundColor = .black
-        recipeView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 0).isActive = true
+        recipeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         recipeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
         recipeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         recipeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
@@ -108,7 +99,7 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
         collectionRecipeView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionRecipeView)
         collectionRecipeView.backgroundColor = UIColor.B2
-        collectionRecipeView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 0).isActive = true
+        collectionRecipeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         collectionRecipeView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: 0).isActive = true

@@ -133,7 +133,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         wishListVC.title = "WishList"
         inshoppingListVC.title = "InshopplingList"
         
-        containerView = [wishListVC,inshoppingListVC]
+        containerView = [wishListVC, inshoppingListVC]
         viewPager.reload()
     }
     
@@ -161,13 +161,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0/255.0, green:180/255.0, blue:220/255.0, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
-        // "Old" version
-        // menuView = BTNavigationDropdownMenu(navigationController: self.navigationController, containerView: self.navigationController!.view, title: "Dropdown Menu", items: items)
-
         menuView = BTNavigationDropdownMenu(navigationController: self.navigationController, containerView: self.navigationController!.view, title: BTTitle.index(2), items: items)
-
-        // Another way to initialize:
-        // menuView = BTNavigationDropdownMenu(navigationController: self.navigationController, containerView: self.navigationController!.view, title: BTTitle.title("Dropdown Menu"), items: items)
 
         menuView.cellHeight = 50
         menuView.cellBackgroundColor = self.navigationController?.navigationBar.barTintColor
@@ -182,7 +176,6 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         menuView.maskBackgroundOpacity = 0.3
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")
-     //       self.selectedCellLabel.text = items[indexPath]
         }
         
         self.navigationItem.titleView = menuView
@@ -206,28 +199,21 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         
         for foodInfo in allFood {
                 for cate in cates {
-                    if foodInfo.foodCategory! == cate! && cate! == "肉類"
-                    { self.meatsInfo.append(foodInfo) }
-                     else if foodInfo.foodCategory! == cate! && cate! == "豆類"
-                    {self.beansInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "雞蛋類"
-                    {self.eggsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "青菜類"
-                    {self.vegsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "醃製類"
-                    { self.picklesInfo.append(foodInfo) }
-                    else if foodInfo.foodCategory! == cate! && cate! == "水果類"
-                    {self.fruitsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "魚類"
-                    {self.fishesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "海鮮類"
-                    {self.seafoodsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "飲料類"
-                    {self.beveragesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "調味料類"
-                    {self.seasonsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "其他"
-                    {self.othersInfo.append(foodInfo)}
+                    guard let foodCategory = foodInfo.foodCategory else { return }
+                    if foodCategory == cate! && cate! == "肉類" {
+                        self.meatsInfo.append(foodInfo) }
+                     else if foodCategory == cate! && cate! == "豆類" {
+                         self.beansInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "雞蛋類" { self.eggsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "青菜類" { self.vegsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "醃製類" { self.picklesInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "水果類" { self.fruitsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "魚類" { self.fishesInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "海鮮類" { self.seafoodsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "飲料類" { self.beveragesInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "調味料類"
+                    { self.seasonsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "其他" { self.othersInfo.append(foodInfo) }
                 }
             }
 
@@ -303,8 +289,6 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                         switch result {
                         case .success(let refrigeInfo):
                             refrigeNow = refrigeInfo
-                            
-
                             // 抓 fetch shoppingList foodInfo
                             // remove foodID
                             // d

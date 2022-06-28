@@ -29,7 +29,7 @@ struct ShoppingList: Codable {
         return [
 //            "id": id as Any,
 //            "title": title as Any,
-            "foodID": foodID as Any,
+            "foodID": foodID as Any
 //            "createdTime": createdTime as Any,
 //            "tag": category as Any
  //           "author": author?.toDict

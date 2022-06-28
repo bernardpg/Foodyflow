@@ -52,6 +52,8 @@ class RefrigeAllFoodViewController: UIViewController {
     
     var foodDetail: ((String) -> Void)?  // callback
     
+    var didSelectDifferentRef: Int? {didSet{reloadRefrige()}}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,36 +125,28 @@ class RefrigeAllFoodViewController: UIViewController {
     }
     
     func cateFilter(allFood: [FoodInfo], cates: [String?]) {
-        
         for foodInfo in allFood {
                 for cate in cates {
-                    if foodInfo.foodCategory! == cate! && cate! == "肉類"
-                    { self.meatsInfo.append(foodInfo) }
-                     else if foodInfo.foodCategory! == cate! && cate! == "豆類"
-                    {self.beansInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "雞蛋類"
-                    {self.eggsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "青菜類"
-                    {self.vegsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "醃製類"
-                    { self.picklesInfo.append(foodInfo) }
-                    else if foodInfo.foodCategory! == cate! && cate! == "水果類"
-                    {self.fruitsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "魚類"
-                    {self.fishesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "海鮮類"
-                    {self.seafoodsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "飲料類"
-                    {self.beveragesInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "調味料類"
+                    guard let foodCategory = foodInfo.foodCategory
+                    else { return }
+                    if foodCategory == cate! && cate! == "肉類" { self.meatsInfo.append(foodInfo) }
+                     else if foodCategory == cate! && cate! == "豆類" { self.beansInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "雞蛋類" { self.eggsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "青菜類" { self.vegsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "醃製類" { self.picklesInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "水果類" { self.fruitsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "魚類" { self.fishesInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "海鮮類" { self.seafoodsInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "飲料類" { self.beveragesInfo.append(foodInfo) }
+                    else if foodCategory == cate! && cate! == "調味料類"
                     {self.seasonsInfo.append(foodInfo)}
-                    else if foodInfo.foodCategory! == cate! && cate! == "其他"
+                    else if foodCategory == cate! && cate! == "其他"
                     {self.othersInfo.append(foodInfo)}
                 }
             }
 
     }
-    
+
     func setUI() {
         view.addSubview(refrigeTableView)
         refrigeTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -171,10 +165,38 @@ class RefrigeAllFoodViewController: UIViewController {
         tapButton.translatesAutoresizingMaskIntoConstraints = false
         tapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-        tapButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.backgroundColor = .black
+        tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        tapButton.layer.backgroundColor = UIColor.hexStringToUIColor(hex:  "F4943A").cgColor
+        tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        tapButton.imageView?.tintColor = .white
+//        tapButton.imageView?.backgroundColor = .white
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
+    }
+    
+    func reloadRefrige() {
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        DispatchQueue.global().async {
+
+        self.resetRefrigeFood()
+        
+        self.fetAllFood(completion: { foodinfo21 in
+            
+            self.cateFilter(allFood: foodinfo21, cates: self.cate)
+            
+            DispatchQueue.main.async {
+                // lottie 消失
+                self.refrigeTableView.reloadData()
+                guard let didSelectDifferentRef = self.didSelectDifferentRef else { return }
+                refrigeNow = self.refrige[didSelectDifferentRef]
+                semaphore.signal()
+  
+            }
+            semaphore.wait()}
+        )
+        }
     }
     
     // change refrige
@@ -213,6 +235,7 @@ class RefrigeAllFoodViewController: UIViewController {
     }
     
     // change refrige need to reload
+    /*
     func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []
         FoodManager.shared.fetchSpecifyFood(refrige: self.refrige[0]) { [weak self] result in
@@ -226,6 +249,21 @@ class RefrigeAllFoodViewController: UIViewController {
             }
         }
     }
+     */
+    func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
+        self.foodsInfo = []
+        FoodManager.shared.fetchSpecifyFood(refrige: self.refrige[self.didSelectDifferentRef ?? 0]) { [weak self] result in
+            switch result {
+            case .success(let foodInfo):
+                if ((foodInfo.foodId?.isEmpty) != nil) {                self?.foodsInfo.append(foodInfo)
+                    if self?.foodsInfo.count == self?.refrige[self?.didSelectDifferentRef ?? 0].foodID.count {completion(self?.foodsInfo ?? [foodInfo])}
+                    else {print("append not finish yet ")}}
+                else {completion([foodInfo])}
+            case .failure:
+                print("fetch food error")
+            }
+        }
+    }
 }
 
 extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSource {
@@ -234,7 +272,8 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
         cate.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = refrigeTableView.dequeueReusableCell(withIdentifier: "refrigeCatTableViewCell",
             for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
@@ -279,9 +318,8 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        250.0
-    }
+    func tableView(_ tableView: UITableView,
+                   heightForRowAt indexPath: IndexPath) -> CGFloat { 250.0 }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

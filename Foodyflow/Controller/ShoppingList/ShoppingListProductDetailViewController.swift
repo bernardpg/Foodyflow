@@ -88,7 +88,7 @@ class ShoppingListProductDetailViewController: UIViewController {
         guard let foodId = foodId else { return }  // bugs
         shoppingList.foodID.append(foodId)
         ShoppingListManager.shared.postFoodOnShoppingList(shoppingList: &shoppingList) { result in
-            switch result{
+            switch result {
             case .success:
                 self.onPublished?()
             case .failure(let error):
