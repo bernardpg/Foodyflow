@@ -120,28 +120,32 @@ class PersonalViewController: UIViewController {
         view.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
         personalImage.image = UIImage(named: "girl")
         personalBackgroundView.backgroundColor = .white
-        personalChangeImageView.translatesAutoresizingMaskIntoConstraints = false
         personalBackgroundView.addSubview(personalChangeImageView)
         personalChangeImageView.backgroundColor = UIColor.hexStringToUIColor(hex: "FCE3CB")
-        personalChangeImageView.leadingAnchor.constraint(equalTo: personalBackgroundView.leadingAnchor, constant: 100).isActive = true
-        personalChangeImageView.topAnchor.constraint(equalTo: personalBackgroundView.topAnchor, constant: 98).isActive = true
-        personalChangeImageView.trailingAnchor.constraint(equalTo: personalBackgroundView.trailingAnchor, constant: -5).isActive = true
-        personalChangeImageView.bottomAnchor.constraint(equalTo: personalBackgroundView.bottomAnchor, constant: -8).isActive = true
-        personalChangeImageButton.translatesAutoresizingMaskIntoConstraints = false
+        personalChangeImageView.snp.makeConstraints { make in
+            make.leading.equalTo(personalBackgroundView).offset(100)
+            make.top.equalTo(personalBackgroundView).offset(98)
+            make.trailing.equalTo(personalBackgroundView).offset(-5)
+            make.bottom.equalTo(personalBackgroundView).offset(-8)
+        }
         
         personalChangeImageView.addSubview(personalChangeImageButton)
-        personalChangeImageButton.topAnchor.constraint(equalTo: personalChangeImageView.topAnchor, constant: 5).isActive = true
-        personalChangeImageButton.leadingAnchor.constraint(equalTo: personalChangeImageView.leadingAnchor, constant: 5).isActive = true
-        personalChangeImageButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        personalChangeImageButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        personalChangeImageButton.snp.makeConstraints { make in
+            make.leading.equalTo(personalChangeImageView).offset(5)
+            make.top.equalTo(personalChangeImageView).offset(5)
+            make.width.equalTo(24)
+            make.height.equalTo(24)
+        }
         personalChangeImageButton.setImage(UIImage(named: "photo"), for: .normal)
         
         view.addSubview(personalChangNameButton)
-        personalChangNameButton.translatesAutoresizingMaskIntoConstraints = false
-        personalChangNameButton.leadingAnchor.constraint(equalTo: personalName.trailingAnchor, constant: 5).isActive = true
-        personalChangNameButton.centerYAnchor.constraint(equalTo: personalName.centerYAnchor, constant: 0).isActive = true
-        personalChangNameButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        personalChangNameButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+
+        personalChangNameButton.snp.makeConstraints { make in
+            make.leading.equalTo(personalName.snp.trailing).offset(5)
+            make.centerY.equalTo(personalName.snp.centerY).offset(0)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+        }
         personalChangNameButton.setImage(UIImage(named: "pen"), for: .normal)
         
         personalTableView.register(
@@ -149,6 +153,7 @@ class PersonalViewController: UIViewController {
             forCellReuseIdentifier: "PersonalTableViewCell")
         personalTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(personalTableView)
+        
         personalTableView.topAnchor.constraint(equalTo: personalName.bottomAnchor, constant: 30).isActive = true
         personalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         personalTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
@@ -157,23 +162,21 @@ class PersonalViewController: UIViewController {
             constant: -40).isActive = true
         personalTableView.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
         
-        notificationLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(notificationLabel)
         
-        notificationLabel.topAnchor.constraint(
-            equalTo: personalTableView.bottomAnchor,
-            constant:  5).isActive = true
-        notificationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        notificationLabel.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-            constant: 0).isActive = true
+        notificationLabel.snp.makeConstraints { make in
+            make.top.equalTo(personalTableView.snp.bottom).offset(5)
+            make.leading.equalTo(view).offset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(0)
+        }
         notificationLabel.text = "開啟即將到期提醒通知"
-        notificationSwitch.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(notificationSwitch)
         
-        notificationSwitch.centerYAnchor.constraint(equalTo: notificationLabel.centerYAnchor).isActive = true
-        notificationSwitch.leadingAnchor.constraint(equalTo: notificationLabel.trailingAnchor, constant: 150).isActive = true
+        notificationSwitch.snp.makeConstraints { make in
+            make.centerY.equalTo(notificationLabel)
+            make.leading.equalTo(notificationLabel.snp.trailing).offset(150)
+        }
+        
         notificationSwitch.addTarget(self, action: #selector(settingNotification), for: .touchUpInside)
         
     }
