@@ -11,11 +11,12 @@ import AuthenticationServices
 import FirebaseAuth
 import CryptoKit
 
-
 class LoginViewController: UIViewController {
     
     private lazy var appleButton = UIButton()
     private lazy var googleButton = UIButton()
+    private lazy var userTry = UIButton()
+    private lazy var appOutsideIcon = UIView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,25 +26,50 @@ class LoginViewController: UIViewController {
     
     func setSignInWithAppleButton() {
         
-        
+        view.addSubview(appOutsideIcon)
+        appOutsideIcon.snp.makeConstraints { make in
+//            make.top.equalTo(view).offset(200)
+//            make.bottom.equalTo(googleButton.snp.top).offset(151)
+//            make.leading.equalTo(view).offset(109)
+            make.centerY.equalTo(view).offset(-200)
+            make.centerX.equalTo(view)
+//            make.trailing.equalTo(view).offset(90)
+            make.width.equalTo(300)
+            make.height.equalTo(300)
+            
+        }
+        appOutsideIcon.lkCornerRadius = 20
+        appOutsideIcon.backgroundColor = .systemPink
+                
         view.addSubview(googleButton)
         googleButton.lkCornerRadius = 20
         googleButton.snp.makeConstraints { make in
-            make.top.equalTo(view).offset(487)
-            make.left.equalTo(view).offset(72)
-            make.right.equalTo(view).offset(-71)
-            make.bottom.equalTo(view).offset(-196)
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).offset(100)
+            make.width.equalTo(271)
+            make.height.equalTo(53)
         }
+        googleButton.backgroundColor = .systemBlue
 
-        
         view.addSubview(appleButton)
         appleButton.lkCornerRadius = 20
         appleButton.snp.makeConstraints { make in
             make.top.equalTo(googleButton.snp.bottom).offset(17)
-            make.centerWithinMargins
+            make.centerX.equalTo(googleButton.snp.centerX)
+            make.width.equalTo(271)
+            make.height.equalTo(53)
         }
+        appleButton.backgroundColor = .systemPink
         
-        
+        view.addSubview(userTry)
+        userTry.snp.makeConstraints { make in
+            make.top.equalTo(appleButton.snp.bottom).offset(10)
+            make.centerX.equalTo(appleButton.snp.centerX)
+            make.width.equalTo(271)
+            make.height.equalTo(50)
+        }
+        userTry.setTitle("以訪客登入使用", for: .normal)
+        userTry.setTitleColor(UIColor.systemBlue, for: .normal)
         
     }
 
