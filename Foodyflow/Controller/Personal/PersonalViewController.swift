@@ -38,8 +38,6 @@ class PersonalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addRefrigeButton.titleLabel?.text = ""
-        addRefrigeButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        addRefrigeButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
         addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
 
         addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
@@ -55,11 +53,13 @@ class PersonalViewController: UIViewController {
         super.viewDidLayoutSubviews()
         addRefrigeButton.lkCornerRadius = addRefrigeButton.frame.height / 2
         addRefrigeButton.titleLabel?.text = ""
-        addRefrigeButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        addRefrigeButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        addRefrigeButton.snp.makeConstraints { make in
+            make.width.equalTo(45)
+            make.height.equalTo(45)
+        }
         addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
-//        addRefrigeButton.setImage(UIImage(systemName: "plus"), for: .normal)
         addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        
         personalBackgroundView.lkCornerRadius = personalBackgroundView.frame.height / 2
         personalChangeImageView.lkCornerRadius = personalChangeImageView.frame.height / 2
         personalChangeImageButton.lkCornerRadius = personalChangeImageButton.frame.height / 2
