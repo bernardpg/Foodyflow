@@ -20,6 +20,10 @@
 		A9335AD72869228E00AE551B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9335AD62869228E00AE551B /* GoogleService-Info.plist */; };
 		A9343B792868635C002E4907 /* RefrigeAllFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9343B782868635C002E4907 /* RefrigeAllFoodViewController.swift */; };
 		A9369E5028632C430063928E /* ShoppingListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9369E4F28632C430063928E /* ShoppingListCollectionViewCell.swift */; };
+		A93EF94E286AEE6400EDDA4B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93EF94C286AEE6400EDDA4B /* LoginViewController.swift */; };
+		A93EF94F286AEE6400EDDA4B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A93EF94D286AEE6400EDDA4B /* LoginViewController.xib */; };
+		A93EF952286AEEB600EDDA4B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93EF950286AEEB600EDDA4B /* OnboardingViewController.swift */; };
+		A93EF953286AEEB600EDDA4B /* OnboardingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A93EF951286AEEB600EDDA4B /* OnboardingViewController.xib */; };
 		A944E68F285DE1210068D7DD /* RefrigeManeger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A944E68E285DE1210068D7DD /* RefrigeManeger.swift */; };
 		A944E691285DE1300068D7DD /* FoodManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A944E690285DE1300068D7DD /* FoodManager.swift */; };
 		A944E693285DE3B70068D7DD /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A944E692285DE3B70068D7DD /* UserManager.swift */; };
@@ -67,6 +71,7 @@
 /* Begin PBXFileReference section */
 		1FA0E6F1BFFB230473E85551 /* Pods-Foodyflow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodyflow.release.xcconfig"; path = "Target Support Files/Pods-Foodyflow/Pods-Foodyflow.release.xcconfig"; sourceTree = "<group>"; };
 		A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodyflow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A91505DD286ADA60008DF98C /* Foodyflow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Foodyflow.entitlements; sourceTree = "<group>"; };
 		A92F6BB0285C34530090EE90 /* ShoppingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingList.swift; sourceTree = "<group>"; };
 		A92F6BB9285C54240090EE90 /* RefrigeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefrigeModel.swift; sourceTree = "<group>"; };
 		A92F6BBF285C79CF0090EE90 /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
@@ -80,6 +85,10 @@
 		A9335AD62869228E00AE551B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A9343B782868635C002E4907 /* RefrigeAllFoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefrigeAllFoodViewController.swift; sourceTree = "<group>"; };
 		A9369E4F28632C430063928E /* ShoppingListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCollectionViewCell.swift; sourceTree = "<group>"; };
+		A93EF94C286AEE6400EDDA4B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A93EF94D286AEE6400EDDA4B /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		A93EF950286AEEB600EDDA4B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		A93EF951286AEEB600EDDA4B /* OnboardingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OnboardingViewController.xib; sourceTree = "<group>"; };
 		A944E68E285DE1210068D7DD /* RefrigeManeger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefrigeManeger.swift; sourceTree = "<group>"; };
 		A944E690285DE1300068D7DD /* FoodManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodManager.swift; sourceTree = "<group>"; };
 		A944E692285DE3B70068D7DD /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -196,6 +205,17 @@
 			path = ShopplingList;
 			sourceTree = "<group>";
 		};
+		A93EF94B286AEBC400EDDA4B /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				A93EF94C286AEE6400EDDA4B /* LoginViewController.swift */,
+				A93EF94D286AEE6400EDDA4B /* LoginViewController.xib */,
+				A93EF950286AEEB600EDDA4B /* OnboardingViewController.swift */,
+				A93EF951286AEEB600EDDA4B /* OnboardingViewController.xib */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		A944E68B285DDFA60068D7DD /* Food */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +278,7 @@
 		A948AA93285B0B7400355C59 /* Foodyflow */ = {
 			isa = PBXGroup;
 			children = (
+				A91505DD286ADA60008DF98C /* Foodyflow.entitlements */,
 				A9ED95662868438900FBF68A /* Protocol */,
 				A944E694285E0ED10068D7DD /* Helper */,
 				A92F6BB8285C4DFB0090EE90 /* Manager */,
@@ -303,6 +324,7 @@
 		A948AAAD285B2CBF00355C59 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A93EF94B286AEBC400EDDA4B /* Login */,
 				A96EA15C285FB8BA00941433 /* Personal */,
 				A96EA15B285FB8B700941433 /* Refrige */,
 				A96EA15A285FB8B100941433 /* ShoppingList */,
@@ -474,6 +496,7 @@
 			files = (
 				A948AAA1285B0B7500355C59 /* LaunchScreen.storyboard in Resources */,
 				A948AAB2285B309E00355C59 /* ShoppingProductDetailViewController.xib in Resources */,
+				A93EF94F286AEE6400EDDA4B /* LoginViewController.xib in Resources */,
 				A96DA97A286012CC008993BB /* ShoppingListProductDetailViewController.xib in Resources */,
 				A9335AD52869201500AE551B /* AddRecipeViewController.xib in Resources */,
 				A92F6BCC285C94270090EE90 /* InCatCollectionViewCell.xib in Resources */,
@@ -482,6 +505,7 @@
 				A9335AD72869228E00AE551B /* GoogleService-Info.plist in Resources */,
 				A92F6BC8285C927B0090EE90 /* RefrigeCatTableViewCell.xib in Resources */,
 				A95B6CAF286165CC003153B0 /* PersonalTableViewCell.xib in Resources */,
+				A93EF953286AEEB600EDDA4B /* OnboardingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -570,6 +594,7 @@
 				A9369E5028632C430063928E /* ShoppingListCollectionViewCell.swift in Sources */,
 				A948AAB8285B3C0D00355C59 /* UIFont+Extension.swift in Sources */,
 				A948AABE285B3CBF00355C59 /* UIView+Extension.swift in Sources */,
+				A93EF94E286AEE6400EDDA4B /* LoginViewController.swift in Sources */,
 				A948AA99285B0B7400355C59 /* RefrigeViewController.swift in Sources */,
 				A92F6BBA285C54240090EE90 /* RefrigeModel.swift in Sources */,
 				A9335AD42869201500AE551B /* AddRecipeViewController.swift in Sources */,
@@ -578,6 +603,7 @@
 				A948AA97285B0B7400355C59 /* SceneDelegate.swift in Sources */,
 				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
 				A944E691285DE1300068D7DD /* FoodManager.swift in Sources */,
+				A93EF952286AEEB600EDDA4B /* OnboardingViewController.swift in Sources */,
 				A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */,
 				A944E698285EAB1F0068D7DD /* Food.swift in Sources */,
 				A948AAB1285B309E00355C59 /* RefrigeProductDetailViewController.swift in Sources */,
@@ -741,6 +767,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
@@ -770,6 +797,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
