@@ -4,18 +4,24 @@
 //
 //  Created by 曹珮綺 on 6/20/22.
 //
-
+// 字體未完全
 import UIKit
 import SnapKit
 
 class PersonalViewController: UIViewController {
 
     @IBOutlet weak var addRefrigeButton: UIButton!
-    @IBOutlet weak var personalSettingButton: UIButton!
     
+    @IBOutlet weak var personalBackgroundView: UIView!
     @IBOutlet weak var personalImage: UIImageView!
     
     @IBOutlet weak var personalName: UILabel!
+    
+    private let personalChangeImageView = UIView()
+    
+    private let personalChangeImageButton = UIButton()
+    
+    private let personalChangNameButton = UIButton()
     
     private let personalTableView = UITableView()
     
@@ -32,10 +38,12 @@ class PersonalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addRefrigeButton.titleLabel?.text = ""
-        personalSettingButton.titleLabel?.text = ""
+        addRefrigeButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        addRefrigeButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
+
+        addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
         addRefrigeButton.addTarget(self, action: #selector(addRefri), for: .touchUpInside)
-        
-        personalSettingButton.addTarget(self, action: #selector(personalSetting), for: .touchUpInside)
         
         setUI()
         personalTableView.delegate = self
@@ -45,10 +53,23 @@ class PersonalViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        addRefrigeButton.lkCornerRadius = addRefrigeButton.frame.height / 2
+        addRefrigeButton.titleLabel?.text = ""
+        addRefrigeButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        addRefrigeButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
+//        addRefrigeButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        personalBackgroundView.lkCornerRadius = personalBackgroundView.frame.height / 2
+        personalChangeImageView.lkCornerRadius = personalChangeImageView.frame.height / 2
+        personalChangeImageButton.lkCornerRadius = personalChangeImageButton.frame.height / 2
+        
         personalImage.layer.cornerRadius = (personalImage.frame.height)/2
+        personalChangNameButton.lkCornerRadius = personalChangNameButton.frame.height / 2
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         fetchAllRefrige()
     }
     
@@ -64,9 +85,9 @@ class PersonalViewController: UIViewController {
         }
     }
     
-    @objc func personalSetting() {
+    /*@objc func personalSetting() {
         openAlert(controller: self, mainTitle: "更換個人設定", firstTitle: "更換照片", secondTitle: "更換暱稱", cancelTitle: "取消")
-    }
+    }*/
     
     func openAlert(
         controller: UIViewController,
@@ -95,6 +116,33 @@ class PersonalViewController: UIViewController {
     }
     
     private func setUI() {
+        personalName.text = "Ryan"
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        personalImage.image = UIImage(named: "girl")
+        personalBackgroundView.backgroundColor = .white
+        personalChangeImageView.translatesAutoresizingMaskIntoConstraints = false
+        personalBackgroundView.addSubview(personalChangeImageView)
+        personalChangeImageView.backgroundColor = UIColor.hexStringToUIColor(hex: "FCE3CB")
+        personalChangeImageView.leadingAnchor.constraint(equalTo: personalBackgroundView.leadingAnchor, constant: 100).isActive = true
+        personalChangeImageView.topAnchor.constraint(equalTo: personalBackgroundView.topAnchor, constant: 98).isActive = true
+        personalChangeImageView.trailingAnchor.constraint(equalTo: personalBackgroundView.trailingAnchor, constant: -5).isActive = true
+        personalChangeImageView.bottomAnchor.constraint(equalTo: personalBackgroundView.bottomAnchor, constant: -8).isActive = true
+        personalChangeImageButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        personalChangeImageView.addSubview(personalChangeImageButton)
+        personalChangeImageButton.topAnchor.constraint(equalTo: personalChangeImageView.topAnchor, constant: 5).isActive = true
+        personalChangeImageButton.leadingAnchor.constraint(equalTo: personalChangeImageView.leadingAnchor, constant: 5).isActive = true
+        personalChangeImageButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        personalChangeImageButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        personalChangeImageButton.setImage(UIImage(named: "photo"), for: .normal)
+        
+        view.addSubview(personalChangNameButton)
+        personalChangNameButton.translatesAutoresizingMaskIntoConstraints = false
+        personalChangNameButton.leadingAnchor.constraint(equalTo: personalName.trailingAnchor, constant: 5).isActive = true
+        personalChangNameButton.centerYAnchor.constraint(equalTo: personalName.centerYAnchor, constant: 0).isActive = true
+        personalChangNameButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        personalChangNameButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        personalChangNameButton.setImage(UIImage(named: "pen"), for: .normal)
         
         personalTableView.register(
             UINib(nibName: "PersonalTableViewCell", bundle: nil),
@@ -107,7 +155,7 @@ class PersonalViewController: UIViewController {
         personalTableView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: -40).isActive = true
-        personalTableView.backgroundColor = .lightGray
+        personalTableView.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
         
         notificationLabel.translatesAutoresizingMaskIntoConstraints = false
         

@@ -12,6 +12,7 @@ class ShoppingListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var shoppingName: UILabel!
     @IBOutlet weak var shoppingWeight: UILabel!
     
+    @IBOutlet weak var shoppingItemImage: UIImageView!
     @IBOutlet weak var shoppingBrand: UILabel!
     @IBOutlet weak var shoppingLocation: UILabel!
     

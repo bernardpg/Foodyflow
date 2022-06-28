@@ -11,6 +11,7 @@ class InCatCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var myLabel: UILabel!
     
+    @IBOutlet weak var myImageView: UIImageView!
     static let identifier = "InCatCollectionViewCell"
     
     static func nib() -> UINib {

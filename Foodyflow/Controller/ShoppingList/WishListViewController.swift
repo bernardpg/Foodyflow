@@ -335,6 +335,7 @@ extension WishListViewController: UICollectionViewDataSource,
         guard let cell = cell else { return UICollectionViewCell() }
         cell.layer.backgroundColor = UIColor(red: 1, green: 0.964, blue: 0.929, alpha: 1).cgColor
         cell.layer.cornerRadius = 20
+        cell.shoppingItemImage.lkCornerRadius = 20
         switch indexPath.section {
         case 0:
             cell.shoppingName.text = meatsInfo[indexPath.item].foodName
