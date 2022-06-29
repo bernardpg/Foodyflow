@@ -125,8 +125,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         guard let wishListVC = wishListVC else { return }
         guard let inshoppingListVC = inshoppingListVC else { return }
 
-        wishListVC.title = "WishList"
-        inshoppingListVC.title = "InshopplingList"
+        wishListVC.title = "願望清單"
+        inshoppingListVC.title = "採購中"
         
         containerView = [wishListVC, inshoppingListVC]
         viewPager.reload()
@@ -142,32 +142,48 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
+        //button.setTitleColor(UIColor.black, for: .normal)
         button.setTitleColor(UIColor.B1, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        button.backgroundColor = .black
+        button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
+        //button.backgroundColor = .black
         return button
+    }
+    
+    func backgroundColorForHeader() -> UIColor {
+        
+        return UIColor.hexStringToUIColor(hex: "F4943A")
+    }
+    
+    func colorForIndicator(at index: Int) -> UIColor {
+        
+        return UIColor.hexStringToUIColor(hex: "FCE3CB")
     }
     
     // wait for change 
     func setDropdown() {
-        let items = ["Most Popular", "Latest", "Trending", "Nearest", "Top Picks"]
+        let items = ["購買清單", "Latest", "Trending", "Nearest", "Top Picks"]
       //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0/255.0, green:180/255.0, blue:220/255.0, alpha: 1.0)
+        self.navigationController?.navigationBar.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        self.navigationController?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: "F4943A")
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
-        menuView = BTNavigationDropdownMenu(navigationController: self.navigationController, containerView: self.navigationController!.view, title: BTTitle.index(2), items: items)
+        menuView = BTNavigationDropdownMenu(
+            navigationController: self.navigationController,
+            containerView: self.navigationController!.view,
+            title: BTTitle.index(0), items: items)
 
         menuView.cellHeight = 50
-        menuView.cellBackgroundColor = self.navigationController?.navigationBar.barTintColor
-        menuView.cellSelectionColor = UIColor(red: 0.0/255.0, green:160.0/255.0, blue:195.0/255.0, alpha: 1.0)
+        menuView.cellBackgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        menuView.selectedCellTextLabelColor = UIColor.lightGray
+        menuView.cellSelectionColor = UIColor.hexStringToUIColor(hex: "F4943A")
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = UIColor.white
-        menuView.cellTextLabelFont = UIFont(name: "Avenir-Heavy", size: 17)
+        menuView.cellTextLabelFont = UIFont(name: "PingFang TC", size: 16)
         menuView.cellTextLabelAlignment = .left // .Center // .Right // .Left
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5
-        menuView.maskBackgroundColor = UIColor.black
+        //menuView.maskBackgroundColor = UIColor.hexStringToUIColor(hex: "#F4943A")
         menuView.maskBackgroundOpacity = 0.3
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")

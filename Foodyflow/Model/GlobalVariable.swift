@@ -10,5 +10,7 @@ import Foundation
 var refrigeNowID: String?
 var shoppingListNowID: String?
 var refrigeDeleteID: String?
+var userNowID: String?
+
 
 var refrigeNow: Refrige?

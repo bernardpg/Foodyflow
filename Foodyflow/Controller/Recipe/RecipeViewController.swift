@@ -13,12 +13,22 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
     private var recipeView = UIView()
     private var collectionRecipeView = UIView()
     
-    private var viewPager =  LZViewPager()
-        
-    private lazy var containerView: [UIViewController] = []
+    private lazy var allRecipeVC = AllRecipeViewController()
     
+    private lazy var personalLikeVC = PersonalLikeREcipeViewController()
+    
+    private var viewPager =  LZViewPager()
+    
+    //var navigationBarAppearace = UINavigationBar.appearance()
+    
+    //navigationBarAppearace.tintColor = uicolorFromHex(0xffffff)
+    //navigationBarAppearace.barTintColor = uicolorFromHex(0x034517)
+    
+    private lazy var containerView: [UIViewController] = []
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "今天吃什麼"
         viewPagerProperties()
 //        setUI()
 
@@ -33,8 +43,15 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
         
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+//        self.navigationController?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: "0x034517")
+        //self.navigationController?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: "0x034517")
+    }
+    
     // MARK: - Main VC
-    func viewPagerProperties() {
+    
+    /*func viewPagerProperties() {
         view.addSubview(viewPager)
         
         viewPager.snp.makeConstraints { make in
@@ -48,21 +65,48 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
         viewPager.dataSource = self
         viewPager.hostController = self
         
-        let allRecipeVC = UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(withIdentifier: "allRecipeViewController")
-        as? AllRecipeViewController
+     //   let allRecipeVC = UIStoryboard(name: "Main", bundle: nil)
+       //     .instantiateViewController(withIdentifier: "allRecipeViewController")
+       // as? AllRecipeViewController
         
-        let personalLikeVC = UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(withIdentifier: "personalLikeREcipeViewController")
-        as? PersonalLikeREcipeViewController
+       // let personalLikeVC = UIStoryboard(name: "Main", bundle: nil)
+       //     .instantiateViewController(withIdentifier: "personalLikeREcipeViewController")
+       // as? PersonalLikeREcipeViewController
         
-        guard let allRecipeVC = allRecipeVC else { return }
-        guard let personalLikeVC = personalLikeVC else { return }
+      //  guard let allRecipeVC = allRecipeVC else { return }
+     //   guard let personalLikeVC = personalLikeVC else { return }
         
-        allRecipeVC.title = "Recipe"
+        //allRecipeVC.title = "Recipe" allRecipeVC,
         personalLikeVC.title = "PresonalRecipe"
         
-        containerView = [allRecipeVC,personalLikeVC]
+        containerView = [ personalLikeVC]
+        viewPager.reload()
+    }*/
+    
+    func viewPagerProperties() {
+        view.addSubview(viewPager)
+        
+        viewPager.translatesAutoresizingMaskIntoConstraints = false
+        viewPager.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        viewPager.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        viewPager.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        viewPager.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+ 
+        viewPager.delegate = self
+        viewPager.dataSource = self
+        viewPager.hostController = self
+        
+       // let wishListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
+                
+        //let inshoppingListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "inshoppingListVC") as? InshoppingViewController
+        
+        //guard let wishListVC = wishListVC else { return }
+        //guard let inshoppingListVC = inshoppingListVC else { return }
+
+        allRecipeVC.title = "食譜"
+        personalLikeVC.title = "私藏菜單"
+        
+        containerView = [allRecipeVC, personalLikeVC]
         viewPager.reload()
     }
     
@@ -76,30 +120,44 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
+        //button.setTitleColor(UIColor.black, for: .normal)
         button.setTitleColor(UIColor.B1, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        button.backgroundColor = .black
+        button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
+        //button.backgroundColor = .black
         return button
     }
     
-    func setUI() {
-        recipeView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(recipeView)
-//        recipeView.backgroundColor = .black
-        recipeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        recipeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
-        recipeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-        recipeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+    func backgroundColorForHeader() -> UIColor {
         
-        collectionRecipeView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(collectionRecipeView)
-        collectionRecipeView.backgroundColor = UIColor.B2
-        collectionRecipeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        collectionRecipeView.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-            constant: 0).isActive = true
-        collectionRecipeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-        collectionRecipeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+        return UIColor.hexStringToUIColor(hex: "F4943A")
     }
-
+    
+    func colorForIndicator(at index: Int) -> UIColor {
+        
+        return UIColor.hexStringToUIColor(hex: "FCE3CB")
+    }
+    
 }
+
+/*
+ func setUI() {
+     recipeView.translatesAutoresizingMaskIntoConstraints = false
+     view.addSubview(recipeView)
+     recipeView.backgroundColor = .black
+     recipeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+     recipeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+     recipeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+     recipeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+     
+     collectionRecipeView.translatesAutoresizingMaskIntoConstraints = false
+     view.addSubview(collectionRecipeView)
+     collectionRecipeView.backgroundColor = UIColor.B2
+     collectionRecipeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+     collectionRecipeView.bottomAnchor.constraint(
+         equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+         constant: 0).isActive = true
+     collectionRecipeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+     collectionRecipeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+ }
+
+ */

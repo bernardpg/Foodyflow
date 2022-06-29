@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     private lazy var userTry = UIButton()
     private lazy var appOutsideIcon = UIView()
     private lazy var appIcon = UIImageView()
+    
+    var userManager = UserManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,9 +76,9 @@ class LoginViewController: UIViewController {
             make.height.equalTo(53)
         }
         appleButton.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
-        appleButton.backgroundColor = .systemPink
-        
-        
+        appleButton.setImage(UIImage(named: "appleidButton"), for: .normal)
+//        appleButton.image(for: .normal) = UIImage(named: "appleidButton")
+//        appleButton.backgroundColor = .systemPink
         
         view.addSubview(userTry)
         userTry.snp.makeConstraints { make in
@@ -85,12 +87,17 @@ class LoginViewController: UIViewController {
             make.width.equalTo(271)
             make.height.equalTo(50)
             
-            
             let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
         }
         userTry.setTitle("以訪客登入使用", for: .normal)
         userTry.setTitleColor(UIColor.systemBlue, for: .normal)
+        //userTry.addTarget(self, action: #selector(createVC), for: .touchUpInside)
         
+    }
+    
+    @objc func createVC() {
+        let createVC = CreatePersonViewController()
+        present(createVC, animated: true)
     }
     
     func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
@@ -216,6 +223,17 @@ extension LoginViewController {
                 CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
                 return
             }
+            var userID = Auth.auth().currentUser?.uid
+            var userEmail = Auth.auth().currentUser?.email
+            let userInfo = UserInfo.init(userID: userID ?? "",
+                                         userName: "",
+                                         userEmail: userEmail ?? "" ,
+                                         userPhoto: "",
+                                         signInType: "",
+                                         personalRefrige: [],
+                                         personalLikeRecipe: [],
+                                         personalDoRecipe: [])
+            self.userManager.addUserInfo(user: userInfo)
             CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
         }
     }
@@ -232,26 +250,7 @@ extension LoginViewController {
         CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self, actionHandler: nil)
     }
 }
-/*
-// MARK: - 監聽目前的 Apple ID 的登入狀況
-// 主動監聽
-func checkAppleIDCredentialState(userID: String) {
-    ASAuthorizationAppleIDProvider().getCredentialState(forUserID: userID) { credentialState, error in
-        switch credentialState {
-        case .authorized:
-            CustomFunc.customAlert(title: "使用者已授權！", message: "", vc: self, actionHandler: nil)
-        case .revoked:
-            CustomFunc.customAlert(title: "使用者憑證已被註銷！", message: "請到\n「設定 → Apple ID → 密碼與安全性 → 使用 Apple ID 的 App」\n將此 App 停止使用 Apple ID\n並再次使用 Apple ID 登入本 App！", vc: self, actionHandler: nil)
-        case .notFound:
-            CustomFunc.customAlert(title: "", message: "使用者尚未使用過 Apple ID 登入！", vc: self, actionHandler: nil)
-        case .transferred:
-            CustomFunc.customAlert(title: "請與開發者團隊進行聯繫，以利進行使用者遷移！", message: "", vc: self, actionHandler: nil)
-        default:
-            break
-        }
-    }
-}
-*/
+
 class CustomFunc {
     /// 提示框
     /// - Parameters:

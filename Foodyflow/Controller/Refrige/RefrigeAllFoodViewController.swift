@@ -8,6 +8,7 @@
 // delefood in refrige
 
 import UIKit
+import FirebaseAuth
 
 class RefrigeAllFoodViewController: UIViewController {
     
@@ -16,6 +17,8 @@ class RefrigeAllFoodViewController: UIViewController {
     }
     private var tapButton = UIButton()
     
+    private let authManager = AuthManager()
+
     var refrige: [Refrige] = []
     
     var completion: CompletionHandler?
@@ -205,12 +208,19 @@ class RefrigeAllFoodViewController: UIViewController {
 //    refrigeNow = refrige[0]
     
     @objc func addNewFood() {
+        if let user = Auth.auth().currentUser{
+        //guard !userNowID?.isEmpty else { return }
+        //authManager.auth.currentUser
         let shoppingVC = RefrigeProductDetailViewController(
         nibName: "ShoppingProductDetailViewController",
         bundle: nil)
         shoppingVC.refrige = refrige[0]
         self.navigationController!.pushViewController(shoppingVC, animated: true)
-        
+        }
+        else {
+            let loginVC = LoginViewController()
+            present(loginVC, animated: true)
+        }
     }
     
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
@@ -280,6 +290,8 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
             for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
+        cell.cateFood.font =  UIFont(name: "PingFang TC", size: 20)
+
         // need to change for dictionary to solve
         
         switch indexPath.row {

@@ -73,8 +73,9 @@ class RefrigeProductDetailViewController: UIViewController {
         imageUpload.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
         updateButton.addTarget(self, action: #selector(finishUpdate), for: .touchUpInside)
         }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         self.tabBarController?.tabBar.isHidden = true
     }
     

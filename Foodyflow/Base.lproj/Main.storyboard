@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Ouf-dR-oQg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gfe-fe-Dn1">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -130,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SOz-7j-aVo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2930" y="-222"/>
+            <point key="canvasLocation" x="3167" y="-273"/>
         </scene>
         <!--Recipe View Controller-->
         <scene sceneID="MHJ-ZT-3zT">
@@ -369,6 +369,11 @@
                                     <constraint firstAttribute="width" secondItem="Cac-HI-Joy" secondAttribute="height" multiplier="1:1" id="c7j-En-wnn"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6iw-Pb-ieN">
+                                <rect key="frame" x="16" y="93" width="67" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pwV-gI-0kL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -377,8 +382,10 @@
                             <constraint firstItem="pwV-gI-0kL" firstAttribute="trailing" secondItem="XnQ-Pu-1mA" secondAttribute="trailing" constant="16" id="P16-Id-23D"/>
                             <constraint firstItem="phd-1V-1Y4" firstAttribute="centerX" secondItem="As3-OJ-gRH" secondAttribute="centerX" id="YKI-Vd-0wM"/>
                             <constraint firstItem="XnQ-Pu-1mA" firstAttribute="top" secondItem="pwV-gI-0kL" secondAttribute="top" constant="5" id="b3Z-Kd-SDe"/>
+                            <constraint firstItem="6iw-Pb-ieN" firstAttribute="leading" secondItem="pwV-gI-0kL" secondAttribute="leading" constant="16" id="oJh-Mz-mFX"/>
                             <constraint firstItem="Cac-HI-Joy" firstAttribute="centerX" secondItem="FbE-ee-Ji4" secondAttribute="centerX" id="pHx-JW-c4Q"/>
                             <constraint firstItem="Cac-HI-Joy" firstAttribute="top" secondItem="pwV-gI-0kL" secondAttribute="top" constant="40" id="rZE-9b-LcO"/>
+                            <constraint firstItem="6iw-Pb-ieN" firstAttribute="centerY" secondItem="XnQ-Pu-1mA" secondAttribute="centerY" id="xou-nl-PUi"/>
                             <constraint firstItem="phd-1V-1Y4" firstAttribute="top" secondItem="Cac-HI-Joy" secondAttribute="bottom" constant="33" id="zZl-0n-TA4"/>
                         </constraints>
                     </view>
@@ -388,6 +395,7 @@
                         <outlet property="personalBackgroundView" destination="Cac-HI-Joy" id="nTc-kA-JaH"/>
                         <outlet property="personalImage" destination="As3-OJ-gRH" id="aor-xD-Juu"/>
                         <outlet property="personalName" destination="phd-1V-1Y4" id="R5F-KE-Kly"/>
+                        <outlet property="signOut" destination="6iw-Pb-ieN" id="HB9-3W-iaI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i04-kF-a4L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -532,65 +540,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dVw-u4-NxM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4162" y="-273"/>
-        </scene>
-        <!--All Recipe View Controller-->
-        <scene sceneID="LnX-xp-8ZA">
-            <objects>
-                <viewController storyboardIdentifier="allRecipeViewController" id="4gn-r1-QaE" customClass="AllRecipeViewController" customModule="Foodyflow" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="6jl-AD-IK2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ftg-Q7-j32">
-                                <rect key="frame" x="0.0" y="64" width="375" height="714"/>
-                                <color key="backgroundColor" systemColor="systemYellowColor"/>
-                                <collectionView key="tableHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="0Hy-lL-v3h">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="131"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="HF4-da-mkg">
-                                        <size key="itemSize" width="128" height="128"/>
-                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </collectionViewFlowLayout>
-                                    <cells>
-                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="mPd-5H-gWO">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="W8u-Gi-7j7">
-                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </collectionViewCellContentView>
-                                        </collectionViewCell>
-                                    </cells>
-                                </collectionView>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="84" id="gwb-d5-Mjz">
-                                        <rect key="frame" x="0.0" y="175.66666603088379" width="375" height="84"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gwb-d5-Mjz" id="0GG-Li-I0q">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="3A4-7U-zPG"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="3A4-7U-zPG" firstAttribute="bottom" secondItem="ftg-Q7-j32" secondAttribute="bottom" id="0XF-BA-K76"/>
-                            <constraint firstAttribute="trailing" secondItem="ftg-Q7-j32" secondAttribute="trailing" id="FwM-j7-BZj"/>
-                            <constraint firstItem="ftg-Q7-j32" firstAttribute="top" secondItem="3A4-7U-zPG" secondAttribute="top" constant="20" id="Fww-70-fFO"/>
-                            <constraint firstItem="ftg-Q7-j32" firstAttribute="leading" secondItem="3A4-7U-zPG" secondAttribute="leading" id="RFa-eg-pVj"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2sE-X7-GGY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5149.6000000000004" y="-222.41379310344828"/>
+            <point key="canvasLocation" x="3962" y="-273"/>
         </scene>
         <!--Personal LikeR Ecipe View Controller-->
         <scene sceneID="OFO-2y-upz">
@@ -682,7 +632,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lsa-We-bM5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5981.6000000000004" y="-222.41379310344828"/>
+            <point key="canvasLocation" x="6231" y="-222"/>
         </scene>
     </scenes>
     <resources>
@@ -706,9 +656,6 @@
         </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

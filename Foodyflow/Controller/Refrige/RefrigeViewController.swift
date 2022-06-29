@@ -11,6 +11,14 @@ import CoreMIDI
 import BTNavigationDropdownMenu
 import LZViewPager
 import SnapKit
+
+/// refrige  內部未完全更改
+/// shoppinglist 也是
+/// 圖片與文字如果沒有的話要改成預設值
+/// personal 更改畫面圖片跟文字
+///  fetch 資料及更改 再次確認
+///    開啟提醒通知
+///    signin signout
 // MARK: - fetch for change UI and add photos
 // logic change for fetch on this VC
 // MARK: - create Recipe Page
@@ -234,6 +242,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         }
       //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
         self.navigationController?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: "F4943A")
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         menuView = BTNavigationDropdownMenu(
@@ -249,7 +258,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         menuView.cellSelectionColor = UIColor.hexStringToUIColor(hex: "F4943A")
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = UIColor.white
-        menuView.cellTextLabelFont = UIFont(name: "Avenir-Heavy", size: 17)
+        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 17)  //UIFont(name: "Avenir-Heavy", size: 17)
         menuView.cellTextLabelAlignment = .left // .Center // .Right // .Left
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5
@@ -280,9 +289,9 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         viewPager.dataSource = self
         viewPager.hostController = self
 
-        refrigeAllFoodVC.title = "allFood"
-        threeDaysRefrigeVC.title = "threeDaysExpire"
-        expiredRefrigeVC.title = "expired"
+        refrigeAllFoodVC.title = "全部食材"
+        threeDaysRefrigeVC.title = "三日內過期"
+        expiredRefrigeVC.title = "已過期"
         
         containerView = [ refrigeAllFoodVC,
                           threeDaysRefrigeVC,
@@ -302,10 +311,21 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
+        //button.setTitleColor(UIColor.black, for: .normal)
         button.setTitleColor(UIColor.B1, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        button.backgroundColor = .black
+        button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
+        //button.backgroundColor = .black
         return button
+    }
+    
+    func backgroundColorForHeader() -> UIColor {
+        
+        return UIColor.hexStringToUIColor(hex: "F4943A")
+    }
+    
+    func colorForIndicator(at index: Int) -> UIColor {
+        
+        return UIColor.hexStringToUIColor(hex: "FCE3CB")
     }
     
     // change refrige
@@ -367,6 +387,7 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = refrigeTableView.dequeueReusableCell(withIdentifier: "refrigeCatTableViewCell",
             for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
+        cell.cateFood.font = UIFont(name: "PingFang TC", size: 18)
         cell.cateFood.text = self.cate[indexPath.row]
         // need to change for dictionary to solve
         

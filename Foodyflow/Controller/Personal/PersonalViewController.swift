@@ -7,6 +7,7 @@
 // 字體未完全
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class PersonalViewController: UIViewController {
 
@@ -16,6 +17,10 @@ class PersonalViewController: UIViewController {
     @IBOutlet weak var personalImage: UIImageView!
     
     @IBOutlet weak var personalName: UILabel!
+    
+    @IBOutlet weak var signOut: UIButton!
+    
+    //private let signOut = UIButton()
     
     private let personalChangeImageView = UIView()
     
@@ -51,6 +56,7 @@ class PersonalViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         addRefrigeButton.lkCornerRadius = addRefrigeButton.frame.height / 2
         addRefrigeButton.titleLabel?.text = ""
         addRefrigeButton.snp.makeConstraints { make in
@@ -71,6 +77,14 @@ class PersonalViewController: UIViewController {
         super.viewWillAppear(animated)
 
         fetchAllRefrige()
+    }
+    
+    @objc func signOutTap() {
+        do {
+           try Auth.auth().signOut()
+        } catch {
+           print(error)
+        }
     }
     
     @objc func addRefri() {
@@ -116,6 +130,20 @@ class PersonalViewController: UIViewController {
     }
     
     private func setUI() {
+        
+        view.addSubview(signOut)
+        
+        signOut.snp.makeConstraints { make in
+            make.centerY.equalTo(addRefrigeButton.snp.centerY)
+//            make.centerX.equalTo()
+//            make.leading.equalTo(view.snp.leading).offset(16)
+//            make.top.equalTo(view.snp.top).offset(16)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
+        }
+        signOut.setTitle("sign", for: .normal)
+        signOut.addTarget(self, action: #selector(signOutTap), for: .touchUpInside)
+
         personalName.text = "Ryan"
         view.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
         personalImage.image = UIImage(named: "girl")

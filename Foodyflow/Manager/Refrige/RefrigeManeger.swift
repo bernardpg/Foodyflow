@@ -86,7 +86,6 @@ class RefrigeManager {
         }
     }
     
-    
     func createFrige(refrige: inout Refrige, completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection("Refrige").document()
