@@ -253,9 +253,12 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="q0P-GP-UOs">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="selectedImageTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
+                        <tabBarAppearance key="standardAppearance">
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </tabBarAppearance>
                     </tabBar>
                     <connections>
                         <segue destination="8sU-n9-LjJ" kind="relationship" relationship="viewControllers" id="7Kc-Bf-jY8"/>
@@ -273,7 +276,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dsL-Rb-ZFA" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="note_L" selectedImage="note" id="lFA-NJ-i7o">
-                        <inset key="imageInsets" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
+                        <inset key="imageInsets" minX="0.0" minY="35" maxX="0.0" maxY="35"/>
                         <color key="badgeColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -295,7 +298,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8sU-n9-LjJ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="refrigerator_L" selectedImage="refrigerator" id="cwo-u2-4Vt">
-                        <inset key="imageInsets" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
+                        <inset key="imageInsets" minX="0.0" minY="35" maxX="0.0" maxY="35"/>
                         <color key="badgeColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -317,7 +320,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oCU-cC-cx3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="cook_L" selectedImage="cook" id="CTb-Jy-C4w">
-                        <inset key="imageInsets" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
+                        <inset key="imageInsets" minX="0.0" minY="35" maxX="0.0" maxY="35"/>
                         <color key="badgeColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -349,9 +352,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XnQ-Pu-1mA">
-                                <rect key="frame" x="315" y="93" width="44" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                <rect key="frame" x="339.66666666666669" y="93" width="19.333333333333314" height="18.333333333333329"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="plus" catalog="system"/>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cac-HI-Joy">
                                 <rect key="frame" x="117.66666666666669" y="128" width="140" height="140"/>
@@ -373,7 +376,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6iw-Pb-ieN">
-                                <rect key="frame" x="16" y="93" width="67" height="31"/>
+                                <rect key="frame" x="16" y="86.666666666666671" width="67" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
                             </button>
@@ -410,7 +413,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="D33-Kd-QAc" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="member_L" selectedImage="member" id="i4H-xA-GBq">
-                        <inset key="imageInsets" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
+                        <inset key="imageInsets" minX="0.0" minY="35" maxX="0.0" maxY="35"/>
                         <color key="badgeColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBarItem>
                     <toolbarItems/>

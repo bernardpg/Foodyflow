@@ -45,12 +45,11 @@ class PersonalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         background.isUserInteractionEnabled = true
         background.addGestureRecognizer(tapGestureRecognizer)
         
-        addRefrigeButton.titleLabel?.text = ""
+        //addRefrigeButton.titleLabel?.text = ""
         addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
 
         addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
@@ -73,6 +72,8 @@ class PersonalViewController: UIViewController {
         }
         addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
         addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        //addRefrigeButton.setTitle("", for: .normal)
+       
         
         personalBackgroundView.lkCornerRadius = personalBackgroundView.frame.height / 2
         personalChangeImageView.lkCornerRadius = personalChangeImageView.frame.height / 2
@@ -83,6 +84,8 @@ class PersonalViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        addRefrigeButton.titleLabel?.text = ""
+        addRefrigeButton.setImage(UIImage(systemName: "plus" ), for: .normal)
 
         fetchAllRefrige()
     }
@@ -219,7 +222,7 @@ class PersonalViewController: UIViewController {
         personalTableView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: -40).isActive = true
-        personalTableView.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        personalTableView.backgroundColor = UIColor.white// UIColor.hexStringToUIColor(hex: "F4943A")
         
         background.addSubview(notificationLabel)
         
