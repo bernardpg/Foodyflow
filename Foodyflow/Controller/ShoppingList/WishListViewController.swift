@@ -109,9 +109,9 @@ class WishListViewController: UIViewController {
         tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
         tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.layer.backgroundColor = UIColor.hexStringToUIColor(hex:  "F4943A").cgColor
+        tapButton.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
         tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        tapButton.imageView?.tintColor = .white
+        tapButton.imageView?.tintColor = UIColor.FoodyFlow.white
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     @objc func addNewFood() {

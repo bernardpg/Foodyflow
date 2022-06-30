@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A92F0991286D7973005C99F8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F0990286D7973005C99F8 /* LoginView.swift */; };
 		A92F6BB1285C34530090EE90 /* ShoppingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F6BB0285C34530090EE90 /* ShoppingList.swift */; };
 		A92F6BBA285C54240090EE90 /* RefrigeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F6BB9285C54240090EE90 /* RefrigeModel.swift */; };
 		A92F6BC0285C79CF0090EE90 /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F6BBF285C79CF0090EE90 /* ContainerView.swift */; };
@@ -76,6 +77,7 @@
 		1FA0E6F1BFFB230473E85551 /* Pods-Foodyflow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodyflow.release.xcconfig"; path = "Target Support Files/Pods-Foodyflow/Pods-Foodyflow.release.xcconfig"; sourceTree = "<group>"; };
 		A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodyflow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A91505DD286ADA60008DF98C /* Foodyflow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Foodyflow.entitlements; sourceTree = "<group>"; };
+		A92F0990286D7973005C99F8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A92F6BB0285C34530090EE90 /* ShoppingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingList.swift; sourceTree = "<group>"; };
 		A92F6BB9285C54240090EE90 /* RefrigeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefrigeModel.swift; sourceTree = "<group>"; };
 		A92F6BBF285C79CF0090EE90 /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				A92F6BCD285C946C0090EE90 /* ShopplingList */,
 				A92F6BB3285C38D10090EE90 /* Refrige */,
 				A92F6BBF285C79CF0090EE90 /* ContainerView.swift */,
+				A92F0990286D7973005C99F8 /* LoginView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -615,6 +618,7 @@
 				A948AA95285B0B7400355C59 /* AppDelegate.swift in Sources */,
 				A96DA97128600949008993BB /* PersonalViewController.swift in Sources */,
 				A941E03C286BE51E00B603AF /* AuthManager.swift in Sources */,
+				A92F0991286D7973005C99F8 /* LoginView.swift in Sources */,
 				A948AA97285B0B7400355C59 /* SceneDelegate.swift in Sources */,
 				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
 				A944E691285DE1300068D7DD /* FoodManager.swift in Sources */,

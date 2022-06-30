@@ -12,13 +12,14 @@ import FirebaseAuth
 
 class RefrigeAllFoodViewController: UIViewController {
     
-    private var refrigeTableView = UITableView() {
+    var refrigeTableView = UITableView() {
         didSet{refrigeTableView.reloadData() }
     }
+    
     private var tapButton = UIButton()
     
     private let authManager = AuthManager()
-
+    
     var refrige: [Refrige] = []
     
     var completion: CompletionHandler?
@@ -79,6 +80,12 @@ class RefrigeAllFoodViewController: UIViewController {
         super.viewWillAppear(animated)
         // lottie 開始
         
+        //singlerefrige()
+        
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func singlerefrige() {
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
@@ -111,7 +118,6 @@ class RefrigeAllFoodViewController: UIViewController {
             semaphore.wait()
         }
         
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     func resetRefrigeFood() {
@@ -172,7 +178,7 @@ class RefrigeAllFoodViewController: UIViewController {
         tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
         tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.layer.backgroundColor = UIColor.hexStringToUIColor(hex:  "F4943A").cgColor
+        tapButton.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
         tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
         tapButton.imageView?.tintColor = .white
 //        tapButton.imageView?.backgroundColor = .white
@@ -206,22 +212,27 @@ class RefrigeAllFoodViewController: UIViewController {
     
     // change refrige
 //    refrigeNow = refrige[0]
-    
-    @objc func addNewFood() {
-        if let user = Auth.auth().currentUser{
-        //guard !userNowID?.isEmpty else { return }
-        //authManager.auth.currentUser
-        let shoppingVC = RefrigeProductDetailViewController(
-        nibName: "ShoppingProductDetailViewController",
-        bundle: nil)
-        shoppingVC.refrige = refrige[0]
-        self.navigationController!.pushViewController(shoppingVC, animated: true)
-        }
-        else {
-            let loginVC = LoginViewController()
-            present(loginVC, animated: true)
-        }
+    func verifyUser() {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                    if user != nil {
+                        let shoppingVC = RefrigeProductDetailViewController(
+                        nibName: "ShoppingProductDetailViewController",
+                        bundle: nil)
+                //        shoppingVC.refrige = refrige[0]
+                        self.navigationController!.pushViewController(shoppingVC, animated: true)
+
+                    } else {
+                        self.present(LoginViewController(),animated: true)
+ 
+                      //  return
+                    }
+                }
+
     }
+
+    @objc func addNewFood() {
+        verifyUser()
+        }
     
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
         CategoryManager.shared.fetchArticles(completion: { result in

@@ -29,7 +29,7 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super .viewWillAppear(animated)
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        view.backgroundColor = UIColor.FoodyFlow.darkOrange
         
     }
     
@@ -49,7 +49,6 @@ class LoginViewController: UIViewController {
         }
         
         appOutsideIcon.lkCornerRadius = 20
-//        appOutsideIcon.backgroundColor = .systemPink
         
         appOutsideIcon.addSubview(appIcon)
         appIcon.snp.makeConstraints { make in
@@ -89,8 +88,8 @@ class LoginViewController: UIViewController {
             
             let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
         }
-        userTry.setTitle("以訪客登入使用", for: .normal)
-        userTry.setTitleColor(UIColor.systemBlue, for: .normal)
+        //userTry.setTitle("以訪客登入使用", for: .normal)
+        //userTry.setTitleColor(UIColor.systemBlue, for: .normal)
         //userTry.addTarget(self, action: #selector(createVC), for: .touchUpInside)
         
     }
@@ -235,6 +234,7 @@ extension LoginViewController {
                                          personalDoRecipe: [])
             self.userManager.addUserInfo(user: userInfo)
             CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
+            self.dismiss(animated: true)
         }
     }
     

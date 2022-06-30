@@ -19,9 +19,7 @@ class PersonalViewController: UIViewController {
     @IBOutlet weak var personalName: UILabel!
     
     @IBOutlet weak var signOut: UIButton!
-    
-    //private let signOut = UIButton()
-    
+        
     private let background = UIImageView()
     
     private let personalChangeImageView = UIView()
@@ -38,6 +36,8 @@ class PersonalViewController: UIViewController {
     
     var onPublished: (() -> (Void))?
     
+    var handle: AuthStateDidChangeListenerHandle?
+    
     var refrige = Refrige.init(id: "", title: "robust", foodID: [], createdTime: 0, category: "", shoppingList: [])
     
     var refrigeAmount: [Refrige] = []
@@ -49,10 +49,9 @@ class PersonalViewController: UIViewController {
         background.isUserInteractionEnabled = true
         background.addGestureRecognizer(tapGestureRecognizer)
         
-        //addRefrigeButton.titleLabel?.text = ""
         addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
 
-        addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        addRefrigeButton.imageView?.tintColor = UIColor.FoodyFlow.darkOrange
         addRefrigeButton.addTarget(self, action: #selector(addRefri), for: .touchUpInside)
         
         setUI()
@@ -71,10 +70,7 @@ class PersonalViewController: UIViewController {
             make.height.equalTo(45)
         }
         addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
-        addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
-        //addRefrigeButton.setTitle("", for: .normal)
-       
-        
+        addRefrigeButton.imageView?.tintColor = UIColor.FoodyFlow.darkOrange
         personalBackgroundView.lkCornerRadius = personalBackgroundView.frame.height / 2
         personalChangeImageView.lkCornerRadius = personalChangeImageView.frame.height / 2
         personalChangeImageButton.lkCornerRadius = personalChangeImageButton.frame.height / 2
@@ -82,32 +78,60 @@ class PersonalViewController: UIViewController {
         personalImage.layer.cornerRadius = (personalImage.frame.height)/2
         personalChangNameButton.lkCornerRadius = personalChangNameButton.frame.height / 2
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        verifyUser {
+            
+        }
+        
         addRefrigeButton.titleLabel?.text = ""
         addRefrigeButton.setImage(UIImage(systemName: "plus" ), for: .normal)
+        // fetch user // fetchRefrige
+    }
+    
+    func verifyUser( completion: @escaping () -> Void ) {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                    if user != nil {
+                        
+                        self.fetchAllRefrige()
 
-        fetchAllRefrige()
+                        print(user?.uid)
+                    } else {
+                        self.present(LoginViewController(),animated: true)
+                        completion()
+                    }
+                }
+
     }
     
     @objc func signOutTap() {
-        do {
-           try Auth.auth().signOut()
-        } catch {
-           print(error)
-        }
+        if Auth.auth().currentUser != nil {
+               do {
+                   try Auth.auth().signOut()
+                   dismiss(animated: true, completion: nil)
+               } catch let error as NSError {
+                   print(error.localizedDescription)
+               }
+           }
+//        do {
+//           try Auth.auth().signOut()
+//        } catch {
+//           print(error)
+//        }
     }
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImage = tapGestureRecognizer.view as? UIImageView
-
-        // Your action
     }
     
     @objc func addRefri() {
         
-        openAlert(controller: self, mainTitle: "請選擇", firstTitle: "創建新食光", secondTitle: "邀請加入xxx食光", cancelTitle: "取消")
-        cameraAc3tion()
+        verifyUser {
+            self.openAlert(controller: self, mainTitle: "請選擇", firstTitle: "創建新食光", secondTitle: "邀請加入xxx食光", cancelTitle: "取消")
+        }
+//        cameraAc3tion()
         func cameraAc3tion() {
             RefrigeManager.shared.createFrige(refrige: &self.refrige) { result in
                 self.onPublished?()
@@ -155,11 +179,6 @@ class PersonalViewController: UIViewController {
         background.isUserInteractionEnabled = true
 
         background.image = UIImage(named: "memberback")
-        //let image = UIImage(named: "memberback").isUserInterfaceEnabled
-        //view.backgroundColor = UIColor.init(patternImage: image!)
-        //view.layer.contents  = UIImage(named: "memberback")
-//        view.layer.opacity = 0.5
-        //view.layer.
         background.snp.makeConstraints { make in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
@@ -170,20 +189,18 @@ class PersonalViewController: UIViewController {
         
         signOut.snp.makeConstraints { make in
             make.centerY.equalTo(addRefrigeButton.snp.centerY)
-//            make.centerX.equalTo()
-//            make.leading.equalTo(view.snp.leading).offset(16)
-//            make.top.equalTo(view.snp.top).offset(16)
-            make.width.equalTo(40)
-            make.height.equalTo(40)
+            make.width.equalTo(100)
+            make.height.equalTo(60)
         }
-        signOut.setTitle("sign", for: .normal)
+        signOut.setTitle("signout", for: .normal)
         signOut.addTarget(self, action: #selector(signOutTap), for: .touchUpInside)
+  //      signOut
         personalName.text = "Ryan"
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        view.backgroundColor = UIColor.FoodyFlow.darkOrange
         personalImage.image = UIImage(named: "girl")
         personalBackgroundView.backgroundColor = .white
         personalBackgroundView.addSubview(personalChangeImageView)
-        personalChangeImageView.backgroundColor = UIColor.hexStringToUIColor(hex: "FCE3CB")
+        personalChangeImageView.backgroundColor = UIColor.FoodyFlow.lightOrange
         personalChangeImageView.snp.makeConstraints { make in
             make.leading.equalTo(personalBackgroundView).offset(100)
             make.top.equalTo(personalBackgroundView).offset(98)
@@ -222,7 +239,7 @@ class PersonalViewController: UIViewController {
         personalTableView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: -40).isActive = true
-        personalTableView.backgroundColor = UIColor.white// UIColor.hexStringToUIColor(hex: "F4943A")
+        personalTableView.backgroundColor = UIColor.FoodyFlow.white
         
         background.addSubview(notificationLabel)
         

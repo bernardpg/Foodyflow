@@ -39,12 +39,12 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
            //navigationController?.navigationBar.prefersLargeTitles = true
 
            let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
-           appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = UIColor.FoodyFlow.darkOrange
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.FoodyFlow.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.FoodyFlow.white]
         appearance.shadowColor = .clear
 
-           navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = UIColor.FoodyFlow.white
            navigationController?.navigationBar.standardAppearance = appearance
            navigationController?.navigationBar.compactAppearance = appearance
            navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -137,7 +137,7 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
     func button(at index: Int) -> UIButton {
         let button = UIButton()
         //button.setTitleColor(UIColor.black, for: .normal)
-        button.setTitleColor(UIColor.B1, for: .normal)
+        button.setTitleColor(UIColor.FoodyFlow.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
         //button.backgroundColor = .black
         return button
@@ -145,12 +145,12 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
     
     func backgroundColorForHeader() -> UIColor {
         
-        return UIColor.hexStringToUIColor(hex: "F4943A")
+        return UIColor.FoodyFlow.darkOrange
     }
     
     func colorForIndicator(at index: Int) -> UIColor {
         
-        return UIColor.hexStringToUIColor(hex: "FCE3CB")
+        return UIColor.FoodyFlow.lightOrange
     }
     
 }

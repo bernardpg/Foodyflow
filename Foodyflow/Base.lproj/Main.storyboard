@@ -229,10 +229,10 @@
             </objects>
             <point key="canvasLocation" x="2988" y="-3307"/>
         </scene>
-        <!--View Controller-->
+        <!--Create Person View Controller-->
         <scene sceneID="jAu-ts-rud">
             <objects>
-                <viewController id="RjM-QM-pYC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreatePersonViewController" id="RjM-QM-pYC" customClass="CreatePersonViewController" customModule="Foodyflow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kwr-UW-144">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -353,6 +353,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XnQ-Pu-1mA">
                                 <rect key="frame" x="339.66666666666669" y="93" width="19.333333333333314" height="18.333333333333329"/>
+                                <color key="tintColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="plus" catalog="system"/>
                             </button>

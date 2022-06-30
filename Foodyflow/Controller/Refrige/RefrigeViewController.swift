@@ -11,14 +11,15 @@ import CoreMIDI
 import BTNavigationDropdownMenu
 import LZViewPager
 import SnapKit
-
+import Combine
+import FirebaseAuth
+///  signin signout
 /// refrige  內部未完全更改
 /// shoppinglist 也是
 /// 圖片與文字如果沒有的話要改成預設值
 /// personal 更改畫面圖片跟文字
 ///  fetch 資料及更改 再次確認
 ///    開啟提醒通知
-///    signin signout
 // MARK: - fetch for change UI and add photos
 // logic change for fetch on this VC
 // MARK: - create Recipe Page
@@ -37,9 +38,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     private lazy var threeDaysRefrigeVC = WithinThreeDaysRefirgeViewController()
     
     private lazy var refrigeAllFoodVC = RefrigeAllFoodViewController()
-    
-    // this vc inside it
-    
+        
     private var viewPager =  LZViewPager()
     
     private lazy var containerView: [UIViewController] = []
@@ -87,12 +86,22 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     var foodDetail: ((String) -> Void)?  // callback
     
     var didSelectDifferentRef: Int? //{didSet{reloadRefrige()}}
-        
+    
+    private enum Mode {
+        case onboarding
+        case login
+    }
+    
+    //subscriber
+    private var subscribers = Set<AnyCancellable>()
+    
+    @Published private var mode: Mode = .onboarding // image / label
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        observeForm()
         viewPagerProperties()
-        
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -101,6 +110,26 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                    if user != nil {
+                        print(user?.uid)
+
+                        //guard let vc = self.storyboard?.instantiateViewController(
+                     //       withIdentifier: "AccountViewController") as? AccountViewController
+                     //   else {
+                    //        fatalError("can't find AccountViewController")
+                 //       }
+                        //self.navigationController?.pushViewController(vc, animated: true)
+                        return
+                    } else {
+                        self.present(LoginViewController(),animated: true)
+                    }
+                }
+
+       // if Auth.auth().currentUser?.uid == nil {
+       //     present(LoginViewController(),animated: true)
+//        }
         // lottie 開始
         
         let semaphore = DispatchSemaphore(value: 0)
@@ -138,6 +167,20 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         }
         
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func observeForm() {
+        $mode.sink { [ unowned self ] (mode) in
+            switch mode {
+            case .onboarding:
+//                self.searchResults = nil
+                // each cancel will become nil
+                self.refrigeAllFoodVC.refrigeTableView.backgroundView = SearchPlaceholderView()
+                self.refrigeAllFoodVC.refrigeTableView.reloadData()
+            case .login:
+                self.refrigeAllFoodVC.refrigeTableView.backgroundView = nil
+            }
+        }.store(in: &subscribers)
     }
     
     func fetchAllRefrige() {
@@ -242,8 +285,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         }
       //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
-        self.navigationController?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
+        self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
@@ -253,9 +296,9 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         // Another way to initialize:
         // menuView = BTNavigationDropdownMenu(navigationController: self.navigationController, containerView: self.navigationController!.view, title: BTTitle.title("Dropdown Menu"), items: items)
         menuView.cellHeight = 50
-        menuView.cellBackgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
         menuView.selectedCellTextLabelColor = UIColor.lightGray
-        menuView.cellSelectionColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = UIColor.white
         menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 17)  //UIFont(name: "Avenir-Heavy", size: 17)
@@ -316,7 +359,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     func button(at index: Int) -> UIButton {
         let button = UIButton()
         //button.setTitleColor(UIColor.black, for: .normal)
-        button.setTitleColor(UIColor.B1, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
         //button.backgroundColor = .black
         return button
@@ -324,12 +367,12 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     func backgroundColorForHeader() -> UIColor {
         
-        return UIColor.hexStringToUIColor(hex: "F4943A")
+        return UIColor.FoodyFlow.darkOrange
     }
     
     func colorForIndicator(at index: Int) -> UIColor {
         
-        return UIColor.hexStringToUIColor(hex: "FCE3CB")
+        return UIColor.FoodyFlow.lightOrange
     }
     
     // change refrige
@@ -345,6 +388,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             }
         })
     }
+    
     
     func fetchAllRefrige(completion: @escaping (CompletionHandler)) {
         RefrigeManager.shared.fetchArticles { [weak self] result in

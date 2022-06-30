@@ -8,6 +8,7 @@
 import UIKit
 import BTNavigationDropdownMenu
 import LZViewPager
+import FirebaseAuth
 
 class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDataSource {
     
@@ -61,6 +62,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         super.viewDidLoad()
         setDropdown()
         viewPagerProperties()
+
 //        shoppingList.collectionViewLayout = UICollectionViewLayout()
 
     }
@@ -71,6 +73,26 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                    if user != nil {
+                        print(user?.uid)
+
+                        //guard let vc = self.storyboard?.instantiateViewController(
+                     //       withIdentifier: "AccountViewController") as? AccountViewController
+                     //   else {
+                    //        fatalError("can't find AccountViewController")
+                 //       }
+                        //self.navigationController?.pushViewController(vc, animated: true)
+                        return
+                    } else {
+                        self.present(LoginViewController(),animated: true)
+                    }
+                }
+
+      //  if Auth.auth().currentUser?.uid == nil {
+      //      present(LoginViewController(),animated: true)
+//        }
+        
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
@@ -143,7 +165,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     func button(at index: Int) -> UIButton {
         let button = UIButton()
         //button.setTitleColor(UIColor.black, for: .normal)
-        button.setTitleColor(UIColor.B1, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
         //button.backgroundColor = .black
         return button
@@ -151,12 +173,12 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     func backgroundColorForHeader() -> UIColor {
         
-        return UIColor.hexStringToUIColor(hex: "F4943A")
+        return UIColor.FoodyFlow.darkOrange
     }
     
     func colorForIndicator(at index: Int) -> UIColor {
         
-        return UIColor.hexStringToUIColor(hex: "FCE3CB")
+        return UIColor.FoodyFlow.lightOrange
     }
     
     func heightForIndicator(at index: Int) -> CGFloat {
@@ -168,8 +190,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         let items = ["購買清單", "Latest", "Trending", "Nearest", "Top Picks"]
       //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
-        self.navigationController?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
+        self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
         menuView = BTNavigationDropdownMenu(
@@ -178,11 +200,11 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             title: BTTitle.index(0), items: items)
 
         menuView.cellHeight = 50
-        menuView.cellBackgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
-        menuView.selectedCellTextLabelColor = UIColor.lightGray
-        menuView.cellSelectionColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
+        menuView.selectedCellTextLabelColor = UIColor.FoodyFlow.lightGray
+        menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
         menuView.shouldKeepSelectedCellColor = true
-        menuView.cellTextLabelColor = UIColor.white
+        menuView.cellTextLabelColor = UIColor.FoodyFlow.white
         menuView.cellTextLabelFont = UIFont(name: "PingFang TC", size: 16)
         menuView.cellTextLabelAlignment = .left // .Center // .Right // .Left
         menuView.arrowPadding = 15
