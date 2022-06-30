@@ -22,6 +22,8 @@ class PersonalViewController: UIViewController {
     
     //private let signOut = UIButton()
     
+    private let background = UIImageView()
+    
     private let personalChangeImageView = UIView()
     
     private let personalChangeImageButton = UIButton()
@@ -42,6 +44,12 @@ class PersonalViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        background.isUserInteractionEnabled = true
+        background.addGestureRecognizer(tapGestureRecognizer)
+        
         addRefrigeButton.titleLabel?.text = ""
         addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
 
@@ -85,6 +93,12 @@ class PersonalViewController: UIViewController {
         } catch {
            print(error)
         }
+    }
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let tappedImage = tapGestureRecognizer.view as? UIImageView
+
+        // Your action
     }
     
     @objc func addRefri() {
@@ -131,7 +145,25 @@ class PersonalViewController: UIViewController {
     
     private func setUI() {
         
-        view.addSubview(signOut)
+        view.addSubview(background)
+        background.addSubview(addRefrigeButton)
+        background.addSubview(personalBackgroundView)
+        background.addSubview(personalName)
+        background.isUserInteractionEnabled = true
+
+        background.image = UIImage(named: "memberback")
+        //let image = UIImage(named: "memberback").isUserInterfaceEnabled
+        //view.backgroundColor = UIColor.init(patternImage: image!)
+        //view.layer.contents  = UIImage(named: "memberback")
+//        view.layer.opacity = 0.5
+        //view.layer.
+        background.snp.makeConstraints { make in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.bottom.equalTo(view)
+            make.top.equalTo(view).offset(-30)
+        }
+        background.addSubview(signOut)
         
         signOut.snp.makeConstraints { make in
             make.centerY.equalTo(addRefrigeButton.snp.centerY)
@@ -143,7 +175,6 @@ class PersonalViewController: UIViewController {
         }
         signOut.setTitle("sign", for: .normal)
         signOut.addTarget(self, action: #selector(signOutTap), for: .touchUpInside)
-
         personalName.text = "Ryan"
         view.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
         personalImage.image = UIImage(named: "girl")
@@ -166,7 +197,7 @@ class PersonalViewController: UIViewController {
         }
         personalChangeImageButton.setImage(UIImage(named: "photo"), for: .normal)
         
-        view.addSubview(personalChangNameButton)
+        background.addSubview(personalChangNameButton)
 
         personalChangNameButton.snp.makeConstraints { make in
             make.leading.equalTo(personalName.snp.trailing).offset(5)
@@ -182,7 +213,7 @@ class PersonalViewController: UIViewController {
         personalTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(personalTableView)
         
-        personalTableView.topAnchor.constraint(equalTo: personalName.bottomAnchor, constant: 30).isActive = true
+        personalTableView.topAnchor.constraint(equalTo: personalName.bottomAnchor, constant: 100).isActive = true
         personalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         personalTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         personalTableView.bottomAnchor.constraint(
@@ -190,7 +221,7 @@ class PersonalViewController: UIViewController {
             constant: -40).isActive = true
         personalTableView.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
         
-        view.addSubview(notificationLabel)
+        background.addSubview(notificationLabel)
         
         notificationLabel.snp.makeConstraints { make in
             make.top.equalTo(personalTableView.snp.bottom).offset(5)
@@ -198,11 +229,11 @@ class PersonalViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(0)
         }
         notificationLabel.text = "開啟即將到期提醒通知"
-        view.addSubview(notificationSwitch)
+        background.addSubview(notificationSwitch)
         
         notificationSwitch.snp.makeConstraints { make in
             make.centerY.equalTo(notificationLabel)
-            make.leading.equalTo(notificationLabel.snp.trailing).offset(150)
+            make.leading.equalTo(notificationLabel.snp.trailing).offset(120)
         }
         
         notificationSwitch.addTarget(self, action: #selector(settingNotification), for: .touchUpInside)

@@ -273,6 +273,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dsL-Rb-ZFA" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="note_L" selectedImage="note" id="lFA-NJ-i7o">
+                        <inset key="imageInsets" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
                         <color key="badgeColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -294,6 +295,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8sU-n9-LjJ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="refrigerator_L" selectedImage="refrigerator" id="cwo-u2-4Vt">
+                        <inset key="imageInsets" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
                         <color key="badgeColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -315,6 +317,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oCU-cC-cx3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="cook_L" selectedImage="cook" id="CTb-Jy-C4w">
+                        <inset key="imageInsets" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
                         <color key="badgeColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -407,6 +410,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="D33-Kd-QAc" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="member_L" selectedImage="member" id="i4H-xA-GBq">
+                        <inset key="imageInsets" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
                         <color key="badgeColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -636,15 +640,15 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cook" width="60" height="60"/>
-        <image name="cook_L" width="60" height="60"/>
-        <image name="member" width="60" height="60"/>
-        <image name="member_L" width="60" height="60"/>
-        <image name="note" width="60" height="60"/>
-        <image name="note_L" width="60" height="60"/>
+        <image name="cook" width="100" height="100"/>
+        <image name="cook_L" width="100" height="100"/>
+        <image name="member" width="100" height="100"/>
+        <image name="member_L" width="100" height="100"/>
+        <image name="note" width="100" height="100"/>
+        <image name="note_L" width="100" height="100"/>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <image name="refrigerator" width="60" height="60"/>
-        <image name="refrigerator_L" width="60" height="60"/>
+        <image name="refrigerator" width="100" height="100"/>
+        <image name="refrigerator_L" width="100" height="100"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

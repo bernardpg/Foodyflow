@@ -34,6 +34,22 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
 
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           //navigationController?.navigationBar.prefersLargeTitles = true
+
+           let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+           appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.shadowColor = .clear
+
+           navigationController?.navigationBar.tintColor = .white
+           navigationController?.navigationBar.standardAppearance = appearance
+           navigationController?.navigationBar.compactAppearance = appearance
+           navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+   }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

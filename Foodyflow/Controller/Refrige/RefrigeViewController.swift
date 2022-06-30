@@ -301,6 +301,10 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         
     }
     
+    func heightForIndicator(at index: Int) -> CGFloat {
+        return CGFloat(50.0)
+    }
+    
     func numberOfItems() -> Int {
         containerView.count
     }

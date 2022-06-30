@@ -159,6 +159,10 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         return UIColor.hexStringToUIColor(hex: "FCE3CB")
     }
     
+    func heightForIndicator(at index: Int) -> CGFloat {
+        return CGFloat(50.0)
+    }
+    
     // wait for change 
     func setDropdown() {
         let items = ["購買清單", "Latest", "Trending", "Nearest", "Top Picks"]
