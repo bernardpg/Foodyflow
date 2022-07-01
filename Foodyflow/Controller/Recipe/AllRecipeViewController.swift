@@ -183,9 +183,13 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
             for: indexPath) as? RecipeTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.recipeName.text = recipeAmount[indexPath.row].recipeName
-        cell.recipeImage.backgroundColor = .black
+//        cell.recipeImage.backgroundColor = .black
         return cell
     }
+    
+    //func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    //    100
+    //}
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath)")
