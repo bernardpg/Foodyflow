@@ -12,9 +12,7 @@ import FirebaseAuth
 
 class RefrigeAllFoodViewController: UIViewController {
     
-    var refrigeTableView = UITableView() {
-        didSet{refrigeTableView.reloadData() }
-    }
+    var refrigeTableView = UITableView() { didSet{ refrigeTableView.reloadData() } }
     
     private var tapButton = UIButton()
     
@@ -80,7 +78,7 @@ class RefrigeAllFoodViewController: UIViewController {
         super.viewWillAppear(animated)
         // lottie 開始
         
-        //singlerefrige()
+        singlerefrige()
         
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -218,13 +216,13 @@ class RefrigeAllFoodViewController: UIViewController {
                         let shoppingVC = RefrigeProductDetailViewController(
                         nibName: "ShoppingProductDetailViewController",
                         bundle: nil)
-                //        shoppingVC.refrige = refrige[0]
+                        // bug fixs
+                        shoppingVC.refrige = self.refrige[0]
                         self.navigationController!.pushViewController(shoppingVC, animated: true)
 
                     } else {
                         self.present(LoginViewController(),animated: true)
  
-                      //  return
                     }
                 }
 
@@ -337,7 +335,7 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
-            self?.navigationController?.pushViewController(shoppingVC,animated: true)
+            self?.navigationController?.pushViewController( shoppingVC, animated: true )
             }
         
         return cell

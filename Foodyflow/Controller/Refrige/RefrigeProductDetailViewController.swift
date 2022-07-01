@@ -111,23 +111,23 @@ class RefrigeProductDetailViewController: UIViewController {
         guard let foodId = foodId else { return }  // bugs
         refrige.foodID.append(foodId)
         RefrigeManager.shared.publishFoodOnRefrige(refrige: self.refrige) {
-
+            
             result in
             
-            self.onPublished?()
+            self.onPublished?() 
             
         }
 
         self.navigationController?.popViewController(animated: true)}
     
-    @objc func selectPhoto(recognizer:UITapGestureRecognizer) {
+    @objc func selectPhoto( recognizer: UITapGestureRecognizer) {
         
         if  recognizer.state == .began {
             action()
         }
 
     }
-    func action(){
+    func action() {
             
             let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: "open camera", style: .default, handler: { (handler) in
@@ -185,7 +185,7 @@ class RefrigeProductDetailViewController: UIViewController {
                     
                     let db = Firestore.firestore()
                 
-                    db.collection("foods").document(foodId!).updateData(["foodImages":path])
+                    db.collection("foods").document(foodId!).updateData(["foodImages": path])
                 }
                 
             }

@@ -20,7 +20,8 @@ class CreatePersonViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                          action: #selector(imageTapped(tapGestureRecognizer:)))
         background.isUserInteractionEnabled = true
         background.addGestureRecognizer(tapGestureRecognizer)
 
@@ -77,8 +78,8 @@ class CreatePersonViewController: UIViewController {
         createUser.lkCornerRadius = 20
     }
     
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer){
-        let tappedImage = tapGestureRecognizer.view as? UIImageView
+    @objc func imageTapped( tapGestureRecognizer: UITapGestureRecognizer ) {
+        _ = tapGestureRecognizer.view as? UIImageView
     }
     
 }

@@ -58,7 +58,7 @@ struct AuthManager {
         do {
             try Auth.auth().signOut()
             return .success(())
-        } catch(let error) {
+        } catch (let error) {
             return .failure(error)
         }
     }

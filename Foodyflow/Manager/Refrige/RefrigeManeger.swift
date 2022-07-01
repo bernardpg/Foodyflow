@@ -49,9 +49,10 @@ class RefrigeManager {
         }
     }
     
-    func fetchSingleRefrigeInfo(refrige: Refrige, completion: @escaping ((Result<Refrige,Error>) -> Void)) {
+    func fetchSingleRefrigeInfo(refrige: Refrige, completion: @escaping ((Result<Refrige, Error>) -> Void)) {
         let colref = db.collection("Refrige")
-        colref.document(refrige.id).getDocument{ (document, error) in
+        colref.document(refrige.id).getDocument {
+            (document, error) in
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -78,8 +79,8 @@ class RefrigeManager {
                 completion(.failure(error))
             } else {
                 
-//                article.foodID.append(foodId!)
-//                articles.append(article)
+ //               article.foodID.append(foodId!)
+ //               articles.append(article)
 
                 completion(.success("Success"))
             }

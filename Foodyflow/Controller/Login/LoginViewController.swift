@@ -76,6 +76,7 @@ class LoginViewController: UIViewController {
         }
         appleButton.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
         appleButton.setImage(UIImage(named: "appleidButton"), for: .normal)
+        
 //        appleButton.image(for: .normal) = UIImage(named: "appleidButton")
 //        appleButton.backgroundColor = .systemPink
         
@@ -85,12 +86,13 @@ class LoginViewController: UIViewController {
             make.centerX.equalTo(appleButton.snp.centerX)
             make.width.equalTo(271)
             make.height.equalTo(50)
-            
-            let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
+            let signInWithAppleBtn =
+            ASAuthorizationAppleIDButton(authorizationButtonType: .signIn,
+                                                                  authorizationButtonStyle: chooseAppleButtonStyle())
         }
-        //userTry.setTitle("以訪客登入使用", for: .normal)
-        //userTry.setTitleColor(UIColor.systemBlue, for: .normal)
-        //userTry.addTarget(self, action: #selector(createVC), for: .touchUpInside)
+        // userTry.setTitle("以訪客登入使用", for: .normal)
+        // userTry.setTitleColor(UIColor.systemBlue, for: .normal)
+        // userTry.addTarget(self, action: #selector(createVC), for: .touchUpInside)
         
     }
     
@@ -125,12 +127,11 @@ class LoginViewController: UIViewController {
         let charset: Array<Character> = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remainingLength = length
-
         while(remainingLength > 0) {
             let randoms: [UInt8] = (0 ..< 16).map { _ in
                 var random: UInt8 = 0
-                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-                if (errorCode != errSecSuccess) {
+                let errorCode = SecRandomCopyBytes( kSecRandomDefault, 1, &random )
+                if ( errorCode != errSecSuccess ) {
                     fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
                 }
                 return random
@@ -161,22 +162,30 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
         // 登入成功
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
             guard let appleIDToken = appleIDCredential.identityToken else {
-                CustomFunc.customAlert(title: "", message: "Unable to fetch identity token", vc: self, actionHandler: nil)
+                CustomFunc.customAlert(title: "",
+                                       message: "Unable to fetch identity token",
+                                       vc: self,
+                                       actionHandler: nil)
                 return
             }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                CustomFunc.customAlert(title: "", message: "Unable to serialize token string from data\n\(appleIDToken.debugDescription)", vc: self, actionHandler: nil)
+                CustomFunc.customAlert(title: "",
+                                       message: "Unable to serialize token from data\n\(appleIDToken.debugDescription)",
+                                       vc: self,
+                                       actionHandler: nil)
                 return
             }
             // 產生 Apple ID 登入的 Credential
-            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
+            let credential = OAuthProvider.credential(withProviderID: "apple.com",
+                                                      idToken: idTokenString, rawNonce: nonce)
             // 與 Firebase Auth 進行串接
             firebaseSignInWithApple(credential: credential)
         }
@@ -219,11 +228,14 @@ extension LoginViewController {
     func firebaseSignInWithApple(credential: AuthCredential) {
         Auth.auth().signIn(with: credential) { authResult, error in
             guard error == nil else {
-                CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
+                CustomFunc.customAlert(title: "",
+                                       message: "\(String(describing: error!.localizedDescription))",
+                                       vc: self,
+                                       actionHandler: nil)
                 return
             }
-            var userID = Auth.auth().currentUser?.uid
-            var userEmail = Auth.auth().currentUser?.email
+            let userID = Auth.auth().currentUser?.uid
+            let userEmail = Auth.auth().currentUser?.email
             let userInfo = UserInfo.init(userID: userID ?? "",
                                          userName: "",
                                          userEmail: userEmail ?? "" ,
@@ -264,7 +276,7 @@ class CustomFunc {
         DispatchQueue.main.async {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             let closeAction = UIAlertAction(title: "關閉",
-                                            style: .default) { action in
+                                            style: .default) { _ in
                 actionHandler?()
             }
             alertController.addAction(closeAction)

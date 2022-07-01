@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 class SearchPlaceholderView: UIView {
     
     private let imageView: UIImageView = {
@@ -21,7 +20,7 @@ class SearchPlaceholderView: UIView {
     
     private let titleLabel: UILabel = {
        let label = UILabel()
-        label.text = "Search for companies to calculate potential returns via dollar cost avaraging "
+        label.text = "Search for recipe when you don't have any ideas "
         label.font = UIFont(name: "AvenirNext-Medium", size: 14)!
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -30,7 +29,7 @@ class SearchPlaceholderView: UIView {
     // not call static view till it's been caught
     // access all  property within the class
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [imageView,titleLabel])
+        let stackView = UIStackView(arrangedSubviews: [ imageView, titleLabel ])
         stackView.axis = .vertical
         stackView.spacing = 24
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,12 +49,10 @@ class SearchPlaceholderView: UIView {
         addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8), // with contentview
-            stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 100),
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 88)
+            imageView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
-    
-    
     
 }

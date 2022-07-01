@@ -48,7 +48,7 @@ class WishListViewController: UIViewController {
     
     var othersInfo: [FoodInfo] = []
     
-    var onPublished: (()->())?
+    var onPublished: ( () -> Void)?
     
     @IBOutlet weak var wishList: UICollectionView!
 //    {didSet{shoppingList.reloadData()}}
@@ -145,26 +145,26 @@ class WishListViewController: UIViewController {
                 for cate in cates {
                     guard let foodCategory = foodInfo.foodCategory else { return }
                     if foodCategory == cate! && cate! == "肉類"
-                    { self.meatsInfo.append(foodInfo) }
-                     else if foodCategory == cate! && cate! == "豆類"
-                    { self.beansInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "雞蛋類"
-                    { self.eggsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "青菜類"
-                    { self.vegsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "醃製類"
-                    { self.picklesInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "水果類"
-                    { self.fruitsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "魚類"
-                    { self.fishesInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "海鮮類"
-                    { self.seafoodsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "飲料類"
-                    { self.beveragesInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "調味料類"
-                    { self.seasonsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "其他"
+                    { self.meatsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "豆類"
+                    { self.beansInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "雞蛋類"
+                    { self.eggsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "青菜類"
+                    { self.vegsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "醃製類"
+                    { self.picklesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "水果類"
+                    { self.fruitsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "魚類"
+                    { self.fishesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "海鮮類"
+                    { self.seafoodsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "飲料類"
+                    { self.beveragesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "調味料類"
+                    { self.seasonsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "其他"
                     { self.othersInfo.append(foodInfo) }
                 }
             }
@@ -210,14 +210,14 @@ class WishListViewController: UIViewController {
     }
     
 //    shoppingListNowID
-    func fetAllFood(foodID: [String?],completion: @escaping([FoodInfo]) -> Void) {
+    func fetAllFood(foodID: [String?], completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []
         foodManager.fetchSpecifyFoodInShopping(foods: foodID, completion: { result in
             switch result {
             case .success(let foodsinfo):
                 self.foodsInfo.append(foodsinfo)
-                if self.foodsInfo.count == self.foodsInShoppingList.count {completion(self.foodsInfo)}
-            else {print("append not finish yet ")}
+                if self.foodsInfo.count == self.foodsInShoppingList.count { completion(self.foodsInfo) } else {
+                    print("append not finish yet ") }
 
             case .failure:
                 print("fetch shopplinglist food error")
@@ -329,7 +329,8 @@ extension WishListViewController: UICollectionViewDataSource,
         
     }
         
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "shoppingListCollectionViewCell",
                 for: indexPath) as? ShoppingListCollectionViewCell
@@ -378,7 +379,9 @@ extension WishListViewController: UICollectionViewDataSource,
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
 
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView (
             ofKind: kind,
@@ -404,7 +407,8 @@ extension WishListViewController: UICollectionViewDataSource,
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
         
         switch indexPath.section {
         case 0:

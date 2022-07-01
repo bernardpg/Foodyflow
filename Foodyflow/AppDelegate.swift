@@ -20,14 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         FirebaseApp.configure()
 
-        /*
-        if Auth.auth().currentUser?.uid != nil {
-            self.window?.rootViewController = UINavigationController.init(rootViewController: RefrigeViewController())
-
-        } else {
-            self.window?.rootViewController = UINavigationController.init(rootViewController: LoginViewController())
-        }
-       */
         // Override point for customization after application launch.
         return true
     }

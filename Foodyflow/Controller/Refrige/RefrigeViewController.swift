@@ -113,17 +113,11 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
 
         Auth.auth().addStateDidChangeListener { (auth, user) in
                     if user != nil {
-                        print(user?.uid)
+                        print("\(String(describing: user?.uid))")
 
-                        //guard let vc = self.storyboard?.instantiateViewController(
-                     //       withIdentifier: "AccountViewController") as? AccountViewController
-                     //   else {
-                    //        fatalError("can't find AccountViewController")
-                 //       }
-                        //self.navigationController?.pushViewController(vc, animated: true)
                         return
                     } else {
-                        self.present(LoginViewController(),animated: true)
+                        self.present( LoginViewController() , animated: true)
                     }
                 }
 
@@ -358,10 +352,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
-        //button.setTitleColor(UIColor.black, for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
-        //button.backgroundColor = .black
         return button
     }
     
@@ -471,7 +463,7 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
-            self?.navigationController?.pushViewController(shoppingVC,animated: true)}
+            self?.navigationController?.pushViewController( shoppingVC, animated: true) }
         
         return cell
     }

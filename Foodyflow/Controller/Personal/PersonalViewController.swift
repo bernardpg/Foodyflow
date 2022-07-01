@@ -34,7 +34,7 @@ class PersonalViewController: UIViewController {
     
     private let notificationSwitch = UISwitch()
     
-    var onPublished: (() -> (Void))?
+    var onPublished: (() -> Void )?
     
     var handle: AuthStateDidChangeListenerHandle?
     
@@ -45,7 +45,8 @@ class PersonalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                          action: #selector(imageTapped(tapGestureRecognizer:)))
         background.isUserInteractionEnabled = true
         background.addGestureRecognizer(tapGestureRecognizer)
         
@@ -97,9 +98,9 @@ class PersonalViewController: UIViewController {
                         
                         self.fetchAllRefrige()
 
-                        print(user?.uid)
+                        print("\(String(describing: user?.uid))")
                     } else {
-                        self.present(LoginViewController(),animated: true)
+                        self.present( LoginViewController(), animated: true )
                         completion()
                     }
                 }
@@ -123,15 +124,19 @@ class PersonalViewController: UIViewController {
     }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let tappedImage = tapGestureRecognizer.view as? UIImageView
+        _ = tapGestureRecognizer.view as? UIImageView
     }
     
     @objc func addRefri() {
         
         verifyUser {
-            self.openAlert(controller: self, mainTitle: "請選擇", firstTitle: "創建新食光", secondTitle: "邀請加入xxx食光", cancelTitle: "取消")
+            self.openAlert(controller: self,
+                           mainTitle: "請選擇",
+                           firstTitle: "創建新食光",
+                           secondTitle: "邀請加入xxx食光",
+                           cancelTitle: "取消")
         }
-//        cameraAc3tion()
+        cameraAc3tion()
         func cameraAc3tion() {
             RefrigeManager.shared.createFrige(refrige: &self.refrige) { result in
                 self.onPublished?()
@@ -297,7 +302,7 @@ class PersonalViewController: UIViewController {
     }
 }
 
-extension PersonalViewController: UITableViewDelegate,UITableViewDataSource {
+extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         refrigeAmount.count
     }

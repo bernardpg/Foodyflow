@@ -68,8 +68,11 @@ class FoodManager {
     // need to refactor
     func fetchSpecifyFood(refrige: Refrige, completion: @escaping (Result<FoodInfo, Error>) -> Void) {
         let colref = db.collection("foods")
-        var foods = FoodInfo()
-        guard !refrige.foodID.isEmpty else  { return completion(.success(foods))}
+        let foods = FoodInfo()
+        guard !refrige.foodID.isEmpty else {
+            completion(.success(foods))
+            return
+        }
         for food in refrige.foodID {
             colref.document(food).getDocument { (document, error) in
                 if let error = error {

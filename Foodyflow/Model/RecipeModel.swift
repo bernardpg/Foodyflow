@@ -1,13 +1,14 @@
 //
-//  User.swift
+//  RecipeModel.swift
 //  Foodyflow
 //
-//  Created by 曹珮綺 on 6/29/22.
+//  Created by 曹珮綺 on 7/1/22.
 //
 
 import Foundation
 
-struct UserInfo: Codable {
+
+struct Recipe: Codable {
     
     var userID: String
     
@@ -25,24 +26,4 @@ struct UserInfo: Codable {
     
     var personalDoRecipe: [String?]
         
-}
-
-struct SignIn: Codable {
-    
-    var email: String
-    
-    var password: String
-    
-}
-
-struct SignUp: Codable {
-
-    var userName: String
-    
-    var userPhotoLink: String
-    
-    var email: String
-    
-    var password: String
-    
 }
