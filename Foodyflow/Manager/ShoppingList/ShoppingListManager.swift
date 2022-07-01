@@ -40,7 +40,6 @@ class ShoppingListManager {
     
     func fetchfoodInfoInsideSingleShoppingList(completion: @escaping (Result<[String?], Error>) -> Void) {
         
-        
         //guard let shoppingListNowID = shoppingListNowID else { return }
         
         let docRef = db.collection("shoppingList").document(shoppingListNowID!)
