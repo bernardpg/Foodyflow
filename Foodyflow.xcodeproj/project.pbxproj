@@ -64,6 +64,9 @@
 		A98D50EC2863F8BA00B326AC /* ShoppingListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */; };
 		A98D50EE28640AB900B326AC /* ShoppingListCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */; };
 		A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50EF28643F6000B326AC /* GlobalVariable.swift */; };
+		A9D44280286EE21B00D69175 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */; };
+		A9D44281286EE21B00D69175 /* RecipeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D4427F286EE21B00D69175 /* RecipeTableViewCell.xib */; };
+		A9D44283286EE93800D69175 /* RecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D44282286EE93800D69175 /* RecipeModel.swift */; };
 		A9ED9568286843B300FBF68A /* LoadingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED9567286843B300FBF68A /* LoadingExtension.swift */; };
 		A9ED956A286849BB00FBF68A /* ExpiredRefirgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED9569286849BB00FBF68A /* ExpiredRefirgeViewController.swift */; };
 		A9ED956C286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED956B286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift */; };
@@ -136,6 +139,9 @@
 		A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListManager.swift; sourceTree = "<group>"; };
 		A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCollectionReusableView.swift; sourceTree = "<group>"; };
 		A98D50EF28643F6000B326AC /* GlobalVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariable.swift; sourceTree = "<group>"; };
+		A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
+		A9D4427F286EE21B00D69175 /* RecipeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeTableViewCell.xib; sourceTree = "<group>"; };
+		A9D44282286EE93800D69175 /* RecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
 		A9ED9567286843B300FBF68A /* LoadingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingExtension.swift; sourceTree = "<group>"; };
 		A9ED9569286849BB00FBF68A /* ExpiredRefirgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredRefirgeViewController.swift; sourceTree = "<group>"; };
 		A9ED956B286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithinThreeDaysRefirgeViewController.swift; sourceTree = "<group>"; };
@@ -313,6 +319,7 @@
 		A948AAAB285B2CB000355C59 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A9D44279286EE07900D69175 /* Recipe */,
 				A976912B28615B0C00F43702 /* Personal */,
 				A92F6BCD285C946C0090EE90 /* ShopplingList */,
 				A92F6BB3285C38D10090EE90 /* Refrige */,
@@ -325,6 +332,7 @@
 		A948AAAC285B2CB800355C59 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A9D44282286EE93800D69175 /* RecipeModel.swift */,
 				A92F6BB0285C34530090EE90 /* ShoppingList.swift */,
 				A92F6BB9285C54240090EE90 /* RefrigeModel.swift */,
 				A944E69C285F0A100068D7DD /* Refrige.swift */,
@@ -432,6 +440,15 @@
 			path = ShoppingList;
 			sourceTree = "<group>";
 		};
+		A9D44279286EE07900D69175 /* Recipe */ = {
+			isa = PBXGroup;
+			children = (
+				A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */,
+				A9D4427F286EE21B00D69175 /* RecipeTableViewCell.xib */,
+			);
+			path = Recipe;
+			sourceTree = "<group>";
+		};
 		A9ED95662868438900FBF68A /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,6 +526,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9D44281286EE21B00D69175 /* RecipeTableViewCell.xib in Resources */,
 				A948AAA1285B0B7500355C59 /* LaunchScreen.storyboard in Resources */,
 				A948AAB2285B309E00355C59 /* ShoppingProductDetailViewController.xib in Resources */,
 				A93EF94F286AEE6400EDDA4B /* LoginViewController.xib in Resources */,
@@ -594,6 +612,7 @@
 				A948AABA285B3C4700355C59 /* UIColor+Extension.swift in Sources */,
 				A92F6BB1285C34530090EE90 /* ShoppingList.swift in Sources */,
 				A95B6CAE286165CC003153B0 /* PersonalTableViewCell.swift in Sources */,
+				A9D44280286EE21B00D69175 /* RecipeTableViewCell.swift in Sources */,
 				A96EA15E285FB99100941433 /* ShoppingListViewController.swift in Sources */,
 				A9ED956A286849BB00FBF68A /* ExpiredRefirgeViewController.swift in Sources */,
 				A944E69D285F0A100068D7DD /* Refrige.swift in Sources */,
@@ -633,6 +652,7 @@
 				A98D50EC2863F8BA00B326AC /* ShoppingListManager.swift in Sources */,
 				A944E69B285EB78F0068D7DD /* RecipeManager.swift in Sources */,
 				A9ED957028684A1D00FBF68A /* InshoppingViewController.swift in Sources */,
+				A9D44283286EE93800D69175 /* RecipeModel.swift in Sources */,
 				A92F6BC0285C79CF0090EE90 /* ContainerView.swift in Sources */,
 				A941E03E286BF45C00B603AF /* User.swift in Sources */,
 				A948AAC2285B3D3400355C59 /* UICollectionVIew+Extension.swift in Sources */,

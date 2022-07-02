@@ -50,9 +50,6 @@ class PersonalViewController: UIViewController {
         background.isUserInteractionEnabled = true
         background.addGestureRecognizer(tapGestureRecognizer)
         
-        addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
-
-        addRefrigeButton.imageView?.tintColor = UIColor.FoodyFlow.darkOrange
         addRefrigeButton.addTarget(self, action: #selector(addRefri), for: .touchUpInside)
         
         setUI()
@@ -70,7 +67,7 @@ class PersonalViewController: UIViewController {
             make.width.equalTo(45)
             make.height.equalTo(45)
         }
-        addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
+        addRefrigeButton.layer.backgroundColor = UIColor.FoodyFlow.lightOrange.cgColor
         addRefrigeButton.imageView?.tintColor = UIColor.FoodyFlow.darkOrange
         personalBackgroundView.lkCornerRadius = personalBackgroundView.frame.height / 2
         personalChangeImageView.lkCornerRadius = personalChangeImageView.frame.height / 2
@@ -197,9 +194,9 @@ class PersonalViewController: UIViewController {
             make.width.equalTo(100)
             make.height.equalTo(60)
         }
-        signOut.setTitle("signout", for: .normal)
+//        signOut.setTitle("signout", for: .normal)
         signOut.addTarget(self, action: #selector(signOutTap), for: .touchUpInside)
-  //      signOut
+        
         personalName.text = "Ryan"
         view.backgroundColor = UIColor.FoodyFlow.darkOrange
         personalImage.image = UIImage(named: "girl")

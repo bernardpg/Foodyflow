@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddRecipeViewController" customModule="Foodyflow" customModuleProvider="target">
             <connections>
+                <outlet property="changeRecipePic" destination="bjm-9m-RVN" id="tPN-Lk-33z"/>
                 <outlet property="foodNeeded" destination="q6C-X9-LST" id="2mP-2k-CIf"/>
                 <outlet property="foodStep" destination="Rg2-Be-ucX" id="GUD-WY-D6E"/>
                 <outlet property="foodStepTypeIn" destination="HCJ-7f-qfO" id="fkU-q2-0L1"/>
@@ -34,28 +35,27 @@
                     </constraints>
                 </imageView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="DJD-11-2NT">
-                    <rect key="frame" x="80" y="351" width="215" height="128"/>
+                    <rect key="frame" x="80" y="351" width="215" height="80"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="215" id="5Dw-Y8-gJC"/>
-                        <constraint firstAttribute="height" constant="128" id="GMo-at-4hA"/>
+                        <constraint firstAttribute="height" constant="80" id="GMo-at-4hA"/>
                     </constraints>
-                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                     <color key="textColor" systemColor="labelColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="22" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="HCJ-7f-qfO">
-                    <rect key="frame" x="80" y="520" width="215" height="58"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="HCJ-7f-qfO">
+                    <rect key="frame" x="80" y="472" width="215" height="107"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <color key="textColor" systemColor="labelColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d8k-iU-EB1">
-                    <rect key="frame" x="40" y="598" width="295" height="31"/>
+                    <rect key="frame" x="80" y="599" width="215" height="30"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q6C-X9-LST">
                     <rect key="frame" x="80" y="314" width="41.5" height="21"/>
@@ -64,7 +64,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rg2-Be-ucX">
-                    <rect key="frame" x="80" y="487" width="41.5" height="21"/>
+                    <rect key="frame" x="80" y="439" width="41.5" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -80,6 +80,15 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjm-9m-RVN">
+                    <rect key="frame" x="155.5" y="95.5" width="64.5" height="64.5"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="bjm-9m-RVN" secondAttribute="height" multiplier="1:1" id="Oyv-Ze-weI"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="plus" catalog="system"/>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -88,13 +97,15 @@
                 <constraint firstItem="DJD-11-2NT" firstAttribute="leading" secondItem="q6C-X9-LST" secondAttribute="leading" id="1dl-5n-wqC"/>
                 <constraint firstItem="q6C-X9-LST" firstAttribute="top" secondItem="Mw6-xQ-Dqq" secondAttribute="bottom" constant="8" id="1k1-nc-F38"/>
                 <constraint firstItem="d8k-iU-EB1" firstAttribute="top" secondItem="HCJ-7f-qfO" secondAttribute="bottom" constant="20" id="6m2-yI-1Yp"/>
+                <constraint firstItem="bjm-9m-RVN" firstAttribute="centerX" secondItem="Nhf-gV-UAX" secondAttribute="centerX" id="8Jf-iV-pdC"/>
+                <constraint firstItem="d8k-iU-EB1" firstAttribute="centerX" secondItem="HCJ-7f-qfO" secondAttribute="centerX" id="Ccy-Nb-otM"/>
                 <constraint firstItem="q6C-X9-LST" firstAttribute="leading" secondItem="Nhf-gV-UAX" secondAttribute="leading" id="HsZ-5V-T0W"/>
                 <constraint firstItem="DJD-11-2NT" firstAttribute="centerX" secondItem="Nhf-gV-UAX" secondAttribute="centerX" id="Muc-ha-KOM"/>
                 <constraint firstItem="HCJ-7f-qfO" firstAttribute="centerX" secondItem="DJD-11-2NT" secondAttribute="centerX" id="N1s-eQ-jGZ"/>
+                <constraint firstItem="d8k-iU-EB1" firstAttribute="width" secondItem="HCJ-7f-qfO" secondAttribute="width" id="OyH-gs-C3y"/>
                 <constraint firstItem="HCJ-7f-qfO" firstAttribute="leading" secondItem="DJD-11-2NT" secondAttribute="leading" id="VGk-jh-qoZ"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="d8k-iU-EB1" secondAttribute="bottom" constant="38" id="Xxl-IV-VMQ"/>
                 <constraint firstItem="Rg2-Be-ucX" firstAttribute="leading" secondItem="q6C-X9-LST" secondAttribute="leading" id="Yhs-eJ-Uq8"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="d8k-iU-EB1" secondAttribute="trailing" constant="40" id="abe-ZE-3IJ"/>
                 <constraint firstItem="F5h-EI-Nhp" firstAttribute="top" secondItem="Nhf-gV-UAX" secondAttribute="bottom" constant="8" id="cs6-vb-rf8"/>
                 <constraint firstItem="Nhf-gV-UAX" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="80" id="iVT-Ej-9oN"/>
                 <constraint firstItem="Mw6-xQ-Dqq" firstAttribute="leading" secondItem="F5h-EI-Nhp" secondAttribute="leading" id="k8D-5Y-BHA"/>
@@ -103,10 +114,11 @@
                 <constraint firstItem="HCJ-7f-qfO" firstAttribute="top" secondItem="DJD-11-2NT" secondAttribute="bottom" constant="41" id="rQO-Bp-k7I"/>
                 <constraint firstItem="HCJ-7f-qfO" firstAttribute="trailing" secondItem="DJD-11-2NT" secondAttribute="trailing" id="tHV-7I-Zt9"/>
                 <constraint firstItem="DJD-11-2NT" firstAttribute="trailing" secondItem="Mw6-xQ-Dqq" secondAttribute="trailing" id="tJh-gk-s2i"/>
-                <constraint firstItem="d8k-iU-EB1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="tss-tH-W0B"/>
                 <constraint firstItem="Rg2-Be-ucX" firstAttribute="top" secondItem="DJD-11-2NT" secondAttribute="bottom" constant="8" symbolic="YES" id="v3f-Fn-jrY"/>
                 <constraint firstItem="DJD-11-2NT" firstAttribute="top" secondItem="q6C-X9-LST" secondAttribute="bottom" constant="16" id="vGR-mz-aaq"/>
+                <constraint firstItem="bjm-9m-RVN" firstAttribute="centerY" secondItem="Nhf-gV-UAX" secondAttribute="centerY" id="w0M-le-FVy"/>
                 <constraint firstItem="Mw6-xQ-Dqq" firstAttribute="top" secondItem="F5h-EI-Nhp" secondAttribute="bottom" constant="8" id="weg-a2-aaY"/>
+                <constraint firstItem="bjm-9m-RVN" firstAttribute="width" secondItem="Nhf-gV-UAX" secondAttribute="width" multiplier="0.3" id="x2A-XM-jeb"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Nhf-gV-UAX" secondAttribute="trailing" constant="80" id="yWF-ZI-uYL"/>
                 <constraint firstItem="F5h-EI-Nhp" firstAttribute="leading" secondItem="Nhf-gV-UAX" secondAttribute="leading" id="ywF-4H-DgV"/>
             </constraints>
@@ -115,6 +127,7 @@
     </objects>
     <resources>
         <image name="imageDefault" width="352" height="243"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
