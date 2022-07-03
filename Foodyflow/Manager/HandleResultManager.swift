@@ -6,8 +6,8 @@
 //
 
 import UIKit
-// import PKHUD
-/*
+ import PKHUD
+
 enum HandleInputResult {
     
     case emailEmpty
@@ -22,21 +22,21 @@ enum HandleInputResult {
     
     case passwordIsDifferent
     
-    case contentEmpty
+   // case contentEmpty
     
-    case titleEmpty
+ //   case titleEmpty
     
-    case categoryEmpty
+ //   case categoryEmpty
     
     case selectCategory
     
-    case startDateEmpty
+ //   case startDateEmpty
     
-    case endDateEmpty
+ //   case endDateEmpty
     
-    case studyItemEmpty
+ //   case studyItemEmpty
     
-    case startDatereLativelyLate
+ //   case startDatereLativelyLate
     
     case selectDate
     
@@ -72,37 +72,37 @@ enum HandleInputResult {
 
             HUD.flash(.label("密碼與檢查碼不一致！"), delay: 0.5)
             
-        case .contentEmpty:
-            
-            HUD.flash(.label(InputError.contentEmpty.title), delay: 0.5)
-            
-        case .titleEmpty:
-            
-            HUD.flash(.label(InputError.titleEmpty.title), delay: 0.5)
-            
-        case .categoryEmpty:
-            
-            HUD.flash(.label(InputError.categoryEmpty.title), delay: 0.5)
-            
+//        case .contentEmpty:
+//
+//            HUD.flash(.label(InputError.contentEmpty.title), delay: 0.5)
+//
+//        case .titleEmpty:
+//
+//            HUD.flash(.label(InputError.titleEmpty.title), delay: 0.5)
+//
+//        case .categoryEmpty:
+//
+//            HUD.flash(.label(InputError.categoryEmpty.title), delay: 0.5)
+//
         case .selectCategory:
             
             HUD.flash(.label("請選擇標籤！"), delay: 0.5)
             
-        case .startDateEmpty:
-            
-            HUD.flash(.label(InputError.startDateEmpty.title), delay: 0.5)
-
-        case .endDateEmpty:
-            
-            HUD.flash(.label(InputError.endDateEmpty.title), delay: 0.5)
-            
-        case .studyItemEmpty:
-            
-            HUD.flash(.label(InputError.studyItemEmpty.title), delay: 0.5)
-            
-        case .startDatereLativelyLate:
-            
-            HUD.flash(.label(InputError.startDatereLativelyLate.title), delay: 0.5)
+//        case .startDateEmpty:
+//
+//            HUD.flash(.label(InputError.startDateEmpty.title), delay: 0.5)
+//
+//        case .endDateEmpty:
+//
+//            HUD.flash(.label(InputError.endDateEmpty.title), delay: 0.5)
+//
+//        case .studyItemEmpty:
+//
+//            HUD.flash(.label(InputError.studyItemEmpty.title), delay: 0.5)
+//
+//        case .startDatereLativelyLate:
+//
+//            HUD.flash(.label(InputError.startDatereLativelyLate.title), delay: 0.5)
             
         case .selectDate:
             
@@ -170,11 +170,11 @@ enum HandleResult {
             
         case .imageUpload:
             
-            HUD.show(.labeledProgress(title: "圖片上傳中...", subtitle: nil))
+            HUD.show(.labeledProgress(title: "食譜上傳中...", subtitle: nil))
             
         case .imageUploadSuccess:
             
-            HUD.flash(.labeledSuccess(title: "圖片上傳成功！", subtitle: nil))
+            HUD.flash(.labeledSuccess(title: "食譜上傳成功！", subtitle: nil))
             
         case .imageUploadFailed:
             
@@ -253,4 +253,4 @@ enum HandleResult {
     }
     
 }
-*/
+

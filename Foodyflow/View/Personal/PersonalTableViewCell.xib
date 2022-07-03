@@ -17,20 +17,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="373" height="138"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mdu-Af-LAX">
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Mdu-Af-LAX">
                         <rect key="frame" x="50" y="10" width="273" height="24"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="refrigerators" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Wj-c9d">
                                 <rect key="frame" x="0.0" y="0.0" width="38" height="24"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="9bF-hR-916"/>
                                     <constraint firstAttribute="width" secondItem="aI0-Wj-c9d" secondAttribute="height" multiplier="35:22" id="dri-KF-qM6"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giy-EH-znD">
-                                <rect key="frame" x="38" y="0.0" width="235" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="26G-S6-eJv"/>
-                                </constraints>
+                                <rect key="frame" x="58" y="0.0" width="215" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -42,7 +40,7 @@
                     <constraint firstItem="Mdu-Af-LAX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="00s-wr-ZPZ"/>
                     <constraint firstAttribute="trailing" secondItem="Mdu-Af-LAX" secondAttribute="trailing" constant="50" id="NqC-X5-ayC"/>
                     <constraint firstItem="Mdu-Af-LAX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="boa-C5-SXi"/>
-                    <constraint firstAttribute="bottom" secondItem="Mdu-Af-LAX" secondAttribute="bottom" constant="10" id="cM4-nO-fbA"/>
+                    <constraint firstAttribute="bottom" secondItem="Mdu-Af-LAX" secondAttribute="bottom" constant="5" id="cM4-nO-fbA"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

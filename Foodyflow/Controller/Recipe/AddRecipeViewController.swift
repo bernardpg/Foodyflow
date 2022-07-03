@@ -42,8 +42,30 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     var recipe: Recipe?
     // = Recipe(recipeID: "", recipeName: "", recipeImage: "", recipeFood: "", recipeStep: "")
     
+    var recipeName: String = ""
+    
+    var recipeFood: String = ""
+    
+    var recipeStep: String = ""
+    
+    var recipeInImage: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        recipeTextField.text = recipeName
+        
+        foodTypeIn.text = recipeFood
+        foodStepTypeIn.text = recipeStep
+        
+        if recipeInImage == ""    {
+                recipeImage.image = UIImage(named: "imageDefault") } else{
+            recipeImage.kf.setImage(with:URL(string: recipeInImage))
+        }
+        
+        
+//        recipeImage.image = recipeInImage
+        
+        
         
         setUI()
 
@@ -70,8 +92,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         recipeTextField.layer.borderWidth = 0.3
         recipeTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         recipeTextField.lkCornerRadius = 10
-//        recipeTextField.text = recipe.recipeName
-
         foodNeeded.text = "所需食材"
         foodNeeded.font = UIFont(name: "PingFang TC", size: 16)
         

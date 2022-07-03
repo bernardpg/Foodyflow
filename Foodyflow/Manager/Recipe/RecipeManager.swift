@@ -21,15 +21,18 @@ class RecipeManager {
     
     func createRecipe( recipe: inout Recipe, completion: @escaping (Result<String, Error>) -> Void) {
         
+        HandleResult.imageUpload.messageHUD
+        
         let document = db.collection("recipe").document()
         recipe.recipeID = document.documentID
         document.setData(recipe.toDict) { error in
             
             if let error = error {
-                
+                HandleResult.imageUploadFailed.messageHUD
                 completion(.failure(error))
             } else {
                 
+                HandleResult.imageUploadSuccess.messageHUD
                 completion(.success("Success"))
             }
         }

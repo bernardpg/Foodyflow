@@ -9,6 +9,7 @@
 
 import UIKit
 import FirebaseAuth
+import Kingfisher
 
 class RefrigeAllFoodViewController: UIViewController {
     

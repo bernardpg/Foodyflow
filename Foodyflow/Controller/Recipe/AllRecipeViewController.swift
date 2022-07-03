@@ -10,6 +10,7 @@ import SnapKit
 import Combine
 import FirebaseAuth
 import Kingfisher
+import PKHUD
 
 class AllRecipeViewController: UIViewController {
     
@@ -207,9 +208,7 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
-    //func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //    100
-    //}
+    // MARK: - send pic unfinished
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
@@ -217,13 +216,18 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
     
             DispatchQueue.main.async {
                 
-                let addRecipeVC = AddRecipeViewController(
-                    nibName: "AddRecipeViewController",
-                    bundle: nil)
-                
+                let addRecipeVC = AddRecipeViewController(nibName: "AddRecipeViewController",bundle: nil)
+             
+                HandleResult.reportSuccess.messageHUD
+                addRecipeVC.recipeName = recipe?.recipeName ?? ""
+                addRecipeVC.recipeFood = recipe?.recipeFood ?? ""
+                addRecipeVC.recipeStep = recipe?.recipeStep ?? ""
+                addRecipeVC.recipeInImage = recipe?.recipeImage ?? ""
         //        shoppingVC.refrige = refrige[0]
                 self.navigationController!.pushViewController(addRecipeVC, animated: true)
- //               addRecipeVC.recipe.recipeName  = recipe?.recipeName ?? ""
+ //               addRecipeVC.recipe?.recipeName = recipe?.recipeName ?? ""
+//                addRecipeVC.recipe?.recipeFood = recipe?.recipeFood ?? ""
+ //               addRecipeVC.recipe?.recipeStep = recipe?.recipeStep ?? ""
 
             }
             
