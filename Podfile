@@ -17,5 +17,6 @@ target 'Foodyflow' do
   pod 'MBProgressHUD'
   pod  'SwiftLint'
   pod  'FirebaseFirestoreSwift'
+  pod	'Kingfisher'
 
 end

@@ -728,6 +728,7 @@ PODS:
   - gRPC-Core/Interface (1.44.0)
   - GTMSessionFetcher/Core (1.7.2)
   - IQKeyboardManagerSwift (6.5.10)
+  - Kingfisher (7.2.1)
   - leveldb-library (1.22.1)
   - Libuv-gRPC (0.0.10):
     - Libuv-gRPC/Implementation (= 0.0.10)
@@ -755,6 +756,7 @@ DEPENDENCIES:
   - FirebaseFirestoreSwift
   - FirebaseStorage
   - IQKeyboardManagerSwift
+  - Kingfisher
   - LZViewPager (~> 1.2.5)
   - MBProgressHUD
   - MJRefresh
@@ -783,6 +785,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - Kingfisher
     - leveldb-library
     - Libuv-gRPC
     - LZViewPager
@@ -815,6 +818,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
+  Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   LZViewPager: 89ddd98246d54b52bde14c8d91702f946d6f8893
@@ -825,6 +829,6 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
 
-PODFILE CHECKSUM: 0d98321fa671915f08e49ffc6ad0436a79720a4a
+PODFILE CHECKSUM: 051d05787aae26b3810c86f02fd703a453ac1ab9
 
 COCOAPODS: 1.11.3

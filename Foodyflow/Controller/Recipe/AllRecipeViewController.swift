@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 import FirebaseAuth
+import Kingfisher
 
 class AllRecipeViewController: UIViewController {
     
@@ -194,7 +195,14 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
             withIdentifier: "recipeTableViewCell",
             for: indexPath) as? RecipeTableViewCell
         guard let cell = cell else { return UITableViewCell() }
-        cell.recipeName.text = recipeAmount[indexPath.row].recipeName
+        cell.recipeName.text =
+        recipeAmount[indexPath.row].recipeName
+        if recipeAmount[indexPath.row].recipeImage == ""    {
+                cell.recipeImage.image = UIImage(named: "imageDefault") } else{
+            cell.recipeImage.kf.setImage(with:URL(string: recipeAmount[indexPath.row].recipeImage))
+            
+        }
+        // (with: recipeAmount[indexPath.row].recipeImage)
 //        cell.recipeImage.backgroundColor = .black
         return cell
     }
@@ -221,7 +229,6 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
             
         }
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath)")
