@@ -33,6 +33,7 @@ class RefrigeProductDetailViewController: UIViewController {
     
     @IBOutlet weak var foodWeightAmount: UITextField!
     
+    @IBOutlet weak var foodWeiight: UILabel!
     @IBOutlet weak var foodWeighType: UIPickerView!
     @IBOutlet weak var purchaseDate: UILabel!
     @IBOutlet weak var purchaseDateTextfield: UITextField!
@@ -63,10 +64,8 @@ class RefrigeProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        foodName.text = "食物名稱"
-        foodCate.text = "食物種類"
-        purchaseDate.text = "購買日期"
-        expireDate.text = "過期日期"
+        
+        setUI()
         
         self.foodNameTextField.text = foodItemName
         
@@ -82,6 +81,38 @@ class RefrigeProductDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false        
+    }
+    
+    private func setUI() {
+        
+        foodCate.text = "分類"
+        foodName.text = "食物名稱"
+        foodWeiight.text = "數量"
+        purchaseDate.text = "購買日"
+        expireDate.text = "過期日"
+        foodNameTextField.lkCornerRadius = 20
+        foodNameTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodNameTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodNameCateTextField.lkCornerRadius = 20
+        foodNameCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodNameCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+
+        foodWeightAmount.lkCornerRadius = 20
+        foodWeightAmount.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodWeightAmount.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+
+        purchaseDateTextfield.lkCornerRadius = 20
+        purchaseDateTextfield.backgroundColor = UIColor.FoodyFlow.extraOrange
+        purchaseDateTextfield.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        expireDateTextfield.lkCornerRadius = 20
+        expireDateTextfield.backgroundColor = UIColor.FoodyFlow.extraOrange
+        expireDateTextfield.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        updateButton.lkCornerRadius = 10
+        updateButton.tintColor = UIColor.FoodyFlow.white
+        updateButton.backgroundColor = UIColor.FoodyFlow.darkOrange
     }
     
     func setFoodName(with name: String) {

@@ -51,6 +51,7 @@
 		A948AABE285B3CBF00355C59 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AABD285B3CBF00355C59 /* UIView+Extension.swift */; };
 		A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AABF285B3D0100355C59 /* UITableView+Extension.swift */; };
 		A948AAC2285B3D3400355C59 /* UICollectionVIew+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948AAC1285B3D3400355C59 /* UICollectionVIew+Extension.swift */; };
+		A9532C01287197BF00697A13 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9532C00287197BF00697A13 /* PhotoManager.swift */; };
 		A95B6CAE286165CC003153B0 /* PersonalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95B6CAC286165CC003153B0 /* PersonalTableViewCell.swift */; };
 		A95B6CAF286165CC003153B0 /* PersonalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A95B6CAD286165CC003153B0 /* PersonalTableViewCell.xib */; };
 		A96DA97128600949008993BB /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96DA96F28600949008993BB /* PersonalViewController.swift */; };
@@ -126,6 +127,7 @@
 		A948AABD285B3CBF00355C59 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		A948AABF285B3D0100355C59 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		A948AAC1285B3D3400355C59 /* UICollectionVIew+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionVIew+Extension.swift"; sourceTree = "<group>"; };
+		A9532C00287197BF00697A13 /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
 		A95B6CAC286165CC003153B0 /* PersonalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalTableViewCell.swift; sourceTree = "<group>"; };
 		A95B6CAD286165CC003153B0 /* PersonalTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PersonalTableViewCell.xib; sourceTree = "<group>"; };
 		A96DA96F28600949008993BB /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				A944E68C285DDFB70068D7DD /* Account */,
 				A944E68B285DDFA60068D7DD /* Food */,
 				A941E03F286BFB9100B603AF /* HandleResultManager.swift */,
+				A9532C00287197BF00697A13 /* PhotoManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -657,6 +660,7 @@
 				A941E03E286BF45C00B603AF /* User.swift in Sources */,
 				A948AAC2285B3D3400355C59 /* UICollectionVIew+Extension.swift in Sources */,
 				A92F6BCB285C94270090EE90 /* InCatCollectionViewCell.swift in Sources */,
+				A9532C01287197BF00697A13 /* PhotoManager.swift in Sources */,
 				A96DA97C286035C9008993BB /* Category.swift in Sources */,
 				A92F6BC7285C927B0090EE90 /* RefrigeCatTableViewCell.swift in Sources */,
 				A96EA158285F50D900941433 /* ImageHelper.swift in Sources */,

@@ -157,6 +157,18 @@ class AllRecipeViewController: UIViewController {
 
     }
     
+    func fetchSingleRecipe(recipe: Recipe, completion: @escaping(Recipe?) -> Void){
+        
+        RecipeManager.shared.fetchSingleRecipe(recipe: recipe) { result in
+            switch result {
+            case .success(let recipe):
+                completion( recipe )
+            case .failure:
+                print("cannot fetceeeeh data")
+            }
+        }
+    }
+    
     @objc func addRecipeInDB() {
         verifyUser {
             let addRecipeVC = AddRecipeViewController(
@@ -190,6 +202,26 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
     //func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     //    100
     //}
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        fetchSingleRecipe(recipe: recipeAmount[indexPath.row]) { recipe in
+    
+            DispatchQueue.main.async {
+                
+                let addRecipeVC = AddRecipeViewController(
+                    nibName: "AddRecipeViewController",
+                    bundle: nil)
+                
+        //        shoppingVC.refrige = refrige[0]
+                self.navigationController!.pushViewController(addRecipeVC, animated: true)
+ //               addRecipeVC.recipe.recipeName  = recipe?.recipeName ?? ""
+
+            }
+            
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath)")

@@ -17,6 +17,8 @@ class RecipeManager {
     
     // create
     
+    // photos
+    
     func createRecipe( recipe: inout Recipe, completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection("recipe").document()
@@ -59,11 +61,7 @@ class RecipeManager {
             }
     }
         
-        
     }
-    
-
-    
     // delete by user
     func deleteRecipe () {
         
@@ -75,5 +73,25 @@ class RecipeManager {
     //
     func personalRecipe() {
         
+    }
+    
+    func fetchSingleRecipe( recipe: Recipe, completion: @escaping(Result<Recipe, Error>) -> Void) {
+         let collection = db.collection("recipe")
+        
+        collection.document(recipe.recipeID).getDocument {
+            (document, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                do {
+                    if let recipe = try document?.data(as: Recipe.self, decoder: Firestore.Decoder()) {
+                        print(recipe)
+                        completion(.success(recipe))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+        }
     }
 }

@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import FirebaseStorage
+import AVFoundation
 
-class AddRecipeViewController: UIViewController {
+class AddRecipeViewController: UIViewController, UINavigationControllerDelegate {
 
     @IBOutlet weak var recipeImage: UIImageView!
     
@@ -27,13 +29,18 @@ class AddRecipeViewController: UIViewController {
     
     @IBOutlet weak var changeRecipePic: UIButton!
     
+    let imagePickerController = UIImagePickerController()
+    
+    var photoManager = PhotoManager()
+    
     var onPublished: (() -> Void)?
     
     var placeholderLabel = UILabel()
     
     var recipeholderLabel = UILabel()
     
-    var recipe: Recipe = Recipe(recipeID: "", recipeName: "", recipeImage: "", recipeFood: "", recipeStep: "")
+    var recipe: Recipe?
+    // = Recipe(recipeID: "", recipeName: "", recipeImage: "", recipeFood: "", recipeStep: "")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +56,8 @@ class AddRecipeViewController: UIViewController {
     
     private func setUI() {
         
+        imagePickerController.delegate = self
+        
         // changeRecipePic.backgroundColor = UIColor.FoodyFlow.lightOrange
         // changeRecipePic.lkCornerRadius = 20
         // changeRecipePic.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
@@ -61,6 +70,7 @@ class AddRecipeViewController: UIViewController {
         recipeTextField.layer.borderWidth = 0.3
         recipeTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         recipeTextField.lkCornerRadius = 10
+//        recipeTextField.text = recipe.recipeName
 
         foodNeeded.text = "所需食材"
         foodNeeded.font = UIFont(name: "PingFang TC", size: 16)
@@ -106,26 +116,72 @@ class AddRecipeViewController: UIViewController {
     }
     
     @objc func changeRecipeImage() {
-        print("ddd")
+        photoManager.tapPhoto(controller: self, alertText: "選擇食譜照片", imagePickerController: imagePickerController)
+        
+    }
+    @objc func postToRecipeDB() {
+    //    let url = URL(string: ("\(recipe?.recipeImage)"))
+    //    guard let url = url else {
+     //       return
+     //   }
+      //  let recipeURL =  String(contentsOf: url)
+        guard let recipeImage = recipeImage.image else {
+            return
+        }
+        uploadPhoto(image: recipeImage) { [self] result in
+            switch result {
+            case .success(let url):
+                var recipe = Recipe(recipeID: "", recipeName: recipeTextField.text!, recipeImage: "\(url)", recipeFood: foodTypeIn.text, recipeStep: foodStepTypeIn.text)
+        //        recipe.recipeName = recipeTextField.text!
+        //        recipe.recipeFood = foodTypeIn.text
+        //        recipe.recipeStep = foodStepTypeIn.text
+                RecipeManager.shared.createRecipe(recipe: &recipe) {
+                    result in
+                        switch result {
+                        case .success:
+                            self.onPublished?()
+                            self.navigationController?.popViewController(animated: true)
+                        case .failure(let error):
+                            
+                            print("publishArticle.failure: \(error)")
+                        }
+                }
+                
+            case .failure(_):
+                print("UploadPhoto Error")
+            }
+        }
     }
     
-    @objc func postToRecipeDB() {
+    func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+
+//        let imageData = self.userImage.image?.jpegData(compressionQuality: 0.8)
         
-        recipe.recipeName = recipeTextField.text!
-        recipe.recipeFood = foodTypeIn.text
-        recipe.recipeStep = foodStepTypeIn.text
-        RecipeManager.shared.createRecipe(recipe: &recipe) { 
-            result in
-                switch result {
-                case .success:
-                    self.onPublished?()
-                    self.navigationController?.popViewController(animated: true)
-                case .failure(let error):
-                    
-                    print("publishArticle.failure: \(error)")
+//        guard imageData != nil else {
+//            return
+//        }
+            
+            let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
+            if let data = image.jpegData(compressionQuality: 0.6) {
+                
+                fileReference.putData(data, metadata: nil) { result in
+                    switch result {
+                    case .success:
+                        fileReference.downloadURL { result in
+                            switch result {
+                            case .success(let url):
+                                self.recipe?.recipeImage = "\(url)"
+                                completion(.success(url))
+                            case .failure(let error):
+                                completion(.failure(error))
+
+                            }
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
                 }
-        }
-        
+            }
     }
 }
 
@@ -162,7 +218,6 @@ extension AddRecipeViewController : UITextViewDelegate {
         else {
             return true
         }
-
         // ...otherwise return false since the updates have already
         // been made
         return false
@@ -179,4 +234,17 @@ extension AddRecipeViewController : UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView, _ placeholderLabel: UILabel) {
             placeholderLabel.isHidden = !textView.text.isEmpty
         }
+}
+
+extension AddRecipeViewController: UIImagePickerControllerDelegate {
+    
+    public func imagePickerController(_ picker: UIImagePickerController,
+                                      didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.recipeImage.image = image
+        }
+        
+        picker.dismiss(animated: true)
+    }
 }
