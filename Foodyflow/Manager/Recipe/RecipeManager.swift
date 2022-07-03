@@ -15,21 +15,26 @@ class RecipeManager {
     
     lazy var db = Firestore.firestore()
     
+    // create
     func createRecipe () {
         
     }
     
-    func deleteRecipe () {
+    // read
+    func fetchAllRecipe () {
         
     }
     
-    func fetchAllRecipe () {
+    // delete
+    func deleteRecipe () {
         
     }
     
     func fetchFoodinRecipe () {
         
     }
-    
-    
+    //
+    func personalRecipe() {
+        
+    }
 }

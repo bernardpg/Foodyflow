@@ -300,7 +300,8 @@ extension WithinThreeDaysRefirgeViewController: UITableViewDelegate, UITableView
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
-            self?.navigationController?.pushViewController(shoppingVC,animated: true)
+            self?.navigationController?.pushViewController( shoppingVC, animated: true)
+            // self?.navigationController.na
             }
         
         return cell

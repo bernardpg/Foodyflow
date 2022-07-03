@@ -8,13 +8,15 @@
 // delefood in refrige
 
 import UIKit
+import FirebaseAuth
 
 class RefrigeAllFoodViewController: UIViewController {
     
-    private var refrigeTableView = UITableView() {
-        didSet{refrigeTableView.reloadData() }
-    }
+    var refrigeTableView = UITableView() { didSet{ refrigeTableView.reloadData() } }
+    
     private var tapButton = UIButton()
+    
+    private let authManager = AuthManager()
     
     var refrige: [Refrige] = []
     
@@ -76,6 +78,12 @@ class RefrigeAllFoodViewController: UIViewController {
         super.viewWillAppear(animated)
         // lottie 開始
         
+        singlerefrige()
+        
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func singlerefrige() {
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
@@ -108,7 +116,6 @@ class RefrigeAllFoodViewController: UIViewController {
             semaphore.wait()
         }
         
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     func resetRefrigeFood() {
@@ -169,7 +176,7 @@ class RefrigeAllFoodViewController: UIViewController {
         tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
         tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.layer.backgroundColor = UIColor.hexStringToUIColor(hex:  "F4943A").cgColor
+        tapButton.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
         tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
         tapButton.imageView?.tintColor = .white
 //        tapButton.imageView?.backgroundColor = .white
@@ -203,15 +210,27 @@ class RefrigeAllFoodViewController: UIViewController {
     
     // change refrige
 //    refrigeNow = refrige[0]
-    
-    @objc func addNewFood() {
-        let shoppingVC = RefrigeProductDetailViewController(
-        nibName: "ShoppingProductDetailViewController",
-        bundle: nil)
-        shoppingVC.refrige = refrige[0]
-        self.navigationController!.pushViewController(shoppingVC, animated: true)
-        
+    func verifyUser() {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                    if user != nil {
+                        let shoppingVC = RefrigeProductDetailViewController(
+                        nibName: "ShoppingProductDetailViewController",
+                        bundle: nil)
+                        // bug fixs
+                        shoppingVC.refrige = self.refrige[0]
+                        self.navigationController!.pushViewController(shoppingVC, animated: true)
+
+                    } else {
+                        self.present(LoginViewController(),animated: true)
+ 
+                    }
+                }
+
     }
+
+    @objc func addNewFood() {
+        verifyUser()
+        }
     
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
         CategoryManager.shared.fetchArticles(completion: { result in
@@ -280,6 +299,8 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
             for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
+        cell.cateFood.font =  UIFont(name: "PingFang TC", size: 20)
+
         // need to change for dictionary to solve
         
         switch indexPath.row {
@@ -314,7 +335,7 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
-            self?.navigationController?.pushViewController(shoppingVC,animated: true)
+            self?.navigationController?.pushViewController( shoppingVC, animated: true )
             }
         
         return cell
