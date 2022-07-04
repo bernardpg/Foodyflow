@@ -9,6 +9,7 @@
 
 import UIKit
 import FirebaseAuth
+import Kingfisher
 
 class RefrigeAllFoodViewController: UIViewController {
     
@@ -212,7 +213,7 @@ class RefrigeAllFoodViewController: UIViewController {
 //    refrigeNow = refrige[0]
     func verifyUser() {
         Auth.auth().addStateDidChangeListener { (auth, user) in
-                    if user != nil {
+                    if user == nil {
                         let shoppingVC = RefrigeProductDetailViewController(
                         nibName: "ShoppingProductDetailViewController",
                         bundle: nil)

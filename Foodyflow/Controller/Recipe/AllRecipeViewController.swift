@@ -8,6 +8,9 @@
 import UIKit
 import SnapKit
 import Combine
+import FirebaseAuth
+import Kingfisher
+import PKHUD
 
 class AllRecipeViewController: UIViewController {
     
@@ -17,6 +20,8 @@ class AllRecipeViewController: UIViewController {
         case onboarding
         case search
     }
+    
+    private var recipeAmount: [Recipe] = []
     
     private lazy var searchController: UISearchController = {
         let searchVC = UISearchController(searchResultsController: nil)
@@ -65,7 +70,18 @@ class AllRecipeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        //RecipeMa//fetchAllRecipe
+        RecipeManager.shared.fetchAllRecipe { [weak self] result in
+        switch result {
+                case .success(let recipeAmount):
+                    self?.recipeAmount = recipeAmount
+                    DispatchQueue.main.async {
+                        self?.allRecipeTableView.reloadData()
+                    }
+                case .failure:
+                    print("cannot fetch data")
+                }
+            }
     }
     
     private func setupNavigationBar() {
@@ -129,15 +145,50 @@ class AllRecipeViewController: UIViewController {
         addRecipe.addTarget(self, action: #selector(addRecipeInDB), for: .touchUpInside)
     }
     
-    @objc func addRecipeInDB() {
+    func verifyUser( completion: @escaping () -> Void ) {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                    if user != nil {
+
+                        print("\(String(describing: user?.uid))")
+                        completion()
+                    } else {
+                        self.present( LoginViewController(), animated: true )
+                        completion()
+                    }
+                }
+
+    }
+    
+    func fetchSingleRecipe(recipe: Recipe, completion: @escaping(Recipe?) -> Void){
         
+        RecipeManager.shared.fetchSingleRecipe(recipe: recipe) { result in
+            switch result {
+            case .success(let recipe):
+                completion( recipe )
+            case .failure:
+                print("cannot fetceeeeh data")
+            }
+        }
+    }
+    
+    @objc func addRecipeInDB() {
+        verifyUser {
+            let addRecipeVC = AddRecipeViewController(
+                nibName: "AddRecipeViewController",
+                bundle: nil)
+            
+    //        shoppingVC.refrige = refrige[0]
+            self.navigationController!.pushViewController(addRecipeVC, animated: true)
+
+        }
     }
 
 }
 
 extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        20 //searchResults?.items.count ?? 0
+        recipeAmount.count
+//        20 //searchResults?.items.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -145,9 +196,42 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
             withIdentifier: "recipeTableViewCell",
             for: indexPath) as? RecipeTableViewCell
         guard let cell = cell else { return UITableViewCell() }
-        cell.recipeName.text = "建立食譜"
-        cell.recipeImage.backgroundColor = .black
+        cell.recipeName.text =
+        recipeAmount[indexPath.row].recipeName
+        if recipeAmount[indexPath.row].recipeImage == ""    {
+                cell.recipeImage.image = UIImage(named: "imageDefault") } else{
+            cell.recipeImage.kf.setImage(with:URL(string: recipeAmount[indexPath.row].recipeImage))
+            
+        }
+        // (with: recipeAmount[indexPath.row].recipeImage)
+//        cell.recipeImage.backgroundColor = .black
         return cell
+    }
+    
+    // MARK: - send pic unfinished
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        fetchSingleRecipe(recipe: recipeAmount[indexPath.row]) { recipe in
+    
+            DispatchQueue.main.async {
+                
+                let addRecipeVC = AddRecipeViewController(nibName: "AddRecipeViewController",bundle: nil)
+             
+                HandleResult.reportSuccess.messageHUD
+                addRecipeVC.recipeName = recipe?.recipeName ?? ""
+                addRecipeVC.recipeFood = recipe?.recipeFood ?? ""
+                addRecipeVC.recipeStep = recipe?.recipeStep ?? ""
+                addRecipeVC.recipeInImage = recipe?.recipeImage ?? ""
+        //        shoppingVC.refrige = refrige[0]
+                self.navigationController!.pushViewController(addRecipeVC, animated: true)
+ //               addRecipeVC.recipe?.recipeName = recipe?.recipeName ?? ""
+//                addRecipeVC.recipe?.recipeFood = recipe?.recipeFood ?? ""
+ //               addRecipeVC.recipe?.recipeStep = recipe?.recipeStep ?? ""
+
+            }
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

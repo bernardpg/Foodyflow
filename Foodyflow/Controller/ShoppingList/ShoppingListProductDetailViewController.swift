@@ -43,6 +43,8 @@ class ShoppingListProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUI()
         updateButton.addTarget(self, action: #selector(postUpdate), for: .touchUpInside)
 
     }
@@ -56,6 +58,42 @@ class ShoppingListProductDetailViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    func setUI() {
+        foodCateName.text = "分類"
+        foodCateTextField.lkCornerRadius = 20
+        foodCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        foodCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodName.text = "食材名稱"
+        foodNameTextField.lkCornerRadius = 20
+        foodNameTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodNameTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+
+        foodBrand.text = "品牌"
+        foodBrandTextField.lkCornerRadius = 20
+        foodBrandTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodBrandTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodWeightTextField.lkCornerRadius = 20
+        foodWeightTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodWeightTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+
+        foodBuy.text = "購買地點"
+        foodBuyPlaceTextfield.lkCornerRadius = 20
+        foodBuyPlaceTextfield.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodBuyPlaceTextfield.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+
+        foodAddidtional.text = "購買地點"
+        
+        foodAdditionalTextVIew.lkCornerRadius = 10
+        foodAdditionalTextVIew.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodAdditionalTextVIew.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        updateButton.lkCornerRadius = 10
+        updateButton.tintColor = UIColor.FoodyFlow.white
+        updateButton.backgroundColor = UIColor.FoodyFlow.darkOrange
+
     }
     
     func postFoodOnShoppingList() {

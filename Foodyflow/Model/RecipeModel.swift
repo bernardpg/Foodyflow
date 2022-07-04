@@ -7,23 +7,35 @@
 
 import Foundation
 
-
 struct Recipe: Codable {
     
-    var userID: String
+    var recipeID: String
     
-    var userName: String
+    var recipeName: String
     
-    var userEmail: String
+    var recipeImage: String
     
-    var userPhoto: String
+    var recipeFood: String
     
-    var signInType: String
+    var recipeStep: String
     
-    var personalRefrige: [String?]
+    enum CodingKeys: String, CodingKey {
+        case recipeID
+        case recipeName
+        case recipeImage
+        case recipeFood
+        case recipeStep
+    }
     
-    var personalLikeRecipe: [String?]
+    var toDict: [String: Any] {
+        return [
+            "recipeID": recipeID as Any,
+            "recipeName": recipeName as Any,
+            "recipeImage": recipeImage as Any,
+            "recipeFood": recipeFood as Any,
+            "recipeStep": recipeStep as Any,
+        ]
+    }
+
     
-    var personalDoRecipe: [String?]
-        
 }
