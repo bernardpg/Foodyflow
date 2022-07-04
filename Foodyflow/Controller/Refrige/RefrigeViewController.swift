@@ -39,7 +39,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     private lazy var refrigeAllFoodVC = RefrigeAllFoodViewController()
         
-    private var viewPager =  LZViewPager()
+    private lazy var viewPager =  LZViewPager()
     
     private lazy var containerView: [UIViewController] = []
     
