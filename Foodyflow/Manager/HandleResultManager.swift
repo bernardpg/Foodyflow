@@ -164,6 +164,8 @@ enum HandleResult {
     
     case shareToFriendSuccess
     
+    case readData
+    
     var messageHUD: Void {
         
         switch self {
@@ -247,6 +249,10 @@ enum HandleResult {
         case .shareToFriendSuccess:
             
             HUD.flash(.labeledSuccess(title: "傳送成功", subtitle: nil), delay: 0.5)
+            
+        case .readData:
+            
+            HUD.flash(.labeledSuccess(title: "讀取成功", subtitle: nil), delay: 0.5)
             
         }
         

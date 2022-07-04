@@ -11,6 +11,7 @@ import Combine
 import FirebaseAuth
 import Kingfisher
 import PKHUD
+import SwifterSwift
 
 class AllRecipeViewController: UIViewController {
     
@@ -199,15 +200,14 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
         cell.recipeName.text =
         recipeAmount[indexPath.row].recipeName
         if recipeAmount[indexPath.row].recipeImage == ""    {
-                cell.recipeImage.image = UIImage(named: "imageDefault") } else{
+                cell.recipeImage.image = UIImage(named: "imageDefault") } else {
+            //        cell.recipeImage.download(from: URL(string: recipeAmount[indexPath.row].recipeImage)!)
             cell.recipeImage.kf.setImage(with:URL(string: recipeAmount[indexPath.row].recipeImage))
             
         }
         cell.recipeImage.clipsToBounds = true
         cell.recipeImage.contentMode = .scaleAspectFill
         cell.recipeImage.lkCornerRadius = 20
-        // (with: recipeAmount[indexPath.row].recipeImage)
-//        cell.recipeImage.backgroundColor = .black
         return cell
     }
     
@@ -220,8 +220,7 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
             DispatchQueue.main.async {
                 
                 let addRecipeVC = AddRecipeViewController(nibName: "AddRecipeViewController",bundle: nil)
-             
-                HandleResult.readDataFailed.messageHUD
+                HandleResult.readData.messageHUD
                 addRecipeVC.recipeName = recipe?.recipeName ?? ""
                 addRecipeVC.recipeFood = recipe?.recipeFood ?? ""
                 addRecipeVC.recipeStep = recipe?.recipeStep ?? ""
