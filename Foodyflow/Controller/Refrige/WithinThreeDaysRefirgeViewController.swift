@@ -10,7 +10,6 @@
 import UIKit
 import Kingfisher
 
-
 class WithinThreeDaysRefirgeViewController: UIViewController {
     
     private var refrigeTableView = UITableView() {

@@ -203,6 +203,7 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
             cell.recipeImage.kf.setImage(with:URL(string: recipeAmount[indexPath.row].recipeImage))
             
         }
+        cell.recipeImage.clipsToBounds = true
         // (with: recipeAmount[indexPath.row].recipeImage)
 //        cell.recipeImage.backgroundColor = .black
         return cell
@@ -225,9 +226,6 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
                 addRecipeVC.recipeInImage = recipe?.recipeImage ?? ""
         //        shoppingVC.refrige = refrige[0]
                 self.navigationController!.pushViewController(addRecipeVC, animated: true)
- //               addRecipeVC.recipe?.recipeName = recipe?.recipeName ?? ""
-//                addRecipeVC.recipe?.recipeFood = recipe?.recipeFood ?? ""
- //               addRecipeVC.recipe?.recipeStep = recipe?.recipeStep ?? ""
 
             }
             

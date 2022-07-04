@@ -57,15 +57,12 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         foodTypeIn.text = recipeFood
         foodStepTypeIn.text = recipeStep
         
-        if recipeInImage == ""    {
+        if recipeInImage == "" {
                 recipeImage.image = UIImage(named: "imageDefault") } else{
-            recipeImage.kf.setImage(with:URL(string: recipeInImage))
+            recipeImage.kf.setImage( with : URL(string: recipeInImage ))
         }
         
-        
 //        recipeImage.image = recipeInImage
-        
-        
         
         setUI()
 

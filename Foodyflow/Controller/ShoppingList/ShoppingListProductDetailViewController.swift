@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class ShoppingListProductDetailViewController: UIViewController {
 
     @IBOutlet weak var foodCateName: UILabel!
     
+    @IBOutlet weak var foodImage: UIImageView!
     @IBOutlet weak var foodCateTextField: UITextField!
     
     @IBOutlet weak var foodName: UILabel!
@@ -32,6 +34,11 @@ class ShoppingListProductDetailViewController: UIViewController {
     @IBOutlet weak var foodAdditionalTextVIew: UITextView!
     
     @IBOutlet weak var updateButton: UIButton!
+    @IBOutlet weak var selectPhoto: UIButton!
+    
+    let imagePickerController = UIImagePickerController()
+    
+    var photoManager = PhotoManager()
     
     var onPublished: (() -> Void)?
     
@@ -45,7 +52,8 @@ class ShoppingListProductDetailViewController: UIViewController {
         super.viewDidLoad()
         
         setUI()
-        updateButton.addTarget(self, action: #selector(postUpdate), for: .touchUpInside)
+        selectPhoto.addTarget(self, action: #selector(changePhoto), for: .touchUpInside)
+        updateButton.addTarget(self, action: #selector(postToRefirgeDB), for: .touchUpInside)
 
     }
     
@@ -84,7 +92,7 @@ class ShoppingListProductDetailViewController: UIViewController {
         foodBuyPlaceTextfield.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodBuyPlaceTextfield.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
 
-        foodAddidtional.text = "購買地點"
+        foodAddidtional.text = "備註"
         
         foodAdditionalTextVIew.lkCornerRadius = 10
         foodAdditionalTextVIew.backgroundColor = UIColor.FoodyFlow.extraOrange
@@ -104,10 +112,67 @@ class ShoppingListProductDetailViewController: UIViewController {
         
     }
     
+    @objc func changePhoto() {
+        photoManager.tapPhoto(controller: self, alertText: "選擇清單照片", imagePickerController: imagePickerController)
+    }
+    
+    @objc func postToRefirgeDB() {
+        
+        guard let foodImage = foodImage.image else {
+            return
+        }
+        uploadPhoto(image: foodImage) { [self] result in
+            switch result {
+            case .success(let url):
+                
+                foodInfo.foodName = foodNameTextField.text
+                foodInfo.foodCategory = foodCateTextField.text
+                foodInfo.foodWeightAmount = Double(foodWeightTextField.text ?? "")
+                foodInfo.foodBrand = foodBrandTextField.text
+                foodInfo.foodPurchasePlace = foodBuyPlaceTextfield.text
+                foodInfo.foodStatus = 1
+                foodInfo.foodImages = "\(url)"
+                
+                FoodManager.shared.publishFood( food: &foodInfo ) { result in
+                    switch result {
+
+                    case .success:
+                        print("onTapPublish, success")
+                        
+                        self.onPublished?()
+                    case .failure(let error):
+                        
+                        print("publishArticle.failure: \(error)")
+                    }
+                }
+                shoppingListNowID = "dwdwdwd" // fetch initial
+                guard let foodId = foodId else { return }  // bugs
+                shoppingList.foodID.append(foodId)
+                ShoppingListManager.shared.postFoodOnShoppingList(shoppingList: &shoppingList) { result in
+                    switch result {
+                    case .success:
+                        self.onPublished?()
+                    case .failure(let error):
+                        
+                        print("publishArticle.failure: \(error)")
+                    }
+                    
+                }
+                self.navigationController?.popViewController(animated: true)
+            case .failure(_):
+                print("UploadPhoto Error")
+            }
+            }
+        }
+
+    
     @objc func postUpdate() {
         
         foodInfo.foodName = foodNameTextField.text
-        foodInfo.foodCategory = "水果類"
+        foodInfo.foodCategory = foodCateTextField.text
+        foodInfo.foodWeightAmount = Double(foodWeightTextField.text ?? "")
+        foodInfo.foodBrand = foodBrandTextField.text
+        foodInfo.foodPurchasePlace = foodBuyPlaceTextfield.text
         foodInfo.foodStatus = 1
         
         FoodManager.shared.publishFood(food: &foodInfo) { result in
@@ -145,4 +210,93 @@ class ShoppingListProductDetailViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+            
+            let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
+            if let data = image.jpegData(compressionQuality: 0.6) {
+                
+                fileReference.putData(data, metadata: nil) { result in
+                    switch result {
+                    case .success:
+                        fileReference.downloadURL { result in
+                            switch result {
+                            case .success(let url):
+                                self.foodInfo.foodImages = "\(url)"
+                                completion(.success(url))
+                            case .failure(let error):
+                                completion(.failure(error))
+
+                            }
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            }
+    }
+
+    
+}
+extension ShoppingListProductDetailViewController : UITextViewDelegate {
+   
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+
+        // Combine the textView text and the replacement text to
+        // create the updated text string
+        let currentText:String = textView.text
+        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
+
+        // If updated text view will be empty, add the placeholder
+        // and set the cursor to the beginning of the text view
+        if updatedText.isEmpty {
+
+            textView.text = "請輸入"
+            textView.textColor = UIColor.lightGray
+
+            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+        }
+
+        // Else if the text view's placeholder is showing and the
+        // length of the replacement string is greater than 0, set
+        // the text color to black then set its text to the
+        // replacement string
+         else if textView.textColor == UIColor.lightGray && !text.isEmpty {
+            textView.textColor = UIColor.black
+            textView.text = text
+        }
+
+        // For every other case, the text should change with the usual
+        // behavior...
+        else {
+            return true
+        }
+        // ...otherwise return false since the updates have already
+        // been made
+        return false
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        if self.view.window != nil {
+            if textView.textColor == UIColor.lightGray {
+                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            }
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView, _ placeholderLabel: UILabel) {
+            placeholderLabel.isHidden = !textView.text.isEmpty
+        }
+}
+
+extension ShoppingListProductDetailViewController: UIImagePickerControllerDelegate {
+    
+    public func imagePickerController(_ picker: UIImagePickerController,
+                                      didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            foodImage.image = image
+        }
+        
+        picker.dismiss(animated: true)
+    }
 }
