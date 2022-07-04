@@ -78,7 +78,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         imagePickerController.delegate = self
         
         // changeRecipePic.backgroundColor = UIColor.FoodyFlow.lightOrange
-        // changeRecipePic.lkCornerRadius = 20
+        recipeImage.lkCornerRadius = 20
         // changeRecipePic.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
         // changeRecipePic.imageView?.tintColor = UIColor.FoodyFlow.white
         changeRecipePic.addTarget(self, action: #selector(changeRecipeImage), for: .touchUpInside)

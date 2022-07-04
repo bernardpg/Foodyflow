@@ -204,6 +204,8 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
             
         }
         cell.recipeImage.clipsToBounds = true
+        cell.recipeImage.contentMode = .scaleAspectFill
+        cell.recipeImage.lkCornerRadius = 20
         // (with: recipeAmount[indexPath.row].recipeImage)
 //        cell.recipeImage.backgroundColor = .black
         return cell
@@ -211,7 +213,7 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
     
     // MARK: - send pic unfinished
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         fetchSingleRecipe(recipe: recipeAmount[indexPath.row]) { recipe in
     
@@ -219,23 +221,18 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
                 
                 let addRecipeVC = AddRecipeViewController(nibName: "AddRecipeViewController",bundle: nil)
              
-                HandleResult.reportSuccess.messageHUD
+                HandleResult.readDataFailed.messageHUD
                 addRecipeVC.recipeName = recipe?.recipeName ?? ""
                 addRecipeVC.recipeFood = recipe?.recipeFood ?? ""
                 addRecipeVC.recipeStep = recipe?.recipeStep ?? ""
                 addRecipeVC.recipeInImage = recipe?.recipeImage ?? ""
-        //        shoppingVC.refrige = refrige[0]
                 self.navigationController!.pushViewController(addRecipeVC, animated: true)
 
             }
             
         }
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("\(indexPath)")
-    }
-    
+        
 }
 
 extension AllRecipeViewController: UISearchResultsUpdating, UISearchControllerDelegate {
