@@ -182,8 +182,6 @@ class ExpiredRefirgeViewController: UIViewController {
         }
     }
 
-    
-    
     func setUI() {
         view.addSubview(refrigeTableView)
         refrigeTableView.translatesAutoresizingMaskIntoConstraints = false

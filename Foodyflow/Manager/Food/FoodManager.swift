@@ -48,19 +48,18 @@ class FoodManager {
     }
     
     func publishFood(food: inout FoodInfo, completion: @escaping (Result<String, Error>) -> Void) {
-        
         let document = db.collection("foods").document()
         foodId = document.documentID
         food.foodId = document.documentID
-        food.foodBrand = "33" // rename
-        food.createdTime = Date().millisecondsSince1970
+       // food.foodBrand = "33" // rename
+       // food.createdTime = Date().millisecondsSince1970
         document.setData(food.toDict) { error in
             
             if let error = error {
                 
                 completion(.failure(error))
             } else {
-                
+                HandleResult.addDataSuccess.messageHUD
                 completion(.success("Success"))
             }
         }

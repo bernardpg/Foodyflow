@@ -35,6 +35,8 @@ struct FoodInfo: Codable {
     
     var createdTime: Int64?
     
+    var foodPurchasePlace: String?
+    
     enum CodingKeys: String, CodingKey {
         case foodId
         case foodImages
@@ -49,6 +51,7 @@ struct FoodInfo: Codable {
         case priceTracker
         case additional
         case createdTime
+        case foodPurchasePlace
     }
     
     var toDict: [String: Any] {
@@ -65,7 +68,8 @@ struct FoodInfo: Codable {
             "foodBrand": foodBrand as Any,
             "priceTracker": priceTracker as Any,
             "additional": additional as Any,
-            "createdTime": createdTime as Any
+            "createdTime": createdTime as Any,
+            "foodPurchasePlace": foodPurchasePlace as Any
         ]
     }
     

@@ -57,15 +57,12 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         foodTypeIn.text = recipeFood
         foodStepTypeIn.text = recipeStep
         
-        if recipeInImage == ""    {
+        if recipeInImage == "" {
                 recipeImage.image = UIImage(named: "imageDefault") } else{
-            recipeImage.kf.setImage(with:URL(string: recipeInImage))
+            recipeImage.kf.setImage( with : URL(string: recipeInImage ))
         }
         
-        
 //        recipeImage.image = recipeInImage
-        
-        
         
         setUI()
 
@@ -81,7 +78,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         imagePickerController.delegate = self
         
         // changeRecipePic.backgroundColor = UIColor.FoodyFlow.lightOrange
-        // changeRecipePic.lkCornerRadius = 20
+        recipeImage.lkCornerRadius = 20
         // changeRecipePic.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
         // changeRecipePic.imageView?.tintColor = UIColor.FoodyFlow.white
         changeRecipePic.addTarget(self, action: #selector(changeRecipeImage), for: .touchUpInside)

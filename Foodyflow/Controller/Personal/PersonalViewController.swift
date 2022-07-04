@@ -38,7 +38,7 @@ class PersonalViewController: UIViewController {
     
     var handle: AuthStateDidChangeListenerHandle?
     
-    var refrige = Refrige.init(id: "", title: "robust", foodID: [], createdTime: 0, category: "", shoppingList: [])
+    var refrige = Refrige.init(id: "", title: "我的冰箱", foodID: [], createdTime: 0, category: "", shoppingList: [])
     
     var refrigeAmount: [Refrige] = []
 

@@ -19,9 +19,11 @@
                 <outlet property="foodBuyPlaceTextfield" destination="9ZJ-Gn-zta" id="xA4-nv-Txg"/>
                 <outlet property="foodCateName" destination="f31-bg-7ba" id="G4A-rM-3p0"/>
                 <outlet property="foodCateTextField" destination="L3W-4S-BFb" id="1rg-rM-fBh"/>
+                <outlet property="foodImage" destination="Oo8-oC-RIZ" id="cec-Ck-DDJ"/>
                 <outlet property="foodName" destination="Lnb-vW-Xm0" id="ewk-LI-lL2"/>
                 <outlet property="foodNameTextField" destination="L5v-qU-dyo" id="oTW-Xm-gIP"/>
                 <outlet property="foodWeightTextField" destination="HNJ-uW-xoO" id="IgS-FS-AO0"/>
+                <outlet property="selectPhoto" destination="Vby-Uy-DfW" id="hGI-VE-QNO"/>
                 <outlet property="updateButton" destination="IQU-9d-u4X" id="Q4q-YV-tbt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -122,6 +124,7 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vby-Uy-DfW">
                     <rect key="frame" x="46" y="88" width="285" height="185"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal" title="ee"/>
                 </button>

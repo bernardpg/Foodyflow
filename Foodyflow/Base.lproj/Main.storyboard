@@ -459,7 +459,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XXX-4c-838">
-                                                    <rect key="frame" x="8" y="8.0000000000000018" width="41.666666666666664" height="20.666666666666671"/>
+                                                    <rect key="frame" x="8" y="8.0000000000000018" width="0.0" height="20.666666666666671"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -470,9 +470,8 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zz6-H2-zU4">
-                                                    <rect key="frame" x="70.333333333333329" y="37" width="60.666666666666671" height="56"/>
-                                                    <color key="backgroundColor" systemColor="labelColor"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageDefault" translatesAutoresizingMaskIntoConstraints="NO" id="zz6-H2-zU4">
+                                                    <rect key="frame" x="28.666666666666671" y="37" width="144" height="56"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="56" id="yRa-AE-jp1"/>
                                                     </constraints>
@@ -500,7 +499,7 @@
                                                 <constraint firstItem="XXX-4c-838" firstAttribute="top" secondItem="Vkl-PV-EqU" secondAttribute="top" constant="8" id="gH7-Lj-JoC"/>
                                                 <constraint firstItem="YgL-nH-khC" firstAttribute="leading" secondItem="XXX-4c-838" secondAttribute="leading" id="gdK-yS-wDK"/>
                                                 <constraint firstItem="AlP-uV-ZU7" firstAttribute="top" secondItem="YgL-nH-khC" secondAttribute="bottom" constant="8" id="kOi-dD-bbS"/>
-                                                <constraint firstItem="zz6-H2-zU4" firstAttribute="firstBaseline" secondItem="WCG-B5-crf" secondAttribute="baseline" constant="12.5" symbolType="layoutAnchor" id="naX-F7-jzP"/>
+                                                <constraint firstItem="zz6-H2-zU4" firstAttribute="firstBaseline" secondItem="WCG-B5-crf" secondAttribute="baseline" constant="12.333333333333334" symbolType="layoutAnchor" id="naX-F7-jzP"/>
                                                 <constraint firstItem="zz6-H2-zU4" firstAttribute="centerX" secondItem="Vkl-PV-EqU" secondAttribute="centerX" id="pkb-UJ-cf7"/>
                                             </constraints>
                                         </collectionViewCellContentView>
@@ -657,9 +656,6 @@
         <image name="refrigerator" width="100" height="100"/>
         <image name="refrigerator_L" width="100" height="100"/>
         <image name="setting" width="24" height="24"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
