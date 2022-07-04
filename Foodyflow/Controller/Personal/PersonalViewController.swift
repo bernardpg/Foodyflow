@@ -7,6 +7,7 @@
 // 字體未完全
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class PersonalViewController: UIViewController {
 
@@ -16,6 +17,10 @@ class PersonalViewController: UIViewController {
     @IBOutlet weak var personalImage: UIImageView!
     
     @IBOutlet weak var personalName: UILabel!
+    
+    @IBOutlet weak var signOut: UIButton!
+        
+    private let background = UIImageView()
     
     private let personalChangeImageView = UIView()
     
@@ -29,20 +34,22 @@ class PersonalViewController: UIViewController {
     
     private let notificationSwitch = UISwitch()
     
-    var onPublished: (() -> (Void))?
+    var onPublished: (() -> Void )?
     
-    var refrige = Refrige.init(id: "", title: "robust", foodID: [], createdTime: 0, category: "", shoppingList: [])
+    var handle: AuthStateDidChangeListenerHandle?
+    
+    var refrige = Refrige.init(id: "", title: "我的冰箱", foodID: [], createdTime: 0, category: "", shoppingList: [])
     
     var refrigeAmount: [Refrige] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addRefrigeButton.titleLabel?.text = ""
-        addRefrigeButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        addRefrigeButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
-
-        addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                          action: #selector(imageTapped(tapGestureRecognizer:)))
+        background.isUserInteractionEnabled = true
+        background.addGestureRecognizer(tapGestureRecognizer)
+        
         addRefrigeButton.addTarget(self, action: #selector(addRefri), for: .touchUpInside)
         
         setUI()
@@ -53,13 +60,15 @@ class PersonalViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         addRefrigeButton.lkCornerRadius = addRefrigeButton.frame.height / 2
         addRefrigeButton.titleLabel?.text = ""
-        addRefrigeButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        addRefrigeButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        addRefrigeButton.layer.backgroundColor = UIColor.white.cgColor
-//        addRefrigeButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        addRefrigeButton.imageView?.tintColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        addRefrigeButton.snp.makeConstraints { make in
+            make.width.equalTo(45)
+            make.height.equalTo(45)
+        }
+        addRefrigeButton.layer.backgroundColor = UIColor.FoodyFlow.lightOrange.cgColor
+        addRefrigeButton.imageView?.tintColor = UIColor.FoodyFlow.darkOrange
         personalBackgroundView.lkCornerRadius = personalBackgroundView.frame.height / 2
         personalChangeImageView.lkCornerRadius = personalChangeImageView.frame.height / 2
         personalChangeImageButton.lkCornerRadius = personalChangeImageButton.frame.height / 2
@@ -67,15 +76,63 @@ class PersonalViewController: UIViewController {
         personalImage.layer.cornerRadius = (personalImage.frame.height)/2
         personalChangNameButton.lkCornerRadius = personalChangNameButton.frame.height / 2
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        verifyUser {
+            
+        }
+        
+        addRefrigeButton.titleLabel?.text = ""
+        addRefrigeButton.setImage(UIImage(systemName: "plus" ), for: .normal)
+        // fetch user // fetchRefrige
+    }
+    
+    func verifyUser( completion: @escaping () -> Void ) {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                    if user != nil {
+                        
+                        self.fetchAllRefrige()
 
-        fetchAllRefrige()
+                        print("\(String(describing: user?.uid))")
+                    } else {
+                        self.present( LoginViewController(), animated: true )
+                        completion()
+                    }
+                }
+
+    }
+    
+    @objc func signOutTap() {
+        if Auth.auth().currentUser != nil {
+               do {
+                   try Auth.auth().signOut()
+                   dismiss(animated: true, completion: nil)
+               } catch let error as NSError {
+                   print(error.localizedDescription)
+               }
+           }
+//        do {
+//           try Auth.auth().signOut()
+//        } catch {
+//           print(error)
+//        }
+    }
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        _ = tapGestureRecognizer.view as? UIImageView
     }
     
     @objc func addRefri() {
         
-        openAlert(controller: self, mainTitle: "請選擇", firstTitle: "創建新食光", secondTitle: "邀請加入xxx食光", cancelTitle: "取消")
+        verifyUser {
+            self.openAlert(controller: self,
+                           mainTitle: "請選擇",
+                           firstTitle: "創建新食光",
+                           secondTitle: "邀請加入xxx食光",
+                           cancelTitle: "取消")
+        }
         cameraAc3tion()
         func cameraAc3tion() {
             RefrigeManager.shared.createFrige(refrige: &self.refrige) { result in
@@ -116,12 +173,36 @@ class PersonalViewController: UIViewController {
     }
     
     private func setUI() {
+        
+        view.addSubview(background)
+        background.addSubview(addRefrigeButton)
+        background.addSubview(personalBackgroundView)
+        background.addSubview(personalName)
+        background.isUserInteractionEnabled = true
+
+        background.image = UIImage(named: "memberback")
+        background.snp.makeConstraints { make in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.bottom.equalTo(view)
+            make.top.equalTo(view).offset(-30)
+        }
+        background.addSubview(signOut)
+        
+        signOut.snp.makeConstraints { make in
+            make.centerY.equalTo(addRefrigeButton.snp.centerY)
+            make.width.equalTo(100)
+            make.height.equalTo(60)
+        }
+//        signOut.setTitle("signout", for: .normal)
+        signOut.addTarget(self, action: #selector(signOutTap), for: .touchUpInside)
+        
         personalName.text = "Ryan"
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        view.backgroundColor = UIColor.FoodyFlow.darkOrange
         personalImage.image = UIImage(named: "girl")
         personalBackgroundView.backgroundColor = .white
         personalBackgroundView.addSubview(personalChangeImageView)
-        personalChangeImageView.backgroundColor = UIColor.hexStringToUIColor(hex: "FCE3CB")
+        personalChangeImageView.backgroundColor = UIColor.FoodyFlow.lightOrange
         personalChangeImageView.snp.makeConstraints { make in
             make.leading.equalTo(personalBackgroundView).offset(100)
             make.top.equalTo(personalBackgroundView).offset(98)
@@ -138,7 +219,7 @@ class PersonalViewController: UIViewController {
         }
         personalChangeImageButton.setImage(UIImage(named: "photo"), for: .normal)
         
-        view.addSubview(personalChangNameButton)
+        background.addSubview(personalChangNameButton)
 
         personalChangNameButton.snp.makeConstraints { make in
             make.leading.equalTo(personalName.snp.trailing).offset(5)
@@ -154,15 +235,15 @@ class PersonalViewController: UIViewController {
         personalTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(personalTableView)
         
-        personalTableView.topAnchor.constraint(equalTo: personalName.bottomAnchor, constant: 30).isActive = true
+        personalTableView.topAnchor.constraint(equalTo: personalName.bottomAnchor, constant: 100).isActive = true
         personalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         personalTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         personalTableView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: -40).isActive = true
-        personalTableView.backgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        personalTableView.backgroundColor = UIColor.FoodyFlow.white
         
-        view.addSubview(notificationLabel)
+        background.addSubview(notificationLabel)
         
         notificationLabel.snp.makeConstraints { make in
             make.top.equalTo(personalTableView.snp.bottom).offset(5)
@@ -170,11 +251,11 @@ class PersonalViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(0)
         }
         notificationLabel.text = "開啟即將到期提醒通知"
-        view.addSubview(notificationSwitch)
+        background.addSubview(notificationSwitch)
         
         notificationSwitch.snp.makeConstraints { make in
             make.centerY.equalTo(notificationLabel)
-            make.leading.equalTo(notificationLabel.snp.trailing).offset(150)
+            make.leading.equalTo(notificationLabel.snp.trailing).offset(120)
         }
         
         notificationSwitch.addTarget(self, action: #selector(settingNotification), for: .touchUpInside)
@@ -218,7 +299,7 @@ class PersonalViewController: UIViewController {
     }
 }
 
-extension PersonalViewController: UITableViewDelegate,UITableViewDataSource {
+extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         refrigeAmount.count
     }

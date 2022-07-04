@@ -33,13 +33,18 @@ class RefrigeProductDetailViewController: UIViewController {
     
     @IBOutlet weak var foodWeightAmount: UITextField!
     
+    @IBOutlet weak var foodWeiight: UILabel!
     @IBOutlet weak var foodWeighType: UIPickerView!
     @IBOutlet weak var purchaseDate: UILabel!
-    @IBOutlet weak var purchaseDateTextfield: UITextField!
     
+    @IBOutlet weak var purchaseDatePicker: UIDatePicker!
+    
+//    @IBOutlet weak var purchaseDateTextfield: UITextField!
+    
+    @IBOutlet weak var expireDatePicker: UIDatePicker!
     @IBOutlet weak var expireDate: UILabel!
     
-    @IBOutlet weak var expireDateTextfield: UITextField!
+//    @IBOutlet weak var expireDateTextfield: UITextField!
     @IBOutlet weak var updateButton: UIButton!
     
     var foodItemName: String?
@@ -63,18 +68,17 @@ class RefrigeProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        foodName.text = "食物名稱"
-        foodCate.text = "食物種類"
-        purchaseDate.text = "購買日期"
-        expireDate.text = "過期日期"
+        
+        setUI()
         
         self.foodNameTextField.text = foodItemName
         
         imageUpload.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
-        updateButton.addTarget(self, action: #selector(finishUpdate), for: .touchUpInside)
+        updateButton.addTarget(self, action: #selector(postToRefirgeDB), for: .touchUpInside)
         }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         self.tabBarController?.tabBar.isHidden = true
     }
     
@@ -83,18 +87,96 @@ class RefrigeProductDetailViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false        
     }
     
+    private func setUI() {
+        
+        foodCate.text = "分類"
+        foodName.text = "食物名稱"
+        foodWeiight.text = "數量"
+        purchaseDate.text = "購買日"
+        expireDate.text = "過期日"
+        foodWeighType.isHidden = true
+        foodNameTextField.lkCornerRadius = 20
+        foodNameTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodNameTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodNameCateTextField.lkCornerRadius = 20
+        foodNameCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodNameCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+
+        foodWeightAmount.lkCornerRadius = 20
+        foodWeightAmount.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodWeightAmount.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+
+        
+        updateButton.lkCornerRadius = 10
+        updateButton.tintColor = UIColor.FoodyFlow.white
+        updateButton.backgroundColor = UIColor.FoodyFlow.darkOrange
+    }
+    
     func setFoodName(with name: String) {
         foodItemName = name
     }
+    
+    @objc func postToRefirgeDB() {
+        
+        guard let foodImage = foodImage.image else {
+            return
+        }
+        uploadPhoto(image: foodImage) { [self] result in
+            switch result {
+            case .success(let url):
+                
+                foodInfo.foodName = foodNameTextField.text
+                foodInfo.foodCategory = foodNameCateTextField.text
+                
+                foodInfo.foodStatus = 3
+                guard let foodWeightAmount = foodWeightAmount.text else { return }
+                foodInfo.foodWeightAmount = Double(foodWeightAmount)
+                foodInfo.purchaseDate =  purchaseDatePicker.date.millisecondsSince1970
+                foodInfo.expireDate = expireDatePicker.date.millisecondsSince1970
+                foodInfo.foodImages = "\(url)"
+                
+                FoodManager.shared.publishFood( food: &foodInfo ) { result in
+                    switch result {
+
+                    case .success:
+                        print("onTapPublish, success")
+                        
+                        self.onPublished?()
+                    case .failure(let error):
+                        
+                        print("publishArticle.failure: \(error)")
+                    }
+                }
+                guard let foodId = foodId else { return }  // bugs
+                refrige.foodID.append(foodId)
+                RefrigeManager.shared.publishFoodOnRefrige(refrige: self.refrige) {
+                    
+                    result in
+                    
+                    self.onPublished?()
+                    
+                }
+
+                self.navigationController?.popViewController(animated: true)
+            case .failure(_):
+                print("UploadPhoto Error")
+            }
+            }
+        }
+
     @objc func finishUpdate() {
         
         foodInfo.foodName = foodNameTextField.text
-        foodInfo.foodCategory = "水果類"
+        foodInfo.foodCategory = foodNameCateTextField.text
+        
         foodInfo.foodStatus = 3
-//        foodInfo.foodCategory = "\(foodWeightAmount.text)"
-//        foodInfo.purchaseDate = "\(Int64(purchaseDateTextfield.text))"
-//        foodInfo.expireDate =
-        FoodManager.shared.publishFood(food: &foodInfo) { result in
+        guard let foodWeightAmount = foodWeightAmount.text else { return }
+        foodInfo.foodWeightAmount = Double(foodWeightAmount)
+        foodInfo.purchaseDate =  purchaseDatePicker.date.millisecondsSince1970
+        foodInfo.expireDate = expireDatePicker.date.millisecondsSince1970
+        
+        FoodManager.shared.publishFood( food: &foodInfo ) { result in
             switch result {
 
             case .success:
@@ -110,23 +192,53 @@ class RefrigeProductDetailViewController: UIViewController {
         guard let foodId = foodId else { return }  // bugs
         refrige.foodID.append(foodId)
         RefrigeManager.shared.publishFoodOnRefrige(refrige: self.refrige) {
-
+            
             result in
             
-            self.onPublished?()
+            self.onPublished?() 
             
         }
 
         self.navigationController?.popViewController(animated: true)}
     
-    @objc func selectPhoto(recognizer:UITapGestureRecognizer) {
+    func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+
+//        let imageData = self.userImage.image?.jpegData(compressionQuality: 0.8)
+        
+//        guard imageData != nil else {
+//            return
+//        }
+            
+            let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
+            if let data = image.jpegData(compressionQuality: 0.6) {
+                
+                fileReference.putData(data, metadata: nil) { result in
+                    switch result {
+                    case .success:
+                        fileReference.downloadURL { result in
+                            switch result {
+                            case .success(let url):
+                                self.foodInfo.foodImages = "\(url)"
+                                completion(.success(url))
+                            case .failure(let error):
+                                completion(.failure(error))
+
+                            }
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            }
+    }
+
+    @objc func selectPhoto( recognizer: UITapGestureRecognizer) {
         
         if  recognizer.state == .began {
             action()
         }
-
     }
-    func action(){
+    func action() {
             
             let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: "open camera", style: .default, handler: { (handler) in
@@ -184,7 +296,7 @@ class RefrigeProductDetailViewController: UIViewController {
                     
                     let db = Firestore.firestore()
                 
-                    db.collection("foods").document(foodId!).updateData(["foodImages":path])
+                    db.collection("foods").document(foodId!).updateData(["foodImages": path])
                 }
                 
             }
@@ -203,6 +315,3 @@ extension RefrigeProductDetailViewController: UIImagePickerControllerDelegate, U
         }
     }
 }
-
-
-

@@ -10,7 +10,16 @@ import CoreMedia
 import CoreMIDI
 import BTNavigationDropdownMenu
 import LZViewPager
-
+import SnapKit
+import Combine
+import FirebaseAuth
+///  signin signout
+/// refrige  內部未完全更改
+/// shoppinglist 也是
+/// 圖片與文字如果沒有的話要改成預設值
+/// personal 更改畫面圖片跟文字
+///  fetch 資料及更改 再次確認
+///    開啟提醒通知
 // MARK: - fetch for change UI and add photos
 // logic change for fetch on this VC
 // MARK: - create Recipe Page
@@ -29,9 +38,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     private lazy var threeDaysRefrigeVC = WithinThreeDaysRefirgeViewController()
     
     private lazy var refrigeAllFoodVC = RefrigeAllFoodViewController()
-    
-    // this vc inside it
-    
+        
     private var viewPager =  LZViewPager()
     
     private lazy var containerView: [UIViewController] = []
@@ -79,12 +86,22 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     var foodDetail: ((String) -> Void)?  // callback
     
     var didSelectDifferentRef: Int? //{didSet{reloadRefrige()}}
-        
+    
+    private enum Mode {
+        case onboarding
+        case login
+    }
+    
+    //subscriber
+    private var subscribers = Set<AnyCancellable>()
+    
+    @Published private var mode: Mode = .onboarding // image / label
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        observeForm()
         viewPagerProperties()
-        
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -93,6 +110,20 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                    if user != nil {
+                        print("\(String(describing: user?.uid))")
+
+                        return
+                    } else {
+                        self.present( LoginViewController() , animated: true)
+                    }
+                }
+
+       // if Auth.auth().currentUser?.uid == nil {
+       //     present(LoginViewController(),animated: true)
+//        }
         // lottie 開始
         
         let semaphore = DispatchSemaphore(value: 0)
@@ -130,6 +161,20 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         }
         
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func observeForm() {
+        $mode.sink { [ unowned self ] (mode) in
+            switch mode {
+            case .onboarding:
+//                self.searchResults = nil
+                // each cancel will become nil
+                self.refrigeAllFoodVC.refrigeTableView.backgroundView = SearchPlaceholderView()
+                self.refrigeAllFoodVC.refrigeTableView.reloadData()
+            case .login:
+                self.refrigeAllFoodVC.refrigeTableView.backgroundView = nil
+            }
+        }.store(in: &subscribers)
     }
     
     func fetchAllRefrige() {
@@ -234,7 +279,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         }
       //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
+        self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
@@ -244,12 +290,12 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         // Another way to initialize:
         // menuView = BTNavigationDropdownMenu(navigationController: self.navigationController, containerView: self.navigationController!.view, title: BTTitle.title("Dropdown Menu"), items: items)
         menuView.cellHeight = 50
-        menuView.cellBackgroundColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
         menuView.selectedCellTextLabelColor = UIColor.lightGray
-        menuView.cellSelectionColor = UIColor.hexStringToUIColor(hex: "F4943A")
+        menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = UIColor.white
-        menuView.cellTextLabelFont = UIFont(name: "Avenir-Heavy", size: 17)
+        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 17)  //UIFont(name: "Avenir-Heavy", size: 17)
         menuView.cellTextLabelAlignment = .left // .Center // .Right // .Left
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5
@@ -269,25 +315,20 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     func viewPagerProperties() {
         view.addSubview(viewPager)
         
-        viewPager.translatesAutoresizingMaskIntoConstraints = false
-        viewPager.leadingAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-            constant: 0).isActive = true
-        viewPager.trailingAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-            constant: 0).isActive = true
-        viewPager.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        viewPager.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-            constant: 0).isActive = true
-        
+        viewPager.snp.makeConstraints { make in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.top.equalTo(view)
+            make.bottom.equalTo(view)
+        }
+
         viewPager.delegate = self
         viewPager.dataSource = self
         viewPager.hostController = self
 
-        refrigeAllFoodVC.title = "allFood"
-        threeDaysRefrigeVC.title = "threeDaysExpire"
-        expiredRefrigeVC.title = "expired"
+        refrigeAllFoodVC.title = "全部食材"
+        threeDaysRefrigeVC.title = "三日內過期"
+        expiredRefrigeVC.title = "已過期"
         
         containerView = [ refrigeAllFoodVC,
                           threeDaysRefrigeVC,
@@ -295,6 +336,10 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         
         viewPager.reload()
         
+    }
+    
+    func heightForIndicator(at index: Int) -> CGFloat {
+        return CGFloat(50.0)
     }
     
     func numberOfItems() -> Int {
@@ -307,10 +352,19 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
-        button.setTitleColor(UIColor.B1, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        button.backgroundColor = .black
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
         return button
+    }
+    
+    func backgroundColorForHeader() -> UIColor {
+        
+        return UIColor.FoodyFlow.darkOrange
+    }
+    
+    func colorForIndicator(at index: Int) -> UIColor {
+        
+        return UIColor.FoodyFlow.lightOrange
     }
     
     // change refrige
@@ -326,6 +380,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             }
         })
     }
+    
     
     func fetchAllRefrige(completion: @escaping (CompletionHandler)) {
         RefrigeManager.shared.fetchArticles { [weak self] result in
@@ -372,6 +427,7 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = refrigeTableView.dequeueReusableCell(withIdentifier: "refrigeCatTableViewCell",
             for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
+        cell.cateFood.font = UIFont(name: "PingFang TC", size: 18)
         cell.cateFood.text = self.cate[indexPath.row]
         // need to change for dictionary to solve
         
@@ -407,7 +463,7 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
-            self?.navigationController?.pushViewController(shoppingVC,animated: true)}
+            self?.navigationController?.pushViewController( shoppingVC, animated: true) }
         
         return cell
     }

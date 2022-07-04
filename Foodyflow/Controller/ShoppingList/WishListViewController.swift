@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SnapKit
+import Kingfisher
 
 class WishListViewController: UIViewController {
     
@@ -47,7 +49,7 @@ class WishListViewController: UIViewController {
     
     var othersInfo: [FoodInfo] = []
     
-    var onPublished: (()->())?
+    var onPublished: ( () -> Void)?
     
     @IBOutlet weak var wishList: UICollectionView!
 //    {didSet{shoppingList.reloadData()}}
@@ -108,9 +110,9 @@ class WishListViewController: UIViewController {
         tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
         tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.layer.backgroundColor = UIColor.hexStringToUIColor(hex:  "F4943A").cgColor
+        tapButton.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
         tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        tapButton.imageView?.tintColor = .white
+        tapButton.imageView?.tintColor = UIColor.FoodyFlow.white
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     @objc func addNewFood() {
@@ -144,26 +146,26 @@ class WishListViewController: UIViewController {
                 for cate in cates {
                     guard let foodCategory = foodInfo.foodCategory else { return }
                     if foodCategory == cate! && cate! == "肉類"
-                    { self.meatsInfo.append(foodInfo) }
-                     else if foodCategory == cate! && cate! == "豆類"
-                    { self.beansInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "雞蛋類"
-                    { self.eggsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "青菜類"
-                    { self.vegsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "醃製類"
-                    { self.picklesInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "水果類"
-                    { self.fruitsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "魚類"
-                    { self.fishesInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "海鮮類"
-                    { self.seafoodsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "飲料類"
-                    { self.beveragesInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "調味料類"
-                    { self.seasonsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "其他"
+                    { self.meatsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "豆類"
+                    { self.beansInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "雞蛋類"
+                    { self.eggsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "青菜類"
+                    { self.vegsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "醃製類"
+                    { self.picklesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "水果類"
+                    { self.fruitsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "魚類"
+                    { self.fishesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "海鮮類"
+                    { self.seafoodsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "飲料類"
+                    { self.beveragesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "調味料類"
+                    { self.seasonsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "其他"
                     { self.othersInfo.append(foodInfo) }
                 }
             }
@@ -209,14 +211,14 @@ class WishListViewController: UIViewController {
     }
     
 //    shoppingListNowID
-    func fetAllFood(foodID: [String?],completion: @escaping([FoodInfo]) -> Void) {
+    func fetAllFood(foodID: [String?], completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []
         foodManager.fetchSpecifyFoodInShopping(foods: foodID, completion: { result in
             switch result {
             case .success(let foodsinfo):
                 self.foodsInfo.append(foodsinfo)
-                if self.foodsInfo.count == self.foodsInShoppingList.count {completion(self.foodsInfo)}
-            else {print("append not finish yet ")}
+                if self.foodsInfo.count == self.foodsInShoppingList.count { completion(self.foodsInfo) } else {
+                    print("append not finish yet ") }
 
             case .failure:
                 print("fetch shopplinglist food error")
@@ -328,7 +330,8 @@ extension WishListViewController: UICollectionViewDataSource,
         
     }
         
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "shoppingListCollectionViewCell",
                 for: indexPath) as? ShoppingListCollectionViewCell
@@ -339,36 +342,82 @@ extension WishListViewController: UICollectionViewDataSource,
         switch indexPath.section {
         case 0:
             cell.shoppingName.text = meatsInfo[indexPath.item].foodName
+                cell.shoppingItemImage.kf.setImage(with: URL( string: meatsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = meatsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = meatsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true  // meatsInfo[indexPath.item].foodWeightAmount
         case 1:
             cell.shoppingName.text = beansInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: beansInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = beansInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = beansInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
+         //   cell.shoppingItemImage
+
         case 2:
             cell.shoppingName.text = eggsInfo[indexPath.item].foodName
-
+            
+                cell.shoppingItemImage.kf.setImage(with: URL( string: eggsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = eggsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = eggsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
+         //   cell.shoppingItemImage
         case 3:
             cell.shoppingName.text = vegsInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: vegsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = vegsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = vegsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 4:
             cell.shoppingName.text = picklesInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: picklesInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = picklesInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = picklesInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 5:
             cell.shoppingName.text = fruitsInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: fruitsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = fruitsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = fruitsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 6:
             cell.shoppingName.text = fishesInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: fishesInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = fishesInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = fishesInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 7:
             cell.shoppingName.text = seafoodsInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: seafoodsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = seafoodsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = seafoodsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 8:
             cell.shoppingName.text = beveragesInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: beveragesInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = beveragesInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = beveragesInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 9:
             cell.shoppingName.text = seasonsInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: seasonsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = seasonsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = seasonsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 10:
             cell.shoppingName.text = othersInfo[indexPath.item].foodName
-
+                cell.shoppingItemImage.kf.setImage(with: URL( string: othersInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = othersInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = othersInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         default:
             cell.shoppingName.text = foodsInfo[indexPath.item].foodName
             
@@ -377,13 +426,16 @@ extension WishListViewController: UICollectionViewDataSource,
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
 
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView (
             ofKind: kind,
             withReuseIdentifier: "ShoppingListCollectionReusableView",
             for: indexPath) as? ShoppingListCollectionReusableView {
             sectionHeader.sectionHeaderlabel.text = cate[indexPath.section]
+            sectionHeader.sectionHeaderlabel.font = UIFont(name: "PingFang TC", size: 20)
             return sectionHeader
         }
         return UICollectionReusableView()
@@ -402,7 +454,8 @@ extension WishListViewController: UICollectionViewDataSource,
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
         
         switch indexPath.section {
         case 0:
@@ -461,5 +514,4 @@ extension WishListViewController: UICollectionViewDataSource,
             print("dd")
         }
     }
-
 }

@@ -13,19 +13,19 @@ func tapPhoto(controller: UIViewController) {
     
     // Camera
     let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
-        //self.takePicture()
+        // self.takePicture()
     }
     alertController.addAction(cameraAction)
     
     // Photo
     let photoLibraryAction = UIAlertAction(title: "Gallery", style: .default) { _ in
-        //self.openPhotoLibrary()
+        // self.openPhotoLibrary()
     }
     alertController.addAction(photoLibraryAction)
     
     // Gallery
     let savedPhotoAlbumAction = UIAlertAction(title: "Album", style: .default) { _ in
-        //self.openPhotosAlbum()
+        // self.openPhotosAlbum()
     }
     alertController.addAction(savedPhotoAlbumAction)
     

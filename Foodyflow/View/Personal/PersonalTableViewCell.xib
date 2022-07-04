@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,21 +17,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="373" height="138"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mdu-Af-LAX">
-                        <rect key="frame" x="50" y="20" width="223" height="88"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Mdu-Af-LAX">
+                        <rect key="frame" x="50" y="10" width="273" height="24"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Wj-c9d">
-                                <rect key="frame" x="0.0" y="0.0" width="140" height="88"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="refrigerators" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Wj-c9d">
+                                <rect key="frame" x="0.0" y="0.0" width="38" height="24"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="9bF-hR-916"/>
                                     <constraint firstAttribute="width" secondItem="aI0-Wj-c9d" secondAttribute="height" multiplier="35:22" id="dri-KF-qM6"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giy-EH-znD">
-                                <rect key="frame" x="140" y="0.0" width="83" height="88"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="26G-S6-eJv"/>
-                                </constraints>
+                                <rect key="frame" x="58" y="0.0" width="215" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -40,9 +38,9 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="Mdu-Af-LAX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="00s-wr-ZPZ"/>
-                    <constraint firstAttribute="trailing" secondItem="Mdu-Af-LAX" secondAttribute="trailing" constant="100" id="NqC-X5-ayC"/>
-                    <constraint firstItem="Mdu-Af-LAX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="boa-C5-SXi"/>
-                    <constraint firstAttribute="bottom" secondItem="Mdu-Af-LAX" secondAttribute="bottom" constant="30" id="cM4-nO-fbA"/>
+                    <constraint firstAttribute="trailing" secondItem="Mdu-Af-LAX" secondAttribute="trailing" constant="50" id="NqC-X5-ayC"/>
+                    <constraint firstItem="Mdu-Af-LAX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="boa-C5-SXi"/>
+                    <constraint firstAttribute="bottom" secondItem="Mdu-Af-LAX" secondAttribute="bottom" constant="5" id="cM4-nO-fbA"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -53,4 +51,7 @@
             <point key="canvasLocation" x="276" y="57"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="refrigerators" width="24" height="24"/>
+    </resources>
 </document>

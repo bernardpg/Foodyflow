@@ -48,19 +48,18 @@ class FoodManager {
     }
     
     func publishFood(food: inout FoodInfo, completion: @escaping (Result<String, Error>) -> Void) {
-        
         let document = db.collection("foods").document()
         foodId = document.documentID
         food.foodId = document.documentID
-        food.foodBrand = "33" // rename
-        food.createdTime = Date().millisecondsSince1970
+       // food.foodBrand = "33" // rename
+       // food.createdTime = Date().millisecondsSince1970
         document.setData(food.toDict) { error in
             
             if let error = error {
                 
                 completion(.failure(error))
             } else {
-                
+                HandleResult.addDataSuccess.messageHUD
                 completion(.success("Success"))
             }
         }
@@ -68,8 +67,11 @@ class FoodManager {
     // need to refactor
     func fetchSpecifyFood(refrige: Refrige, completion: @escaping (Result<FoodInfo, Error>) -> Void) {
         let colref = db.collection("foods")
-        var foods = FoodInfo()
-        guard !refrige.foodID.isEmpty else  { return completion(.success(foods))}
+        let foods = FoodInfo()
+        guard !refrige.foodID.isEmpty else {
+            completion(.success(foods))
+            return
+        }
         for food in refrige.foodID {
             colref.document(food).getDocument { (document, error) in
                 if let error = error {

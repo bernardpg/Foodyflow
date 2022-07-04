@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class InCatCollectionViewCell: UICollectionViewCell {
     
@@ -26,6 +27,9 @@ class InCatCollectionViewCell: UICollectionViewCell {
     
     public func configute(with model: FoodInfo) {
         self.myLabel.text = model.foodName
+        
+        if model.foodImages == "" {myImageView.image = UIImage(named: "imageDefault")} else{
+            self.myImageView.kf.setImage(with: URL(string:model.foodImages ?? ""))}
     }
 
 }
