@@ -85,14 +85,14 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     var foodDetail: ((String) -> Void)?  // callback
     
-    var didSelectDifferentRef: Int? //{didSet{reloadRefrige()}}
+    var didSelectDifferentRef: Int? // {didSet{reloadRefrige()}}
     
     private enum Mode {
         case onboarding
         case login
     }
     
-    //subscriber
+    // subscriber
     private var subscribers = Set<AnyCancellable>()
     
     @Published private var mode: Mode = .onboarding // image / label

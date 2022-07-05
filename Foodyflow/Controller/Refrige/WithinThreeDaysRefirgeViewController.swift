@@ -49,7 +49,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     
     var othersInfo: [FoodInfo] = []
     
-    var didSelectDifferentRef: Int? //{didSet{reloadRefrige()}}
+    var didSelectDifferentRef: Int? // {didSet{reloadRefrige()}}
     
     var tabIndex: Int?
     
@@ -128,28 +128,28 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
 
     }
     
-    func cateFilter(allFood: [FoodInfo], cates: [String?]) {
+    func cateFilter( allFood: [FoodInfo], cates: [String?]) {
         for foodInfo in allFood {
                 for cate in cates {
                     guard let foodCategory = foodInfo.foodCategory
                     else { return }
-                    if foodCategory == cate! && cate! == "肉類" { self.meatsInfo.append(foodInfo) }
-                     else if foodCategory == cate! && cate! == "豆類" { self.beansInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "雞蛋類" { self.eggsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "青菜類" { self.vegsInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "醃製類"
-                    { self.picklesInfo.append(foodInfo) }
-                    else if foodCategory == cate! && cate! == "水果類"
-                    {self.fruitsInfo.append(foodInfo)}
-                    else if foodCategory == cate! && cate! == "魚類"
-                    {self.fishesInfo.append(foodInfo)}
-                    else if foodCategory == cate! && cate! == "海鮮類"
-                    {self.seafoodsInfo.append(foodInfo)}
-                    else if foodCategory == cate! && cate! == "飲料類"
-                    {self.beveragesInfo.append(foodInfo)}
-                    else if foodCategory == cate! && cate! == "調味料類"
-                    {self.seasonsInfo.append(foodInfo)}
-                    else if foodCategory == cate! && cate! == "其他"
+                    if foodCategory == cate! && cate! == "肉類" { self.meatsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "豆類" { self.beansInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "雞蛋類" { self.eggsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "青菜類" { self.vegsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "醃製類"
+                    { self.picklesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "水果類"
+                    {self.fruitsInfo.append(foodInfo)} else if
+                        foodCategory == cate! && cate! == "魚類"
+                    {self.fishesInfo.append(foodInfo)} else if
+                        foodCategory == cate! && cate! == "海鮮類"
+                    {self.seafoodsInfo.append(foodInfo)} else if
+                        foodCategory == cate! && cate! == "飲料類"
+                    {self.beveragesInfo.append(foodInfo)} else if
+                        foodCategory == cate! && cate! == "調味料類"
+                    {self.seasonsInfo.append(foodInfo)} else if
+                        foodCategory == cate! && cate! == "其他"
                     {self.othersInfo.append(foodInfo)}
                 }
             }
@@ -247,7 +247,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
             switch result {
             case .success(let foodInfo):
                 self?.foodsInfo.append(foodInfo)
-                if self?.foodsInfo.count == self?.refrige[0].foodID.count {completion(self?.foodsInfo ?? [foodInfo])}
+                if self?.foodsInfo.count == self?.refrige[0].foodID.count {completion(self?.foodsInfo ?? [foodInfo]) }
                 else {print("append not finish yet ")}
             case .failure:
                 print("fetch food error")
@@ -313,8 +313,6 @@ extension WithinThreeDaysRefirgeViewController: UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // UIAlert to didselect or delete
         
     }
 }
