@@ -197,14 +197,14 @@ class RefrigeAllFoodViewController: UIViewController {
     
     func reloadRefrige() {
         
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        DispatchQueue.global().async {
+        HandleResult.readData.messageHUD
             
             self.resetRefrigeFood()
             
             self.fetAllFood(completion: { foodinfo21 in
-                
+
+                HandleResult.readDataFailed.messageHUD
+
                 self.cateFilter(allFood: foodinfo21, cates: self.cate)
                 
                 DispatchQueue.main.async {
@@ -231,12 +231,12 @@ class RefrigeAllFoodViewController: UIViewController {
                     }
                     guard let didSelectDifferentRef = self.didSelectDifferentRef else { return }
                     refrigeNow = self.refrige[didSelectDifferentRef]
-                    semaphore.signal()
+                  
                     
                 }
-                semaphore.wait()}
+                }
             )
-        }
+        
     }
     
     // change refrige
