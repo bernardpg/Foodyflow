@@ -11,5 +11,6 @@ var refrigeNowID: String?
 var shoppingListNowID: String?
 var refrigeDeleteID: String?
 var userNowID: String?
+var userID: String? 
 
 var refrigeNow: Refrige?

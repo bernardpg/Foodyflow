@@ -39,6 +39,8 @@ class PersonalViewController: UIViewController {
     
     var refrigeName: String?
     
+    var userManager = UserManager()
+    
     var handle: AuthStateDidChangeListenerHandle?
     
     var refrige = Refrige.init(id: "", title: "我的冰箱", foodID: [], createdTime: 0, category: "", shoppingList: [])
@@ -98,7 +100,10 @@ class PersonalViewController: UIViewController {
     func verifyUser( completion: @escaping () -> Void ) {
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
-                
+                // fetch User's  refrige
+                print(userID)
+                print("\(auth.currentUser)")
+                // fetch
                 self.fetchAllRefrige()
                 
                 print("\(String(describing: user?.uid))")
@@ -111,6 +116,26 @@ class PersonalViewController: UIViewController {
     }
     
     @objc func signOutTap() {
+        
+    let alert = UIAlertController(title: "用戶設定",
+                                message: nil,
+                                preferredStyle: .alert)
+    let deleteAction = UIAlertAction(title: "刪除帳號", style: .destructive) { _ in
+        print("delete")}
+    alert.addAction(deleteAction)
+        
+    let falseAction = UIAlertAction(title: "取消", style: .cancel)
+        alert.addAction(falseAction)
+    
+    let logoutAction = UIAlertAction(title: "登出", style: .default) { _  in
+        self.signout()
+        }
+    alert.addAction(logoutAction)
+    alert.show(animated: true, vibrate: false)
+ 
+    }
+    
+    func signout() {
         if Auth.auth().currentUser != nil {
             do {
                 try Auth.auth().signOut()
@@ -119,6 +144,7 @@ class PersonalViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
+
     }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
@@ -137,13 +163,26 @@ class PersonalViewController: UIViewController {
         cameraAc3tion()
         func cameraAc3tion() {
             RefrigeManager.shared.createFrige(refrige: &self.refrige) { result in
+//                switch result{
+ //           case .success(let refrigeID)
+ //                   self.userManager.createRefrigeOnSingleUser(user: <#T##UserInfo#>, refrigeID: refrigeID) { <#UserManager.Result<String>#> in
+//                        <#code#>
+                    }
                 self.onPublished?()
             }
             fetchAllRefrige()
-        }
     }
     
     /*@objc func personalSetting() {
+     switch result {
+     case .success(let refrigeAmount):
+         self?.refrigeAmount = refrigeAmount
+         DispatchQueue.main.async {
+             self?.personalTableView.reloadData()
+         }
+     case .failure:
+         print("cannot fetch data")
+     }
      openAlert(controller: self, mainTitle: "更換個人設定", firstTitle: "更換照片", secondTitle: "更換暱稱", cancelTitle: "取消")
      }*/
     
@@ -189,6 +228,11 @@ class PersonalViewController: UIViewController {
             make.top.equalTo(view).offset(-30)
         }
         background.addSubview(signOut)
+        signOut.setImage(
+            UIImage(named: "setting")?
+            .resize(to: .init(width: 32, height: 32)),
+            for: .normal
+        )
         
         signOut.snp.makeConstraints { make in
             make.centerY.equalTo(addRefrigeButton.snp.centerY)
@@ -326,6 +370,7 @@ class PersonalViewController: UIViewController {
 }
 
 extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         refrigeAmount.count
     }
@@ -341,6 +386,7 @@ extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
@@ -364,21 +410,24 @@ extension PersonalViewController: SelectCellDelegate {
         
     }
     
-    func promptForAnswer(completion: @escaping (String)->Void) {
-        let ac = UIAlertController(title: "變更你冰箱的名字", message: nil, preferredStyle: .alert)
-        ac.addTextField()
+    func promptForAnswer(completion: @escaping (String) -> Void) {
+        let alertVC = UIAlertController(title: "變更你食光的名字", message: nil, preferredStyle: .alert)
+        alertVC.addTextField()
         
-        let submitAction = UIAlertAction(title: "遞交", style: .default) { [unowned ac] _ in
-            let answer = ac.textFields![0]
+        let submitAction = UIAlertAction(title: "確認", style: .default) { [unowned alertVC] _ in
+            let answer = alertVC.textFields![0]
             
             guard let rename = answer.text else { return }
             completion(rename)
             // do something interesting with "answer" here
         }
         
-        ac.addAction(submitAction)
+        alertVC.addAction(submitAction)
         
-        present(ac, animated: true)
+        let falseAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertVC.addAction(falseAction)
+        
+        present(alertVC, animated: true)
     }
     
 }

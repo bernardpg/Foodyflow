@@ -84,6 +84,22 @@ class UserManager {
         
     }
     
+    func createRefrigeOnSingleUser(user: UserInfo,refrigeID: String, completion: @escaping (Result<String>)-> Void) {
+        let userRef = database.document(user.userID)
+        
+        userRef.updateData(["personalRefrige" : refrigeID]) { error in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                completion(.success("success"))
+            }
+        }
+        
+    }
+    
     /*
     
     func fetchUserInfo(fetchUserID: String, completion: @escaping (Result<UserInfo>) -> Void) {

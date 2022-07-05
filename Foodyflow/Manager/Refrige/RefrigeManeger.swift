@@ -99,7 +99,7 @@ class RefrigeManager {
                 completion(.failure(error))
             } else {
                 
-                completion(.success("Success"))
+                completion(.success(document.documentID))
             }
         }
     }
@@ -125,7 +125,7 @@ class RefrigeManager {
         
     }
     
-    func renameFrige(refrigeID: String, name: String, completion: @escaping ()->Void) {
+    func renameFrige(refrigeID: String, name: String, completion: @escaping () -> Void) {
         
         refrigeNowID = refrigeID
         
@@ -133,7 +133,7 @@ class RefrigeManager {
         
         let document = db.collection("Refrige").document(refrigeNowID)
         
-        document.updateData(["title" : name])
+        document.updateData(["title": name])
         completion()
         
     }
