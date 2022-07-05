@@ -60,7 +60,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDropdown()
+        
         viewPagerProperties()
         
         //        shoppingList.collectionViewLayout = UICollectionViewLayout()
@@ -92,7 +92,11 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
             // w for fix error 應該先fetch 在回來抓
             self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
+                
                 self?.shoppingLists = shoppingLists
+                print(shoppingLists)
+                self?.setDropdown()
+                //self?.setDropdown(self?.shoppingLists)
                 shoppingListNowID = "dwdwdwd" // fetch initial
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
@@ -173,6 +177,49 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     func heightForIndicator(at index: Int) -> CGFloat {
         return CGFloat(50.0)
     }
+    
+   /* func setDropdown(_ shoppingLists: [ShoppingList]?) {
+        var items: [String] = []
+        
+        guard let shoppingLists = shoppingLists else {
+            return
+        }
+        for shoppingList in shoppingLists {
+            items.append(shoppingList.title )
+        }
+      //  self.selectedCellLabel.text = items.first
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
+        self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        menuView = BTNavigationDropdownMenu(
+            navigationController: self.navigationController,
+            containerView: self.navigationController!.view,
+            title: BTTitle.index(0), items: items)
+
+        menuView.cellHeight = 50
+        menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
+        menuView.selectedCellTextLabelColor = UIColor.lightGray
+        menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
+        menuView.shouldKeepSelectedCellColor = true
+        menuView.cellTextLabelColor = UIColor.white
+        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 17)
+        menuView.cellTextLabelAlignment = .left // .Center // .Right // .Left
+        menuView.arrowPadding = 15
+        menuView.animationDuration = 0.5
+        //menuView.maskBackgroundColor = UIColor.hexStringToUIColor(hex: "#F4943A")
+        menuView.maskBackgroundOpacity = 0.3
+        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
+            print("Did select item at index: \(indexPath)")
+//        self.didSelectDifferentRef = indexPath
+//            self.refrigeAllFoodVC.didSelectDifferentRef = indexPath
+//            self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
+//            self.expiredRefrigeVC.didSelectDifferentRef = indexPath
+        }
+        
+        self.navigationItem.titleView = menuView
+    }
+*/
     
     // wait for change
     func setDropdown() {
@@ -259,7 +306,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     }
     // fetch shoppingList number
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-        refrigeNowID = "2" // rename
+        print(refrigeNow?.id)
+        refrigeNowID = refrigeNow?.id // rename
         ShoppingListManager.shared.fetchAllShoppingListInSingleRefrige { result in
             switch result {
             case .success(let shoppingLists):
@@ -332,17 +380,17 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             }
         }
     }
-    
+ // MARK: - recurrect 
     func deleteFoodOnShoppingList(foodId: String, complection: @escaping() -> Void) {
         
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
-            
+           /*
             self.fetchAllFoodInfoInSingleShopList { foodsInfos in
-                
-                var newshoppingList: ShoppingList = ShoppingList(
-                    foodID: [""])
+            Mark: 
+//                var newshoppingList: ShoppingList = ShoppingList(
+//                    foodID: [""])
                 //                                var newshoppingList = foodsInfos.filter { $0 != foodId }
                 newshoppingList.foodID = foodsInfos.filter { $0 != foodId }
                 self.shoppingLists = newshoppingList.foodID
@@ -369,7 +417,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 
             }
             semaphore.wait()
-        }
+        }*/
+    }
     }
 }
 
@@ -379,4 +428,4 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
 //      func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //          print("row: \(indexPath.row)")
 //      }
-// delete or change to Refrige
+     // delete or change to Refrige

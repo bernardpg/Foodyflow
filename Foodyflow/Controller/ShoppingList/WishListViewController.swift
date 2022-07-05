@@ -184,7 +184,7 @@ class WishListViewController: UIViewController {
     }
     // fetch shoppingList number
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-        refrigeNowID = "2" // rename
+      //  refrigeNowID = "2" // rename
         ShoppingListManager.shared.fetchAllShoppingListInSingleRefrige { result in
             switch result {
             case .success(let shoppingLists):

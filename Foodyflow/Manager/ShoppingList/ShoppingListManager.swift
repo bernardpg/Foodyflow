@@ -15,7 +15,7 @@ class ShoppingListManager {
     
     lazy var db = Firestore.firestore()
         
-    func fetchAllShoppingListInSingleRefrige(completion: @escaping (Result<[String?], Error>) -> Void) {
+    func fetchAllShoppingListInSingleRefrige(  completion: @escaping (Result<[String?], Error>) -> Void) {
         
         guard let refrigeNowID = refrigeNowID else { return }
         

@@ -65,7 +65,7 @@ class RefrigeProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setUI()
         
         self.foodNameTextField.text = foodItemName
@@ -82,6 +82,14 @@ class RefrigeProductDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        foodImage.clipsToBounds = true
+        foodImage.contentMode = .scaleAspectFill
+        foodImage.lkCornerRadius = 20
+
     }
     
     private func setUI() {
