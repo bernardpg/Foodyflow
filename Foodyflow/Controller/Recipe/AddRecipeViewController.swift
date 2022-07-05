@@ -243,7 +243,9 @@ extension AddRecipeViewController : UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         if self.view.window != nil {
             if textView.textColor == UIColor.lightGray {
-                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+                textView.selectedTextRange = textView.textRange(
+                    from: textView.beginningOfDocument,
+                    to: textView.beginningOfDocument)
             }
         }
     }

@@ -4,6 +4,11 @@
 //
 //  Created by 曹珮綺 on 6/20/22.
 //
+// bug shoppingList Name fetch 回來
+
+// bug 更換時 沒有的話不能新增
+
+// bug 照片不能新增上去
 
 import UIKit
 import BTNavigationDropdownMenu
@@ -19,6 +24,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     var cate: [String?] = []
     
     var foodManager = FoodManager.shared
+    
+    var shopDidSelectDifferentRef: Int?
     
     // 狀態有改 reload filter 之後的篩選
     
@@ -56,6 +63,12 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     private var viewPager =  LZViewPager()
     
+    let wishListVC = UIStoryboard(name: "Main", bundle: nil)
+        .instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
+    
+    let inshoppingListVC = UIStoryboard(name: "Main", bundle: nil)
+        .instantiateViewController(withIdentifier: "inshoppingListVC") as? InshoppingViewController
+
     private lazy var containerView: [UIViewController] = []
     
     override func viewDidLoad() {
@@ -92,11 +105,9 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
             // w for fix error 應該先fetch 在回來抓
             self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
-                
                 self?.shoppingLists = shoppingLists
-                print(shoppingLists)
-                self?.setDropdown()
-                //self?.setDropdown(self?.shoppingLists)
+                self?.setDropdown(shoppingLists: shoppingLists)
+                // self?.setDropdown(self?.shoppingLists)
                 shoppingListNowID = "dwdwdwd" // fetch initial
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
@@ -133,12 +144,6 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         viewPager.dataSource = self
         viewPager.hostController = self
         
-        let wishListVC = UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
-        
-        let inshoppingListVC = UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(withIdentifier: "inshoppingListVC") as? InshoppingViewController
-        
         guard let wishListVC = wishListVC else { return }
         guard let inshoppingListVC = inshoppingListVC else { return }
         
@@ -159,71 +164,35 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
-        button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
+        button.setTitleColor(.FoodyFlow.lightGray, for: .normal)
+        button.setTitleColor(.FoodyFlow.black, for: .selected)
+        button.backgroundColor = UIColor.FoodyFlow.white
+
         return button
     }
     
     func backgroundColorForHeader() -> UIColor {
         
-        return UIColor.FoodyFlow.darkOrange
+        return UIColor.FoodyFlow.lightOrange
     }
     
     func colorForIndicator(at index: Int) -> UIColor {
         
-        return UIColor.FoodyFlow.lightOrange
+        return UIColor.FoodyFlow.darkOrange
     }
     
     func heightForIndicator(at index: Int) -> CGFloat {
         return CGFloat(50.0)
     }
-    
-   /* func setDropdown(_ shoppingLists: [ShoppingList]?) {
+        
+    func setDropdown(shoppingLists: [String?]) {
+        
         var items: [String] = []
-        
-        guard let shoppingLists = shoppingLists else {
-            return
-        }
-        for shoppingList in shoppingLists {
-            items.append(shoppingList.title )
-        }
-      //  self.selectedCellLabel.text = items.first
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
-        self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        menuView = BTNavigationDropdownMenu(
-            navigationController: self.navigationController,
-            containerView: self.navigationController!.view,
-            title: BTTitle.index(0), items: items)
-
-        menuView.cellHeight = 50
-        menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
-        menuView.selectedCellTextLabelColor = UIColor.lightGray
-        menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
-        menuView.shouldKeepSelectedCellColor = true
-        menuView.cellTextLabelColor = UIColor.white
-        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 17)
-        menuView.cellTextLabelAlignment = .left // .Center // .Right // .Left
-        menuView.arrowPadding = 15
-        menuView.animationDuration = 0.5
-        //menuView.maskBackgroundColor = UIColor.hexStringToUIColor(hex: "#F4943A")
-        menuView.maskBackgroundOpacity = 0.3
-        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
-            print("Did select item at index: \(indexPath)")
-//        self.didSelectDifferentRef = indexPath
-//            self.refrigeAllFoodVC.didSelectDifferentRef = indexPath
-//            self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
-//            self.expiredRefrigeVC.didSelectDifferentRef = indexPath
-        }
-        
-        self.navigationItem.titleView = menuView
-    }
-*/
     
-    // wait for change
-    func setDropdown() {
-        let items = ["購買清單", "Latest", "Trending", "Nearest", "Top Picks"]
+        for shoppingList in shoppingLists {
+            items.append(shoppingList ?? "")}
+        
         //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
@@ -251,6 +220,13 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             print("Did select item at index: \(indexPath)")
         }
         
+        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
+            print("Did select item at index: \(indexPath)")
+            self.shopDidSelectDifferentRef = indexPath
+            self.wishListVC?.shopDidSelectDifferentRef = indexPath
+            self.inshoppingListVC?.shopDidSelectDifferentRef = indexPath
+        }
+
         self.navigationItem.titleView = menuView
     }
     
@@ -269,29 +245,32 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     }
     
     func cateFilter( allFood: [FoodInfo], cates: [String?] ) {
-        
         for foodInfo in allFood {
             for cate in cates {
                 guard let foodCategory = foodInfo.foodCategory else { return }
                 if foodCategory == cate! && cate! == "肉類" {
-                    self.meatsInfo.append(foodInfo) } else if
-                        foodCategory == cate! && cate! == "豆類" {
-                        self.beansInfo.append(foodInfo) } else if
-                            foodCategory == cate! && cate! == "雞蛋類" { self.eggsInfo.append(foodInfo) } else if
-                                foodCategory == cate! && cate! == "青菜類" { self.vegsInfo.append(foodInfo) } else if
-                                    foodCategory == cate! && cate! == "醃製類"{ self.picklesInfo.append(foodInfo) } else if
-                                        foodCategory == cate! && cate! == "水果類" { self.fruitsInfo.append(foodInfo) }
-                else if foodCategory == cate! && cate! == "魚類" {
-                    self.fishesInfo.append(foodInfo) }
-                else if foodCategory == cate! && cate! == "海鮮類" {
-                    self.seafoodsInfo.append(foodInfo) } else if
-                        foodCategory == cate! && cate! == "飲料類" { self.beveragesInfo.append(foodInfo) } else if
-                            foodCategory == cate! && cate! == "調味料類" {
-                            self.seasonsInfo.append(foodInfo) } else if
-                                foodCategory == cate! && cate! == "其他" { self.othersInfo.append(foodInfo) }
+                self.meatsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "豆類" {
+                self.beansInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "雞蛋類" {
+                self.eggsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "青菜類" {
+                self.vegsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "醃製類" {
+                self.picklesInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "水果類" {
+                self.fruitsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "魚類" {
+                self.fishesInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "海鮮類" {
+                self.seafoodsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "飲料類" {
+                self.beveragesInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "調味料類" {
+                self.seasonsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "其他" { self.othersInfo.append(foodInfo) }
             }
         }
-        
     }
     
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
@@ -306,18 +285,16 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     }
     // fetch shoppingList number
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-        print(refrigeNow?.id)
+     //   print(refrigeNow?.id)
         refrigeNowID = refrigeNow?.id // rename
         ShoppingListManager.shared.fetchAllShoppingListInSingleRefrige { result in
             switch result {
             case .success(let shoppingLists):
+                
                 completion(shoppingLists)
             case .failure:
                 print("fetch shoppingList error")
-                
-            }
-        }
-    }
+                }}}
     // fetch single shoppingList FoodInfo
     func fetchAllFoodInfoInSingleShopList(completion: @escaping([String?]) -> Void) {
         ShoppingListManager.shared.fetchfoodInfoInsideSingleShoppingList { result in

@@ -110,7 +110,8 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
         // instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
                 
         let personalLikeREcipeViewController = UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(withIdentifier: "personalLikeREcipeViewController") as? PersonalLikeREcipeViewController
+            .instantiateViewController(withIdentifier: "personalLikeREcipeViewController")
+            as? PersonalLikeREcipeViewController
         
         // guard let wishListVC = wishListVC else { return }
         guard let personalLikeREcipeViewController = personalLikeREcipeViewController else { return }
@@ -132,19 +133,21 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
-        button.setTitleColor(UIColor.FoodyFlow.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
+        button.setTitleColor(.FoodyFlow.lightGray, for: .normal)
+        button.setTitleColor(.FoodyFlow.black, for: .selected)
+        button.backgroundColor = UIColor.FoodyFlow.white
         return button
     }
     
     func backgroundColorForHeader() -> UIColor {
         
-        return UIColor.FoodyFlow.darkOrange
+        return UIColor.FoodyFlow.lightOrange
     }
     
     func colorForIndicator(at index: Int) -> UIColor {
         
-        return UIColor.FoodyFlow.lightOrange
+        return UIColor.FoodyFlow.darkOrange
     }
     
 }

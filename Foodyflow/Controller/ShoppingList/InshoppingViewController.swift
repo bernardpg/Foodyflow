@@ -18,6 +18,10 @@ class InshoppingViewController: UIViewController {
     
     var foodManager = FoodManager.shared
     
+    var shopDidSelectDifferentRef: Int? { didSet { //reloadRefrige()
+        
+    } }
+    
     // 狀態有改 reload filter 之後的篩選
     
     var shoppingLists: [String?] = []
