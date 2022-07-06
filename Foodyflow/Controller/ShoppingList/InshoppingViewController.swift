@@ -54,12 +54,12 @@ class InshoppingViewController: UIViewController {
     
     var onPublished: (() -> Void)?
     
-    @IBOutlet weak var inShoppingList: UICollectionView!
+    @IBOutlet weak var inShoppingListCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        inShoppingList.delegate = self
-        inShoppingList.dataSource = self
+        inShoppingListCollectionView.delegate = self
+        inShoppingListCollectionView.dataSource = self
 //        inShoppingList.addSubview(tapButton)
 //        setUI()
 
@@ -67,7 +67,7 @@ class InshoppingViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        inShoppingList.layoutIfNeeded()
+        inShoppingListCollectionView.layoutIfNeeded()
         tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
@@ -93,7 +93,7 @@ class InshoppingViewController: UIViewController {
                         DispatchQueue.main.async {
                             // lottie 消失
                             
-                            self?.inShoppingList.reloadData()
+                            self?.inShoppingListCollectionView.reloadData()
                             semaphore.signal()
                         }
                     })
@@ -143,29 +143,29 @@ class InshoppingViewController: UIViewController {
     func cateFilter(allFood: [FoodInfo], cates: [String?]) {
         
         for foodInfo in allFood {
-                for cate in cates {
-                    if foodInfo.foodCategory! == cate! && cate! == "肉類" {
-                        self.meatsInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "豆類" {
-                            self.beansInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "雞蛋類" {
-                        self.eggsInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "青菜類" {
-                        self.vegsInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "醃製類"{
-                        self.picklesInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "水果類" {
-                        self.fruitsInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "魚類" {
-                        self.fishesInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "海鮮類" {
-                        self.seafoodsInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "飲料類"{
-                        self.beveragesInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "調味料類"{
-                        self.seasonsInfo.append(foodInfo)} else if
-                        foodInfo.foodCategory! == cate! && cate! == "其他" {
-                        self.othersInfo.append(foodInfo) } }
+            for cate in cates {
+                if foodInfo.foodCategory! == cate! && cate! == "肉類" {
+                    self.meatsInfo.append(foodInfo) } else if
+                foodInfo.foodCategory! == cate! && cate! == "豆類" {
+                    self.beansInfo.append(foodInfo) } else if
+                foodInfo.foodCategory! == cate! && cate! == "雞蛋類" {
+                    self.eggsInfo.append(foodInfo) } else if
+                foodInfo.foodCategory! == cate! && cate! == "青菜類" {
+                    self.vegsInfo.append(foodInfo) } else if
+                foodInfo.foodCategory! == cate! && cate! == "醃製類"{
+                    self.picklesInfo.append(foodInfo) } else if
+                foodInfo.foodCategory! == cate! && cate! == "水果類" {
+                    self.fruitsInfo.append(foodInfo) } else if
+                foodInfo.foodCategory! == cate! && cate! == "魚類" {
+                    self.fishesInfo.append(foodInfo) } else if
+                foodInfo.foodCategory! == cate! && cate! == "海鮮類" {
+                    self.seafoodsInfo.append(foodInfo) } else if
+                foodInfo.foodCategory! == cate! && cate! == "飲料類"{
+                    self.beveragesInfo.append(foodInfo) } else if
+                foodInfo.foodCategory! == cate! && cate! == "調味料類"{
+                    self.seasonsInfo.append(foodInfo)} else if
+                foodInfo.foodCategory! == cate! && cate! == "其他" {
+                    self.othersInfo.append(foodInfo) } }
         }
     }
 
@@ -181,16 +181,16 @@ class InshoppingViewController: UIViewController {
     }
     // fetch shoppingList number
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-     //   refrigeNowID = "2" // rename
-        ShoppingListManager.shared.fetchAllShoppingListInSingleRefrige { result in
-            switch result {
+        refrigeNowID = "2" // rename
+        ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige(completion: { result in
+          switch result {
             case .success(let shoppingLists):
                 completion(shoppingLists)
             case .failure:
             print("fetch shoppingList error")
                 
             }
-        }
+        })
     }
     // fetch single shoppingList FoodInfo
     func fetchAllFoodInfoInSingleShopList(completion: @escaping([String?]) -> Void) {
@@ -265,7 +265,7 @@ class InshoppingViewController: UIViewController {
         self.fetchAllFoodInfoInSingleShopList { foodsInfos in
             
             var newshoppingList: ShoppingList = ShoppingList(
-                foodID: [""])
+                title: "", foodID: [""])
             newshoppingList.foodID = foodsInfos.filter { $0 != foodId }
             self.shoppingLists = newshoppingList.foodID
 
@@ -278,7 +278,7 @@ class InshoppingViewController: UIViewController {
                         self.cateFilter(allFood: allfoodInfo, cates: cates)
                         DispatchQueue.main.async {
                             // lottie 消失
-                            self.inShoppingList.reloadData()
+                            self.inShoppingListCollectionView.reloadData()
                             semaphore.signal()
                         }
                             
@@ -293,7 +293,6 @@ class InshoppingViewController: UIViewController {
             semaphore.wait()
         }
     }
-
 }
 
 extension InshoppingViewController: UICollectionViewDataSource,
@@ -386,7 +385,7 @@ extension InshoppingViewController: UICollectionViewDataSource,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
 
-        if let sectionHeader = collectionView.dequeueReusableSupplementaryView (
+        if let sectionHeader = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: "ShoppingListCollectionReusableView",
             for: indexPath) as? ShoppingListCollectionReusableView {

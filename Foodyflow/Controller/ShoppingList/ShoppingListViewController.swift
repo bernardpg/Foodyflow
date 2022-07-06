@@ -61,14 +61,16 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     var menuView: BTNavigationDropdownMenu!
     
+    private lazy var createVC = CreatePersonViewController()
+    
     private var viewPager =  LZViewPager()
     
-    let wishListVC = UIStoryboard(name: "Main", bundle: nil)
-        .instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
+//    let wishListVC = UIStoryboard(name: "Main", bundle: nil)
+//            .instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
     
     let inshoppingListVC = UIStoryboard(name: "Main", bundle: nil)
         .instantiateViewController(withIdentifier: "inshoppingListVC") as? InshoppingViewController
-
+    
     private lazy var containerView: [UIViewController] = []
     
     override func viewDidLoad() {
@@ -94,38 +96,40 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 self.present( LoginViewController(), animated: true )
             }
         }
+        self.fetchAllCate { [weak self] cate in
+            self?.cate = cate
+        }
         
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        DispatchQueue.global().async {
-            self.fetchAllCate { [weak self] cate in
-                self?.cate = cate
+        // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
+        // w for fix error 應該先fetch 在回來抓
+        self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
+            self?.shoppingLists = shoppingLists
+            if shoppingLists.isEmpty {
+                self?.present(self?.createVC ?? CreatePersonViewController(), animated: true)
             }
+            self?.fetchAllShoppingListInfoInsingleRefrige(
+                shopingLists: shoppingLists,
+                completion: { [weak self] totalShopListInfo in
+                
+                self?.setDropdown(shoppingLists: totalShopListInfo)
+                })
+            self?.setDropdown(shoppingLists: shoppingLists)
+            // change name Bugs
             
-            // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
-            // w for fix error 應該先fetch 在回來抓
-            self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
-                self?.shoppingLists = shoppingLists
-                self?.setDropdown(shoppingLists: shoppingLists)
-                // self?.setDropdown(self?.shoppingLists)
-                shoppingListNowID = "dwdwdwd" // fetch initial
-                self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
-                    self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                        guard let cates = self?.cate else { return }
-                        self?.resetRefrigeFood()
-                        self?.cateFilter(allFood: allfoodInfo, cates: cates)
-                        DispatchQueue.main.async {
-                            // lottie 消失
-                            
-                            //                            self?.shoppingList.reloadData()
-                            semaphore.signal()
-                        }
-                    })
-                }
-            }
-            
-            semaphore.wait()
-            
+//            shoppingListNowID = "dwdwdwd" // fetch initial
+/*            self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
+                self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
+                    guard let cates = self?.cate else { return }
+                    self?.resetRefrigeFood()
+                    self?.cateFilter(allFood: allfoodInfo, cates: cates)
+                    DispatchQueue.main.async {
+                        // lottie 消失
+                        
+                        //                            self?.shoppingList.reloadData()
+                        //                           semaphore.signal()
+                    }
+                })
+            }*/
         }
     }
     
@@ -144,13 +148,13 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         viewPager.dataSource = self
         viewPager.hostController = self
         
-        guard let wishListVC = wishListVC else { return }
+        //        guard let wishListVC = wishListVC else { return }
         guard let inshoppingListVC = inshoppingListVC else { return }
         
-        wishListVC.title = "願望清單"
+        //        wishListVC.title = "願望清單" wishListVC,
         inshoppingListVC.title = "採購中"
         
-        containerView = [wishListVC, inshoppingListVC]
+        containerView = [inshoppingListVC]
         viewPager.reload()
     }
     
@@ -168,7 +172,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         button.setTitleColor(.FoodyFlow.lightGray, for: .normal)
         button.setTitleColor(.FoodyFlow.black, for: .selected)
         button.backgroundColor = UIColor.FoodyFlow.white
-
+        
         return button
     }
     
@@ -185,20 +189,21 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     func heightForIndicator(at index: Int) -> CGFloat {
         return CGFloat(50.0)
     }
-        
+    
     func setDropdown(shoppingLists: [String?]) {
         
         var items: [String] = []
-    
+        
         for shoppingList in shoppingLists {
             items.append(shoppingList ?? "")}
         
-        //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
         self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
         self.navigationController?.navigationBar.titleTextAttributes =
         [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        // menuView change
         
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
@@ -223,10 +228,10 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")
             self.shopDidSelectDifferentRef = indexPath
-            self.wishListVC?.shopDidSelectDifferentRef = indexPath
+            //            self.wishListVC?.shopDidSelectDifferentRef = indexPath
             self.inshoppingListVC?.shopDidSelectDifferentRef = indexPath
         }
-
+        
         self.navigationItem.titleView = menuView
     }
     
@@ -249,27 +254,27 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             for cate in cates {
                 guard let foodCategory = foodInfo.foodCategory else { return }
                 if foodCategory == cate! && cate! == "肉類" {
-                self.meatsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "豆類" {
-                self.beansInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "雞蛋類" {
-                self.eggsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "青菜類" {
-                self.vegsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "醃製類" {
-                self.picklesInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "水果類" {
-                self.fruitsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "魚類" {
-                self.fishesInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "海鮮類" {
-                self.seafoodsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "飲料類" {
-                self.beveragesInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "調味料類" {
-                self.seasonsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "其他" { self.othersInfo.append(foodInfo) }
-            }
+                    self.meatsInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "豆類" {
+                    self.beansInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "雞蛋類" {
+                    self.eggsInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "青菜類" {
+                    self.vegsInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "醃製類" {
+                    self.picklesInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "水果類" {
+                    self.fruitsInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "魚類" {
+                    self.fishesInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "海鮮類" {
+                    self.seafoodsInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "飲料類" {
+                    self.beveragesInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "調味料類" {
+                    self.seasonsInfo.append(foodInfo) } else if
+                    foodCategory == cate! && cate! == "其他" {
+                    self.othersInfo.append(foodInfo) }}
         }
     }
     
@@ -284,17 +289,39 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         })
     }
     // fetch shoppingList number
+    
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-     //   print(refrigeNow?.id)
         refrigeNowID = refrigeNow?.id // rename
-        ShoppingListManager.shared.fetchAllShoppingListInSingleRefrige { result in
+        
+        // 此處判斷shoppingList 是否是空的 如果是空的創建shoppingList
+        
+        ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige(completion: { result  in
             switch result {
             case .success(let shoppingLists):
-                
                 completion(shoppingLists)
             case .failure:
-                print("fetch shoppingList error")
-                }}}
+                print("fetch shoppingListID error")
+                
+            }})
+    }
+    
+    func fetchAllShoppingListInfoInsingleRefrige(shopingLists:[String?],  completion: @escaping([String?]) -> Void) {
+        
+        var shoppingListsTitle: [String?] = []
+        ShoppingListManager.shared.fetchALLShopListInfoInSingleRefrige(shopplingLists: shopingLists) { result in
+            switch result {
+            case .success(let shoppingList):
+                shoppingListsTitle.append(shoppingList?.title ?? "我的購買清單")
+                // change shoppingList 判別數量相同
+                if ((self.shoppingLists[0]?.count) != nil) {
+                    completion(shoppingListsTitle)}
+                else { print("not finish ") }
+            case .failure:
+                print("fetch shoppingListInfo error")
+            }
+        }
+        
+    }
     // fetch single shoppingList FoodInfo
     func fetchAllFoodInfoInSingleShopList(completion: @escaping([String?]) -> Void) {
         ShoppingListManager.shared.fetchfoodInfoInsideSingleShoppingList { result in
@@ -357,45 +384,46 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             }
         }
     }
- // MARK: - recurrect 
+    
+    // MARK: - recurrect
     func deleteFoodOnShoppingList(foodId: String, complection: @escaping() -> Void) {
         
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
-           /*
-            self.fetchAllFoodInfoInSingleShopList { foodsInfos in
-            Mark: 
-//                var newshoppingList: ShoppingList = ShoppingList(
-//                    foodID: [""])
-                //                                var newshoppingList = foodsInfos.filter { $0 != foodId }
-                newshoppingList.foodID = foodsInfos.filter { $0 != foodId }
-                self.shoppingLists = newshoppingList.foodID
-                
-                ShoppingListManager.shared.postFoodOnShoppingList(shoppingList: &newshoppingList) { result in
-                    switch result {
-                    case .success:
-                        self.fetAllFood(foodID: self.shoppingLists) { allfoodInfo in
-                            self.resetRefrigeFood()
-                            if let cates = self.cate as? [String] {
-                                self.cateFilter(allFood: allfoodInfo, cates: cates)
-                                DispatchQueue.main.async {
-                                    // lottie 消失
-                                    //                            self.shoppingList.reloadData()
-                                    semaphore.signal()
-                                }
-                                
-                            }
-                        }
-                    case .failure(let error):
-                        print("publishArticle.failure: \(error)")
-                    }
-                }
-                
-            }
-            semaphore.wait()
-        }*/
-    }
+            /*
+             self.fetchAllFoodInfoInSingleShopList { foodsInfos in
+             Mark:
+             //                var newshoppingList: ShoppingList = ShoppingList(
+             //                    foodID: [""])
+             //                                var newshoppingList = foodsInfos.filter { $0 != foodId }
+             newshoppingList.foodID = foodsInfos.filter { $0 != foodId }
+             self.shoppingLists = newshoppingList.foodID
+             
+             ShoppingListManager.shared.postFoodOnShoppingList(shoppingList: &newshoppingList) { result in
+             switch result {
+             case .success:
+             self.fetAllFood(foodID: self.shoppingLists) { allfoodInfo in
+             self.resetRefrigeFood()
+             if let cates = self.cate as? [String] {
+             self.cateFilter(allFood: allfoodInfo, cates: cates)
+             DispatchQueue.main.async {
+             // lottie 消失
+             //                            self.shoppingList.reloadData()
+             semaphore.signal()
+             }
+             
+             }
+             }
+             case .failure(let error):
+             print("publishArticle.failure: \(error)")
+             }
+             }
+             
+             }
+             semaphore.wait()
+             }*/
+        }
     }
 }
 
@@ -405,4 +433,4 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
 //      func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //          print("row: \(indexPath.row)")
 //      }
-     // delete or change to Refrige
+// delete or change to Refrige

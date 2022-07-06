@@ -8,10 +8,10 @@
 import UIKit
 import SnapKit
 import Kingfisher
-
+/*
 class WishListViewController: UIViewController {
     
-    private var tapButton = UIButton()
+    var tapButton = UIButton()
     
     var tabIndex: Int?
     
@@ -75,9 +75,9 @@ class WishListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        let semaphore = DispatchSemaphore(value: 0)
+        let semaphore = DispatchSemaphore(value: 0)
         
-//        DispatchQueue.global().async {
+        DispatchQueue.global().async {
             self.fetchAllCate { [weak self] cate in
                 self?.cate = cate
             }
@@ -87,7 +87,7 @@ class WishListViewController: UIViewController {
             self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
                 self?.shoppingLists = shoppingLists
                 shoppingListNowID = "dwdwdwd" // fetch initial
-                self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
+        self.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
@@ -96,16 +96,16 @@ class WishListViewController: UIViewController {
                             // lottie 消失
                             
                             self?.wishList.reloadData()
-  //                          semaphore.signal()
+                            semaphore.signal()
                         }
                     })
                 }
             }
             
-  //          semaphore.wait()
+            semaphore.wait()
             
 //        }
-    }
+//    }
     
     func setUI() {
 
@@ -185,18 +185,18 @@ class WishListViewController: UIViewController {
         })
     }
     // fetch shoppingList number
-    func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
+    //func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
       //  refrigeNowID = "2" // rename
-        ShoppingListManager.shared.fetchAllShoppingListInSingleRefrige { result in
-            switch result {
-            case .success(let shoppingLists):
-                completion(shoppingLists)
-            case .failure:
-            print("fetch shoppingList error")
+     //   ShoppingListManager.shared.fetchAllShoppingListInSingleRefrige { result in
+    //        switch result {
+    //        case .success(let shoppingLists):
+    //            completion(shoppingLists)
+    //        case .failure:
+    //        print("fetch shoppingList error")
                 
-            }
-        }
-    }
+    //        }
+    //    }
+   // }
     // fetch single shoppingList FoodInfo
     func fetchAllFoodInfoInSingleShopList(completion: @escaping([String?]) -> Void) {
         ShoppingListManager.shared.fetchfoodInfoInsideSingleShoppingList { result in
@@ -518,3 +518,4 @@ extension WishListViewController: UICollectionViewDataSource,
         }
     }
 }
+*/

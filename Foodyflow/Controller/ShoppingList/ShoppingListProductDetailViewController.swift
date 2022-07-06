@@ -45,7 +45,7 @@ class ShoppingListProductDetailViewController: UIViewController {
     var foodInfo = FoodInfo()
     
     var shoppingList: ShoppingList = ShoppingList(
-        foodID: [""]
+        title: "", foodID: [""]
 )
     
     override func viewDidLoad() {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
@@ -29,6 +30,10 @@ class ShoppingListManager {
                     let refrige =  try document?.data(as: Refrige.self, decoder: Firestore.Decoder())
                     guard let shoppingLists = refrige?.shoppingList else { return }
                     shopingLists = shoppingLists
+ //                   if shoppingLists.isEmpty {
+ //                       print("empty")
+ //                       completion(.failure)
+ //                   }
                 } catch {
                     
                     completion(.failure(error))
@@ -37,31 +42,35 @@ class ShoppingListManager {
                 completion(.success(shopingLists))
         }
     }
-    
-    func fetchALLShopListInfoInSingleRefrige(shopplingLists: [String], completion: @escaping  (Result<[ShoppingList?], Error >) -> Void) {
+    func fetchALLShopListInfoInSingleRefrige(shopplingLists: [String?],
+                                             completion: @escaping (Result<ShoppingList?, Error >) -> Void){
+        let colRef = db.collection("shoppingList")
         
-        
-        //let // fix bug 
-        var storeshopplingList: [ShoppingList] = [ ]
+//        let foods = FoodInfo()
+//        guard !refrige.foodID.isEmpty else {
+//            completion(.success(foods))
+//            return
+//        }
+
+//        guard !shopplingLists.isEmpty else { completion() return }
         
         for shopplingList in shopplingLists {
-            db.collection("shoppingList").document(shopplingList).getDocument { (document, error) in
-                
-                do {
-                    let shoppingList =  try document?.data(as: ShoppingList.self, decoder: Firestore.Decoder())
-                    guard let shoppingList = shoppingList else { return }
-                    storeshopplingList.append(shoppingList)
-                } catch {
-                    
+            guard let shopplingList = shopplingList else { return }
+            colRef.document(shopplingList).getDocument { (document, error) in
+                if let error = error {
                     completion(.failure(error))
+                } else {
+                    
+                    do {
+                        if let shoppingList = try document?.data(as: ShoppingList.self, decoder: Firestore.Decoder()) {
+                            completion(.success(shoppingList))
+                        }
+                    } catch {
+                        completion(.failure(error))
+                    }
                 }
-                
             }
-            completion(.success(storeshopplingList))
-    }
-
-    //     let colDef = db.collection()
-      //  let colDef = db.collectionGroup(<#T##String#>)
+        }
         
     }
     
