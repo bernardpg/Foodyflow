@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import Kingfisher
 
+// Login 跟 會擋到 
+
 class WishListViewController: UIViewController {
     
     private lazy var tapButton = UIButton()
@@ -51,7 +53,7 @@ class WishListViewController: UIViewController {
     
     var onPublished: ( () -> Void)?
     
-    var shopDidSelectDifferentRef: Int? { didSet { reloadShoppingList() } }
+    var shopDidSelectDifferentRef: Int? { didSet { reloadWishList() } }
     
     @IBOutlet weak var wishListCollectionView: UICollectionView!
 
@@ -93,6 +95,10 @@ class WishListViewController: UIViewController {
                         self?.present(CreatePersonViewController(), animated: true) }} else {
             shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
+                    if foodssInfo.isEmpty {
+                        self?.wishListCollectionView.backgroundView = SearchPlaceholderView()
+                    }
+                    else {
                     if foodssInfo[0] == "" {
                         self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } else {
                         
@@ -113,12 +119,13 @@ class WishListViewController: UIViewController {
             }
             }
     
+            }
             semaphore.wait()
-            
+
         }
     }
     
-    private func reloadShoppingList() {
+    private func reloadWishList() {
         
         HandleResult.readData.messageHUD
         
@@ -129,6 +136,9 @@ class WishListViewController: UIViewController {
             self.resetRefrigeFood()
         shoppingListNowID = self.shoppingLists[shopDidSelectDifferentRef ?? 0]
             self.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
+                if foodssInfo.isEmpty {
+                    self?.wishListCollectionView.backgroundView = SearchPlaceholderView() }
+                else {
                 if foodssInfo[0] == "" {
                     DispatchQueue.main.async {
                         self?.cate = []
@@ -145,7 +155,7 @@ class WishListViewController: UIViewController {
                             self?.wishListCollectionView.reloadData()
                         }
                     })}
-                
+                }
             }
     }
     
@@ -158,14 +168,30 @@ class WishListViewController: UIViewController {
             
         }))
         alert.addAction(UIAlertAction(title: "編輯\(food.foodName!)", style: .default, handler: { _ in
+            
+            let shoppingVC = ShoppingListProductDetailViewController(
+                nibName: "ShoppingListProductDetailViewController",
+                bundle: nil)
+            
+            shoppingVC.shoppingList.foodID = self.foodsInShoppingList
+            
+            // MARK: - 邏輯在修改
+            
+            shoppingVC.foodInfo = food
+            
+    //        shoppingVC.refrige = refrige[0]
+            self.navigationController!.pushViewController(shoppingVC, animated: true)
+
 //            self.foodManager.publishFood(food: &<#T##FoodInfo#>, completion: <#T##(Result<String, Error>) -> Void#>)
                 print("User click Edit button")}))
 
         alert.addAction(UIAlertAction(title: "刪除\(food.foodName!)", style: .destructive, handler: { _ in
-//                foodManager.deleteFood(foodId: <#T##String?#>, completion: <#T##(Result<String?, Error>) -> Void#>)
-//                deleteFoodOnShoppingList(foodId: <#T##String#>, complection: <#T##() -> Void#>)
-//                ShoppingListManager.shared.
-                print("User click Delete button")}))
+            
+            self.foodManager.deleteFood(foodId: food.foodId) { error in
+                    print("\(error)")}
+            self.deleteFoodOnShoppingList(foodId: food.foodId ?? "") {
+                print("success")}
+            print("User click Delete button")}))
             
         alert.addAction(UIAlertAction(title: "返回", style: .cancel, handler: { _ in
                 print("User click Dismiss button")}))
@@ -255,7 +281,7 @@ class WishListViewController: UIViewController {
     }
     // fetch shoppingList number
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-        // refrigeNowID = "2" // rename  // 邏輯修改
+     //   refrigeNowID = "2" // rename  // 邏輯修改
         ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige { result in
             switch result {
             case .success(let shoppingLists):
@@ -326,10 +352,6 @@ class WishListViewController: UIViewController {
     // MARK: - deleteFood
     func deleteFoodOnShoppingList(foodId: String, complection: @escaping() -> Void) {
         
-//        let semaphore = DispatchSemaphore(value: 0)
-        
-//        DispatchQueue.global().async {
-        
         self.fetchAllFoodInfoInSingleShopList { foodsInfos in
             
             var newshoppingList: ShoppingList = ShoppingList(
@@ -341,7 +363,39 @@ class WishListViewController: UIViewController {
             ShoppingListManager.shared.postFoodOnShoppingList(shoppingList: &newshoppingList) { result in
                 switch result {
                 case .success:
-                    self.fetAllFood(foodID: self.shoppingLists) { allfoodInfo in
+                    self.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
+                        if foodssInfo.isEmpty {
+                            self?.cate = []
+                            self?.wishListCollectionView.reloadData()
+                            self?.wishListCollectionView.backgroundView = SearchPlaceholderView() }
+                        else {
+                        if foodssInfo[0] == "" {
+                            DispatchQueue.main.async {
+                                self?.cate = []
+                                // lottie 消失
+                                self?.wishListCollectionView.reloadData()
+                                self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } } else {
+                            self?.wishListCollectionView.backgroundView = nil
+                            self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
+                                guard let cates = self?.cate else { return }
+                                self?.resetRefrigeFood()
+                                self?.cateFilter(allFood: allfoodInfo, cates: cates)
+                                DispatchQueue.main.async {
+                                    // lottie 消失
+                                    self?.wishListCollectionView.reloadData()
+                                }
+                            })}
+                        }
+                    }
+
+                 /*   self.fetAllFood(foodID: self.shoppingLists) { allfoodInfo in
+                        if allfoodInfo.isEmpty {
+                            self.cate = []
+                            self.wishListCollectionView.backgroundView = SearchPlaceholderView()
+                            self.wishListCollectionView.reloadData()
+                        }
+                        else{
+                            
                         self.resetRefrigeFood()
                         if let cates = self.cate as? [String] {
                         self.cateFilter(allFood: allfoodInfo, cates: cates)
@@ -352,14 +406,13 @@ class WishListViewController: UIViewController {
                         }
                             
                         }
-                    }
+                        }}*/
                 case .failure(let error):
                     print("publishArticle.failure: \(error)")
                 }
             }
             
         }
- //           semaphore.wait()
         }
     }
 
@@ -531,6 +584,8 @@ extension WishListViewController: UICollectionViewDataSource,
         switch indexPath.section {
         case 0:
             alertSheet(food: meatsInfo[indexPath.item])
+           // finishShoppingToRefrige(foodId: meatsInfo[indexPath.item].foodId ?? "2") {
+//            }
         case 1:
             alertSheet(food: beansInfo[indexPath.item])
 //            finishShoppingToRefrige(foodId: beansInfo[indexPath.item].foodId ?? "2") {

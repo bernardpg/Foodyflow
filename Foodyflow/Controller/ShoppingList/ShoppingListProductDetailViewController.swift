@@ -80,30 +80,41 @@ class ShoppingListProductDetailViewController: UIViewController {
         foodCateTextField.lkCornerRadius = 20
         foodCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
         foodCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodCateTextField.text = foodInfo.foodCategory
         foodName.text = "食材名稱"
         foodNameTextField.lkCornerRadius = 20
         foodNameTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodNameTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodNameTextField.text = foodInfo.foodName
 
         foodBrand.text = "品牌"
         foodBrandTextField.lkCornerRadius = 20
         foodBrandTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodBrandTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
         
+        foodBrandTextField.text = foodInfo.foodCategory
+        
         foodWeightTextField.lkCornerRadius = 20
         foodWeightTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodWeightTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodWeightTextField.text = foodInfo.foodBrand
 
         foodBuy.text = "購買地點"
         foodBuyPlaceTextfield.lkCornerRadius = 20
         foodBuyPlaceTextfield.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodBuyPlaceTextfield.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodBuyPlaceTextfield.text = foodInfo.foodPurchasePlace
 
         foodAddidtional.text = "備註"
         
         foodAdditionalTextVIew.lkCornerRadius = 10
         foodAdditionalTextVIew.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodAdditionalTextVIew.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodAdditionalTextVIew.text = foodInfo.additional
         
         updateButton.lkCornerRadius = 10
         updateButton.tintColor = UIColor.FoodyFlow.white

@@ -149,12 +149,12 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         viewPager.hostController = self
         
         guard let wishListVC = wishListVC else { return }
-//        guard let inshoppingListVC = inshoppingListVC else { return }
+        guard let inshoppingListVC = inshoppingListVC else { return }
         
         wishListVC.title = "願望清單"
-//        inshoppingListVC.title = "採購中"
+        inshoppingListVC.title = "採購中"
         
-        containerView = [wishListVC]
+        containerView = [wishListVC, inshoppingListVC]
         viewPager.reload()
     }
     
