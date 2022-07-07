@@ -74,12 +74,12 @@ class ShoppingListManager {
         
     }
     
-    
     func fetchfoodInfoInsideSingleShoppingList(completion: @escaping (Result<[String?], Error>) -> Void) {
         
         // guard let shoppingListNowID = shoppingListNowID else { return }
         
         let docRef = db.collection("shoppingList").document(shoppingListNowID!)
+        
         docRef.getDocument { (document, error) in
             
             var foodsInfo = [String?]()
@@ -95,7 +95,6 @@ class ShoppingListManager {
                 completion(.success(foodsInfo))
         }
     }
-    
     
      // need to fix bugs while Delete
     // MARK: delete Food while reload

@@ -117,7 +117,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
 
                         return
                     } else {
-                        self.present( LoginViewController() , animated: true)
+                        self.present( LoginViewController(), animated: true)
                     }
                 }
 
@@ -272,7 +272,6 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         for refrige in refriges {
             items.append(refrige.title )
         }
-      //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
         self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
@@ -296,9 +295,9 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")
         self.didSelectDifferentRef = indexPath
-            self.refrigeAllFoodVC.didSelectDifferentRef = indexPath
-            self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
-            self.expiredRefrigeVC.didSelectDifferentRef = indexPath
+        self.refrigeAllFoodVC.didSelectDifferentRef = indexPath
+        self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
+        self.expiredRefrigeVC.didSelectDifferentRef = indexPath
         }
         
         self.navigationItem.titleView = menuView
@@ -349,7 +348,6 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     func button(at index: Int) -> UIButton {
         let button = UIButton()
 
-//        button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
         button.setTitleColor(.FoodyFlow.lightGray, for: .normal)
         button.setTitleColor(.FoodyFlow.black, for: .selected)

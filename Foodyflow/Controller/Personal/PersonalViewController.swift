@@ -395,7 +395,7 @@ extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension PersonalViewController: SelectCellDelegate {
     func didDeleteTap(indexPathRow: IndexPath) {
-        var removeRefrige = refrigeAmount[indexPathRow.row].id
+        let removeRefrige = refrigeAmount[indexPathRow.row].id
         
         deleteRefrige(needtoRemove: "\(removeRefrige)") {
         }

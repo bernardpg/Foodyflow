@@ -84,7 +84,11 @@ class InshoppingViewController: UIViewController {
             // w for fix error 應該先fetch 在回來抓
             self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
                 self?.shoppingLists = shoppingLists
-                shoppingListNowID = "dwdwdwd" // fetch initial
+                
+                // if nil present view
+                // if ok present last or first one
+                shoppingListNowID = "23" // fetch initial
+                
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
                         guard let cates = self?.cate else { return }
@@ -126,6 +130,9 @@ class InshoppingViewController: UIViewController {
         self.navigationController!.pushViewController(shoppingVC, animated: true)
 
     }
+    
+    // MARK: reset filter
+    
     func resetRefrigeFood() {
         meatsInfo = []
         beansInfo = []
@@ -179,19 +186,20 @@ class InshoppingViewController: UIViewController {
             }
         })
     }
+    
     // fetch shoppingList number
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
         refrigeNowID = "2" // rename
         ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige(completion: { result in
           switch result {
-            case .success(let shoppingLists):
+          case .success(let shoppingLists):
                 completion(shoppingLists)
-            case .failure:
+          case .failure:
             print("fetch shoppingList error")
-                
             }
         })
     }
+    
     // fetch single shoppingList FoodInfo
     func fetchAllFoodInfoInSingleShopList(completion: @escaping([String?]) -> Void) {
         ShoppingListManager.shared.fetchfoodInfoInsideSingleShoppingList { result in
@@ -402,8 +410,8 @@ extension InshoppingViewController: UICollectionViewDataSource,
         }
     
     func collectionView(_ collectionView: UICollectionView,
-                    layout collectionViewLayout: UICollectionViewLayout,
-                    sizeForItemAt indexPath: IndexPath) -> CGSize {
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: 200, height: 200)
         
     }

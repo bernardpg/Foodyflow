@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias CompletionHandler = ([String : Any ]) -> Void
+typealias CompletionHandler = ( [ String: Any ] ) -> Void
 
 extension Date {
     var millisecondsSince1970: Int64 {

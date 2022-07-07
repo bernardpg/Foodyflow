@@ -15,7 +15,7 @@ import SwifterSwift
 
 class AllRecipeViewController: UIViewController {
     
-    private var allRecipeTableView = UITableView() { didSet{allRecipeTableView.reloadData()} }
+    private var allRecipeTableView = UITableView() { didSet { allRecipeTableView.reloadData()} }
     
     private enum Mode {
         case onboarding
@@ -59,8 +59,9 @@ class AllRecipeViewController: UIViewController {
         allRecipeTableView.dataSource = self
    //     setupNavigationBar()
         setUI()
-        allRecipeTableView.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "recipeTableViewCell")
-
+        allRecipeTableView.register(UINib(nibName: "RecipeTableViewCell",
+                                          bundle: nil),
+                                    forCellReuseIdentifier: "recipeTableViewCell")
     }
     
     override func viewDidLayoutSubviews() {
@@ -71,18 +72,17 @@ class AllRecipeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //RecipeMa//fetchAllRecipe
+        // RecipeMa // fetchAllRecipe
         RecipeManager.shared.fetchAllRecipe { [weak self] result in
         switch result {
-                case .success(let recipeAmount):
-                    self?.recipeAmount = recipeAmount
-                    DispatchQueue.main.async {
-                        self?.allRecipeTableView.reloadData()
-                    }
-                case .failure:
+        case .success(let recipeAmount):
+                self?.recipeAmount = recipeAmount
+                DispatchQueue.main.async {
+                    self?.allRecipeTableView.reloadData() }
+        case .failure:
                     print("cannot fetch data")
-                }
             }
+        }
     }
     
     private func setupNavigationBar() {
@@ -116,7 +116,7 @@ class AllRecipeViewController: UIViewController {
         $mode.sink { [ unowned self ] (mode) in
             switch mode {
             case .onboarding:
-                //self.searchResults = nil
+                // self.searchResults = nil
                 // each cancel will become nil
                 self.allRecipeTableView.backgroundView = SearchPlaceholderView()
                 self.allRecipeTableView.reloadData()
@@ -161,7 +161,7 @@ class AllRecipeViewController: UIViewController {
 
     }
     
-    func fetchSingleRecipe(recipe: Recipe, completion: @escaping(Recipe?) -> Void){
+    func fetchSingleRecipe(recipe: Recipe, completion: @escaping(Recipe?) -> Void) {
         
         RecipeManager.shared.fetchSingleRecipe(recipe: recipe) { result in
             switch result {
@@ -187,7 +187,7 @@ class AllRecipeViewController: UIViewController {
 
 }
 
-extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
+extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         recipeAmount.count
 //        20 //searchResults?.items.count ?? 0
@@ -200,10 +200,10 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
         guard let cell = cell else { return UITableViewCell() }
         cell.recipeName.text =
         recipeAmount[indexPath.row].recipeName
-        if recipeAmount[indexPath.row].recipeImage == ""    {
-                cell.recipeImage.image = UIImage(named: "imageDefault") } else {
+        if recipeAmount[indexPath.row].recipeImage == "" {
+        cell.recipeImage.image = UIImage(named: "imageDefault") } else {
             //        cell.recipeImage.download(from: URL(string: recipeAmount[indexPath.row].recipeImage)!)
-            cell.recipeImage.kf.setImage(with:URL(string: recipeAmount[indexPath.row].recipeImage))
+            cell.recipeImage.kf.setImage(with: URL(string: recipeAmount[indexPath.row].recipeImage))
             
         }
         cell.recipeImage.clipsToBounds = true
@@ -220,7 +220,7 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource{
     
             DispatchQueue.main.async {
                 
-                let addRecipeVC = AddRecipeViewController(nibName: "AddRecipeViewController",bundle: nil)
+                let addRecipeVC = AddRecipeViewController(nibName: "AddRecipeViewController", bundle: nil)
                 HandleResult.readData.messageHUD
                 addRecipeVC.recipeName = recipe?.recipeName ?? ""
                 addRecipeVC.recipeFood = recipe?.recipeFood ?? ""

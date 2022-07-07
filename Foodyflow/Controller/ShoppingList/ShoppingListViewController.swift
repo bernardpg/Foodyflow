@@ -65,10 +65,10 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     private var viewPager =  LZViewPager()
     
-//    let wishListVC = UIStoryboard(name: "Main", bundle: nil)
-//            .instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
-    
-    let inshoppingListVC = UIStoryboard(name: "Main", bundle: nil)
+    private lazy var wishListVC = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
+
+    private lazy var inshoppingListVC = UIStoryboard(name: "Main", bundle: nil)
         .instantiateViewController(withIdentifier: "inshoppingListVC") as? InshoppingViewController
     
     private lazy var containerView: [UIViewController] = []
@@ -148,13 +148,13 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         viewPager.dataSource = self
         viewPager.hostController = self
         
-        //        guard let wishListVC = wishListVC else { return }
-        guard let inshoppingListVC = inshoppingListVC else { return }
+        guard let wishListVC = wishListVC else { return }
+//        guard let inshoppingListVC = inshoppingListVC else { return }
         
-        //        wishListVC.title = "願望清單" wishListVC,
-        inshoppingListVC.title = "採購中"
+        wishListVC.title = "願望清單"
+//        inshoppingListVC.title = "採購中"
         
-        containerView = [inshoppingListVC]
+        containerView = [wishListVC]
         viewPager.reload()
     }
     
@@ -228,8 +228,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")
             self.shopDidSelectDifferentRef = indexPath
-            //            self.wishListVC?.shopDidSelectDifferentRef = indexPath
-            self.inshoppingListVC?.shopDidSelectDifferentRef = indexPath
+            self.wishListVC?.shopDidSelectDifferentRef = indexPath
+           // self.inshoppingListVC?.shopDidSelectDifferentRef = indexPath
         }
         
         self.navigationItem.titleView = menuView
@@ -305,7 +305,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             }})
     }
     
-    func fetchAllShoppingListInfoInsingleRefrige(shopingLists:[String?],  completion: @escaping([String?]) -> Void) {
+    func fetchAllShoppingListInfoInsingleRefrige( shopingLists:[String?],  completion: @escaping([String?]) -> Void) {
         
         var shoppingListsTitle: [String?] = []
         ShoppingListManager.shared.fetchALLShopListInfoInSingleRefrige(shopplingLists: shopingLists) { result in

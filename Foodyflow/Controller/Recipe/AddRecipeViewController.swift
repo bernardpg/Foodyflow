@@ -59,7 +59,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         
         if recipeInImage == "" {
                 recipeImage.image = UIImage(named: "imageDefault") } else{
-            recipeImage.kf.setImage( with : URL(string: recipeInImage ))
+            recipeImage.kf.setImage( with: URL(string: recipeInImage ))
         }
         
 //        recipeImage.image = recipeInImage
@@ -148,7 +148,11 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         uploadPhoto(image: recipeImage) { [self] result in
             switch result {
             case .success(let url):
-                var recipe = Recipe(recipeID: "", recipeName: recipeTextField.text!, recipeImage: "\(url)", recipeFood: foodTypeIn.text, recipeStep: foodStepTypeIn.text)
+                var recipe = Recipe(recipeID: "",
+                                    recipeName: recipeTextField.text!,
+                                    recipeImage: "\(url)",
+                                    recipeFood: foodTypeIn.text,
+                                    recipeStep: foodStepTypeIn.text)
         //        recipe.recipeName = recipeTextField.text!
         //        recipe.recipeFood = foodTypeIn.text
         //        recipe.recipeStep = foodStepTypeIn.text
@@ -218,7 +222,9 @@ extension AddRecipeViewController : UITextViewDelegate {
             textView.text = "請輸入"
             textView.textColor = UIColor.lightGray
 
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            textView.selectedTextRange = textView.textRange(
+                from: textView.beginningOfDocument,
+                to: textView.beginningOfDocument)
         }
 
         // Else if the text view's placeholder is showing and the

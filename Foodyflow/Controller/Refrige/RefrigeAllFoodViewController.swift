@@ -198,7 +198,7 @@ class RefrigeAllFoodViewController: UIViewController {
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     
-    func reloadRefrige() {
+    private func reloadRefrige() {
         
         HandleResult.readData.messageHUD
         let semaphore = DispatchSemaphore(value: 0)
@@ -216,8 +216,8 @@ class RefrigeAllFoodViewController: UIViewController {
                     if foodinfo21[0].foodId != nil {
                         self.searchView.isHidden = true
                         self.refrigeTableView.isHidden = false
-                        self.refrigeTableView.reloadData()}
-                    else {
+                        self.refrigeTableView.reloadData() } else {
+                            
                         self.refrigeTableView.isHidden = true
                         self.view.addSubview(self.searchView)
                         self.searchView.isHidden = false

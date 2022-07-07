@@ -72,8 +72,7 @@ class ContainerView: UIView {
     let changeView = UIView()
     
     // MARK: - SetUI()
-    func setUIProperty() {
-        let totalNumber = datasource?.totalButtomNumber(self)
+    func setUIProperty() { let totalNumber = datasource?.totalButtomNumber(self)
         guard let totalNumber = totalNumber else { return }
         
         self.addSubview(buttonStack)
