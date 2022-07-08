@@ -175,12 +175,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     }
     
     func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
-
-//        let imageData = self.userImage.image?.jpegData(compressionQuality: 0.8)
-        
-//        guard imageData != nil else {
-//            return
-//        }
             
             let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
             if let data = image.jpegData(compressionQuality: 0.6) {

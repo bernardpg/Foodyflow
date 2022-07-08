@@ -171,7 +171,7 @@ class RefrigeAllFoodViewController: UIViewController {
         
     }
     
-    func setUI() {
+    private func setUI() {
         view.addSubview(refrigeTableView)
         refrigeTableView.translatesAutoresizingMaskIntoConstraints = false
         refrigeTableView.leadingAnchor.constraint(
@@ -198,6 +198,45 @@ class RefrigeAllFoodViewController: UIViewController {
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     
+    private func cateOfCount() -> Int {
+        var count: Int = 0
+        if meatsInfo.count > 0 {
+            count += 1
+        }
+        if beansInfo.count > 0 {
+            count += 1
+        }
+        if eggsInfo.count > 0 {
+            count += 1
+        }
+        if vegsInfo.count > 0 {
+            count += 1
+        }
+        if picklesInfo.count > 0 {
+            count += 1
+        }
+        if fruitsInfo.count > 0 {
+            count += 1
+        }
+        if fishesInfo.count > 0 {
+            count += 1
+        }
+        if seafoodsInfo.count > 0 {
+            count += 1
+        }
+        if beveragesInfo.count > 0 {
+            count += 1
+        }
+        if seasonsInfo.count > 0 {
+            count += 1
+        }
+        if othersInfo.count > 0 {
+            count += 1
+        }
+        return count
+
+    }
+
     private func reloadRefrige() {
         
         HandleResult.readData.messageHUD
@@ -217,7 +256,6 @@ class RefrigeAllFoodViewController: UIViewController {
                         self.searchView.isHidden = true
                         self.refrigeTableView.isHidden = false
                         self.refrigeTableView.reloadData() } else {
-                            
                         self.refrigeTableView.isHidden = true
                         self.view.addSubview(self.searchView)
                         self.searchView.isHidden = false
@@ -331,7 +369,7 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cate.count
     }
-    
+        
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = refrigeTableView.dequeueReusableCell(withIdentifier: "refrigeCatTableViewCell",
@@ -341,6 +379,10 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
         cell.cateFood.font =  UIFont(name: "PingFang TC", size: 20)
         
         // need to change for dictionary to solve
+        
+        // Need to fix
+        
+        
         
         switch indexPath.row {
         case 0:
