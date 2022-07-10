@@ -24,6 +24,7 @@ class PersonalRecipeTableViewCell: UITableViewCell {
     
     @IBOutlet weak var personalDeleteRecipe: UIButton!
     
+    var indexPath: IndexPath!
     
     override func awakeFromNib() {
         super.awakeFromNib()

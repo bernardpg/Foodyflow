@@ -23,9 +23,13 @@ class PersonalLikeREcipeViewController: UIViewController {
     
     private lazy var personalRecipeTableView =  UITableView()
     
-    let attrs1 = [NSAttributedString.Key.font:  UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor : UIColor.hexStringToUIColor(hex: "22AA6")]
+    let attrs1 = [NSAttributedString.Key.font:
+                    UIFont.boldSystemFont(ofSize: 20),
+                  NSAttributedString.Key.foregroundColor: UIColor.hexStringToUIColor(hex: "22AA6")]
 
-    let attrs2 = [NSAttributedString.Key.font:  UIFont.boldSystemFont(ofSize: 24), NSAttributedString.Key.foregroundColor : UIColor.FoodyFlow.darkOrange]
+    let attrs2 = [NSAttributedString.Key.font:
+                    UIFont.boldSystemFont(ofSize: 24),
+                  NSAttributedString.Key.foregroundColor: UIColor.FoodyFlow.darkOrange]
 
     override func viewDidLoad() {
         
@@ -33,7 +37,8 @@ class PersonalLikeREcipeViewController: UIViewController {
         personalRecipeTableView.delegate = self
         personalRecipeTableView.dataSource = self
         
-        personalRecipeTableView.register(UINib(nibName: "PresonalLikeTableViewCell", bundle: nil), forCellReuseIdentifier: "presonalLikeTableViewCell")
+        personalRecipeTableView.register(UINib(nibName: "PresonalLikeTableViewCell", bundle: nil),
+        forCellReuseIdentifier: "presonalLikeTableViewCell")
         
         personalRecipeTableView.register(UINib(nibName:
             "PersonalRecipeTableViewCell", bundle: nil),
@@ -183,6 +188,8 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
             tableViewData[indexPath.section].opened = true
             let sections = IndexSet.init(integer: indexPath.section)
             personalRecipeTableView.reloadSections(sections, with: .fade)
+            
+            
 
         }
     }

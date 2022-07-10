@@ -85,7 +85,7 @@ class ExpiredRefirgeViewController: UIViewController {
             }
             semaphore.wait()
             
-            self.fetchAllRefrige { [weak self] refrige in
+           /* self.fetchAllRefrige { [weak self] refrige in
                 
                 self?.resetRefrigeFood()
                 
@@ -104,7 +104,7 @@ class ExpiredRefirgeViewController: UIViewController {
                         semaphore.signal()
                     }
                 })
-            }
+            } */
             semaphore.wait()
         }
         
@@ -227,7 +227,7 @@ class ExpiredRefirgeViewController: UIViewController {
         })
     }
     
-    func fetchAllRefrige(completion: @escaping (CompletionHandler)) {
+  /*  func fetchAllRefrige(completion: @escaping (CompletionHandler)) {
         RefrigeManager.shared.fetchArticles { [weak self] result in
             switch result {
             case .success(let refrige):
@@ -238,7 +238,7 @@ class ExpiredRefirgeViewController: UIViewController {
             }
         }
     }
-    
+    */
     // change refrige need to reload
     func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []
