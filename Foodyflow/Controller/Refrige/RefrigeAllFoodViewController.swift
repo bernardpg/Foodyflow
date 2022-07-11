@@ -5,6 +5,10 @@
 //  Created by 曹珮綺 on 6/26/22.
 //
 
+// 還沒有購買得時候 購買完須在點擊才會有改變backgroundPage
+// 刪除冰箱食物 login
+// 點擊進去更新
+// fetch 回來依照食物
 // delefood in refrige
 
 import UIKit
@@ -197,6 +201,7 @@ class RefrigeAllFoodViewController: UIViewController {
     
     func reloadRefrige() {
         
+        HandleResult.readData.messageHUD
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
@@ -204,15 +209,15 @@ class RefrigeAllFoodViewController: UIViewController {
             self.resetRefrigeFood()
             
             self.fetAllFood(completion: { foodinfo21 in
-                
+//                HandleResult.readDataFailed.messageHUD
                 self.cateFilter(allFood: foodinfo21, cates: self.cate)
                 
                 DispatchQueue.main.async {
                     // lottie 消失
                     if foodinfo21[0].foodId != nil {
+                        self.searchView.isHidden = true
                         self.refrigeTableView.isHidden = false
-                        self.refrigeTableView.reloadData()
-                        self.searchView.isHidden = true }
+                        self.refrigeTableView.reloadData()}
                     else {
                         self.refrigeTableView.isHidden = true
                         self.view.addSubview(self.searchView)
@@ -234,8 +239,10 @@ class RefrigeAllFoodViewController: UIViewController {
                     semaphore.signal()
                     
                 }
-                semaphore.wait()}
-            )
+                
+            })
+            
+            semaphore.wait()
         }
     }
     
@@ -247,7 +254,7 @@ class RefrigeAllFoodViewController: UIViewController {
                 let shoppingVC = RefrigeProductDetailViewController(
                     nibName: "ShoppingProductDetailViewController",
                     bundle: nil)
-
+                
                 // bug fixs
                 guard let currentRefrige = refrigeNow else { return }
                 shoppingVC.refrige = currentRefrige

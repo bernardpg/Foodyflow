@@ -140,22 +140,29 @@ class InshoppingViewController: UIViewController {
         
         for foodInfo in allFood {
                 for cate in cates {
-                    if foodInfo.foodCategory! == cate! && cate! == "肉類"
-                    { self.meatsInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "豆類" { self.beansInfo.append(foodInfo) } else if
-                            foodInfo.foodCategory! == cate! && cate! == "雞蛋類" { self.eggsInfo.append(foodInfo) } else if
-                                foodInfo.foodCategory! == cate! && cate! == "青菜類" { self.vegsInfo.append(foodInfo) } else if
-                                    foodInfo.foodCategory! == cate! && cate! == "醃製類" { self.picklesInfo.append(foodInfo) }
-                    else if foodInfo.foodCategory! == cate! && cate! == "水果類" { self.fruitsInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "魚類"
-                    { self.fishesInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "海鮮類" { self.seafoodsInfo.append(foodInfo) } else if
-                        foodInfo.foodCategory! == cate! && cate! == "飲料類"{ self.beveragesInfo.append(foodInfo) } else if
-                            foodInfo.foodCategory! == cate! && cate! == "調味料類"{ self.seasonsInfo.append(foodInfo)} else if
-                                foodInfo.foodCategory! == cate! && cate! == "其他" { self.othersInfo.append(foodInfo) }
-                }
-            }
-
+                    if foodInfo.foodCategory! == cate! && cate! == "肉類" {
+                        self.meatsInfo.append(foodInfo) } else if
+                        foodInfo.foodCategory! == cate! && cate! == "豆類" {
+                            self.beansInfo.append(foodInfo) } else if
+                        foodInfo.foodCategory! == cate! && cate! == "雞蛋類" {
+                        self.eggsInfo.append(foodInfo) } else if
+                        foodInfo.foodCategory! == cate! && cate! == "青菜類" {
+                        self.vegsInfo.append(foodInfo) } else if
+                        foodInfo.foodCategory! == cate! && cate! == "醃製類"{
+                        self.picklesInfo.append(foodInfo) } else if
+                        foodInfo.foodCategory! == cate! && cate! == "水果類" {
+                        self.fruitsInfo.append(foodInfo) } else if
+                        foodInfo.foodCategory! == cate! && cate! == "魚類" {
+                        self.fishesInfo.append(foodInfo) } else if
+                        foodInfo.foodCategory! == cate! && cate! == "海鮮類" {
+                        self.seafoodsInfo.append(foodInfo) } else if
+                        foodInfo.foodCategory! == cate! && cate! == "飲料類"{
+                        self.beveragesInfo.append(foodInfo) } else if
+                        foodInfo.foodCategory! == cate! && cate! == "調味料類"{
+                        self.seasonsInfo.append(foodInfo)} else if
+                        foodInfo.foodCategory! == cate! && cate! == "其他" {
+                        self.othersInfo.append(foodInfo) } }
+        }
     }
 
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
@@ -170,7 +177,7 @@ class InshoppingViewController: UIViewController {
     }
     // fetch shoppingList number
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-        refrigeNowID = "2" // rename
+     //   refrigeNowID = "2" // rename
         ShoppingListManager.shared.fetchAllShoppingListInSingleRefrige { result in
             switch result {
             case .success(let shoppingLists):

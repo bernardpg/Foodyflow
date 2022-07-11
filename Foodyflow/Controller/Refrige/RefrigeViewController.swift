@@ -212,33 +212,29 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                     guard let foodCategory = foodInfo.foodCategory
                     else { return }
                     if foodCategory == cate! && cate! == "肉類" {
-                        self.meatsInfo.append(foodInfo)
-                    }
-                     else if foodCategory == cate! && cate! == "豆類" { self.beansInfo.append(foodInfo)
-                     }
-                    else if foodCategory == cate! && cate! == "雞蛋類" {
-                        self.eggsInfo.append(foodInfo)
-                    }
-                    else if foodCategory == cate! && cate! == "青菜類" { self.vegsInfo.append(foodInfo)
-                        
-                    }
-                    else if foodCategory == cate! && cate! == "醃製類" { self.picklesInfo.append(foodInfo)
-                    }
-                    else if foodCategory == cate! && cate! == "水果類" { self.fruitsInfo.append(foodInfo)
-                    }
-                    else if foodCategory == cate! && cate! == "魚類" { self.fishesInfo.append(foodInfo)
-                    }
-                    else if foodCategory == cate! && cate! == "海鮮類" { self.seafoodsInfo.append(foodInfo)
-                    }
-                    else if foodCategory == cate! && cate! == "飲料類" { self.beveragesInfo.append(foodInfo)
-                    }
-                    else if foodCategory == cate! && cate! == "調味料類" { self.seasonsInfo.append(foodInfo)
-                        
-                    }
-                    else if foodCategory == cate! && cate! == "其他" { self.othersInfo.append(foodInfo)
-                    }
-                }
-            }
+                        self.meatsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "豆類" {
+                        self.beansInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "雞蛋類" {
+                        self.eggsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "青菜類" {
+                        self.vegsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "醃製類"{
+                        self.picklesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "水果類" {
+                        self.fruitsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "魚類" {
+                        self.fishesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "海鮮類" {
+                        self.seafoodsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "飲料類" {
+                        self.beveragesInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "調味料類" {
+                        self.seasonsInfo.append(foodInfo) } else if
+                        foodCategory == cate! && cate! == "其他" {
+                        self.othersInfo.append(foodInfo) } }
+            
+        }
 
     }
     
@@ -249,7 +245,6 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         DispatchQueue.global().async {
 
         self.resetRefrigeFood()
-        
         self.fetAllFood(completion: { foodinfo21 in
             
 //            self.cateFilter(allFood: foodinfo21, cates: self.cate)
@@ -352,19 +347,22 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(.FoodyFlow.lightGray, for: .normal)
+        button.setTitleColor(.FoodyFlow.black, for: .selected)
+//        button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
+        button.backgroundColor = UIColor.FoodyFlow.white
         return button
     }
     
     func backgroundColorForHeader() -> UIColor {
         
-        return UIColor.FoodyFlow.darkOrange
+        return UIColor.FoodyFlow.lightOrange
     }
     
     func colorForIndicator(at index: Int) -> UIColor {
         
-        return UIColor.FoodyFlow.lightOrange
+        return UIColor.FoodyFlow.darkOrange
     }
     
     // change refrige

@@ -68,6 +68,13 @@ class ShoppingListProductDetailViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        foodImage.clipsToBounds = true
+        foodImage.contentMode = .scaleAspectFill
+        foodImage.lkCornerRadius = 20
+    }
+    
     func setUI() {
         foodCateName.text = "分類"
         foodCateTextField.lkCornerRadius = 20
@@ -159,13 +166,12 @@ class ShoppingListProductDetailViewController: UIViewController {
                     
                 }
                 self.navigationController?.popViewController(animated: true)
-            case .failure(_):
+            case .failure:
                 print("UploadPhoto Error")
             }
             }
         }
 
-    
     @objc func postUpdate() {
         
         foodInfo.foodName = foodNameTextField.text
@@ -235,15 +241,14 @@ class ShoppingListProductDetailViewController: UIViewController {
             }
     }
 
-    
 }
-extension ShoppingListProductDetailViewController : UITextViewDelegate {
+extension ShoppingListProductDetailViewController: UITextViewDelegate {
    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
         // Combine the textView text and the replacement text to
         // create the updated text string
-        let currentText:String = textView.text
+        let currentText: String = textView.text
         let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
 
         // If updated text view will be empty, add the placeholder
@@ -253,7 +258,8 @@ extension ShoppingListProductDetailViewController : UITextViewDelegate {
             textView.text = "請輸入"
             textView.textColor = UIColor.lightGray
 
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
+                                                            to: textView.beginningOfDocument)
         }
 
         // Else if the text view's placeholder is showing and the
@@ -278,7 +284,8 @@ extension ShoppingListProductDetailViewController : UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         if self.view.window != nil {
             if textView.textColor == UIColor.lightGray {
-                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
+                                                                to: textView.beginningOfDocument)
             }
         }
     }
