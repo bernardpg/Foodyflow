@@ -124,7 +124,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="m1l-or-aN5"/>
                     <connections>
-                        <outlet property="wishList" destination="ZUr-16-QBt" id="DG7-QC-ApG"/>
+                        <outlet property="wishListCollectionView" destination="ZUr-16-QBt" id="DG7-QC-ApG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SOz-7j-aVo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -546,7 +546,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="QvF-NH-yYW"/>
                     <connections>
-                        <outlet property="inShoppingList" destination="9gW-DX-YEb" id="Vl4-kM-SCS"/>
+                        <outlet property="inShoppingListCollectionView" destination="9gW-DX-YEb" id="Vl4-kM-SCS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dVw-u4-NxM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

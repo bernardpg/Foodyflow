@@ -127,7 +127,7 @@ class LoginViewController: UIViewController {
         let charset: Array<Character> = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remainingLength = length
-        while(remainingLength > 0) {
+        while ( remainingLength > 0 ) {
             let randoms: [UInt8] = (0 ..< 16).map { _ in
                 var random: UInt8 = 0
                 let errorCode = SecRandomCopyBytes( kSecRandomDefault, 1, &random )

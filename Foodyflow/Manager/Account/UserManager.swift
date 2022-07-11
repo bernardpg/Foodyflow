@@ -84,10 +84,10 @@ class UserManager {
         
     }
     
-    func createRefrigeOnSingleUser(user: UserInfo,refrigeID: String, completion: @escaping (Result<String>)-> Void) {
+    func createRefrigeOnSingleUser(user: UserInfo, refrigeID: String, completion: @escaping (Result<String>) -> Void) {
         let userRef = database.document(user.userID)
         
-        userRef.updateData(["personalRefrige" : refrigeID]) { error in
+        userRef.updateData(["personalRefrige": refrigeID]) { error in
             
             if let error = error {
                 
@@ -225,6 +225,4 @@ class UserManager {
     }
 */
     
-    
 }
-

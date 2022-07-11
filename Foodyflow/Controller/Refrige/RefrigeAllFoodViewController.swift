@@ -17,7 +17,7 @@ import Kingfisher
 
 class RefrigeAllFoodViewController: UIViewController {
     
-    var refrigeTableView = UITableView() { didSet{ refrigeTableView.reloadData() } }
+    var refrigeTableView = UITableView() { didSet { refrigeTableView.reloadData() } }
     
     private var tapButton = UIButton()
     
@@ -146,28 +146,27 @@ class RefrigeAllFoodViewController: UIViewController {
                 guard let foodCategory = foodInfo.foodCategory
                 else { return }
                 if foodCategory == cate! && cate! == "肉類"{
-                    self.meatsInfo.append(foodInfo) } else if
-                        foodCategory == cate! && cate! == "豆類"{
-                        self.beansInfo.append(foodInfo) } else if
-                            foodCategory == cate! && cate! == "雞蛋類"{
-                            self.eggsInfo.append(foodInfo) } else if
-                                foodCategory == cate! && cate! == "青菜類"{
-                                self.vegsInfo.append(foodInfo) } else if
-                                    foodCategory == cate! && cate! == "醃製類"{
-                                    self.picklesInfo.append(foodInfo) } else if
-                                        foodCategory == cate! && cate! == "水果類" {
-                                        self.fruitsInfo.append(foodInfo) } else if
-                                            foodCategory == cate! && cate! == "魚類"{
-                                            self.fishesInfo.append(foodInfo) } else if
-                                                foodCategory == cate! && cate! == "海鮮類" {
-                                                self.seafoodsInfo.append(foodInfo) } else if
-                                                    foodCategory == cate! && cate! == "飲料類"
-                { self.beveragesInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "調味料類"
-                {self.seasonsInfo.append(foodInfo)} else if
-                    foodCategory == cate! && cate! == "其他"
-                {self.othersInfo.append(foodInfo)}
-            }
+                self.meatsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "豆類"{
+                self.beansInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "雞蛋類"{
+                self.eggsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "青菜類"{
+                self.vegsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "醃製類"{
+                self.picklesInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "水果類" {
+                self.fruitsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "魚類"{
+                self.fishesInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "海鮮類" {
+                self.seafoodsInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "飲料類" {
+                self.beveragesInfo.append(foodInfo) } else if
+                foodCategory == cate! && cate! == "調味料類" {
+                self.seasonsInfo.append(foodInfo)} else if
+                foodCategory == cate! && cate! == "其他" {
+                self.othersInfo.append(foodInfo)}}
         }
         
     }
@@ -199,7 +198,7 @@ class RefrigeAllFoodViewController: UIViewController {
         tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     
-    func reloadRefrige() {
+    private func reloadRefrige() {
         
         HandleResult.readData.messageHUD
         let semaphore = DispatchSemaphore(value: 0)
@@ -217,8 +216,8 @@ class RefrigeAllFoodViewController: UIViewController {
                     if foodinfo21[0].foodId != nil {
                         self.searchView.isHidden = true
                         self.refrigeTableView.isHidden = false
-                        self.refrigeTableView.reloadData()}
-                    else {
+                        self.refrigeTableView.reloadData() } else {
+                            
                         self.refrigeTableView.isHidden = true
                         self.view.addSubview(self.searchView)
                         self.searchView.isHidden = false

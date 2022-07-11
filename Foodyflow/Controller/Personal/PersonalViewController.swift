@@ -101,8 +101,8 @@ class PersonalViewController: UIViewController {
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
                 // fetch User's  refrige
-                print(userID)
-                print("\(auth.currentUser)")
+//                print(userID)
+//                print("\(auth.currentUser)")
                 // fetch
                 self.fetchAllRefrige()
                 
@@ -362,7 +362,7 @@ class PersonalViewController: UIViewController {
         
     }
     
-    private func changeRefrigeName(needtoRename: String, name:String) {
+    private func changeRefrigeName( needtoRename: String, name:String ) {
         RefrigeManager.shared.renameFrige(refrigeID: needtoRename, name: name) {
             self.fetchAllRefrige()
         }
@@ -395,7 +395,7 @@ extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension PersonalViewController: SelectCellDelegate {
     func didDeleteTap(indexPathRow: IndexPath) {
-        var removeRefrige = refrigeAmount[indexPathRow.row].id
+        let removeRefrige = refrigeAmount[indexPathRow.row].id
         
         deleteRefrige(needtoRemove: "\(removeRefrige)") {
         }

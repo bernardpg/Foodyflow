@@ -13,13 +13,13 @@ import LZViewPager
 import SnapKit
 import Combine
 import FirebaseAuth
-///  signin signout
-/// refrige  內部未完全更改
-/// shoppinglist 也是
-/// 圖片與文字如果沒有的話要改成預設值
-/// personal 更改畫面圖片跟文字
-///  fetch 資料及更改 再次確認
-///    開啟提醒通知
+//  signin signout
+// refrige  內部未完全更改
+// shoppinglist 也是
+// 圖片與文字如果沒有的話要改成預設值
+// personal 更改畫面圖片跟文字
+//  fetch 資料及更改 再次確認
+//    開啟提醒通知
 // MARK: - fetch for change UI and add photos
 // logic change for fetch on this VC
 // MARK: - create Recipe Page
@@ -31,7 +31,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     // 先抓第一個冰箱 再依照用戶選擇哪一個再去抓下面那層
     // 如果沒有的話 就要顯示創立冰箱 // 空的 VC
     
-    var refrigeTableView = UITableView() //{didSet{refrigeTableView.reloadData() }}
+    var refrigeTableView = UITableView() // {didSet{refrigeTableView.reloadData() }}
     
     private lazy var expiredRefrigeVC = ExpiredRefirgeViewController()
     
@@ -117,7 +117,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
 
                         return
                     } else {
-                        self.present( LoginViewController() , animated: true)
+                        self.present( LoginViewController(), animated: true)
                     }
                 }
 
@@ -206,7 +206,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
 
     }
     
-    func cateFilter(allFood: [FoodInfo], cates: [String?]) {
+    func cateFilter( allFood: [FoodInfo], cates: [String?] ) {
         for foodInfo in allFood {
                 for cate in cates {
                     guard let foodCategory = foodInfo.foodCategory
@@ -272,36 +272,32 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         for refrige in refriges {
             items.append(refrige.title )
         }
-      //  self.selectedCellLabel.text = items.first
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
         self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes =
+        [NSAttributedString.Key.foregroundColor: UIColor.white]
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
             containerView: self.navigationController!.view,
             title: BTTitle.index(0), items: items)
-// W fetch return
-        // Another way to initialize:
-        // menuView = BTNavigationDropdownMenu(navigationController: self.navigationController, containerView: self.navigationController!.view, title: BTTitle.title("Dropdown Menu"), items: items)
         menuView.cellHeight = 50
         menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
         menuView.selectedCellTextLabelColor = UIColor.lightGray
         menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = UIColor.white
-        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 17)  //UIFont(name: "Avenir-Heavy", size: 17)
-        menuView.cellTextLabelAlignment = .left // .Center // .Right // .Left
+        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 17)
+        menuView.cellTextLabelAlignment = .left
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5
-        //menuView.maskBackgroundColor = UIColor.hexStringToUIColor(hex: "#F4943A")
         menuView.maskBackgroundOpacity = 0.3
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")
         self.didSelectDifferentRef = indexPath
-            self.refrigeAllFoodVC.didSelectDifferentRef = indexPath
-            self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
-            self.expiredRefrigeVC.didSelectDifferentRef = indexPath
+        self.refrigeAllFoodVC.didSelectDifferentRef = indexPath
+        self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
+        self.expiredRefrigeVC.didSelectDifferentRef = indexPath
         }
         
         self.navigationItem.titleView = menuView
@@ -334,7 +330,11 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     }
     
     func heightForIndicator(at index: Int) -> CGFloat {
-        return CGFloat(50.0)
+        return CGFloat(6)
+    }
+    
+    func heightForHeader() -> CGFloat {
+        return CGFloat(50)
     }
     
     func numberOfItems() -> Int {
@@ -347,10 +347,10 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
+
+        button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
         button.setTitleColor(.FoodyFlow.lightGray, for: .normal)
         button.setTitleColor(.FoodyFlow.black, for: .selected)
-//        button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: "PingFang TC", size: 16)
         button.backgroundColor = UIColor.FoodyFlow.white
         return button
     }
@@ -378,7 +378,6 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             }
         })
     }
-    
     
     func fetchAllRefrige(completion: @escaping (CompletionHandler)) {
         RefrigeManager.shared.fetchArticles { [weak self] result in
