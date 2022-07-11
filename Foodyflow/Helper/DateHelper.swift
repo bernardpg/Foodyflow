@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias CompletionHandler = ([String : Any ]) -> Void
+typealias CompletionHandler = ( [ String: Any ] ) -> Void
 
 extension Date {
     var millisecondsSince1970: Int64 {
@@ -27,4 +27,8 @@ extension Date {
         return formatter
         
     }
+    func isBetween(_ date1: Date, and date2: Date) -> Bool {
+            return (min(date1, date2) ... max(date1, date2)) ~= self
+    }
+    
 }

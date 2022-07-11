@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseStorage
 import AVFoundation
+import FirebaseAuth
 
 class AddRecipeViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -32,6 +33,10 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     let imagePickerController = UIImagePickerController()
     
     var photoManager = PhotoManager()
+    
+    var userManager = UserManager()
+    
+    var userInfos = UserInfo(userID: "", userName: "", userEmail: "", userPhoto: "", signInType: "", personalRefrige: [], personalLikeRecipe: [], personalDoRecipe: [])
     
     var onPublished: (() -> Void)?
     
@@ -59,10 +64,19 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         
         if recipeInImage == "" {
                 recipeImage.image = UIImage(named: "imageDefault") } else{
-            recipeImage.kf.setImage( with : URL(string: recipeInImage ))
+            recipeImage.kf.setImage( with: URL(string: recipeInImage ))
         }
         
-//        recipeImage.image = recipeInImage
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        userManager.fetchUserInfo(fetchUserID: userID) { result in
+            switch result{
+            case .success(let userInfo):
+                self.userInfos = userInfo
+            case .failure:
+                HandleResult.readDataFailed.messageHUD
+            }
+        }
+        
         
         setUI()
 
@@ -148,7 +162,12 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         uploadPhoto(image: recipeImage) { [self] result in
             switch result {
             case .success(let url):
-                var recipe = Recipe(recipeID: "", recipeName: recipeTextField.text!, recipeImage: "\(url)", recipeFood: foodTypeIn.text, recipeStep: foodStepTypeIn.text)
+                var recipe = Recipe(recipeID: "",
+                                    recipeName: recipeTextField.text!,
+                                    recipeImage: "\(url)",
+                                    recipeFood: foodTypeIn.text,
+                                    recipeStep: foodStepTypeIn.text,
+                                    recipeUserName: self.userInfos.userName)
         //        recipe.recipeName = recipeTextField.text!
         //        recipe.recipeFood = foodTypeIn.text
         //        recipe.recipeStep = foodStepTypeIn.text
@@ -171,12 +190,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     }
     
     func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
-
-//        let imageData = self.userImage.image?.jpegData(compressionQuality: 0.8)
-        
-//        guard imageData != nil else {
-//            return
-//        }
             
             let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
             if let data = image.jpegData(compressionQuality: 0.6) {
@@ -218,7 +231,9 @@ extension AddRecipeViewController : UITextViewDelegate {
             textView.text = "請輸入"
             textView.textColor = UIColor.lightGray
 
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            textView.selectedTextRange = textView.textRange(
+                from: textView.beginningOfDocument,
+                to: textView.beginningOfDocument)
         }
 
         // Else if the text view's placeholder is showing and the
@@ -243,7 +258,9 @@ extension AddRecipeViewController : UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         if self.view.window != nil {
             if textView.textColor == UIColor.lightGray {
-                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+                textView.selectedTextRange = textView.textRange(
+                    from: textView.beginningOfDocument,
+                    to: textView.beginningOfDocument)
             }
         }
     }

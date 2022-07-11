@@ -66,7 +66,7 @@ class UserManager {
         
     }
     
-    func updateUserInfo(user: UserInfo) {
+    func updateUserInfo(user: UserInfo, completion: @escaping () -> Void ) {
         
         do {
             
@@ -74,12 +74,29 @@ class UserManager {
                 
                 try database.document(user.userID).setData(from: user, merge: true)
                 
+                completion()
  //           }
             
         } catch {
             
-    //        HandleResult.updateDataFailed.messageHUD
+            HandleResult.updateDataFailed.messageHUD
             
+        }
+        
+    }
+    
+    func createRefrigeOnSingleUser(user: UserInfo, refrigeID: [String?], completion: @escaping (Result<String>) -> Void) {
+        let userRef = database.document(user.userID)
+        
+        userRef.updateData(["personalRefrige": refrigeID]) { error in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                completion(.success("success"))
+            }
         }
         
     }
@@ -209,6 +226,4 @@ class UserManager {
     }
 */
     
-    
 }
-

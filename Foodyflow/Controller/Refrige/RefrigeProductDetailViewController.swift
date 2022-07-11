@@ -39,12 +39,9 @@ class RefrigeProductDetailViewController: UIViewController {
     
     @IBOutlet weak var purchaseDatePicker: UIDatePicker!
     
-//    @IBOutlet weak var purchaseDateTextfield: UITextField!
-    
     @IBOutlet weak var expireDatePicker: UIDatePicker!
     @IBOutlet weak var expireDate: UILabel!
     
-//    @IBOutlet weak var expireDateTextfield: UITextField!
     @IBOutlet weak var updateButton: UIButton!
     
     var foodItemName: String?
@@ -68,7 +65,7 @@ class RefrigeProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setUI()
         
         self.foodNameTextField.text = foodItemName
@@ -85,6 +82,14 @@ class RefrigeProductDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        foodImage.clipsToBounds = true
+        foodImage.contentMode = .scaleAspectFill
+        foodImage.lkCornerRadius = 20
+
     }
     
     private func setUI() {
@@ -107,7 +112,6 @@ class RefrigeProductDetailViewController: UIViewController {
         foodWeightAmount.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodWeightAmount.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
 
-        
         updateButton.lkCornerRadius = 10
         updateButton.tintColor = UIColor.FoodyFlow.white
         updateButton.backgroundColor = UIColor.FoodyFlow.darkOrange

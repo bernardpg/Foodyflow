@@ -127,7 +127,7 @@ class LoginViewController: UIViewController {
         let charset: Array<Character> = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remainingLength = length
-        while(remainingLength > 0) {
+        while ( remainingLength > 0 ) {
             let randoms: [UInt8] = (0 ..< 16).map { _ in
                 var random: UInt8 = 0
                 let errorCode = SecRandomCopyBytes( kSecRandomDefault, 1, &random )
@@ -244,7 +244,18 @@ extension LoginViewController {
                                          personalRefrige: [],
                                          personalLikeRecipe: [],
                                          personalDoRecipe: [])
-            self.userManager.addUserInfo(user: userInfo)
+            
+            self.userManager.fetchUserInfo(fetchUserID: userID!) { result in
+                switch result {
+                case.success(let usersInfo):
+                      print("success")
+//                    HandleResult.signOutFailed.messageHUD
+                case .failure:
+                    self.userManager.addUserInfo(user: userInfo)
+                    print("error")
+                }
+            }
+            
             CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
             self.dismiss(animated: true)
         }

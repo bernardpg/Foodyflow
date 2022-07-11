@@ -10,7 +10,7 @@ import Foundation
 struct ShoppingList: Codable {
     
 //    var id: String
-//    var title: String
+    var title: String
     var foodID: [String?]
 //    var createdTime: Int64
 //    var category: String
@@ -18,7 +18,7 @@ struct ShoppingList: Codable {
     
     enum CodingKeys: String, CodingKey {
 //        case id
-//        case title
+        case title
         case foodID
 //        case createdTime
 //        case category = "tag"
@@ -28,7 +28,7 @@ struct ShoppingList: Codable {
     var toDict: [String: Any] {
         return [
 //            "id": id as Any,
-//            "title": title as Any,
+            "title": title as Any,
             "foodID": foodID as Any
 //            "createdTime": createdTime as Any,
 //            "tag": category as Any

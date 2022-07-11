@@ -35,8 +35,6 @@ class RefrigeCatTableViewCell: UITableViewCell {
         
     }
 
-   // override func 
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -62,6 +60,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 //    cell.myLabel.text = models[0].foodID[indexPath.row]
     cell.layer.cornerRadius = 20
     cell.layer.borderWidth = 0.5
+    cell.backgroundColor = UIColor.FoodyFlow.lightOrange
     cell.myImageView.lkCornerRadius = 20 
     cell.configute(with: foodsInfo[indexPath.row])
     return cell

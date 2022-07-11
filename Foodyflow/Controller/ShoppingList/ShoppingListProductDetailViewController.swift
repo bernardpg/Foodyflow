@@ -36,6 +36,7 @@ class ShoppingListProductDetailViewController: UIViewController {
     @IBOutlet weak var updateButton: UIButton!
     @IBOutlet weak var selectPhoto: UIButton!
     
+    @IBOutlet weak var catePicker: UIPickerView!
     let imagePickerController = UIImagePickerController()
     
     var photoManager = PhotoManager()
@@ -45,7 +46,7 @@ class ShoppingListProductDetailViewController: UIViewController {
     var foodInfo = FoodInfo()
     
     var shoppingList: ShoppingList = ShoppingList(
-        foodID: [""]
+        title: "", foodID: [""]
 )
     
     override func viewDidLoad() {
@@ -54,6 +55,7 @@ class ShoppingListProductDetailViewController: UIViewController {
         setUI()
         selectPhoto.addTarget(self, action: #selector(changePhoto), for: .touchUpInside)
         updateButton.addTarget(self, action: #selector(postToRefirgeDB), for: .touchUpInside)
+        catePicker.isHidden = true
 
     }
     
@@ -68,35 +70,53 @@ class ShoppingListProductDetailViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        foodImage.clipsToBounds = true
+        foodImage.contentMode = .scaleAspectFill
+        foodImage.lkCornerRadius = 20
+    }
+    
     func setUI() {
         foodCateName.text = "分類"
         foodCateTextField.lkCornerRadius = 20
         foodCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
         foodCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+        foodCateTextField.text = foodInfo.foodCategory
         foodName.text = "食材名稱"
         foodNameTextField.lkCornerRadius = 20
         foodNameTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodNameTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodNameTextField.text = foodInfo.foodName
 
         foodBrand.text = "品牌"
         foodBrandTextField.lkCornerRadius = 20
         foodBrandTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodBrandTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
         
+        foodBrandTextField.text = foodInfo.foodCategory
+        
         foodWeightTextField.lkCornerRadius = 20
         foodWeightTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodWeightTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodWeightTextField.text = foodInfo.foodBrand
 
         foodBuy.text = "購買地點"
         foodBuyPlaceTextfield.lkCornerRadius = 20
         foodBuyPlaceTextfield.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodBuyPlaceTextfield.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodBuyPlaceTextfield.text = foodInfo.foodPurchasePlace
 
         foodAddidtional.text = "備註"
         
         foodAdditionalTextVIew.lkCornerRadius = 10
         foodAdditionalTextVIew.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodAdditionalTextVIew.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        
+        foodAdditionalTextVIew.text = foodInfo.additional
         
         updateButton.lkCornerRadius = 10
         updateButton.tintColor = UIColor.FoodyFlow.white
@@ -159,13 +179,12 @@ class ShoppingListProductDetailViewController: UIViewController {
                     
                 }
                 self.navigationController?.popViewController(animated: true)
-            case .failure(_):
+            case .failure:
                 print("UploadPhoto Error")
             }
             }
         }
 
-    
     @objc func postUpdate() {
         
         foodInfo.foodName = foodNameTextField.text
@@ -235,15 +254,14 @@ class ShoppingListProductDetailViewController: UIViewController {
             }
     }
 
-    
 }
-extension ShoppingListProductDetailViewController : UITextViewDelegate {
+extension ShoppingListProductDetailViewController: UITextViewDelegate {
    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
         // Combine the textView text and the replacement text to
         // create the updated text string
-        let currentText:String = textView.text
+        let currentText: String = textView.text
         let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
 
         // If updated text view will be empty, add the placeholder
@@ -253,7 +271,8 @@ extension ShoppingListProductDetailViewController : UITextViewDelegate {
             textView.text = "請輸入"
             textView.textColor = UIColor.lightGray
 
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
+                                                            to: textView.beginningOfDocument)
         }
 
         // Else if the text view's placeholder is showing and the
@@ -278,7 +297,8 @@ extension ShoppingListProductDetailViewController : UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         if self.view.window != nil {
             if textView.textColor == UIColor.lightGray {
-                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
+                                                                to: textView.beginningOfDocument)
             }
         }
     }

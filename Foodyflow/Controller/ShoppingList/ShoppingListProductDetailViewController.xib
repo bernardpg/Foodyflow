@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShoppingListProductDetailViewController" customModule="Foodyflow" customModuleProvider="target">
             <connections>
+                <outlet property="catePicker" destination="xBX-xh-Ejm" id="RVQ-8U-5FD"/>
                 <outlet property="foodAddidtional" destination="cYp-yh-3DL" id="ONQ-Sq-7p2"/>
                 <outlet property="foodAdditionalTextVIew" destination="0Ug-0q-Sms" id="cVI-2G-NSI"/>
                 <outlet property="foodBrand" destination="dzy-oI-3yN" id="ihN-gz-66u"/>

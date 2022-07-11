@@ -90,11 +90,13 @@ class FoodManager {
         }
     }
 
-    func fetchSpecifyFoodInShopping(foods: [String?], completion: @escaping (Result<FoodInfo,Error>) -> Void) {
+    func fetchSpecifyFoodInShopping(foods: [String?], completion: @escaping (Result<FoodInfo, Error>) -> Void) {
         let colref = db.collection("foods")
         
         let foodInfo = FoodInfo()
-        guard !foods.isEmpty else  { return completion(.success(foodInfo))}
+        guard !foods.isEmpty else { return
+            completion(.success(foodInfo))
+        }
         for food in foods {
             guard let food = food else { return }
             colref.document(food).getDocument { (document, error) in
@@ -144,6 +146,5 @@ class FoodManager {
             }
         }
     }
-    
     
 }

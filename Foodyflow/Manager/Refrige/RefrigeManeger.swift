@@ -23,9 +23,10 @@ class RefrigeManager {
     
     lazy var db = Firestore.firestore()
     
-    func fetchArticles(completion: @escaping (Result<[Refrige], Error>) -> Void) {
+    func fetchArticles(userRefrige: [String?], completion: @escaping (Result<[Refrige], Error>) -> Void) {
         
-        db.collection("Refrige").getDocuments() { (querySnapshot, error) in
+        // USer refrige 
+       /* db.collection("Refrige").whereField("id", arrayContainsAny: userRefrige).getDocuments() { (querySnapshot, error) in
                 if let error = error {
                     
                     completion(.failure(error))
@@ -46,7 +47,31 @@ class RefrigeManager {
                     
                     completion(.success(articles))
                 }
+        }*/
+        
+        var articles = [Refrige]()
+        for element in userRefrige {
+            db.collection("Refrige").whereField("id", isEqualTo: element).getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    
+                    completion(.failure(error))
+                } else {
+                    
+                    for document in querySnapshot!.documents {
+
+                        do {
+                            let article =  try document.data(as: Refrige.self, decoder: Firestore.Decoder())
+                            articles.append(article)
+                        } catch {
+                            
+                            completion(.failure(error))
+                        }
+                    }
+                    completion(.success(articles))
+                }
+            }
         }
+        
     }
     
     func fetchSingleRefrigeInfo(refrige: Refrige, completion: @escaping ((Result<Refrige, Error>) -> Void)) {
@@ -99,7 +124,7 @@ class RefrigeManager {
                 completion(.failure(error))
             } else {
                 
-                completion(.success("Success"))
+                completion(.success(document.documentID))
             }
         }
     }
@@ -122,6 +147,19 @@ class RefrigeManager {
                 completion(.success("Success"))
             }
         }
+        
+    }
+    
+    func renameFrige(refrigeID: String, name: String, completion: @escaping () -> Void) {
+        
+        refrigeNowID = refrigeID
+        
+        guard let refrigeNowID = refrigeNowID else { return }
+        
+        let document = db.collection("Refrige").document(refrigeNowID)
+        
+        document.updateData(["title": name])
+        completion()
         
     }
     
