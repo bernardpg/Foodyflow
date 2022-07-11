@@ -37,6 +37,7 @@ class PresonalLikeTableViewCell: UITableViewCell {
     weak var delegate: SelectLikeRecipeCellDelegate?
     
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

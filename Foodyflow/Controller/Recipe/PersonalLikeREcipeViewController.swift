@@ -23,6 +23,10 @@ class PersonalLikeREcipeViewController: UIViewController {
     
     private lazy var personalRecipeTableView =  UITableView()
     
+    var userManager = UserManager()
+    
+    var userInfo = UserInfo(userID: "", userName: "", userEmail: "", userPhoto: "", signInType: "", personalRefrige: [], personalLikeRecipe: [], personalDoRecipe: [])
+    
     let attrs1 = [NSAttributedString.Key.font:
                     UIFont.boldSystemFont(ofSize: 20),
                   NSAttributedString.Key.foregroundColor: UIColor.hexStringToUIColor(hex: "22AA6")]
@@ -48,9 +52,35 @@ class PersonalLikeREcipeViewController: UIViewController {
             "PersonalTitleTableViewCell", bundle: nil),
         forCellReuseIdentifier: "personalrecipeTitleTableViewCell")
         
-        tableViewData = [PersonalRecipe(opened: false, title: "我的食譜", sectionData: ["cell1", "cell2", "cell"]),
-        PersonalRecipe(opened: false, title: "收藏食譜", sectionData: ["cell12", "cell23", "cell34"])]
+       // tableViewData = [PersonalRecipe(opened: false, title: "我的食譜", sectionData: ["cell1", "cell2", "cell"]),
+       // PersonalRecipe(opened: false, title: "收藏食譜", sectionData: ["cell12", "cell23", "cell34"])]
+        
         setupUI()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        verifyUser { result in
+            switch result{
+            case .success(let success):
+                print(success)
+                self.tableViewData = [PersonalRecipe]()
+                self.fetchMyOwnRecipe(userDoRicipe: self.userInfo.personalDoRecipe) { recipes in
+                    self.tableViewData.append(PersonalRecipe(opened: false, title: "我的食譜", sectionData: recipes))
+                    self.fetchmyLikeRecipe(userlikeRecipe: self.userInfo.personalLikeRecipe) { mylikeRecipes in
+                        self.tableViewData.append(PersonalRecipe(opened: false, title: "收藏食譜", sectionData: mylikeRecipes))
+                        DispatchQueue.main.async {
+                            self.personalRecipeTableView.reloadData()
+                        }
+                            
+                    }
+                }
+            case .failure:
+                HandleResult.readDataFailed.messageHUD
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -107,14 +137,61 @@ class PersonalLikeREcipeViewController: UIViewController {
     func verifyUser( completion: @escaping (Result<String, Error>) -> Void ) {
         Auth.auth().addStateDidChangeListener { (auth, user) in
         if user != nil {
+            
                 print("\(String(describing: user?.uid))")
-                completion(.success("create"))
-                } else {
-                        self.present( LoginViewController(), animated: true )
-                        completion(.failure(AuthManager.AuthError.unknownError))
-                    }
+            guard let userID = user?.uid else { return }
+            self.userManager.fetchUserInfo(fetchUserID: userID) { result in
+                switch result{
+                case .success(let usersInfo):
+                    self.userInfo = usersInfo
+                    completion(.success("create"))
+                    
+                case .failure:
+                    HandleResult.readDataFailed.messageHUD
+                }
+                
+            }
+        } else {
+        self.present( LoginViewController(), animated: true )
+        completion(.failure(AuthManager.AuthError.unknownError))
         }
+        }
+    
     }
+    func fetchMyOwnRecipe(userDoRicipe: [String?], completion: @escaping ([Recipe]) -> Void) {
+        
+        RecipeManager.shared.fetchAllRecipe { result in
+            switch result{
+            case .success(let recipes):
+            let myrecipe = recipes.filter { recipe in
+                    recipe.recipeUserName == "justin"}
+            completion(myrecipe)
+            case .failure:
+            HandleResult.readDataFailed.messageHUD
+            }
+        }
+        
+    }
+    
+    func fetchmyLikeRecipe( userlikeRecipe:[String?], completion: @escaping([Recipe])->Void) {
+        
+        RecipeManager.shared.fetchAllRecipe { result in
+            switch result{
+            case .success(let recipes):
+            var myLikeRecipe: [Recipe] = []
+            for mylikerecipe in userlikeRecipe {
+            let myrecipe = recipes.filter { recipe in
+                recipe.recipeID == mylikerecipe}
+            myLikeRecipe.append(myrecipe[0])
+                }
+            completion(myLikeRecipe)
+            case .failure:
+            HandleResult.readDataFailed.messageHUD
+            }
+        }
+        
+    }
+
 // MARK: - Expandable tableView
 }
 
@@ -154,10 +231,15 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
             guard let cell = personalRecipeTableView.dequeueReusableCell(
                 withIdentifier: "personalrecipeTableViewCell") as?
                 PersonalRecipeTableViewCell else { return UITableViewCell() }
-            
-//            cell.textLabel?.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1]
-            
-//            cell.backgroundColor = .systemBlue
+                
+                cell.personalRecipeName.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeName
+                cell.personalRecipeImage.clipsToBounds = true
+                cell.personalRecipeImage.contentMode = .scaleAspectFill
+
+                if tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeImage == "" {
+                    
+                    cell.personalRecipeImage.image = UIImage(named: "imageDefault") } else {
+                    cell.personalRecipeImage.kf.setImage( with: URL(string: tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeImage )) }
                 return cell
 
             } else {
@@ -166,9 +248,13 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
                     withIdentifier: "presonalLikeTableViewCell") as?
                     PresonalLikeTableViewCell else { return UITableViewCell() }
                 
-//                cell.textLabel?.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1]
+                cell.personalLikeRecipeName.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeName
                 
-//                cell.backgroundColor = .systemYellow
+                cell.personalLikeRecipe.clipsToBounds = true
+                cell.personalLikeRecipe.contentMode = .scaleAspectFill
+                if tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeImage == "" {
+                    cell.personalLikeRecipe.image = UIImage(named: "imageDefault") } else{
+                    cell.personalLikeRecipe.kf.setImage( with: URL(string: tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeImage )) }
 
                 return cell
             }
@@ -186,11 +272,20 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
             
         } else {
             tableViewData[indexPath.section].opened = true
+            // 篩選編輯
+            
             let sections = IndexSet.init(integer: indexPath.section)
             personalRecipeTableView.reloadSections(sections, with: .fade)
-            
-            
 
+            if indexPath.section ==  0 {
+                
+            } else {
+                // bug fix
+                print(tableViewData[indexPath.section].sectionData[indexPath.row].recipeName)
+                print(indexPath.row)
+                print(indexPath.section)
+            }
+            
         }
     }
     }

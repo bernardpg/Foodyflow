@@ -19,12 +19,15 @@ struct Recipe: Codable {
     
     var recipeStep: String
     
+    var recipeUserName: String
+    
     enum CodingKeys: String, CodingKey {
         case recipeID
         case recipeName
         case recipeImage
         case recipeFood
         case recipeStep
+        case recipeUserName
     }
     
     var toDict: [String: Any] {
@@ -34,6 +37,7 @@ struct Recipe: Codable {
             "recipeImage": recipeImage as Any,
             "recipeFood": recipeFood as Any,
             "recipeStep": recipeStep as Any,
+            "recipeUserName": recipeUserName as Any
         ]
     }
 

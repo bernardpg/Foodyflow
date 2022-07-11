@@ -36,6 +36,7 @@ class ShoppingListProductDetailViewController: UIViewController {
     @IBOutlet weak var updateButton: UIButton!
     @IBOutlet weak var selectPhoto: UIButton!
     
+    @IBOutlet weak var catePicker: UIPickerView!
     let imagePickerController = UIImagePickerController()
     
     var photoManager = PhotoManager()
@@ -54,6 +55,7 @@ class ShoppingListProductDetailViewController: UIViewController {
         setUI()
         selectPhoto.addTarget(self, action: #selector(changePhoto), for: .touchUpInside)
         updateButton.addTarget(self, action: #selector(postToRefirgeDB), for: .touchUpInside)
+        catePicker.isHidden = true
 
     }
     

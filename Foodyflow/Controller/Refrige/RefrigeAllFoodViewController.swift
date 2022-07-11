@@ -6,14 +6,15 @@
 //
 
 // 還沒有購買得時候 購買完須在點擊才會有改變backgroundPage
+// 新增食物crash
+// delefood in refrige
+
+// 刪除冰箱食物 login
 
 // 將所有 fetch 資料傳下去
 // filter 
-// 新增食物crash
-// 刪除冰箱食物 login
 // 點擊進去更新
 // fetch 回來依照食物
-// delefood in refrige
 
 import UIKit
 import FirebaseAuth
@@ -192,7 +193,21 @@ class RefrigeAllFoodViewController: UIViewController {
             self.fetAllFood(completion: { foodinfo21 in
 //                HandleResult.readDataFailed.messageHUD
                 self.cateFilter(allFood: foodinfo21, cates: self.cate)
-                
+                if foodinfo21.isEmpty {
+                    self.refrigeTableView.isHidden = true
+                    self.view.addSubview(self.searchView)
+                    self.searchView.isHidden = false
+                    self.searchView.translatesAutoresizingMaskIntoConstraints = false
+                    self.searchView.leadingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.trailingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                    self.searchView.bottomAnchor.constraint(
+                        equalTo: self.view.bottomAnchor,
+                        constant: -300).isActive = true } else {
                 DispatchQueue.main.async {
                     // lottie 消失
                     if foodinfo21[0].foodId != nil {
@@ -218,7 +233,7 @@ class RefrigeAllFoodViewController: UIViewController {
 //                    refrigeNow = self.refrige[didSelectDifferentRef]
                     semaphore.signal()
                     
-                }
+                }}
                 
             })
             
@@ -475,6 +490,7 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
         cell.didSelectClosure = { [weak self] tabIndex, colIndex in
             guard let tabIndex = tabIndex, let colIndex = colIndex else { return }
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
+          //  shoppingVC.foodInfo = 
             self?.navigationController?.pushViewController( shoppingVC, animated: true )
         }
         

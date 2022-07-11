@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseStorage
 import AVFoundation
+import FirebaseAuth
 
 class AddRecipeViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -32,6 +33,10 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     let imagePickerController = UIImagePickerController()
     
     var photoManager = PhotoManager()
+    
+    var userManager = UserManager()
+    
+    var userInfos = UserInfo(userID: "", userName: "", userEmail: "", userPhoto: "", signInType: "", personalRefrige: [], personalLikeRecipe: [], personalDoRecipe: [])
     
     var onPublished: (() -> Void)?
     
@@ -62,7 +67,16 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
             recipeImage.kf.setImage( with: URL(string: recipeInImage ))
         }
         
-//        recipeImage.image = recipeInImage
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        userManager.fetchUserInfo(fetchUserID: userID) { result in
+            switch result{
+            case .success(let userInfo):
+                self.userInfos = userInfo
+            case .failure:
+                HandleResult.readDataFailed.messageHUD
+            }
+        }
+        
         
         setUI()
 
@@ -152,7 +166,8 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
                                     recipeName: recipeTextField.text!,
                                     recipeImage: "\(url)",
                                     recipeFood: foodTypeIn.text,
-                                    recipeStep: foodStepTypeIn.text)
+                                    recipeStep: foodStepTypeIn.text,
+                                    recipeUserName: self.userInfos.userName)
         //        recipe.recipeName = recipeTextField.text!
         //        recipe.recipeFood = foodTypeIn.text
         //        recipe.recipeStep = foodStepTypeIn.text

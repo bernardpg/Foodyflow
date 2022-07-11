@@ -76,6 +76,7 @@ class CreatePersonViewController: UIViewController {
         super.viewWillAppear(animated)
         inviteUser.lkCornerRadius = 20
         createUser.lkCornerRadius = 20
+        inviteUser.isHidden = true 
     }
     
     @objc func imageTapped( tapGestureRecognizer: UITapGestureRecognizer ) {

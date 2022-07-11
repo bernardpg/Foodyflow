@@ -11,5 +11,5 @@ struct PersonalRecipe {
     
     var opened = Bool()
     var title = String()
-    var sectionData = [String]()
+    var sectionData = [Recipe]()
 }

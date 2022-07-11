@@ -226,6 +226,7 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.recipeImage.kf.setImage(with: URL(string: recipeAmount[indexPath.row].recipeImage))
             
         }
+        cell.recipeUserName.text = recipeAmount[indexPath.row].recipeUserName
         cell.recipeImage.clipsToBounds = true
         cell.recipeImage.contentMode = .scaleAspectFill
         cell.recipeImage.lkCornerRadius = 20
@@ -240,13 +241,14 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
     
             DispatchQueue.main.async {
                 
-                let addRecipeVC = AddRecipeViewController(nibName: "AddRecipeViewController", bundle: nil)
+                let readRecipeVC = ReadRecipeViewController(nibName: "ReadRecipeViewController", bundle: nil)
                 HandleResult.readData.messageHUD
-                addRecipeVC.recipeName = recipe?.recipeName ?? ""
-                addRecipeVC.recipeFood = recipe?.recipeFood ?? ""
-                addRecipeVC.recipeStep = recipe?.recipeStep ?? ""
-                addRecipeVC.recipeInImage = recipe?.recipeImage ?? ""
-                self.navigationController!.pushViewController(addRecipeVC, animated: true)
+                readRecipeVC.recipeNames = recipe?.recipeName ?? ""
+                readRecipeVC.recipeFoods = recipe?.recipeFood ?? ""
+                readRecipeVC.recipeSteps = recipe?.recipeStep ?? ""
+                readRecipeVC.recipeInImage = recipe?.recipeImage ?? ""
+                readRecipeVC.recipeDoName = recipe?.recipeUserName ?? ""
+                self.navigationController!.pushViewController(readRecipeVC, animated: true)
                 self.searchController.searchBar.isHidden = true
             }
             

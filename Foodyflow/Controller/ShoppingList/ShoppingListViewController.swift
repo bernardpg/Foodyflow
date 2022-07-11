@@ -4,6 +4,8 @@
 //
 //  Created by 曹珮綺 on 6/20/22.
 //
+// shoppingList 再次確認有無問題
+
 // bug shoppingList Name fetch 回來
 
 // bug 更換時 沒有的話不能新增

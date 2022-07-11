@@ -69,6 +69,7 @@
             <connections>
                 <outlet property="recipeImage" destination="Z9e-vI-hSM" id="cb3-M5-fpC"/>
                 <outlet property="recipeName" destination="vqK-Ya-3WC" id="jOJ-C9-chX"/>
+                <outlet property="recipeUserName" destination="7Qt-DT-1nv" id="gb6-qo-z2j"/>
             </connections>
             <point key="canvasLocation" x="315.94202898550725" y="146.65178571428569"/>
         </tableViewCell>

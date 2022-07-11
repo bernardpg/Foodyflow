@@ -11,9 +11,7 @@ import UIKit
 import Kingfisher
 
 class InshoppingViewController: UIViewController {
-    
-    private var tapButton = UIButton()
-    
+        
     var tabIndex: Int?
     
     var cate: [String?] = []
@@ -60,15 +58,12 @@ class InshoppingViewController: UIViewController {
         super.viewDidLoad()
         inShoppingListCollectionView.delegate = self
         inShoppingListCollectionView.dataSource = self
-//        inShoppingList.addSubview(tapButton)
-//        setUI()
 
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         inShoppingListCollectionView.layoutIfNeeded()
-        tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
    /* override func viewWillAppear(_ animated: Bool) {
@@ -139,9 +134,12 @@ class InshoppingViewController: UIViewController {
                         
                         self?.inShoppingListCollectionView.backgroundView = nil
                         self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
+                        var inshopFoodInfo = allfoodInfo.filter { foodinfo in
+                            foodinfo.foodStatus == 2
+                            }
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
-                        self?.cateFilter(allFood: allfoodInfo, cates: cates)
+                        self?.cateFilter(allFood: inshopFoodInfo, cates: cates)
                         DispatchQueue.main.async {
                             // lottie 消失
                             self?.inShoppingListCollectionView.reloadData()
@@ -160,16 +158,6 @@ class InshoppingViewController: UIViewController {
         }
     }
 
-    func setUI() {
-
-        tapButton.translatesAutoresizingMaskIntoConstraints = false
-        tapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-        tapButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        tapButton.backgroundColor = .black
-        tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
-    }
     @objc func addNewFood() {
         
         let shoppingVC = ShoppingListProductDetailViewController(
@@ -262,9 +250,12 @@ class InshoppingViewController: UIViewController {
                         self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView() } } else {
                     self?.inShoppingListCollectionView.backgroundView = nil
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
+                        var inshopFoodInfo = allfoodInfo.filter { foodinfo in
+                            foodinfo.foodStatus == 2
+                            }
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
-                        self?.cateFilter(allFood: allfoodInfo, cates: cates)
+                        self?.cateFilter(allFood: inshopFoodInfo, cates: cates)
                         DispatchQueue.main.async {
                             // lottie 消失
                             self?.inShoppingListCollectionView.reloadData()
@@ -432,45 +423,96 @@ extension InshoppingViewController: UICollectionViewDataSource,
             withReuseIdentifier: "shoppingListCollectionViewCell",
                 for: indexPath) as? ShoppingListCollectionViewCell
         guard let cell = cell else { return UICollectionViewCell() }
+        
+        cell.layer.backgroundColor = UIColor(red: 1, green: 0.964, blue: 0.929, alpha: 1).cgColor
+        cell.layer.cornerRadius = 20
+        cell.shoppingItemImage.lkCornerRadius = 20
+
         switch indexPath.section {
         case 0:
             cell.shoppingName.text = meatsInfo[indexPath.item].foodName
+                cell.shoppingItemImage.kf.setImage(with: URL( string: meatsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = meatsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = meatsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true  // meatsInfo[indexPath.item].foodWeightAmount
         case 1:
             cell.shoppingName.text = beansInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: beansInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = beansInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = beansInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
+         //   cell.shoppingItemImage
+
         case 2:
             cell.shoppingName.text = eggsInfo[indexPath.item].foodName
-
+            
+                cell.shoppingItemImage.kf.setImage(with: URL( string: eggsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = eggsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = eggsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
+         //   cell.shoppingItemImage
         case 3:
             cell.shoppingName.text = vegsInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: vegsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = vegsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = vegsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 4:
             cell.shoppingName.text = picklesInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: picklesInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = picklesInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = picklesInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 5:
             cell.shoppingName.text = fruitsInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: fruitsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = fruitsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = fruitsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 6:
             cell.shoppingName.text = fishesInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: fishesInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = fishesInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = fishesInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 7:
             cell.shoppingName.text = seafoodsInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: seafoodsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = seafoodsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = seafoodsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 8:
             cell.shoppingName.text = beveragesInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: beveragesInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = beveragesInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = beveragesInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 9:
             cell.shoppingName.text = seasonsInfo[indexPath.item].foodName
 
+                cell.shoppingItemImage.kf.setImage(with: URL( string: seasonsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = seasonsInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = seasonsInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         case 10:
             cell.shoppingName.text = othersInfo[indexPath.item].foodName
-
+                cell.shoppingItemImage.kf.setImage(with: URL( string: othersInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingBrand.text = othersInfo[indexPath.item].foodBrand
+            cell.shoppingLocation.text = othersInfo[indexPath.item].foodPurchasePlace
+            cell.shoppingWeight.isHidden = true
         default:
             cell.shoppingName.text = foodsInfo[indexPath.item].foodName
             
         }
         return cell
-        
+
     }
     
     func collectionView(_ collectionView: UICollectionView,
