@@ -136,6 +136,7 @@ class AllRecipeViewController: UIViewController {
         }
         view.addSubview(addRecipe)
         addRecipe.translatesAutoresizingMaskIntoConstraints = false
+        
         addRecipe.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         addRecipe.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
         addRecipe.widthAnchor.constraint(equalToConstant: 45).isActive = true

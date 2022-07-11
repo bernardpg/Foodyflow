@@ -18,7 +18,7 @@ struct PhotoManager {
         
         // Camera
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
-            takePicture()
+            takePic()
         }
         alertController.addAction(cameraAction)
         
@@ -39,7 +39,7 @@ struct PhotoManager {
         
         controller.present(alertController, animated: true, completion: nil)
         
-        func takePicture() {
+        func takePic() {
             imagePickerController.sourceType = .camera
             controller.present(imagePickerController, animated: true)
         }

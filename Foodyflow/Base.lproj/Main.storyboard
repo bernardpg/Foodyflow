@@ -351,7 +351,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XnQ-Pu-1mA">
-                                <rect key="frame" x="339.66666666666669" y="93" width="19.333333333333314" height="18.333333333333329"/>
+                                <rect key="frame" x="339.66666666666669" y="93" width="19.333333333333314" height="19.333333333333329"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="XnQ-Pu-1mA" secondAttribute="height" id="apW-Yw-peX"/>
+                                </constraints>
                                 <color key="tintColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="plus" catalog="system"/>
@@ -376,26 +379,25 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6iw-Pb-ieN">
-                                <rect key="frame" x="16" y="90.333333333333329" width="24" height="24"/>
+                                <rect key="frame" x="16" y="93" width="32" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="6iw-Pb-ieN" secondAttribute="height" multiplier="1:1" id="SOx-Sv-9TI"/>
+                                    <constraint firstAttribute="height" constant="32" id="0ai-yY-SPS"/>
+                                    <constraint firstAttribute="width" constant="32" id="2kr-Nx-hfK"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="setting"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pwV-gI-0kL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6iw-Pb-ieN" firstAttribute="width" secondItem="XnQ-Pu-1mA" secondAttribute="width" multiplier="1.24138" id="C4K-np-8EO"/>
                             <constraint firstItem="pwV-gI-0kL" firstAttribute="trailing" secondItem="XnQ-Pu-1mA" secondAttribute="trailing" constant="16" id="DFL-yK-37r"/>
                             <constraint firstItem="phd-1V-1Y4" firstAttribute="centerX" secondItem="As3-OJ-gRH" secondAttribute="centerX" id="YKI-Vd-0wM"/>
                             <constraint firstItem="XnQ-Pu-1mA" firstAttribute="top" secondItem="pwV-gI-0kL" secondAttribute="top" constant="5" id="b3Z-Kd-SDe"/>
-                            <constraint firstItem="6iw-Pb-ieN" firstAttribute="leading" secondItem="pwV-gI-0kL" secondAttribute="leading" constant="16" id="oJh-Mz-mFX"/>
                             <constraint firstItem="Cac-HI-Joy" firstAttribute="centerX" secondItem="FbE-ee-Ji4" secondAttribute="centerX" id="pHx-JW-c4Q"/>
                             <constraint firstItem="Cac-HI-Joy" firstAttribute="top" secondItem="pwV-gI-0kL" secondAttribute="top" constant="40" id="rZE-9b-LcO"/>
-                            <constraint firstItem="6iw-Pb-ieN" firstAttribute="centerY" secondItem="XnQ-Pu-1mA" secondAttribute="centerY" id="xou-nl-PUi"/>
+                            <constraint firstItem="6iw-Pb-ieN" firstAttribute="leading" secondItem="pwV-gI-0kL" secondAttribute="leading" constant="16" id="roa-q5-o6j"/>
                             <constraint firstItem="phd-1V-1Y4" firstAttribute="top" secondItem="Cac-HI-Joy" secondAttribute="bottom" constant="33" id="zZl-0n-TA4"/>
+                            <constraint firstItem="6iw-Pb-ieN" firstAttribute="top" secondItem="pwV-gI-0kL" secondAttribute="top" constant="5" id="zej-aN-eWN"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="a8p-tX-C9b"/>
@@ -654,8 +656,7 @@
         <image name="note_L" width="100" height="100"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="refrigerator" width="100" height="100"/>
-        <image name="refrigerator_L" width="100" height="100"/>
-        <image name="setting" width="24" height="24"/>
+        <image name="refrigerator_L" width="60" height="60"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

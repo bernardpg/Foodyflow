@@ -39,12 +39,9 @@ class RefrigeProductDetailViewController: UIViewController {
     
     @IBOutlet weak var purchaseDatePicker: UIDatePicker!
     
-//    @IBOutlet weak var purchaseDateTextfield: UITextField!
-    
     @IBOutlet weak var expireDatePicker: UIDatePicker!
     @IBOutlet weak var expireDate: UILabel!
     
-//    @IBOutlet weak var expireDateTextfield: UITextField!
     @IBOutlet weak var updateButton: UIButton!
     
     var foodItemName: String?
@@ -107,7 +104,6 @@ class RefrigeProductDetailViewController: UIViewController {
         foodWeightAmount.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodWeightAmount.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
 
-        
         updateButton.lkCornerRadius = 10
         updateButton.tintColor = UIColor.FoodyFlow.white
         updateButton.backgroundColor = UIColor.FoodyFlow.darkOrange
