@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A925B7C72878229800FCA480 /* PresonalLikeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925B7C52878229800FCA480 /* PresonalLikeTableViewCell.swift */; };
+		A925B7C82878229800FCA480 /* PresonalLikeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A925B7C62878229800FCA480 /* PresonalLikeTableViewCell.xib */; };
 		A92F0991286D7973005C99F8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F0990286D7973005C99F8 /* LoginView.swift */; };
 		A92F6BB1285C34530090EE90 /* ShoppingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F6BB0285C34530090EE90 /* ShoppingList.swift */; };
 		A92F6BBA285C54240090EE90 /* RefrigeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F6BB9285C54240090EE90 /* RefrigeModel.swift */; };
@@ -66,9 +68,16 @@
 		A98D50EC2863F8BA00B326AC /* ShoppingListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */; };
 		A98D50EE28640AB900B326AC /* ShoppingListCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */; };
 		A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50EF28643F6000B326AC /* GlobalVariable.swift */; };
+		A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99B9E982876C80C0050F086 /* PersonalRecipe.swift */; };
+		A9C6335A2876A2540057A8E8 /* ReadRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C633582876A2540057A8E8 /* ReadRecipeViewController.swift */; };
+		A9C6335B2876A2540057A8E8 /* ReadRecipeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C633592876A2540057A8E8 /* ReadRecipeViewController.xib */; };
 		A9D44280286EE21B00D69175 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */; };
 		A9D44281286EE21B00D69175 /* RecipeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D4427F286EE21B00D69175 /* RecipeTableViewCell.xib */; };
 		A9D44283286EE93800D69175 /* RecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D44282286EE93800D69175 /* RecipeModel.swift */; };
+		A9DC8A9C2876DA31000D6BC5 /* PersonalRecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DC8A9A2876DA31000D6BC5 /* PersonalRecipeTableViewCell.swift */; };
+		A9DC8A9D2876DA31000D6BC5 /* PersonalRecipeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DC8A9B2876DA31000D6BC5 /* PersonalRecipeTableViewCell.xib */; };
+		A9DC8AA02876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DC8A9E2876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift */; };
+		A9DC8AA12876F0E6000D6BC5 /* PersonalTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DC8A9F2876F0E6000D6BC5 /* PersonalTitleTableViewCell.xib */; };
 		A9ED9568286843B300FBF68A /* LoadingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED9567286843B300FBF68A /* LoadingExtension.swift */; };
 		A9ED956A286849BB00FBF68A /* ExpiredRefirgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED9569286849BB00FBF68A /* ExpiredRefirgeViewController.swift */; };
 		A9ED956C286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED956B286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift */; };
@@ -82,6 +91,8 @@
 		1FA0E6F1BFFB230473E85551 /* Pods-Foodyflow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodyflow.release.xcconfig"; path = "Target Support Files/Pods-Foodyflow/Pods-Foodyflow.release.xcconfig"; sourceTree = "<group>"; };
 		A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodyflow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A91505DD286ADA60008DF98C /* Foodyflow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Foodyflow.entitlements; sourceTree = "<group>"; };
+		A925B7C52878229800FCA480 /* PresonalLikeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresonalLikeTableViewCell.swift; sourceTree = "<group>"; };
+		A925B7C62878229800FCA480 /* PresonalLikeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PresonalLikeTableViewCell.xib; sourceTree = "<group>"; };
 		A92F0990286D7973005C99F8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A92F6BB0285C34530090EE90 /* ShoppingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingList.swift; sourceTree = "<group>"; };
 		A92F6BB9285C54240090EE90 /* RefrigeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefrigeModel.swift; sourceTree = "<group>"; };
@@ -143,9 +154,16 @@
 		A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListManager.swift; sourceTree = "<group>"; };
 		A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCollectionReusableView.swift; sourceTree = "<group>"; };
 		A98D50EF28643F6000B326AC /* GlobalVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariable.swift; sourceTree = "<group>"; };
+		A99B9E982876C80C0050F086 /* PersonalRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalRecipe.swift; sourceTree = "<group>"; };
+		A9C633582876A2540057A8E8 /* ReadRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadRecipeViewController.swift; sourceTree = "<group>"; };
+		A9C633592876A2540057A8E8 /* ReadRecipeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReadRecipeViewController.xib; sourceTree = "<group>"; };
 		A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
 		A9D4427F286EE21B00D69175 /* RecipeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeTableViewCell.xib; sourceTree = "<group>"; };
 		A9D44282286EE93800D69175 /* RecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
+		A9DC8A9A2876DA31000D6BC5 /* PersonalRecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalRecipeTableViewCell.swift; sourceTree = "<group>"; };
+		A9DC8A9B2876DA31000D6BC5 /* PersonalRecipeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PersonalRecipeTableViewCell.xib; sourceTree = "<group>"; };
+		A9DC8A9E2876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalTitleTableViewCell.swift; sourceTree = "<group>"; };
+		A9DC8A9F2876F0E6000D6BC5 /* PersonalTitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PersonalTitleTableViewCell.xib; sourceTree = "<group>"; };
 		A9ED9567286843B300FBF68A /* LoadingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingExtension.swift; sourceTree = "<group>"; };
 		A9ED9569286849BB00FBF68A /* ExpiredRefirgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredRefirgeViewController.swift; sourceTree = "<group>"; };
 		A9ED956B286849DF00FBF68A /* WithinThreeDaysRefirgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithinThreeDaysRefirgeViewController.swift; sourceTree = "<group>"; };
@@ -345,6 +363,7 @@
 				A96DA97B286035C9008993BB /* Category.swift */,
 				A98D50EF28643F6000B326AC /* GlobalVariable.swift */,
 				A941E03D286BF45C00B603AF /* User.swift */,
+				A99B9E982876C80C0050F086 /* PersonalRecipe.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -392,6 +411,8 @@
 				A9335AD028691DD800AE551B /* AllRecipeViewController.swift */,
 				A9335AD22869201500AE551B /* AddRecipeViewController.swift */,
 				A9335AD32869201500AE551B /* AddRecipeViewController.xib */,
+				A9C633582876A2540057A8E8 /* ReadRecipeViewController.swift */,
+				A9C633592876A2540057A8E8 /* ReadRecipeViewController.xib */,
 			);
 			path = Recipe;
 			sourceTree = "<group>";
@@ -451,6 +472,12 @@
 			children = (
 				A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */,
 				A9D4427F286EE21B00D69175 /* RecipeTableViewCell.xib */,
+				A9DC8A9A2876DA31000D6BC5 /* PersonalRecipeTableViewCell.swift */,
+				A9DC8A9B2876DA31000D6BC5 /* PersonalRecipeTableViewCell.xib */,
+				A9DC8A9E2876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift */,
+				A9DC8A9F2876F0E6000D6BC5 /* PersonalTitleTableViewCell.xib */,
+				A925B7C52878229800FCA480 /* PresonalLikeTableViewCell.swift */,
+				A925B7C62878229800FCA480 /* PresonalLikeTableViewCell.xib */,
 			);
 			path = Recipe;
 			sourceTree = "<group>";
@@ -538,6 +565,10 @@
 				A93EF94F286AEE6400EDDA4B /* LoginViewController.xib in Resources */,
 				A96DA97A286012CC008993BB /* ShoppingListProductDetailViewController.xib in Resources */,
 				A9335AD52869201500AE551B /* AddRecipeViewController.xib in Resources */,
+				A925B7C82878229800FCA480 /* PresonalLikeTableViewCell.xib in Resources */,
+				A9C6335B2876A2540057A8E8 /* ReadRecipeViewController.xib in Resources */,
+				A9DC8A9D2876DA31000D6BC5 /* PersonalRecipeTableViewCell.xib in Resources */,
+				A9DC8AA12876F0E6000D6BC5 /* PersonalTitleTableViewCell.xib in Resources */,
 				A92F6BCC285C94270090EE90 /* InCatCollectionViewCell.xib in Resources */,
 				A948AA9E285B0B7500355C59 /* Assets.xcassets in Resources */,
 				A948AA9C285B0B7400355C59 /* Main.storyboard in Resources */,
@@ -635,6 +666,7 @@
 				A9343B792868635C002E4907 /* RefrigeAllFoodViewController.swift in Sources */,
 				A9369E5028632C430063928E /* ShoppingListCollectionViewCell.swift in Sources */,
 				A948AAB8285B3C0D00355C59 /* UIFont+Extension.swift in Sources */,
+				A9C6335A2876A2540057A8E8 /* ReadRecipeViewController.swift in Sources */,
 				A941E040286BFB9200B603AF /* HandleResultManager.swift in Sources */,
 				A948AABE285B3CBF00355C59 /* UIView+Extension.swift in Sources */,
 				A93EF94E286AEE6400EDDA4B /* LoginViewController.swift in Sources */,
@@ -644,12 +676,16 @@
 				A948AA95285B0B7400355C59 /* AppDelegate.swift in Sources */,
 				A96DA97128600949008993BB /* PersonalViewController.swift in Sources */,
 				A941E03C286BE51E00B603AF /* AuthManager.swift in Sources */,
+				A925B7C72878229800FCA480 /* PresonalLikeTableViewCell.swift in Sources */,
 				A92F0991286D7973005C99F8 /* LoginView.swift in Sources */,
 				A948AA97285B0B7400355C59 /* SceneDelegate.swift in Sources */,
 				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
+				A9DC8AA02876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift in Sources */,
 				A944E691285DE1300068D7DD /* FoodManager.swift in Sources */,
 				A93EF952286AEEB600EDDA4B /* OnboardingViewController.swift in Sources */,
+				A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */,
 				A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */,
+				A9DC8A9C2876DA31000D6BC5 /* PersonalRecipeTableViewCell.swift in Sources */,
 				A944E698285EAB1F0068D7DD /* Food.swift in Sources */,
 				A948AAB1285B309E00355C59 /* RefrigeProductDetailViewController.swift in Sources */,
 				A9ED9568286843B300FBF68A /* LoadingExtension.swift in Sources */,

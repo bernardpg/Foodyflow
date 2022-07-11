@@ -255,8 +255,5 @@ enum HandleResult {
             HUD.flash(.labeledSuccess(title: "讀取成功", subtitle: nil), delay: 0.5)
             
         }
-        
     }
-    
 }
-

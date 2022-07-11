@@ -13,6 +13,8 @@ class RecipeTableViewCell: UITableViewCell {
     
     @IBOutlet weak var recipeName: UILabel!
     
+    @IBOutlet weak var recipeUserName: UILabel!
+    
     let identifier = "recipeTableViewCell"
     
     static func nib() -> UINib {

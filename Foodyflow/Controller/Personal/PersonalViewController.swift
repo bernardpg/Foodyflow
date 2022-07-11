@@ -21,6 +21,8 @@ class PersonalViewController: UIViewController {
     
     @IBOutlet weak var signOut: UIButton!
     
+    let imagePickerController = UIImagePickerController()
+    
     private let background = UIImageView()
     
     private let personalChangeImageView = UIView()
@@ -41,6 +43,8 @@ class PersonalViewController: UIViewController {
     
     var userManager = UserManager()
     
+    var photoManager = PhotoManager()
+    
     var handle: AuthStateDidChangeListenerHandle?
     
     var refrige = Refrige.init(id: "", title: "我的冰箱", foodID: [], createdTime: 0, category: "", shoppingList: [])
@@ -49,6 +53,10 @@ class PersonalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        verifyUser {
+            
+        }
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                           action: #selector(imageTapped(tapGestureRecognizer:)))
@@ -63,7 +71,9 @@ class PersonalViewController: UIViewController {
         setupUI()
         personalTableView.delegate = self
         personalTableView.dataSource = self
-        
+        personalChangeImageButton.addTarget(self, action: #selector(changeUserImage), for: .touchUpInside)
+        personalChangNameButton.addTarget(self, action: #selector(changeUserName), for: .touchUpInside)
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -97,16 +107,54 @@ class PersonalViewController: UIViewController {
         // fetch user // fetchRefrige
     }
     
-    func verifyUser( completion: @escaping () -> Void ) {
+    @objc func changeUserName() {
+        guard let  userID = Auth.auth().currentUser?.uid else { return }
+
+        fetchUser(userID: userID) { userInfo in
+            self.changeUserNames { userName in
+                var userData = userInfo
+                userData.userName = userName
+                self.userManager.updateUserInfo(user: userData) {
+                    self.fetchUserByUserID(userID: userID) { _ in
+                    
+                    }
+                }
+                
+            }
+        }
+            
+        // update User info 
+    }
+    
+    func fetchUserByUserID( userID :String, completion: @escaping (UserInfo) -> Void ){
+        
+        self.fetchUser(userID: userID) { userInfo in
+            self.fetchAllRefrige(userRefriges: userInfo.personalRefrige)
+            self.personalName.text = userInfo.userName
+            // self.personalImage.image = UIImage
+            // User photo
+            
+        }
+            
+    }
+    
+    // MARK: ERRor
+    @objc func changeUserImage() {
+        
+        photoManager.tapPhoto(controller: self, alertText: "選擇個人照片", imagePickerController: imagePickerController)
+        // update user info
+    }
+    
+    func verifyUser( completion: @escaping () -> Void) {
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
-                // fetch User's  refrige
-//                print(userID)
-//                print("\(auth.currentUser)")
-                // fetch
-                self.fetchAllRefrige()
+                guard let user = user?.uid else {
+                    return
+                }
+                self.fetchUserByUserID(userID: user) { _ in
                 
-                print("\(String(describing: user?.uid))")
+                }
+                                
             } else {
                 self.present( LoginViewController(), animated: true )
                 completion()
@@ -150,7 +198,6 @@ class PersonalViewController: UIViewController {
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         _ = tapGestureRecognizer.view as? UIImageView
     }
-    
     @objc func addRefri() {
         
         verifyUser {
@@ -160,31 +207,49 @@ class PersonalViewController: UIViewController {
                            secondTitle: "邀請加入xxx食光",
                            cancelTitle: "取消")
         }
-        cameraAc3tion()
-        func cameraAc3tion() {
+        cameraAc3tion()}
+    func cameraAc3tion() {
+         // User create // Refrige Create
+        
             RefrigeManager.shared.createFrige(refrige: &self.refrige) { result in
-//                switch result{
- //           case .success(let refrigeID)
- //                   self.userManager.createRefrigeOnSingleUser(user: <#T##UserInfo#>, refrigeID: refrigeID) { <#UserManager.Result<String>#> in
-//                        <#code#>
+            switch result {
+            case .success(let refrigeID):
+                guard let useID = Auth.auth().currentUser?.uid else { return }
+                self.fetchUser(userID: useID) { userInfo in
+                    var personalRefirge = userInfo.personalRefrige
+                        personalRefirge.append(refrigeID)
+                    self.userManager.createRefrigeOnSingleUser(user: userInfo, refrigeID: personalRefirge) { result in
+                        switch result{
+                        case .success(_ ):
+                            self.verifyUser {
+                                HandleResult.addDataSuccess.messageHUD
+
+                            }
+                    case .failure:
+                            HandleResult.addDataFailed.messageHUD
+                        }
                     }
+                }
                 self.onPublished?()
+            case .failure:
+                HandleResult.addDataFailed.messageHUD
+                
             }
-            fetchAllRefrige()
+            }
+        
+        }
+        
+    func fetchUser(userID: String, completion: @escaping (UserInfo) -> Void) {
+        userManager.fetchUserInfo(fetchUserID: userID) { result in
+            
+            switch result {
+            case.success(let userInfo):
+                completion(userInfo)
+            case.failure:
+                print(LocalizedError.self)
+            }
+        }
     }
-    
-    /*@objc func personalSetting() {
-     switch result {
-     case .success(let refrigeAmount):
-         self?.refrigeAmount = refrigeAmount
-         DispatchQueue.main.async {
-             self?.personalTableView.reloadData()
-         }
-     case .failure:
-         print("cannot fetch data")
-     }
-     openAlert(controller: self, mainTitle: "更換個人設定", firstTitle: "更換照片", secondTitle: "更換暱稱", cancelTitle: "取消")
-     }*/
     
     func openAlert(
         controller: UIViewController,
@@ -213,7 +278,6 @@ class PersonalViewController: UIViewController {
         }
     
     private func setupUI() {
-        
         view.addSubview(background)
         background.addSubview(addRefrigeButton)
         background.addSubview(personalBackgroundView)
@@ -316,6 +380,7 @@ class PersonalViewController: UIViewController {
         }
     }
     
+    // MARK: 確認是否可以
     private func changeRefirge( indexPathRow: Int ) {
         
         let alert = UIAlertController(title: "更換冰箱",
@@ -335,8 +400,28 @@ class PersonalViewController: UIViewController {
         print("dd")
     }
     
-    func fetchAllRefrige() {
-        RefrigeManager.shared.fetchArticles { [weak self] result in
+    func changeUserNames(completion: @escaping (String) -> Void) {
+        let alertVC = UIAlertController(title: "變更你使用者姓名", message: nil, preferredStyle: .alert)
+        alertVC.addTextField()
+        
+        let submitAction = UIAlertAction(title: "確認", style: .default) { [unowned alertVC] _ in
+            let answer = alertVC.textFields![0]
+            
+            guard let rename = answer.text else { return }
+            completion(rename)
+            // do something interesting with "answer" here
+        }
+        
+        alertVC.addAction(submitAction)
+        
+        let falseAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertVC.addAction(falseAction)
+        
+        present(alertVC, animated: true)
+    }
+
+    func fetchAllRefrige(userRefriges: [String?]) {
+        RefrigeManager.shared.fetchArticles(userRefrige: userRefriges) { [weak self] result in
             switch result {
             case .success(let refrigeAmount):
                 self?.refrigeAmount = refrigeAmount
@@ -349,22 +434,34 @@ class PersonalViewController: UIViewController {
         }
     }
     
-    func deleteRefrige(needtoRemove: String, completion: @escaping () -> Void ) {
+    func deleteRefrige(userInfo: UserInfo,needtoRemove: String, completion: @escaping () -> Void ) {
+        // User delete // refrige delete
+        //var newshoppingList = foodsInfos.filter { $0 != foodId }
+        var newUserInfo = userInfo
+        newUserInfo.personalRefrige =  userInfo.personalRefrige.filter{ $0 != needtoRemove }
+        userManager.updateUserInfo(user: newUserInfo) {
+        }
+        
         RefrigeManager.shared.removeFrige(refrigeID: needtoRemove) { result in
             switch result {
             case.success:
-                self.fetchAllRefrige()
+                print("ddd")
+                
+                self.verifyUser {
+                    
+                }
             case.failure:
                 print(LocalizedError.self)
             }
             
         }
-        
     }
     
-    private func changeRefrigeName( needtoRename: String, name:String ) {
+    private func changeRefrigeName( needtoRename: String, name: String ) {
         RefrigeManager.shared.renameFrige(refrigeID: needtoRename, name: name) {
-            self.fetchAllRefrige()
+            self.verifyUser {
+                
+            }
         }
     }
 }
@@ -396,8 +493,10 @@ extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
 extension PersonalViewController: SelectCellDelegate {
     func didDeleteTap(indexPathRow: IndexPath) {
         let removeRefrige = refrigeAmount[indexPathRow.row].id
-        
-        deleteRefrige(needtoRemove: "\(removeRefrige)") {
+        fetchUser(userID: Auth.auth().currentUser?.uid ?? "") { userInfo in
+            self.deleteRefrige(userInfo: userInfo, needtoRemove: "\(removeRefrige)") {
+            }
+
         }
     }
     
@@ -426,8 +525,20 @@ extension PersonalViewController: SelectCellDelegate {
         
         let falseAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertVC.addAction(falseAction)
-        
         present(alertVC, animated: true)
     }
     
+}
+
+extension PersonalViewController: UIImagePickerControllerDelegate {
+    
+    internal func imagePickerController(_ picker: UIImagePickerController,
+                                      didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.personalImage.image = image
+        }
+        
+        picker.dismiss(animated: true)
+    }
 }

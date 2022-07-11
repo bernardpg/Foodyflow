@@ -20,6 +20,7 @@ import FirebaseAuth
 // personal 更改畫面圖片跟文字
 //  fetch 資料及更改 再次確認
 //    開啟提醒通知
+// 個人頁面照片上傳跟fetch 未用
 // MARK: - fetch for change UI and add photos
 // logic change for fetch on this VC
 // MARK: - create Recipe Page
@@ -79,6 +80,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     var othersInfo: [FoodInfo] = []
     
+    var userManager = UserManager()
+    
     var tabIndex: Int?
     
     var onPublished: (() -> Void)?
@@ -112,54 +115,18 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         super.viewWillAppear(animated)
 
         Auth.auth().addStateDidChangeListener { (auth, user) in
-                    if user != nil {
-                        print("\(String(describing: user?.uid))")
-
-                        return
-                    } else {
-                        self.present( LoginViewController(), animated: true)
+            if user != nil {
+                guard let userID = user?.uid else { return }
+                
+                self.fetchAllCate { [weak self] cate in
+                    self?.cate = cate }
+                
+                self.userLoadRefrige(userID: userID)
+                                            
+            } else {
+                    self.present( LoginViewController(), animated: true)
                     }
                 }
-
-       // if Auth.auth().currentUser?.uid == nil {
-       //     present(LoginViewController(),animated: true)
-//        }
-        // lottie 開始
-        
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        DispatchQueue.global().async {
-            self.fetchAllCate { [weak self] cate in
-                self?.cate = cate
-                semaphore.signal()
-            }
-            semaphore.wait()
-            
-            self.fetchAllRefrige { [weak self] refrige in
-                
-                self?.setDropdown(self?.refrige)
-
-                self?.resetRefrigeFood()
-                
-                self?.fetAllFood(completion: { foodinfo21 in
-                    
-                    guard let cates = self?.cate else { return }
-                    
-//                    self?.cateFilter(allFood: foodinfo21, cates: cates)
-                    
-                    DispatchQueue.main.async {
-                        // lottie 消失
-                        self?.refrigeTableView.reloadData()
-                        
-                        refrigeNow = self?.refrige[0]
-
-                        semaphore.signal()
-                    }
-                })
-            }
-            semaphore.wait()
-        }
-        
         self.tabBarController?.tabBar.isHidden = false
     }
     
@@ -176,21 +143,83 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             }
         }.store(in: &subscribers)
     }
-    
-    func fetchAllRefrige() {
-        RefrigeManager.shared.fetchArticles { [weak self] result in
+        
+    func userLoadRefrige(userID: String) {
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        DispatchQueue.global().async {
+
+        self.userManager.fetchUserInfo(fetchUserID: userID) { result in
             switch result {
-            case .success(let refrigeAmount):
-                self?.refrige = refrigeAmount
-                DispatchQueue.main.async {
-//                    self?.personalTableView.reloadData()
+            case .success(let userInfo):
+                self.fetchAllRefrige(userRefriges: userInfo.personalRefrige) { [weak self] refrige in
+                    
+                    self?.setDropdown(self?.refrige)
+                    refrigeNow = self?.refrige[0]
+                    DispatchQueue.main.async {
+                                    // lottie 消失
+                    self?.refrigeTableView.reloadData()
+                    semaphore.signal()
+                    }
+                    
                 }
+                    case .failure:
+                        HandleResult.readDataFailed.messageHUD
+                    }
+            
+        }
+        semaphore.wait()
+        }
+    }
+    
+    func reloadRefrige() {
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        DispatchQueue.global().async {
+
+        self.resetRefrigeFood()
+        self.fetAllFood(completion: { _ in
+                        
+            DispatchQueue.main.async {
+                // lottie 消失
+                self.refrigeTableView.reloadData()
+                guard let didSelectDifferentRef = self.didSelectDifferentRef else { return }
+                refrigeNow = self.refrige[didSelectDifferentRef]
+                
+                semaphore.signal()
+  
+            }
+            semaphore.wait()}
+        )
+        }
+    }
+
+    func fetchAllRefrige(userRefriges: [String?],completion: @escaping (CompletionHandler)) {
+        RefrigeManager.shared.fetchArticles(userRefrige: userRefriges) { [weak self] result in
+            switch result {
+            case .success(let refrige):
+                self?.refrige = refrige
+                completion(["refrige": refrige])
             case .failure:
                 print("cannot fetch data")
             }
         }
     }
     
+    func fetchAllCate(completion: @escaping([String?]) -> Void) {
+        CategoryManager.shared.fetchArticles(completion: { result in
+            switch result {
+            case .success(let cate):
+                completion( cate[0].type )
+            case .failure:
+                print("cannot fetceeeeh data")
+            }
+        })
+    }
+
+    // MARK: reset refrige
     func resetRefrigeFood() {
         meatsInfo = []
         beansInfo = []
@@ -238,31 +267,34 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
 
     }
     
-    func reloadRefrige() {
-        
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        DispatchQueue.global().async {
+    //  wait for change
 
-        self.resetRefrigeFood()
-        self.fetAllFood(completion: { foodinfo21 in
-            
-//            self.cateFilter(allFood: foodinfo21, cates: self.cate)
-            
-            DispatchQueue.main.async {
-                // lottie 消失
-                self.refrigeTableView.reloadData()
-                guard let didSelectDifferentRef = self.didSelectDifferentRef else { return }
-                refrigeNow = self.refrige[didSelectDifferentRef]
-                semaphore.signal()
-  
+    // change refrige
+//    refrigeNow = refrige[0]
+    
+    // change refrige need to reload
+    func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
+        self.foodsInfo = []
+        FoodManager.shared.fetchSpecifyFood(
+            refrige: self.refrige[self.didSelectDifferentRef ?? 0])
+        { [weak self] result in
+            switch result {
+            case .success(let foodInfo):
+                if ((foodInfo.foodId?.isEmpty) != nil)
+                { self?.foodsInfo.append(foodInfo)
+                    if self?.foodsInfo.count == self?.refrige[self?.didSelectDifferentRef ?? 0].foodID.count
+                    {completion(self?.foodsInfo ?? [foodInfo])}
+                    else { print("append not finish yet ") }
+                }
+                else {completion([foodInfo])}
+            case .failure:
+                print("fetch food error")
             }
-            semaphore.wait()}
-        )
         }
     }
     
-    //  wait for change
+    // MARK: dropDown and container UI
+    
     func setDropdown(_ refriges: [Refrige]?) {
         var items: [String] = []
         
@@ -272,6 +304,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         for refrige in refriges {
             items.append(refrige.title )
         }
+    //    self.didSelectDifferentRef = 0
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.darkOrange
         self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
@@ -295,14 +328,16 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")
         self.didSelectDifferentRef = indexPath
+        refrigeNow =  self.refrige[self.didSelectDifferentRef ?? 0]
         self.refrigeAllFoodVC.didSelectDifferentRef = indexPath
         self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
         self.expiredRefrigeVC.didSelectDifferentRef = indexPath
         }
         
         self.navigationItem.titleView = menuView
+        
     }
-    
+
     func viewPagerProperties() {
         view.addSubview(viewPager)
         
@@ -364,53 +399,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         
         return UIColor.FoodyFlow.darkOrange
     }
-    
-    // change refrige
-//    refrigeNow = refrige[0]
-    
-    func fetchAllCate(completion: @escaping([String?]) -> Void) {
-        CategoryManager.shared.fetchArticles(completion: { result in
-            switch result {
-            case .success(let cate):
-                completion( cate[0].type )
-            case .failure:
-                print("cannot fetceeeeh data")
-            }
-        })
-    }
-    
-    func fetchAllRefrige(completion: @escaping (CompletionHandler)) {
-        RefrigeManager.shared.fetchArticles { [weak self] result in
-            switch result {
-            case .success(let refrige):
-                self?.refrige = refrige
-                completion(["refrige": refrige])
-            case .failure:
-                print("cannot fetch data")
-            }
-        }
-    }
-    
-    // change refrige need to reload
-    func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
-        self.foodsInfo = []
-        FoodManager.shared.fetchSpecifyFood(
-            refrige: self.refrige[self.didSelectDifferentRef ?? 0])
-        { [weak self] result in
-            switch result {
-            case .success(let foodInfo):
-                if ((foodInfo.foodId?.isEmpty) != nil)
-                { self?.foodsInfo.append(foodInfo)
-                    if self?.foodsInfo.count == self?.refrige[self?.didSelectDifferentRef ?? 0].foodID.count
-                    {completion(self?.foodsInfo ?? [foodInfo])}
-                    else { print("append not finish yet ") }
-                }
-                else {completion([foodInfo])}
-            case .failure:
-                print("fetch food error")
-            }
-        }
-    }
+
 }
 
 extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {

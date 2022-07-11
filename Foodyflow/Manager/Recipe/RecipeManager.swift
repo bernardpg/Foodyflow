@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import FirebaseAuth
 
 class RecipeManager {
     
@@ -18,6 +19,8 @@ class RecipeManager {
     // create
     
     // photos
+    
+    // create recipe and 收藏 個人 封鎖 
     
     func createRecipe( recipe: inout Recipe, completion: @escaping (Result<String, Error>) -> Void) {
         

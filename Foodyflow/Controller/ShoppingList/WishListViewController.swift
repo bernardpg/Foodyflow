@@ -104,9 +104,11 @@ class WishListViewController: UIViewController {
                         
                         self?.wishListCollectionView.backgroundView = nil
                         self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
+                        var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
+                                foodinfo.foodStatus == 1 }
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
-                        self?.cateFilter(allFood: allfoodInfo, cates: cates)
+                        self?.cateFilter(allFood: wishshopFoodInfo, cates: cates)
                         DispatchQueue.main.async {
                             // lottie 消失
                             self?.wishListCollectionView.reloadData()
@@ -147,9 +149,11 @@ class WishListViewController: UIViewController {
                         self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } } else {
                     self?.wishListCollectionView.backgroundView = nil
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
+                        var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
+                                foodinfo.foodStatus == 1 }
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
-                        self?.cateFilter(allFood: allfoodInfo, cates: cates)
+                        self?.cateFilter(allFood: wishshopFoodInfo, cates: cates)
                         DispatchQueue.main.async {
                             // lottie 消失
                             self?.wishListCollectionView.reloadData()
@@ -377,9 +381,11 @@ class WishListViewController: UIViewController {
                                 self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } } else {
                             self?.wishListCollectionView.backgroundView = nil
                             self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
+                                var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
+                                        foodinfo.foodStatus == 1 }
                                 guard let cates = self?.cate else { return }
                                 self?.resetRefrigeFood()
-                                self?.cateFilter(allFood: allfoodInfo, cates: cates)
+                                self?.cateFilter(allFood: wishshopFoodInfo, cates: cates)
                                 DispatchQueue.main.async {
                                     // lottie 消失
                                     self?.wishListCollectionView.reloadData()
