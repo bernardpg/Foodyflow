@@ -121,7 +121,7 @@ class ExpiredRefirgeViewController: UIViewController {
                         
                     }
                 
-                case .failure:
+            case .failure:
                     HandleResult.readDataFailed.messageHUD
                 
                 }
@@ -228,13 +228,12 @@ class ExpiredRefirgeViewController: UIViewController {
             semaphore.wait()
         }
 
-        
     }
     
     // change refrige
     //    refrigeNow = refrige[0]
     func verifyUser() {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (_, user) in
             if user != nil {
                 let shoppingVC = RefrigeProductDetailViewController(
                     nibName: "ShoppingProductDetailViewController",
@@ -254,7 +253,7 @@ class ExpiredRefirgeViewController: UIViewController {
     }
     
     func verifyUserloading( completion: @escaping () -> Void) {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { ( _, user) in
             if user != nil {
                 guard let user = user?.uid else {
                     return

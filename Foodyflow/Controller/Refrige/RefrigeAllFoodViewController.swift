@@ -133,7 +133,7 @@ class RefrigeAllFoodViewController: UIViewController {
                         
                     }
                 
-                case .failure:
+            case .failure:
                     HandleResult.readDataFailed.messageHUD
                 
                 }

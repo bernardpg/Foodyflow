@@ -25,7 +25,15 @@ class PersonalLikeREcipeViewController: UIViewController {
     
     var userManager = UserManager()
     
-    var userInfo = UserInfo(userID: "", userName: "", userEmail: "", userPhoto: "", signInType: "", personalRefrige: [], personalLikeRecipe: [], personalDoRecipe: [])
+    var userInfo = UserInfo(userID: "",
+                            userName: "",
+                            userEmail: "",
+                            userPhoto: "",
+                            signInType: "",
+                            personalRefrige: [],
+                            personalLikeRecipe: [],
+                            personalDoRecipe: [],
+                            blockLists: [])
     
     let attrs1 = [NSAttributedString.Key.font:
                     UIFont.boldSystemFont(ofSize: 20),
@@ -63,7 +71,7 @@ class PersonalLikeREcipeViewController: UIViewController {
         super.viewWillAppear(animated)
         
         verifyUser { result in
-            switch result{
+            switch result {
             case .success(let success):
                 print(success)
                 self.tableViewData = [PersonalRecipe]()
@@ -141,7 +149,7 @@ class PersonalLikeREcipeViewController: UIViewController {
                 print("\(String(describing: user?.uid))")
             guard let userID = user?.uid else { return }
             self.userManager.fetchUserInfo(fetchUserID: userID) { result in
-                switch result{
+                switch result {
                 case .success(let usersInfo):
                     self.userInfo = usersInfo
                     completion(.success("create"))
@@ -160,11 +168,13 @@ class PersonalLikeREcipeViewController: UIViewController {
     }
     func fetchMyOwnRecipe(userDoRicipe: [String?], completion: @escaping ([Recipe]) -> Void) {
         
+        guard let userID =  Auth.auth().currentUser?.uid else { return }
+        
         RecipeManager.shared.fetchAllRecipe { result in
-            switch result{
+            switch result {
             case .success(let recipes):
             let myrecipe = recipes.filter { recipe in
-                    recipe.recipeUserName == "justin"}
+                    recipe.recipeUserName == userID }   
             completion(myrecipe)
             case .failure:
             HandleResult.readDataFailed.messageHUD
@@ -173,10 +183,10 @@ class PersonalLikeREcipeViewController: UIViewController {
         
     }
     
-    func fetchmyLikeRecipe( userlikeRecipe:[String?], completion: @escaping([Recipe])->Void) {
+    func fetchmyLikeRecipe( userlikeRecipe: [String?], completion: @escaping([Recipe]) -> Void) {
         
         RecipeManager.shared.fetchAllRecipe { result in
-            switch result{
+            switch result {
             case .success(let recipes):
             var myLikeRecipe: [Recipe] = []
             for mylikerecipe in userlikeRecipe {
@@ -253,7 +263,7 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
                 cell.personalLikeRecipe.clipsToBounds = true
                 cell.personalLikeRecipe.contentMode = .scaleAspectFill
                 if tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeImage == "" {
-                    cell.personalLikeRecipe.image = UIImage(named: "imageDefault") } else{
+                    cell.personalLikeRecipe.image = UIImage(named: "imageDefault") } else {
                     cell.personalLikeRecipe.kf.setImage( with: URL(string: tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeImage )) }
 
                 return cell
@@ -281,9 +291,9 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
                 
             } else {
                 // bug fix
-                print(tableViewData[indexPath.section].sectionData[indexPath.row].recipeName)
-                print(indexPath.row)
-                print(indexPath.section)
+//                print(tableViewData[indexPath.section].sectionData[indexPath.row].recipeName)
+//                print(indexPath.row)
+//                print(indexPath.section)
             }
             
         }

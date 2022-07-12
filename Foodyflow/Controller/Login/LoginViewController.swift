@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import AuthenticationServices
 import FirebaseAuth
+import Firebase
+import FirebaseFirestore
 import CryptoKit
 
 class LoginViewController: UIViewController {
@@ -24,6 +26,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setSignInWithAppleButton()
+        observeAppleIDState()
 
     }
     
@@ -90,10 +93,23 @@ class LoginViewController: UIViewController {
             ASAuthorizationAppleIDButton(authorizationButtonType: .signIn,
                                                                   authorizationButtonStyle: chooseAppleButtonStyle())
         }
+
         // userTry.setTitle("以訪客登入使用", for: .normal)
         // userTry.setTitleColor(UIColor.systemBlue, for: .normal)
         // userTry.addTarget(self, action: #selector(createVC), for: .touchUpInside)
         
+    }
+    
+    func observeAppleIDState() {
+        
+        NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification,
+                                               object: nil,
+                                               queue: nil) { (notification: Notification) in
+            CustomFunc.customAlert(title: "使用者登入或登出",
+                                   message: "",
+                                   vc: self,
+                                   actionHandler: nil)
+        }
     }
     
     @objc func createVC() {
@@ -243,16 +259,28 @@ extension LoginViewController {
                                          signInType: "",
                                          personalRefrige: [],
                                          personalLikeRecipe: [],
-                                         personalDoRecipe: [])
+                                         personalDoRecipe: [], blockLists: [])
             
             self.userManager.fetchUserInfo(fetchUserID: userID!) { result in
                 switch result {
-                case.success(let usersInfo):
+                case.success:
                       print("success")
-//                    HandleResult.signOutFailed.messageHUD
+                    
                 case .failure:
                     self.userManager.addUserInfo(user: userInfo)
                     print("error")
+                }
+            }
+            
+            let db = Firestore.firestore().collection("User")
+            
+//            guard let userID = userID else { return }
+            
+            db.whereField("userID", isEqualTo: userID ).getDocuments { (querySnapshot, error) in
+                if let doc = querySnapshot?.documents.first {
+                    print("ok")
+                } else {
+                    self.userManager.addUserInfo(user: userInfo)
                 }
             }
             
@@ -270,6 +298,9 @@ extension LoginViewController {
         }
         let uid = user.uid
         let email = user.email
+        
+        
+        
         CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self, actionHandler: nil)
     }
 }

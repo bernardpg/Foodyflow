@@ -429,10 +429,3 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     }
 }
 
-// MARK: - Delegate
-//    return CGSize(width: (screenSize - 16*2 - 15)/2, height: (screenSize - 16*2 - 15)/2 * 1.34)
-
-//      func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//          print("row: \(indexPath.row)")
-//      }
-// delete or change to Refrige

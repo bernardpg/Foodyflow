@@ -310,7 +310,8 @@ class RefrigeProductDetailViewController: UIViewController {
 
 extension RefrigeProductDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         foodImage?.image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         selectedImage = foodImage?.image

@@ -20,6 +20,8 @@ class UserManager {
         
     }
     
+    static let shared = UserManager()
+    
     let database = Firestore.firestore().collection("User")
     
     func addUserInfo(user: UserInfo) {
@@ -37,6 +39,8 @@ class UserManager {
     }
 
     func fetchUserInfo(fetchUserID: String, completion: @escaping (Result<UserInfo>) -> Void) {
+        // User 第一次時會有找不到 bug 
+        guard !fetchUserID.isEmpty else { completion(Result.failure(MasterError.youKnowNothingError("error"))); return }
         
         database.document(fetchUserID).getDocument { snapshot, error in
             
@@ -63,6 +67,8 @@ class UserManager {
             }
             
         }
+        
+        // fetch Userdata not in DB
         
     }
     
@@ -98,6 +104,16 @@ class UserManager {
                 completion(.success("success"))
             }
         }
+        
+    }
+    
+    func deleteUser(userID: String, completion: @escaping() -> Void) {
+        
+        // delete User
+        
+        let userRef = database.document(userID)
+            userRef.delete()
+            completion()
         
     }
     

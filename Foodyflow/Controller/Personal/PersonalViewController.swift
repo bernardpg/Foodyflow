@@ -4,6 +4,7 @@
 //
 //  Created by 曹珮綺 on 6/20/22.
 //
+// delete food delete shoppingList
 // 字體未完全
 import UIKit
 import SnapKit
@@ -37,6 +38,8 @@ class PersonalViewController: UIViewController {
     
     private let notificationSwitch = UISwitch()
     
+    private lazy var blockListVC = BlockUserTableViewController()
+    
     var onPublished: (() -> Void )?
     
     var refrigeName: String?
@@ -44,6 +47,8 @@ class PersonalViewController: UIViewController {
     var userManager = UserManager()
     
     var photoManager = PhotoManager()
+    
+    var recipeManager = RecipeManager()
     
     var handle: AuthStateDidChangeListenerHandle?
     
@@ -108,25 +113,29 @@ class PersonalViewController: UIViewController {
     }
     
     @objc func changeUserName() {
-        guard let  userID = Auth.auth().currentUser?.uid else { return }
+        
+        verifyUser {
+            guard let  userID = Auth.auth().currentUser?.uid else { return }
 
-        fetchUser(userID: userID) { userInfo in
-            self.changeUserNames { userName in
-                var userData = userInfo
-                userData.userName = userName
-                self.userManager.updateUserInfo(user: userData) {
-                    self.fetchUserByUserID(userID: userID) { _ in
-                    
+            self.fetchUser(userID: userID) { userInfo in
+                self.changeUserNames { userName in
+                    var userData = userInfo
+                    userData.userName = userName
+                    self.userManager.updateUserInfo(user: userData) {
+                        self.fetchUserByUserID(userID: userID) { _ in
+                        
+                        }
                     }
+                    
                 }
-                
             }
+
         }
-            
+        
         // update User info 
     }
     
-    func fetchUserByUserID( userID :String, completion: @escaping (UserInfo) -> Void ){
+    func fetchUserByUserID(userID: String, completion: @escaping (UserInfo) -> Void ) {
         
         self.fetchUser(userID: userID) { userInfo in
             self.fetchAllRefrige(userRefriges: userInfo.personalRefrige)
@@ -146,13 +155,13 @@ class PersonalViewController: UIViewController {
     }
     
     func verifyUser( completion: @escaping () -> Void) {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { ( _, user) in
             if user != nil {
                 guard let user = user?.uid else {
                     return
                 }
                 self.fetchUserByUserID(userID: user) { _ in
-                
+                    completion()
                 }
                                 
             } else {
@@ -164,23 +173,76 @@ class PersonalViewController: UIViewController {
     }
     
     @objc func signOutTap() {
-        
+
     let alert = UIAlertController(title: "用戶設定",
-                                message: nil,
-                                preferredStyle: .alert)
+                                  message: nil,
+                                  preferredStyle: .alert)
+    // delete user delete refrige delete personalDorecipe
     let deleteAction = UIAlertAction(title: "刪除帳號", style: .destructive) { _ in
-        print("delete")}
-    alert.addAction(deleteAction)
+                    
+    guard let userID = Auth.auth().currentUser?.uid else { return }
+                    
+    self.deleteAccount(userID: userID) { [ weak self ] userInfo in
+       let personalRefrige = userInfo.personalRefrige
         
+        for element in personalRefrige {
+            guard let element = element else { return }
+            RefrigeManager.shared.removeFrige(refrigeID: element) { result in
+                switch result {
+                case .success:
+                    HandleResult.deleteDataSuccessed.messageHUD
+                case .failure:
+                    HandleResult.deleteDataFailed.messageHUD
+                }
+            }
+        }
+        
+        let personalDoRecipe = userInfo.personalDoRecipe
+        
+        self?.recipeManager.deleteRecipe(recipesID: personalDoRecipe)
+    }
+    }
+        
+        alert.addAction(deleteAction)
+                    
     let falseAction = UIAlertAction(title: "取消", style: .cancel)
         alert.addAction(falseAction)
-    
+                
     let logoutAction = UIAlertAction(title: "登出", style: .default) { _  in
-        self.signout()
+        self.signout()}
+        alert.addAction(logoutAction)
+        
+    let blockActionUser = UIAlertAction(title: "查看封鎖名單", style: .default) { _ in
+        self.blockList()}
+        alert.addAction(blockActionUser)
+        alert.show(animated: true, vibrate: false)
+        
+    }
+
+    func deleteAccount( userID: String, completion: @escaping(UserInfo) -> Void) {
+        
+    userManager.deleteUser(userID: userID) {
+        self.userManager.fetchUserInfo(fetchUserID: userID) { result in
+            switch result {
+            case .success(let userInfos):
+                completion(userInfos)
+            case .failure:
+                HandleResult.readDataFailed.messageHUD
+            }
         }
-    alert.addAction(logoutAction)
-    alert.show(animated: true, vibrate: false)
- 
+    }
+        
+    }
+    
+    func blockList() {
+        
+        self.navigationController?.pushViewController(blockListVC)
+//        self.navigationController?.popViewController()
+        
+       // personalTableView.register(
+       //     UINib(nibName: "PersonalTableViewCell", bundle: nil),
+       //     forCellReuseIdentifier: "PersonalTableViewCell")
+        
     }
     
     func signout() {
@@ -219,13 +281,13 @@ class PersonalViewController: UIViewController {
                     var personalRefirge = userInfo.personalRefrige
                         personalRefirge.append(refrigeID)
                     self.userManager.createRefrigeOnSingleUser(user: userInfo, refrigeID: personalRefirge) { result in
-                        switch result{
-                        case .success(_ ):
+                        switch result {
+                        case .success:
                             self.verifyUser {
                                 HandleResult.addDataSuccess.messageHUD
 
                             }
-                    case .failure:
+                        case .failure:
                             HandleResult.addDataFailed.messageHUD
                         }
                     }
@@ -434,11 +496,11 @@ class PersonalViewController: UIViewController {
         }
     }
     
-    func deleteRefrige(userInfo: UserInfo,needtoRemove: String, completion: @escaping () -> Void ) {
+    func deleteRefrige(userInfo: UserInfo, needtoRemove: String, completion: @escaping () -> Void ) {
         // User delete // refrige delete
-        //var newshoppingList = foodsInfos.filter { $0 != foodId }
+        // var newshoppingList = foodsInfos.filter { $0 != foodId }
         var newUserInfo = userInfo
-        newUserInfo.personalRefrige =  userInfo.personalRefrige.filter{ $0 != needtoRemove }
+        newUserInfo.personalRefrige =  userInfo.personalRefrige.filter { $0 != needtoRemove }
         userManager.updateUserInfo(user: newUserInfo) {
         }
         
@@ -482,10 +544,6 @@ extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
         cell.refreigeName.text = refrigeAmount[indexPath.row].title
         
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
     
 }

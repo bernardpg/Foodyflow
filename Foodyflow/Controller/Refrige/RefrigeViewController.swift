@@ -164,7 +164,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                     }
                     
                 }
-                    case .failure:
+            case .failure:
                         HandleResult.readDataFailed.messageHUD
                     }
             

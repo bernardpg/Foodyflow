@@ -56,6 +56,11 @@
 		A9532C01287197BF00697A13 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9532C00287197BF00697A13 /* PhotoManager.swift */; };
 		A95B6CAE286165CC003153B0 /* PersonalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95B6CAC286165CC003153B0 /* PersonalTableViewCell.swift */; };
 		A95B6CAF286165CC003153B0 /* PersonalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A95B6CAD286165CC003153B0 /* PersonalTableViewCell.xib */; };
+		A96C5562287D0BF600F95671 /* BlockUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C5561287D0BF600F95671 /* BlockUserTableViewController.swift */; };
+		A96C5569287D0C5000F95671 /* BlockUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C5567287D0C4F00F95671 /* BlockUserTableViewCell.swift */; };
+		A96C556A287D0C5000F95671 /* BlockUserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96C5568287D0C4F00F95671 /* BlockUserTableViewCell.xib */; };
+		A96C556E287D925F00F95671 /* PrivacyPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C556D287D925F00F95671 /* PrivacyPolicyVC.swift */; };
+		A96C5570287D92EA00F95671 /* EULAVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C556F287D92EA00F95671 /* EULAVC.swift */; };
 		A96DA97128600949008993BB /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96DA96F28600949008993BB /* PersonalViewController.swift */; };
 		A96DA979286012CC008993BB /* ShoppingListProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96DA977286012CC008993BB /* ShoppingListProductDetailViewController.swift */; };
 		A96DA97A286012CC008993BB /* ShoppingListProductDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96DA978286012CC008993BB /* ShoppingListProductDetailViewController.xib */; };
@@ -142,6 +147,11 @@
 		A9532C00287197BF00697A13 /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
 		A95B6CAC286165CC003153B0 /* PersonalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalTableViewCell.swift; sourceTree = "<group>"; };
 		A95B6CAD286165CC003153B0 /* PersonalTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PersonalTableViewCell.xib; sourceTree = "<group>"; };
+		A96C5561287D0BF600F95671 /* BlockUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUserTableViewController.swift; sourceTree = "<group>"; };
+		A96C5567287D0C4F00F95671 /* BlockUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUserTableViewCell.swift; sourceTree = "<group>"; };
+		A96C5568287D0C4F00F95671 /* BlockUserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockUserTableViewCell.xib; sourceTree = "<group>"; };
+		A96C556D287D925F00F95671 /* PrivacyPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyVC.swift; sourceTree = "<group>"; };
+		A96C556F287D92EA00F95671 /* EULAVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAVC.swift; sourceTree = "<group>"; };
 		A96DA96F28600949008993BB /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
 		A96DA977286012CC008993BB /* ShoppingListProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListProductDetailViewController.swift; sourceTree = "<group>"; };
 		A96DA978286012CC008993BB /* ShoppingListProductDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingListProductDetailViewController.xib; sourceTree = "<group>"; };
@@ -253,6 +263,8 @@
 				A93EF950286AEEB600EDDA4B /* OnboardingViewController.swift */,
 				A93EF951286AEEB600EDDA4B /* OnboardingViewController.xib */,
 				A93EF954286B2A4800EDDA4B /* CreatePersonViewController.swift */,
+				A96C556D287D925F00F95671 /* PrivacyPolicyVC.swift */,
+				A96C556F287D92EA00F95671 /* EULAVC.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -446,6 +458,7 @@
 			isa = PBXGroup;
 			children = (
 				A96DA96F28600949008993BB /* PersonalViewController.swift */,
+				A96C5561287D0BF600F95671 /* BlockUserTableViewController.swift */,
 			);
 			path = Personal;
 			sourceTree = "<group>";
@@ -455,6 +468,8 @@
 			children = (
 				A95B6CAC286165CC003153B0 /* PersonalTableViewCell.swift */,
 				A95B6CAD286165CC003153B0 /* PersonalTableViewCell.xib */,
+				A96C5567287D0C4F00F95671 /* BlockUserTableViewCell.swift */,
+				A96C5568287D0C4F00F95671 /* BlockUserTableViewCell.xib */,
 			);
 			path = Personal;
 			sourceTree = "<group>";
@@ -567,6 +582,7 @@
 				A9335AD52869201500AE551B /* AddRecipeViewController.xib in Resources */,
 				A925B7C82878229800FCA480 /* PresonalLikeTableViewCell.xib in Resources */,
 				A9C6335B2876A2540057A8E8 /* ReadRecipeViewController.xib in Resources */,
+				A96C556A287D0C5000F95671 /* BlockUserTableViewCell.xib in Resources */,
 				A9DC8A9D2876DA31000D6BC5 /* PersonalRecipeTableViewCell.xib in Resources */,
 				A9DC8AA12876F0E6000D6BC5 /* PersonalTitleTableViewCell.xib in Resources */,
 				A92F6BCC285C94270090EE90 /* InCatCollectionViewCell.xib in Resources */,
@@ -646,6 +662,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A96C556E287D925F00F95671 /* PrivacyPolicyVC.swift in Sources */,
 				A948AABA285B3C4700355C59 /* UIColor+Extension.swift in Sources */,
 				A92F6BB1285C34530090EE90 /* ShoppingList.swift in Sources */,
 				A95B6CAE286165CC003153B0 /* PersonalTableViewCell.swift in Sources */,
@@ -661,10 +678,12 @@
 				A944E68F285DE1210068D7DD /* RefrigeManeger.swift in Sources */,
 				A93EF955286B2A4800EDDA4B /* CreatePersonViewController.swift in Sources */,
 				A9335AD128691DD800AE551B /* AllRecipeViewController.swift in Sources */,
+				A96C5562287D0BF600F95671 /* BlockUserTableViewController.swift in Sources */,
 				A948AABC285B3C9800355C59 /* UIScreen+Extension.swift in Sources */,
 				A944E696285E0EE60068D7DD /* DateHelper.swift in Sources */,
 				A9343B792868635C002E4907 /* RefrigeAllFoodViewController.swift in Sources */,
 				A9369E5028632C430063928E /* ShoppingListCollectionViewCell.swift in Sources */,
+				A96C5569287D0C5000F95671 /* BlockUserTableViewCell.swift in Sources */,
 				A948AAB8285B3C0D00355C59 /* UIFont+Extension.swift in Sources */,
 				A9C6335A2876A2540057A8E8 /* ReadRecipeViewController.swift in Sources */,
 				A941E040286BFB9200B603AF /* HandleResultManager.swift in Sources */,
@@ -682,6 +701,7 @@
 				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
 				A9DC8AA02876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift in Sources */,
 				A944E691285DE1300068D7DD /* FoodManager.swift in Sources */,
+				A96C5570287D92EA00F95671 /* EULAVC.swift in Sources */,
 				A93EF952286AEEB600EDDA4B /* OnboardingViewController.swift in Sources */,
 				A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */,
 				A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */,
@@ -853,10 +873,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodyflow/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "拍照";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "存照片";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "看照片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -883,10 +906,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodyflow/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "拍照";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "存照片";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "看照片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

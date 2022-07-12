@@ -13,7 +13,7 @@ import Kingfisher
 import PKHUD
 import SwifterSwift
 
-// block user
+// block user long touch
 
 class AllRecipeViewController: UIViewController {
     
@@ -24,6 +24,8 @@ class AllRecipeViewController: UIViewController {
         case search
     }
     
+ //   var recipeManager = RecipeManager()
+    
     private var recipeAmount: [Recipe] = []
     
     private lazy var searchController: UISearchController = {
@@ -31,8 +33,8 @@ class AllRecipeViewController: UIViewController {
         allRecipeTableView.tableHeaderView = searchVC.searchBar
         searchVC.searchResultsUpdater = self // search 更新等於自己
         searchVC.delegate = self
-        //navigationItem.titleView = searchController.searchBar
-        searchVC.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.lightOrange   //color werid
+        // navigationItem.titleView = searchController.searchBar
+        searchVC.navigationController?.navigationBar.backgroundColor = UIColor.FoodyFlow.lightOrange   // color werid
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = UIColor.FoodyFlow.darkOrange
         searchVC.searchBar.backgroundColor = UIColor.FoodyFlow.white
@@ -54,7 +56,7 @@ class AllRecipeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        observeForm()
+//        observeForm()
         allRecipeTableView.delegate = self
         allRecipeTableView.dataSource = self
         setupNavigationBar()
@@ -64,6 +66,10 @@ class AllRecipeViewController: UIViewController {
                                     forCellReuseIdentifier: "recipeTableViewCell")
         
         searchController.hidesNavigationBarDuringPresentation = false
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
+        allRecipeTableView.addGestureRecognizer(longPress)
+                
     }
     
     override func viewDidLayoutSubviews() {
@@ -80,16 +86,86 @@ class AllRecipeViewController: UIViewController {
         super.viewWillAppear(animated)
         self.searchController.searchBar.isHidden = false
         // RecipeMa // fetchAllRecipe
-        RecipeManager.shared.fetchAllRecipe { [weak self] result in
+        RecipeManager.shared.fetchAllRecipe {  result in
         switch result {
         case .success(let recipeAmount):
-                self?.recipeAmount = recipeAmount
+                self.recipeAmount = recipeAmount
                 DispatchQueue.main.async {
-                    self?.allRecipeTableView.reloadData() }
+                    self.allRecipeTableView.reloadData() }
         case .failure:
                     print("cannot fetch data")
             }
         }
+    }
+    
+    @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            let touchPoint = sender.location(in: allRecipeTableView)
+            if let indexPath = allRecipeTableView.indexPathForRow(at: touchPoint) {
+                
+            }
+        }
+    }
+    
+    private func blockUser ( indexPathRow: Int ) {
+        
+        let alert = UIAlertController(title: "封鎖用戶",
+                                      message: "是否封鎖\(recipeAmount[indexPathRow].recipeUserName)",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "封鎖", style: .destructive) { _  in
+        
+        // po blockUser fetall block user and filter
+            
+/*            self.blockUserById(userID: self.recipeAmount[indexPathRow].recipeUserID) {
+
+                RecipeManager.shared.fetchAllRecipe { result in
+                switch result {
+                case .success(let recipes):
+                    recipes.filter { recipe in
+  //                      recipe.recipeUserID !=
+                        recipe.recipeFood != nil
+                    }
+                case .failure:
+                    print("no")
+
+                }
+            }
+        }*/
+            
+        }
+        alert.addAction(okAction)
+        let falseAction = UIAlertAction(title: "取消", style: .cancel)
+        alert.addAction(falseAction)
+        
+        alert.show(animated: true, vibrate: true)
+    }
+    
+    private func blockUserById(userID: String, completion: @escaping () -> Void) {
+        
+        guard let myUserID = Auth.auth().currentUser?.uid else { return }
+        
+        UserManager.shared.fetchUserInfo(fetchUserID: myUserID) { result in
+            switch result {
+            case .success(let myownUserInfo):
+                
+                var myUserInfo = myownUserInfo
+                // myUserInfo.blockLists.append(userID)
+                                
+//                myownUserInfo.blockLists.append(<#T##newElement: String?##String?#>)
+                
+                //blockUsers.append(blockUserInfo)
+                
+                // fetch allblockuser
+                
+                completion()
+                
+                HandleResult.isUnBlockUser.messageHUD
+                
+            case .failure:
+                HandleResult.readDataFailed.messageHUD
+            }
+        }
+        
     }
     
     private func setupNavigationBar() {
@@ -115,10 +191,10 @@ class AllRecipeViewController: UIViewController {
                 } receiveValue: { (searchResults) in
                     self.searchResults = searchResults
                     self.allRecipeTableView.reloadData()
-                    //dump(searchResults)
+                    // dump(searchResults)
                 }.store(in: &self.subscribers)
             }.store(in: &subscribers)
-        //main track
+        // main track
         
         $mode.sink { [ unowned self ] (mode) in
             switch mode {
@@ -154,7 +230,7 @@ class AllRecipeViewController: UIViewController {
         }
     }
     
-    struct APIService{
+    struct APIService {
         
         var apiKey: String {
             
@@ -174,7 +250,7 @@ class AllRecipeViewController: UIViewController {
         }
     }
     
-    struct SearchResults: Codable{
+    struct SearchResults: Codable {
         
         let items: [SearchResult]
         
@@ -242,7 +318,6 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             DispatchQueue.main.async {
                 
                 let readRecipeVC = ReadRecipeViewController(nibName: "ReadRecipeViewController", bundle: nil)
-                HandleResult.readData.messageHUD
                 readRecipeVC.recipeNames = recipe?.recipeName ?? ""
                 readRecipeVC.recipeFoods = recipe?.recipeFood ?? ""
                 readRecipeVC.recipeSteps = recipe?.recipeStep ?? ""

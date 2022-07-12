@@ -58,7 +58,7 @@ class ContainerView: UIView {
     
     weak var delegate: SelectionViewDelegate?
     
-    weak var datasource: SelectionViewDataSource?{
+    weak var datasource: SelectionViewDataSource? {
         didSet {
             setUIProperty()
         }

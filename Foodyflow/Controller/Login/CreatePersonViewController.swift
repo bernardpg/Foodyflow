@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class CreatePersonViewController: UIViewController {
     
@@ -15,6 +16,10 @@ class CreatePersonViewController: UIViewController {
     private lazy var appOutsideIcon = UIView()
     private lazy var appIcon = UIImageView()
     private let background = UIImageView()
+    
+    
+    var refrige = Refrige.init(id: "", title: "我的冰箱", foodID: [], createdTime: 0, category: "", shoppingList: [])
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,8 +74,86 @@ class CreatePersonViewController: UIViewController {
     }
     
     @objc func createRefrig() {
-        print("refrige")
+        cameraAc3tion()
     }
+    
+    func cameraAc3tion() {
+         // User create // Refrige Create
+        
+            RefrigeManager.shared.createFrige(refrige: &self.refrige) { result in
+            switch result {
+            case .success(let refrigeID):
+                guard let useID = Auth.auth().currentUser?.uid else { return }
+                self.fetchUser(userID: useID) { userInfo in
+                    var personalRefirge = userInfo.personalRefrige
+                        personalRefirge.append(refrigeID)
+                    UserManager.shared.createRefrigeOnSingleUser(user: userInfo, refrigeID: personalRefirge) { result in
+                        switch result {
+                        case .success:
+                            self.verifyUser {
+                                HandleResult.addDataSuccess.messageHUD
+
+                            }
+                        case .failure:
+                            HandleResult.addDataFailed.messageHUD
+                        }
+                    }
+                }
+//                self.onPublished?()
+            case .failure:
+                HandleResult.addDataFailed.messageHUD
+                
+            }
+            }
+            
+        
+        }
+    
+    func fetchUser(userID: String, completion: @escaping (UserInfo) -> Void) {
+        UserManager.shared.fetchUserInfo(fetchUserID: userID) { result in
+            
+            switch result {
+            case.success(let userInfo):
+                completion(userInfo)
+            case.failure:
+                print(LocalizedError.self)
+            }
+        }
+    }
+    
+    func verifyUser( completion: @escaping () -> Void) {
+        Auth.auth().addStateDidChangeListener { ( _, user) in
+            if user != nil {
+                guard let user = user?.uid else {
+                    return
+                }
+                self.fetchUserByUserID(userID: user) { _ in
+                    completion()
+                }
+                                
+            } else {
+                self.present( LoginViewController(), animated: true )
+                completion()
+            }
+        }
+        
+    }
+    
+    func fetchUserByUserID(userID: String, completion: @escaping (UserInfo) -> Void ) {
+        
+        self.fetchUser(userID: userID) { userInfo in
+//            self.fetchAllRefrige(userRefriges: userInfo.personalRefrige)
+//            self.personalName.text = userInfo.userName
+            // self.personalImage.image = UIImage
+            // User photo
+            
+        }
+            
+    }
+
+
+
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
