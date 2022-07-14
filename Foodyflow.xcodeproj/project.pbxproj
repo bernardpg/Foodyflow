@@ -881,9 +881,9 @@
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodyflow/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "請允許存照";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "請允許存照片";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許使用照片";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please provide Camera privacy for setting profile photo, adding pictures to refriges, shoppingList and upload your recipes";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please provide Photo Library Addition Privacy for upload your refirges or shoppingList or recipe or personalPhtots to your photo library";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please provide Photo Library Privacy for setting profile photo, adding pictures to refriges, shoppingList and upload your recipes";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -916,9 +916,9 @@
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodyflow/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "請允許存照";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "請允許存照片";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許使用照片";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please provide Camera privacy for setting profile photo, adding pictures to refriges, shoppingList and upload your recipes";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please provide Photo Library Addition Privacy for upload your refirges or shoppingList or recipe or personalPhtots to your photo library";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please provide Photo Library Privacy for setting profile photo, adding pictures to refriges, shoppingList and upload your recipes";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

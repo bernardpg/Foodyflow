@@ -157,7 +157,6 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         
         photoManager.tapPhoto(controller: self, alertText: "選擇個人照片", imagePickerController: imagePickerController)
         
-        
         verifyUser {
             guard let  userID = Auth.auth().currentUser?.uid else { return }
 

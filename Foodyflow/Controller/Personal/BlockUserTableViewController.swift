@@ -80,7 +80,6 @@ class BlockUserTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         
         let cell = blockTableView.dequeueReusableCell(
             withIdentifier: "BlockUserTableViewCell",
@@ -88,6 +87,7 @@ class BlockUserTableViewController: UITableViewController {
         guard let cell = cell else { return UITableViewCell() }
         
         cell.userName.text = allBlocksUsers[indexPath.row].userName
+        
         
         return cell
     }
@@ -97,12 +97,7 @@ class BlockUserTableViewController: UITableViewController {
         // update and fetch
         
         
-        
-        
-        
         //UserManager.shared.updateUserInfo(user: <#T##UserInfo#>, completion: <#T##() -> Void#>)
-        
-        
         
   //  }
     
