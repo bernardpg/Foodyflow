@@ -11,7 +11,7 @@ import SnapKit
 import FirebaseAuth
 import SwifterSwift
 
-class PersonalViewController: UIViewController {
+class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     
     @IBOutlet weak var addRefrigeButton: UIButton!
     
@@ -40,6 +40,8 @@ class PersonalViewController: UIViewController {
     
     private lazy var blockListVC = BlockUserTableViewController()
     
+    private lazy var personalImageChange = UIImage(named: "girl")
+    
     var onPublished: (() -> Void )?
     
     var refrigeName: String?
@@ -62,6 +64,8 @@ class PersonalViewController: UIViewController {
         verifyUser {
             
         }
+        
+        imagePickerController.delegate = self
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                           action: #selector(imageTapped(tapGestureRecognizer:)))
@@ -140,6 +144,7 @@ class PersonalViewController: UIViewController {
         self.fetchUser(userID: userID) { userInfo in
             self.fetchAllRefrige(userRefriges: userInfo.personalRefrige)
             self.personalName.text = userInfo.userName
+            
             // self.personalImage.image = UIImage
             // User photo
             
@@ -147,10 +152,32 @@ class PersonalViewController: UIViewController {
             
     }
     
-    // MARK: ERRor
+    // MARK: ERRor to fix 
     @objc func changeUserImage() {
         
         photoManager.tapPhoto(controller: self, alertText: "選擇個人照片", imagePickerController: imagePickerController)
+        
+        
+        verifyUser {
+            guard let  userID = Auth.auth().currentUser?.uid else { return }
+
+            self.fetchUser(userID: userID) { userInfo in
+                self.changeUserNames { userName in
+                    var userData = userInfo
+                    userData.userName = userName
+                    self.userManager.updateUserInfo(user: userData) {
+                        self.fetchUserByUserID(userID: userID) { _ in
+                        
+                        }
+                    }
+                    
+                }
+            }
+
+        }
+        
+        // upload photo
+
         // update user info
     }
     
@@ -221,10 +248,20 @@ class PersonalViewController: UIViewController {
 
     func deleteAccount( userID: String, completion: @escaping(UserInfo) -> Void) {
         
+        let user = Auth.auth().currentUser
+        user?.delete { error in
+            if error != nil {
+                // An error happened.
+            } else {
+                // Account deleted.
+            }
+        }
+
     userManager.deleteUser(userID: userID) {
         self.userManager.fetchUserInfo(fetchUserID: userID) { result in
             switch result {
             case .success(let userInfos):
+                
                 completion(userInfos)
             case .failure:
                 HandleResult.readDataFailed.messageHUD
@@ -325,11 +362,15 @@ class PersonalViewController: UIViewController {
             
             // Camera
             let cameraAction = UIAlertAction(title: "\(firstTitle)", style: .default) { _ in
+                
             }
             alertController.addAction(cameraAction)
             
             // Photo
             let photoLibraryAction = UIAlertAction(title: "\(secondTitle)", style: .default) { _ in
+                
+                
+                
             }
             alertController.addAction(photoLibraryAction)
             
@@ -370,7 +411,7 @@ class PersonalViewController: UIViewController {
         
         personalName.text = "Ryan"
         view.backgroundColor = UIColor.FoodyFlow.darkOrange
-        personalImage.image = UIImage(named: "girl")
+        personalImage.image = personalImageChange
         personalBackgroundView.backgroundColor = .white
         personalBackgroundView.addSubview(personalChangeImageView)
         personalChangeImageView.backgroundColor = UIColor.FoodyFlow.lightOrange
@@ -590,10 +631,11 @@ extension PersonalViewController: SelectCellDelegate {
 
 extension PersonalViewController: UIImagePickerControllerDelegate {
     
-    internal func imagePickerController(_ picker: UIImagePickerController,
+    public func imagePickerController(_ picker: UIImagePickerController,
                                       didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.personalImageChange = image
             self.personalImage.image = image
         }
         

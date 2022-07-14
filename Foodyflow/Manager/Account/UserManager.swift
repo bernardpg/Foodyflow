@@ -32,8 +32,6 @@ class UserManager {
             
         } catch {
             
-        //    HandleResult.addDataFailed.messageHUD
-            
         }
         
     }
@@ -76,12 +74,10 @@ class UserManager {
         
         do {
             
-         //   if !KeyToken().userID.isEmpty {
                 
                 try database.document(user.userID).setData(from: user, merge: true)
                 
                 completion()
- //           }
             
         } catch {
             
@@ -91,7 +87,8 @@ class UserManager {
         
     }
     
-    func createRefrigeOnSingleUser(user: UserInfo, refrigeID: [String?], completion: @escaping (Result<String>) -> Void) {
+    func createRefrigeOnSingleUser(user: UserInfo, refrigeID: [String?],
+                                   completion: @escaping (Result<String>) -> Void) {
         let userRef = database.document(user.userID)
         
         userRef.updateData(["personalRefrige": refrigeID]) { error in
@@ -117,129 +114,35 @@ class UserManager {
         
     }
     
-    /*
-    
-    func fetchUserInfo(fetchUserID: String, completion: @escaping (Result<UserInfo>) -> Void) {
-        
-        database.document(fetchUserID).getDocument { snapshot, error in
-            
-            guard let snapshot = snapshot else {
-                
-                completion(Result.failure(error!))
-                
-                return
-                
-            }
+    func addBlockList(uid: String, blockID: String, completion: @escaping (Result<Void>) -> Void) {
 
-            do {
-                
-                if let user = try snapshot.data(as: UserInfo.self, decoder: Firestore.Decoder()) {
-                    
-                    completion(Result.success(user))
-                    
-                }
-                
-            } catch {
-                
-                completion(Result.failure(error))
-                
-            }
-            
-        }
-        
-    }
-    
-    func listenUserInfo(completion: @escaping (Result<UserInfo>) -> Void) {
-        
-        if !KeyToken().userID.isEmpty {
-            
-            database.document(KeyToken().userID).addSnapshotListener { snapshot, error in
-                
-                guard let snapshot = snapshot else {
-                    
-                    completion(Result.failure(error!))
-                    
-                    return
-                    
-                }
-  
-                do {
-                    
-                    if let user = try snapshot.data(as: UserInfo.self, decoder: Firestore.Decoder()) {
-                        
-                        completion(Result.success(user))
-                        
-                    }
-                    
-                } catch {
-                    
-                    completion(Result.failure(error))
-                    
-                }
-                
-            }
-            
-        }
-        
-    }
-    
-    func updateUserInfo(user: UserInfo) {
-        
-        do {
-            
-            if !KeyToken().userID.isEmpty {
-                
-                try database.document(KeyToken().userID).setData(from: user, merge: true)
-                
-            }
-            
-        } catch {
-            
-    //        HandleResult.updateDataFailed.messageHUD
-            
-        }
-        
-    }
-     */
-    
-    /*
-    func fetchUsersInfo(completion: @escaping (Result<[UserInfo]>) -> Void) {
-        
-        var usersInfo: [UserInfo] = []
-        
-        database.getDocuments { snapshot, error in
-            
-            guard let snapshot = snapshot else {
-                
-                completion(Result.failure(error!))
-                
-                return
-                
-            }
-            
-            for document in snapshot.documents {
-                
-                do {
-                    
-                    if let userInfo = try document.data(as: UserInfo.self, decoder: Firestore.Decoder()) {
-                        
-                        usersInfo.append(userInfo)
-                        
-                    }
-                    
-                } catch {
-                    
-                    completion(Result.failure(error))
+        let userRef = database.document(uid)
 
-                }
-                
+       userRef.updateData(["blockLists": FieldValue.arrayUnion([blockID])]) { error in
+            
+            if let error = error {
+                print(error)
+            } else {
+                print("Document Update!")
+                completion(.success(()))
             }
-            
-            completion(Result.success(usersInfo))
-            
         }
         
     }
-*/
+    
+    func removeBlockList(uid: String, blockID: String, completion: @escaping (Result<Void>) -> Void) {
+        
+        let userRef = database.document(uid)
+        
+        userRef.updateData(["blockLists": FieldValue.arrayRemove([blockID])]) { error in
+            
+            if let error = error {
+                print(error)
+            } else {
+                print("Document Update!")
+                completion(.success(()))
+            }
+        }
+    }
     
 }

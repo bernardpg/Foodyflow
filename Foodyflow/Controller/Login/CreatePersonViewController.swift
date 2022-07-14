@@ -17,10 +17,8 @@ class CreatePersonViewController: UIViewController {
     private lazy var appIcon = UIImageView()
     private let background = UIImageView()
     
-    
     var refrige = Refrige.init(id: "", title: "我的冰箱", foodID: [], createdTime: 0, category: "", shoppingList: [])
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -106,7 +104,6 @@ class CreatePersonViewController: UIViewController {
             }
             }
             
-        
         }
     
     func fetchUser(userID: String, completion: @escaping (UserInfo) -> Void) {
@@ -151,10 +148,6 @@ class CreatePersonViewController: UIViewController {
             
     }
 
-
-
-
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         inviteUser.lkCornerRadius = 20

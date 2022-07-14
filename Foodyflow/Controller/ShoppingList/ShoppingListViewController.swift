@@ -96,6 +96,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 return
             } else {
                 self.present( LoginViewController(), animated: true )
+                self.setDropdown(shoppingLists: self.shoppingLists)
             }
         }
         self.fetchAllCate { [weak self] cate in
@@ -207,11 +208,28 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         
         // menuView change
         
+        if items.count == 0 {
+            items = ["我的購物清單"]
+            menuView = BTNavigationDropdownMenu(
+                navigationController: self.navigationController,
+                containerView: self.navigationController!.view,
+                title: BTTitle.index(0), items: items)
+            menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
+                print("Did select item at index: \(indexPath)")}
+
+        } else {
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
             containerView: self.navigationController!.view,
             title: BTTitle.index(0), items: items)
-        
+        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
+            print("Did select item at index: \(indexPath)")
+            self.shopDidSelectDifferentRef = indexPath
+            self.wishListVC?.shopDidSelectDifferentRef = indexPath
+               // self.inshoppingListVC?.shopDidSelectDifferentRef = indexPath
+        }
+
+        }
         menuView.cellHeight = 50
         menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
         menuView.selectedCellTextLabelColor = UIColor.FoodyFlow.lightGray
@@ -223,16 +241,10 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5
         menuView.maskBackgroundOpacity = 0.3
-        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
-            print("Did select item at index: \(indexPath)")
-        }
+//        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
+//            print("Did select item at index: \(indexPath)")
+//        }
         
-        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
-            print("Did select item at index: \(indexPath)")
-            self.shopDidSelectDifferentRef = indexPath
-            self.wishListVC?.shopDidSelectDifferentRef = indexPath
-           // self.inshoppingListVC?.shopDidSelectDifferentRef = indexPath
-        }
         
         self.navigationItem.titleView = menuView
     }

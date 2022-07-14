@@ -59,8 +59,6 @@
 		A96C5562287D0BF600F95671 /* BlockUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C5561287D0BF600F95671 /* BlockUserTableViewController.swift */; };
 		A96C5569287D0C5000F95671 /* BlockUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C5567287D0C4F00F95671 /* BlockUserTableViewCell.swift */; };
 		A96C556A287D0C5000F95671 /* BlockUserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96C5568287D0C4F00F95671 /* BlockUserTableViewCell.xib */; };
-		A96C556E287D925F00F95671 /* PrivacyPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C556D287D925F00F95671 /* PrivacyPolicyVC.swift */; };
-		A96C5570287D92EA00F95671 /* EULAVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C556F287D92EA00F95671 /* EULAVC.swift */; };
 		A96DA97128600949008993BB /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96DA96F28600949008993BB /* PersonalViewController.swift */; };
 		A96DA979286012CC008993BB /* ShoppingListProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96DA977286012CC008993BB /* ShoppingListProductDetailViewController.swift */; };
 		A96DA97A286012CC008993BB /* ShoppingListProductDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96DA978286012CC008993BB /* ShoppingListProductDetailViewController.xib */; };
@@ -73,6 +71,9 @@
 		A98D50EC2863F8BA00B326AC /* ShoppingListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */; };
 		A98D50EE28640AB900B326AC /* ShoppingListCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */; };
 		A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50EF28643F6000B326AC /* GlobalVariable.swift */; };
+		A991AE7C287FB43200836785 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A991AE7B287FB43100836785 /* NSMutableAttributedString+Extension.swift */; };
+		A991AE7E287FB4E600836785 /* UItapGestureRecognizer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A991AE7D287FB4E600836785 /* UItapGestureRecognizer+Extension.swift */; };
+		A991AE82287FB56100836785 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A991AE81287FB56000836785 /* WebViewController.swift */; };
 		A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99B9E982876C80C0050F086 /* PersonalRecipe.swift */; };
 		A9C6335A2876A2540057A8E8 /* ReadRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C633582876A2540057A8E8 /* ReadRecipeViewController.swift */; };
 		A9C6335B2876A2540057A8E8 /* ReadRecipeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C633592876A2540057A8E8 /* ReadRecipeViewController.xib */; };
@@ -150,8 +151,6 @@
 		A96C5561287D0BF600F95671 /* BlockUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUserTableViewController.swift; sourceTree = "<group>"; };
 		A96C5567287D0C4F00F95671 /* BlockUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUserTableViewCell.swift; sourceTree = "<group>"; };
 		A96C5568287D0C4F00F95671 /* BlockUserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockUserTableViewCell.xib; sourceTree = "<group>"; };
-		A96C556D287D925F00F95671 /* PrivacyPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyVC.swift; sourceTree = "<group>"; };
-		A96C556F287D92EA00F95671 /* EULAVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAVC.swift; sourceTree = "<group>"; };
 		A96DA96F28600949008993BB /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
 		A96DA977286012CC008993BB /* ShoppingListProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListProductDetailViewController.swift; sourceTree = "<group>"; };
 		A96DA978286012CC008993BB /* ShoppingListProductDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingListProductDetailViewController.xib; sourceTree = "<group>"; };
@@ -164,6 +163,9 @@
 		A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListManager.swift; sourceTree = "<group>"; };
 		A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCollectionReusableView.swift; sourceTree = "<group>"; };
 		A98D50EF28643F6000B326AC /* GlobalVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariable.swift; sourceTree = "<group>"; };
+		A991AE7B287FB43100836785 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
+		A991AE7D287FB4E600836785 /* UItapGestureRecognizer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UItapGestureRecognizer+Extension.swift"; sourceTree = "<group>"; };
+		A991AE81287FB56000836785 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		A99B9E982876C80C0050F086 /* PersonalRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalRecipe.swift; sourceTree = "<group>"; };
 		A9C633582876A2540057A8E8 /* ReadRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadRecipeViewController.swift; sourceTree = "<group>"; };
 		A9C633592876A2540057A8E8 /* ReadRecipeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReadRecipeViewController.xib; sourceTree = "<group>"; };
@@ -263,8 +265,7 @@
 				A93EF950286AEEB600EDDA4B /* OnboardingViewController.swift */,
 				A93EF951286AEEB600EDDA4B /* OnboardingViewController.xib */,
 				A93EF954286B2A4800EDDA4B /* CreatePersonViewController.swift */,
-				A96C556D287D925F00F95671 /* PrivacyPolicyVC.swift */,
-				A96C556F287D92EA00F95671 /* EULAVC.swift */,
+				A991AE81287FB56000836785 /* WebViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -403,6 +404,8 @@
 				A948AABF285B3D0100355C59 /* UITableView+Extension.swift */,
 				A948AAC1285B3D3400355C59 /* UICollectionVIew+Extension.swift */,
 				A97939762873E159006D6EDD /* UIImage + Extension.swift */,
+				A991AE7B287FB43100836785 /* NSMutableAttributedString+Extension.swift */,
+				A991AE7D287FB4E600836785 /* UItapGestureRecognizer+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -662,7 +665,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A96C556E287D925F00F95671 /* PrivacyPolicyVC.swift in Sources */,
 				A948AABA285B3C4700355C59 /* UIColor+Extension.swift in Sources */,
 				A92F6BB1285C34530090EE90 /* ShoppingList.swift in Sources */,
 				A95B6CAE286165CC003153B0 /* PersonalTableViewCell.swift in Sources */,
@@ -701,9 +703,9 @@
 				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
 				A9DC8AA02876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift in Sources */,
 				A944E691285DE1300068D7DD /* FoodManager.swift in Sources */,
-				A96C5570287D92EA00F95671 /* EULAVC.swift in Sources */,
 				A93EF952286AEEB600EDDA4B /* OnboardingViewController.swift in Sources */,
 				A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */,
+				A991AE7C287FB43200836785 /* NSMutableAttributedString+Extension.swift in Sources */,
 				A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */,
 				A9DC8A9C2876DA31000D6BC5 /* PersonalRecipeTableViewCell.swift in Sources */,
 				A944E698285EAB1F0068D7DD /* Food.swift in Sources */,
@@ -720,11 +722,13 @@
 				A941E03E286BF45C00B603AF /* User.swift in Sources */,
 				A948AAC2285B3D3400355C59 /* UICollectionVIew+Extension.swift in Sources */,
 				A92F6BCB285C94270090EE90 /* InCatCollectionViewCell.swift in Sources */,
+				A991AE7E287FB4E600836785 /* UItapGestureRecognizer+Extension.swift in Sources */,
 				A9532C01287197BF00697A13 /* PhotoManager.swift in Sources */,
 				A96DA97C286035C9008993BB /* Category.swift in Sources */,
 				A92F6BC7285C927B0090EE90 /* RefrigeCatTableViewCell.swift in Sources */,
 				A96EA158285F50D900941433 /* ImageHelper.swift in Sources */,
 				A9ED956E28684A0300FBF68A /* WishListViewController.swift in Sources */,
+				A991AE82287FB56100836785 /* WebViewController.swift in Sources */,
 				A96EA162285FBAA700941433 /* RecipeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -873,18 +877,20 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodyflow/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "拍照";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "存照片";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "看照片";
+				INFOPLIST_KEY_NSCameraUsageDescription = "請允許存照";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "請允許存照片";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許使用照片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -894,7 +900,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -906,18 +912,20 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodyflow/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "拍照";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "存照片";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "看照片";
+				INFOPLIST_KEY_NSCameraUsageDescription = "請允許存照";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "請允許存照片";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許使用照片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -927,7 +935,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
