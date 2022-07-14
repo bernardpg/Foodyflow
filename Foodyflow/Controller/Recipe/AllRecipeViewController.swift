@@ -58,7 +58,7 @@ class AllRecipeViewController: UIViewController {
 //        observeForm()
         allRecipeTableView.delegate = self
         allRecipeTableView.dataSource = self
-        setupNavigationBar()
+//        setupNavigationBar()
         setUI()
         allRecipeTableView.register(UINib(nibName: "RecipeTableViewCell",
                                           bundle: nil),
@@ -90,16 +90,16 @@ class AllRecipeViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.searchController.searchBar.isHidden = true
+        self.searchController.searchBar.isHidden = false
+//        self.searchController.searchBar.isHidden = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.searchController.searchBar.isHidden = false
+        self.searchController.searchBar.isHidden = true
+//        self.searchController.searchBar.isHidden = false
         // RecipeMa // fetchAllRecipe
-        
         fetchRecipe()
-
     }
     
     func fetchRecipe() {

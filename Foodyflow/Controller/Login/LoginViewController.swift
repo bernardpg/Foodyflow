@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     private lazy var googleButton = UIButton()
     private lazy var appOutsideIcon = UIView()
     private lazy var appIcon = UIImageView()
-    
+    private lazy var recipeVC = RecipeViewController()
     lazy var licenseLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -315,9 +315,16 @@ extension LoginViewController {
                     self.userManager.addUserInfo(user: userInfo)
                 }
             }
+//            self.navigationController?.pushViewController(self.recipeVC)
+           // CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
             
-            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
+            //self.dismiss(animated: true)
             self.dismiss(animated: true)
+//                self.navigationController?.pushViewController(RecipeViewController(), animated: true)
+
+//                self.navigationController?.pushViewController(self.recipeVC)
+
+            
         }
     }
     

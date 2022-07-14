@@ -116,6 +116,15 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         // fetch user // fetchRefrige
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.refrigeAmount = []
+        DispatchQueue.main.async {
+            self.personalTableView.reloadData()
+        }
+        
+    }
+    
     @objc func changeUserName() {
         
         verifyUser {
@@ -142,12 +151,19 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     func fetchUserByUserID(userID: String, completion: @escaping (UserInfo) -> Void ) {
         
         self.fetchUser(userID: userID) { userInfo in
+            if userInfo.personalRefrige.isEmpty {
+                self.refrigeAmount = []
+                DispatchQueue.main.async {
+                    self.personalTableView.reloadData()
+                }
+               
+            } else {
             self.fetchAllRefrige(userRefriges: userInfo.personalRefrige)
             self.personalName.text = userInfo.userName
             
             // self.personalImage.image = UIImage
             // User photo
-            
+            }
         }
             
     }
@@ -192,7 +208,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                                 
             } else {
                 self.present( LoginViewController(), animated: true )
-                completion()
+//                completion()
             }
         }
         
@@ -205,28 +221,39 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                                   preferredStyle: .alert)
     // delete user delete refrige delete personalDorecipe
     let deleteAction = UIAlertAction(title: "刪除帳號", style: .destructive) { _ in
-                    
-    guard let userID = Auth.auth().currentUser?.uid else { return }
-                    
-    self.deleteAccount(userID: userID) { [ weak self ] userInfo in
-       let personalRefrige = userInfo.personalRefrige
-        
-        for element in personalRefrige {
-            guard let element = element else { return }
-            RefrigeManager.shared.removeFrige(refrigeID: element) { result in
-                switch result {
-                case .success:
-                    HandleResult.deleteDataSuccessed.messageHUD
-                case .failure:
-                    HandleResult.deleteDataFailed.messageHUD
+    
+    if Auth.auth().currentUser != nil {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+    
+        self.deleteAccount(userID: userID) { [ weak self ] userInfo in
+           let personalRefrige = userInfo.personalRefrige
+            
+            for element in personalRefrige {
+                guard let element = element else { return }
+                RefrigeManager.shared.removeFrige(refrigeID: element) { result in
+                    switch result {
+                    case .success:
+                        HandleResult.deleteDataSuccessed.messageHUD
+//                        self?.refrigeAmount = []
+//                        DispatchQueue.main.async {
+//                            self?.personalTableView.reloadData()
+//                        }
+                    case .failure:
+                        HandleResult.deleteDataFailed.messageHUD
+                    }
                 }
             }
-        }
-        
-        let personalDoRecipe = userInfo.personalDoRecipe
-        
-        self?.recipeManager.deleteRecipe(recipesID: personalDoRecipe)
+            
+            let personalDoRecipe = userInfo.personalDoRecipe
+            
+            self?.recipeManager.deleteRecipe(recipesID: personalDoRecipe)
+            
+        }} else {
+            self.present(LoginViewController(), animated: true)
     }
+        let loginVC =  LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        self.present(loginVC, animated: true)
     }
         
         alert.addAction(deleteAction)
@@ -235,11 +262,25 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         alert.addAction(falseAction)
                 
     let logoutAction = UIAlertAction(title: "登出", style: .default) { _  in
-        self.signout()}
+        
+        if Auth.auth().currentUser != nil {self.signout()
+            
+        }
+        else {
+            self.present( LoginViewController(), animated: true )
+
+        }
+        }
         alert.addAction(logoutAction)
         
     let blockActionUser = UIAlertAction(title: "查看封鎖名單", style: .default) { _ in
-        self.blockList()}
+        
+        if Auth.auth().currentUser != nil {self.blockList()}
+        else {
+            self.present( LoginViewController(), animated: true )
+
+        }
+        }
         alert.addAction(blockActionUser)
         alert.show(animated: true, vibrate: false)
         
@@ -248,10 +289,23 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     func deleteAccount( userID: String, completion: @escaping(UserInfo) -> Void) {
         
         let user = Auth.auth().currentUser
+        
         user?.delete { error in
             if error != nil {
                 // An error happened.
             } else {
+                guard let userID = user?.uid else {
+                    return
+                }
+                self.userManager.fetchUserInfo(fetchUserID: userID) { result in
+                    switch result {
+                    case .success(let userInfos):
+                        completion(userInfos)
+                    case .failure:
+                        HandleResult.readDataFailed.messageHUD
+                    }
+                }
+           //     completion()
                 // Account deleted.
             }
         }
@@ -286,6 +340,9 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
             do {
                 try Auth.auth().signOut()
                 dismiss(animated: true, completion: nil)
+                let loginVC =  LoginViewController()
+                loginVC.modalPresentationStyle = .fullScreen
+                self.present(loginVC, animated: true)
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
