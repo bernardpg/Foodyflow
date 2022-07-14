@@ -61,11 +61,11 @@ class LoginViewController: UIViewController {
 //            make.top.equalTo(view).offset(200)
 //            make.bottom.equalTo(googleButton.snp.top).offset(151)
 //            make.leading.equalTo(view).offset(109)
-            make.centerY.equalTo(view).offset(-100)
+            make.centerY.equalTo(view).offset(-50)
             make.centerX.equalTo(view)
 //            make.trailing.equalTo(view).offset(90)
-            make.width.equalTo(300)
-            make.height.equalTo(300)
+            make.width.equalTo(400)
+            make.height.equalTo(400)
             
         }
         
@@ -87,22 +87,23 @@ class LoginViewController: UIViewController {
             make.height.equalTo(53)
         }
         googleButton.backgroundColor = .systemBlue
-
-        view.addSubview(appleButton)
-        appleButton.lkCornerRadius = 20
-        appleButton.snp.makeConstraints { make in
+        
+        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn,
+                                                              authorizationButtonStyle: chooseAppleButtonStyle())
+        view.addSubview(signInWithAppleBtn)
+        signInWithAppleBtn.snp.makeConstraints { make in
             make.top.equalTo(googleButton.snp.bottom).offset(17)
             make.centerX.equalTo(googleButton.snp.centerX)
-            make.width.equalTo(271)
-            make.height.equalTo(53)
+            make.width.equalTo(300)
+            make.height.equalTo(50)
         }
-        appleButton.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
-        appleButton.setImage(UIImage(named: "appleidButton"), for: .normal)
+        signInWithAppleBtn.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
+//        appleButton.setImage(UIImage(named: "appleidButton"), for: .normal)
         
         self.view.addSubview(licenseLabel)
         licenseLabel.snp.makeConstraints { make in
-            make.top.equalTo(appleButton.snp.bottom).offset(10)
-            make.centerX.equalTo(appleButton.snp.centerX)
+            make.top.equalTo(signInWithAppleBtn.snp.bottom).offset(10)
+            make.centerX.equalTo(signInWithAppleBtn.snp.centerX)
             make.width.equalTo(271)
             make.height.equalTo(50)
             /*
