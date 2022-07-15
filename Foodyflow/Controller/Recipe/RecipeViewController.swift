@@ -25,7 +25,6 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
         super.viewDidLoad()
         self.navigationItem.title = "今天吃什麼"
         viewPagerProperties()
-//        setUI()
 
         // Do any additional setup after loading the view.
     }

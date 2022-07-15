@@ -26,6 +26,8 @@ class InshoppingViewController: UIViewController {
     
     var foodsInShoppingList: [String?] = []
     
+    var inshoppingListView = ShoppingListView()
+    
     var foodsInfo: [FoodInfo] = []
     
     var meatsInfo: [FoodInfo] = []
@@ -120,16 +122,16 @@ class InshoppingViewController: UIViewController {
             if shoppingLists.isEmpty {
                     DispatchQueue.main.async {
                         self?.cate = []
-                        self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView()
+                        self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView
                         self?.inShoppingListCollectionView.reloadData()
                         self?.present(CreatePersonViewController(), animated: true) }} else {
             shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     if foodssInfo.isEmpty {
-                        self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView()
+                        self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView
                     } else {
                     if foodssInfo[0] == "" {
-                        self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView() } else {
+                        self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView } else {
                         
                         self?.inShoppingListCollectionView.backgroundView = nil
                         self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
@@ -239,14 +241,14 @@ class InshoppingViewController: UIViewController {
         shoppingListNowID = self.shoppingLists[shopDidSelectDifferentRef ?? 0]
             self.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                 if foodssInfo.isEmpty {
-                    self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView() }
+                    self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView }
                 else {
                 if foodssInfo[0] == "" {
                     DispatchQueue.main.async {
                         self?.cate = []
                         // lottie 消失
                         self?.inShoppingListCollectionView.reloadData()
-                        self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView() } } else {
+                        self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView } } else {
                     self?.inShoppingListCollectionView.backgroundView = nil
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
                         var inshopFoodInfo = allfoodInfo.filter { foodinfo in

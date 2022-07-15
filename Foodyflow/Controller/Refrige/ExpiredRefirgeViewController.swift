@@ -49,7 +49,7 @@ class ExpiredRefirgeViewController: UIViewController {
     
     var othersInfo: [FoodInfo] = []
     
-    var searchView = SearchPlaceholderView()
+    var searchView = NoExpiredView()
     
     var didSelectDifferentRef: Int? { didSet { reloadRefrige() } }
     
@@ -179,7 +179,6 @@ class ExpiredRefirgeViewController: UIViewController {
             self.resetRefrigeFood()
             
             self.fetAllFood(completion: { foodinfo21 in
-//                HandleResult.readDataFailed.messageHUD
                 self.cateFilter(allFood: foodinfo21, cates: self.cate)
                 if foodinfo21.isEmpty {
                     self.refrigeTableView.isHidden = true

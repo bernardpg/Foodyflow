@@ -22,6 +22,9 @@ class ShoppingListManager {
         
         guard let refrigeNowID = refrigeNowID else { return }
         
+        // Refrige empty
+        let shoppingLists: [String?] = []
+        guard !refrigeNowID.isEmpty else { completion(.success(shoppingLists)); return }
         let docRef = db.collection("Refrige").document(refrigeNowID)
         // .collection("dwdwdwd")
 

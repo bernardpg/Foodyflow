@@ -97,7 +97,6 @@ class RecipeManager {
             } else {
                 do {
                     if let recipe = try document?.data(as: Recipe.self, decoder: Firestore.Decoder()) {
-                        print(recipe)
                         completion(.success(recipe))
                     }
                 } catch {
@@ -106,4 +105,24 @@ class RecipeManager {
             }
         }
     }
+    
+    func fetchSingleReci( recipe: String, completion: @escaping(Result<Recipe, Error>) -> Void) {
+         let collection = db.collection("recipe")
+        
+        collection.document(recipe).getDocument {
+            (document, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                do {
+                    if let recipe = try document?.data(as: Recipe.self, decoder: Firestore.Decoder()) {
+                        completion(.success(recipe))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
 }

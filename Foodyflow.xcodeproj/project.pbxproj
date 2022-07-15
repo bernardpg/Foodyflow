@@ -75,6 +75,10 @@
 		A991AE7E287FB4E600836785 /* UItapGestureRecognizer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A991AE7D287FB4E600836785 /* UItapGestureRecognizer+Extension.swift */; };
 		A991AE82287FB56100836785 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A991AE81287FB56000836785 /* WebViewController.swift */; };
 		A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99B9E982876C80C0050F086 /* PersonalRecipe.swift */; };
+		A9C1A7E32881077A007A891C /* RefrigeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E228810777007A891C /* RefrigeView.swift */; };
+		A9C1A7E5288109DF007A891C /* NoExpiredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E4288109DF007A891C /* NoExpiredView.swift */; };
+		A9C1A7E72881127B007A891C /* WithinThreeDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E62881127B007A891C /* WithinThreeDaysView.swift */; };
+		A9C1A7E9288112F5007A891C /* ShoppingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E8288112F5007A891C /* ShoppingListView.swift */; };
 		A9C6335A2876A2540057A8E8 /* ReadRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C633582876A2540057A8E8 /* ReadRecipeViewController.swift */; };
 		A9C6335B2876A2540057A8E8 /* ReadRecipeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C633592876A2540057A8E8 /* ReadRecipeViewController.xib */; };
 		A9D44280286EE21B00D69175 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */; };
@@ -167,6 +171,10 @@
 		A991AE7D287FB4E600836785 /* UItapGestureRecognizer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UItapGestureRecognizer+Extension.swift"; sourceTree = "<group>"; };
 		A991AE81287FB56000836785 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		A99B9E982876C80C0050F086 /* PersonalRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalRecipe.swift; sourceTree = "<group>"; };
+		A9C1A7E228810777007A891C /* RefrigeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefrigeView.swift; sourceTree = "<group>"; };
+		A9C1A7E4288109DF007A891C /* NoExpiredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoExpiredView.swift; sourceTree = "<group>"; };
+		A9C1A7E62881127B007A891C /* WithinThreeDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithinThreeDaysView.swift; sourceTree = "<group>"; };
+		A9C1A7E8288112F5007A891C /* ShoppingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListView.swift; sourceTree = "<group>"; };
 		A9C633582876A2540057A8E8 /* ReadRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadRecipeViewController.swift; sourceTree = "<group>"; };
 		A9C633592876A2540057A8E8 /* ReadRecipeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReadRecipeViewController.xib; sourceTree = "<group>"; };
 		A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
@@ -361,6 +369,10 @@
 				A92F6BB3285C38D10090EE90 /* Refrige */,
 				A92F6BBF285C79CF0090EE90 /* ContainerView.swift */,
 				A92F0990286D7973005C99F8 /* LoginView.swift */,
+				A9C1A7E228810777007A891C /* RefrigeView.swift */,
+				A9C1A7E4288109DF007A891C /* NoExpiredView.swift */,
+				A9C1A7E62881127B007A891C /* WithinThreeDaysView.swift */,
+				A9C1A7E8288112F5007A891C /* ShoppingListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -665,6 +677,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9C1A7E9288112F5007A891C /* ShoppingListView.swift in Sources */,
 				A948AABA285B3C4700355C59 /* UIColor+Extension.swift in Sources */,
 				A92F6BB1285C34530090EE90 /* ShoppingList.swift in Sources */,
 				A95B6CAE286165CC003153B0 /* PersonalTableViewCell.swift in Sources */,
@@ -677,6 +690,7 @@
 				A9ED957228684A4A00FBF68A /* PersonalLikeREcipeViewController.swift in Sources */,
 				A944E693285DE3B70068D7DD /* UserManager.swift in Sources */,
 				A96DA97F2860365A008993BB /* CategoryManager.swift in Sources */,
+				A9C1A7E5288109DF007A891C /* NoExpiredView.swift in Sources */,
 				A944E68F285DE1210068D7DD /* RefrigeManeger.swift in Sources */,
 				A93EF955286B2A4800EDDA4B /* CreatePersonViewController.swift in Sources */,
 				A9335AD128691DD800AE551B /* AllRecipeViewController.swift in Sources */,
@@ -688,6 +702,7 @@
 				A96C5569287D0C5000F95671 /* BlockUserTableViewCell.swift in Sources */,
 				A948AAB8285B3C0D00355C59 /* UIFont+Extension.swift in Sources */,
 				A9C6335A2876A2540057A8E8 /* ReadRecipeViewController.swift in Sources */,
+				A9C1A7E32881077A007A891C /* RefrigeView.swift in Sources */,
 				A941E040286BFB9200B603AF /* HandleResultManager.swift in Sources */,
 				A948AABE285B3CBF00355C59 /* UIView+Extension.swift in Sources */,
 				A93EF94E286AEE6400EDDA4B /* LoginViewController.swift in Sources */,
@@ -702,6 +717,7 @@
 				A948AA97285B0B7400355C59 /* SceneDelegate.swift in Sources */,
 				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
 				A9DC8AA02876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift in Sources */,
+				A9C1A7E72881127B007A891C /* WithinThreeDaysView.swift in Sources */,
 				A944E691285DE1300068D7DD /* FoodManager.swift in Sources */,
 				A93EF952286AEEB600EDDA4B /* OnboardingViewController.swift in Sources */,
 				A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */,

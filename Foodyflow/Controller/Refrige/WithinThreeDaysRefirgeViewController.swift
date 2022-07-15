@@ -51,7 +51,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     
     var othersInfo: [FoodInfo] = []
     
-    var searchView = SearchPlaceholderView()
+    var searchView = WithinThreeDaysView()
     
     var didSelectDifferentRef: Int? { didSet { reloadRefrige() } }
     
@@ -171,7 +171,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
 
     }
 
-    private func reloadRefrige() {
+/*    private func reloadRefrige() {
         
         HandleResult.readData.messageHUD
         let semaphore = DispatchSemaphore(value: 0)
@@ -207,6 +207,66 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
                     semaphore.signal()
                     
                 }
+                
+            })
+            
+            semaphore.wait()
+        }
+    }*/
+    
+    private func reloadRefrige() {
+        
+        HandleResult.readData.messageHUD
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        DispatchQueue.global().async {
+            
+            self.resetRefrigeFood()
+            
+            self.fetAllFood(completion: { foodinfo21 in
+//                HandleResult.readDataFailed.messageHUD
+                self.cateFilter(allFood: foodinfo21, cates: self.cate)
+                if foodinfo21.isEmpty {
+                    self.refrigeTableView.isHidden = true
+                    self.view.addSubview(self.searchView)
+                    self.searchView.isHidden = false
+                    self.searchView.translatesAutoresizingMaskIntoConstraints = false
+                    self.searchView.leadingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.trailingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                    self.searchView.bottomAnchor.constraint(
+                        equalTo: self.view.bottomAnchor,
+                        constant: -300).isActive = true } else {
+                DispatchQueue.main.async {
+                    // lottie 消失
+                    if foodinfo21[0].foodId != nil {
+                        self.searchView.isHidden = true
+                        self.refrigeTableView.isHidden = false
+                        self.refrigeTableView.reloadData() } else {
+                        self.refrigeTableView.isHidden = true
+                        self.view.addSubview(self.searchView)
+                        self.searchView.isHidden = false
+                        self.searchView.translatesAutoresizingMaskIntoConstraints = false
+                        self.searchView.leadingAnchor.constraint(
+                            equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
+                            constant: 0).isActive = true
+                        self.searchView.trailingAnchor.constraint(
+                            equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                            constant: 0).isActive = true
+                        self.searchView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                        self.searchView.bottomAnchor.constraint(
+                            equalTo: self.view.bottomAnchor,
+                            constant: -300).isActive = true
+                    }
+//                    guard let didSelectDifferentRef = self.didSelectDifferentRef else { return }
+//                    refrigeNow = self.refrige[didSelectDifferentRef]
+                    semaphore.signal()
+                    
+                }}
                 
             })
             

@@ -31,10 +31,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlI-Aq-34G">
-                        <rect key="frame" x="326.5" y="74.5" width="20.5" height="22"/>
+                        <rect key="frame" x="307" y="74.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="Hfo-VK-nwb"/>
+                            <constraint firstAttribute="width" constant="40" id="k9h-da-9p9"/>
+                        </constraints>
                         <color key="tintColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                        <state key="normal" image="heart" catalog="system"/>
+                        <state key="normal" image="heart.fill" catalog="system"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -57,7 +61,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="imageDefault" width="352" height="243"/>
     </resources>
 </document>

@@ -4,13 +4,12 @@
 //
 //  Created by 曹珮綺 on 6/20/22.
 //
+
 // shoppingList 再次確認有無問題
 
 // bug shoppingList Name fetch 回來
 
 // bug 更換時 沒有的話不能新增
-
-// bug 照片不能新增上去
 
 import UIKit
 import BTNavigationDropdownMenu
@@ -105,10 +104,14 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         
         // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
         // w for fix error 應該先fetch 在回來抓
+        
         self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
             self?.shoppingLists = shoppingLists
             if shoppingLists.isEmpty {
                 self?.present(self?.createVC ?? CreatePersonViewController(), animated: true)
+                
+                self?.setDropdown(shoppingLists: self?.shoppingLists ?? [])
+//                self?.setDropdown(shoppingLists: self?.shoppingLists ?? <#default value#>)
             }
             self?.fetchAllShoppingListInfoInsingleRefrige(
                 shopingLists: shoppingLists,
@@ -136,7 +139,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         }
     }
     
-    // MARK: - Main VC
+    // MARK: - Main containerView
     func viewPagerProperties() {
         view.addSubview(viewPager)
         
@@ -193,6 +196,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         return CGFloat(50.0)
     }
     
+    // MARK: - dropdownView
+    
     func setDropdown(shoppingLists: [String?]) {
         
         var items: [String] = []
@@ -241,11 +246,6 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5
         menuView.maskBackgroundOpacity = 0.3
-//        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
-//            print("Did select item at index: \(indexPath)")
-//        }
-        
-        
         self.navigationItem.titleView = menuView
     }
     
@@ -305,10 +305,13 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     // fetch shoppingList number
     
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
+        
         refrigeNowID = refrigeNow?.id // rename
         
         // 此處判斷shoppingList 是否是空的 如果是空的創建shoppingList
-        
+  //      if refrigeNowID
+        // MARK: - refrige is empty
+        if ((refrigeNowID?.isEmpty) == nil) {completion([])}
         ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige(completion: { result  in
             switch result {
             case .success(let shoppingLists):
@@ -316,7 +319,9 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             case .failure:
                 print("fetch shoppingListID error")
                 
-            }})
+            }
+            
+        })
     }
     
     func fetchAllShoppingListInfoInsingleRefrige( shopingLists:[String?],  completion: @escaping([String?]) -> Void) {
@@ -440,4 +445,3 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         }
     }
 }
-

@@ -7,7 +7,6 @@
 
 import UIKit
 
-// protocol
 
 protocol SelectCellDelegate: AnyObject {
     

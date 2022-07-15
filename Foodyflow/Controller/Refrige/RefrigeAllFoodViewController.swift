@@ -6,7 +6,7 @@
 //
 
 // 還沒有購買得時候 購買完須在點擊才會有改變backgroundPage
-// 新增食物crash
+
 // delefood in refrige
 
 // 刪除冰箱食物 login
@@ -62,7 +62,7 @@ class RefrigeAllFoodViewController: UIViewController {
     
     var othersInfo: [FoodInfo] = []
     
-    var searchView = SearchPlaceholderView()
+    var searchView = RefrigeView()
     
     var tabIndex: Int?
     

@@ -14,8 +14,10 @@ import PKHUD
 import SwifterSwift
 
 // block user long touch
+// 點擊愛心 deque error 
 
 class AllRecipeViewController: UIViewController {
+    
     
     private lazy var allRecipeTableView = UITableView() { didSet { allRecipeTableView.reloadData()} }
     
@@ -49,7 +51,7 @@ class AllRecipeViewController: UIViewController {
     // subscriber
     private var subscribers = Set<AnyCancellable>()
     
-    private var searchResults: SearchResults?{didSet{allRecipeTableView.reloadData() }} // nil
+    private var searchResults: SearchResults? {didSet {allRecipeTableView.reloadData() }} // nil
     @Published private var mode: Mode = .onboarding // image / label
     @Published private var searchQuery = String() // observer changes
     
@@ -297,6 +299,15 @@ class AllRecipeViewController: UIViewController {
             make.trailing.equalTo(view)
         }
     }
+    // array Union 改寫
+    func likeRecipe( userInfo:UserInfo, needtoLike: String, completion: @escaping () -> Void) {
+        var newUserInfo = userInfo
+        newUserInfo.personalLikeRecipe.append(needtoLike)
+        UserManager.shared.updateUserInfo(user: newUserInfo) {
+            
+        }
+        
+    }
     
     func fetchSingleRecipe(recipe: Recipe, completion: @escaping(Recipe?) -> Void) {
         RecipeManager.shared.fetchSingleRecipe(recipe: recipe) { result in
@@ -357,7 +368,8 @@ class AllRecipeViewController: UIViewController {
 
 }
 
-extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
+extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, RecipeLikeDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         recipeAmount.count
 //        20 //searchResults?.items.count ?? 0
@@ -368,6 +380,9 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             withIdentifier: "recipeTableViewCell",
             for: indexPath) as? RecipeTableViewCell
         guard let cell = cell else { return UITableViewCell() }
+        cell.selectionStyle = .none
+        cell.delegate = self
+        cell.indexPath = indexPath
         cell.recipeName.text =
         recipeAmount[indexPath.row].recipeName
      //   if let searchResults = self.searchResults {
@@ -408,7 +423,18 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
     }
+    
+    func didLikeTap(indexPathRow: IndexPath) {
+        let likeRecipe = recipeAmount[indexPathRow.row].recipeID
         
+        fetchUser(userID: Auth.auth().currentUser?.uid ?? "") { userInfo in
+            self.likeRecipe(userInfo: userInfo, needtoLike: "\(likeRecipe)") {
+                
+            }
+        }
+        
+    }
+
 }
 
 extension AllRecipeViewController: UISearchResultsUpdating, UISearchControllerDelegate {

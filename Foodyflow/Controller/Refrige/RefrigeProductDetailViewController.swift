@@ -14,11 +14,11 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class RefrigeProductDetailViewController: UIViewController {
-        
+    
     var completion: CompletionHandler?
     
     var selectedImage: UIImage?
-        
+    
     var onPublished: (() -> Void)?
     
     @IBOutlet weak var imageUpload: UIButton!
@@ -65,14 +65,15 @@ class RefrigeProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setUI()
         
         self.foodNameTextField.text = foodItemName
         
         imageUpload.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
         updateButton.addTarget(self, action: #selector(postToRefirgeDB), for: .touchUpInside)
-        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.tintColor = UIColor.white
@@ -89,7 +90,7 @@ class RefrigeProductDetailViewController: UIViewController {
         foodImage.clipsToBounds = true
         foodImage.contentMode = .scaleAspectFill
         foodImage.lkCornerRadius = 20
-
+        
     }
     
     private func setUI() {
@@ -107,11 +108,11 @@ class RefrigeProductDetailViewController: UIViewController {
         foodNameCateTextField.lkCornerRadius = 20
         foodNameCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodNameCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
-
+        
         foodWeightAmount.lkCornerRadius = 20
         foodWeightAmount.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodWeightAmount.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
-
+        
         updateButton.lkCornerRadius = 10
         updateButton.tintColor = UIColor.FoodyFlow.white
         updateButton.backgroundColor = UIColor.FoodyFlow.darkOrange
@@ -142,7 +143,7 @@ class RefrigeProductDetailViewController: UIViewController {
                 
                 FoodManager.shared.publishFood( food: &foodInfo ) { result in
                     switch result {
-
+                        
                     case .success:
                         print("onTapPublish, success")
                         
@@ -161,14 +162,14 @@ class RefrigeProductDetailViewController: UIViewController {
                     self.onPublished?()
                     
                 }
-
+                
                 self.navigationController?.popViewController(animated: true)
             case .failure(_):
                 print("UploadPhoto Error")
             }
-            }
         }
-
+    }
+    
     @objc func finishUpdate() {
         
         foodInfo.foodName = foodNameTextField.text
@@ -182,7 +183,7 @@ class RefrigeProductDetailViewController: UIViewController {
         
         FoodManager.shared.publishFood( food: &foodInfo ) { result in
             switch result {
-
+                
             case .success:
                 print("onTapPublish, success")
                 
@@ -202,65 +203,60 @@ class RefrigeProductDetailViewController: UIViewController {
             self.onPublished?() 
             
         }
-
+        
         self.navigationController?.popViewController(animated: true)}
     
     func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
-
-//        let imageData = self.userImage.image?.jpegData(compressionQuality: 0.8)
         
-//        guard imageData != nil else {
-//            return
-//        }
+        let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
+        if let data = image.jpegData(compressionQuality: 0.6) {
             
-            let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
-            if let data = image.jpegData(compressionQuality: 0.6) {
-                
-                fileReference.putData(data, metadata: nil) { result in
-                    switch result {
-                    case .success:
-                        fileReference.downloadURL { result in
-                            switch result {
-                            case .success(let url):
-                                self.foodInfo.foodImages = "\(url)"
-                                completion(.success(url))
-                            case .failure(let error):
-                                completion(.failure(error))
-
-                            }
+            fileReference.putData(data, metadata: nil) { result in
+                switch result {
+                case .success:
+                    fileReference.downloadURL { result in
+                        switch result {
+                        case .success(let url):
+                            self.foodInfo.foodImages = "\(url)"
+                            completion(.success(url))
+                        case .failure(let error):
+                            completion(.failure(error))
+                            
                         }
-                    case .failure(let error):
-                        completion(.failure(error))
                     }
+                case .failure(let error):
+                    completion(.failure(error))
                 }
             }
+        }
     }
-
+    
     @objc func selectPhoto( recognizer: UITapGestureRecognizer) {
         
         if  recognizer.state == .began {
             action()
         }
     }
+    
     func action() {
+        
+        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "open camera", style: .default, handler: { (handler) in
+            self.openCamera()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { (handler) in
+            self.openGallery()
             
-            let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
-            alert.addAction(UIAlertAction(title: "open camera", style: .default, handler: { (handler) in
-                self.openCamera()
-            }))
+        }))
+        
+        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (handler) in
             
-            alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { (handler) in
-                self.openGallery()
-                
-            }))
-            
-            alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: { (handler) in
-                
-            }))
-            
-            self.present(alert, animated: true)
-            
-        }
+        }))
+        
+        self.present(alert, animated: true)
+        
+    }
     
     func openCamera() {
         let picker = UIImagePickerController()
@@ -269,7 +265,7 @@ class RefrigeProductDetailViewController: UIViewController {
         picker.delegate = self // camera part
         present(picker, animated: true) {
         }
-
+        
     }
     
     func openGallery() {
@@ -279,33 +275,34 @@ class RefrigeProductDetailViewController: UIViewController {
         picker.delegate = self
         present(picker, animated: true)
     }
+    
     func uploadPhoto() {
-            
-            guard selectedImage != nil else { return }
-            
-            let imageData =  selectedImage?.jpegData(compressionQuality: 0.8)
-            
-            guard let imageData = imageData else { return }
-    //        Storage.storage().reference()
-            let storageRef =   FirebaseStorage.Storage.storage().reference()
-
-            // file Name
-            
-            let path = "images/\(UUID().uuidString).jpg"
-            let fileRef = storageRef.child(path)
-            
-            // upload that data
-            let uploadTask = fileRef.putData(imageData, metadata: nil) { metadata, error in
-                if error == nil && metadata != nil {
-                    
-                    let db = Firestore.firestore()
+        
+        guard selectedImage != nil else { return }
+        
+        let imageData =  selectedImage?.jpegData(compressionQuality: 0.8)
+        
+        guard let imageData = imageData else { return }
+        //        Storage.storage().reference()
+        let storageRef =   FirebaseStorage.Storage.storage().reference()
+        
+        // file Name
+        
+        let path = "images/\(UUID().uuidString).jpg"
+        let fileRef = storageRef.child(path)
+        
+        // upload that data
+        let uploadTask = fileRef.putData(imageData, metadata: nil) { metadata, error in
+            if error == nil && metadata != nil {
                 
-                    db.collection("foods").document(foodId!).updateData(["foodImages": path])
-                }
+                let db = Firestore.firestore()
                 
+                db.collection("foods").document(foodId!).updateData(["foodImages": path])
             }
-                     
+            
         }
+        
+    }
 }
 
 extension RefrigeProductDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -315,7 +312,7 @@ extension RefrigeProductDetailViewController: UIImagePickerControllerDelegate, U
         
         foodImage?.image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         selectedImage = foodImage?.image
-
+        
         picker.dismiss(animated: true) {
         }
     }

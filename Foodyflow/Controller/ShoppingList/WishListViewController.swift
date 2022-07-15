@@ -27,6 +27,8 @@ class WishListViewController: UIViewController {
     
     var foodsInShoppingList: [String?] = []
     
+    var shoppingListView = ShoppingListView()
+    
     var foodsInfo: [FoodInfo] = []
     
     var meatsInfo: [FoodInfo] = []
@@ -90,16 +92,16 @@ class WishListViewController: UIViewController {
             if shoppingLists.isEmpty {
                     DispatchQueue.main.async {
                         self?.cate = []
-                        self?.wishListCollectionView.backgroundView = SearchPlaceholderView()
+                        self?.wishListCollectionView.backgroundView = self?.shoppingListView
                         self?.wishListCollectionView.reloadData()
                         self?.present(CreatePersonViewController(), animated: true) }} else {
             shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     if foodssInfo.isEmpty {
-                        self?.wishListCollectionView.backgroundView = SearchPlaceholderView()
+                        self?.wishListCollectionView.backgroundView = self?.shoppingListView
                     } else {
                     if foodssInfo[0] == "" {
-                        self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } else {
+                        self?.wishListCollectionView.backgroundView = self?.shoppingListView } else {
                         
                         self?.wishListCollectionView.backgroundView = nil
                         self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
@@ -138,13 +140,13 @@ class WishListViewController: UIViewController {
         shoppingListNowID = self.shoppingLists[shopDidSelectDifferentRef ?? 0]
             self.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                 if foodssInfo.isEmpty {
-                    self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } else {
+                    self?.wishListCollectionView.backgroundView = self?.shoppingListView } else {
                 if foodssInfo[0] == "" {
                     DispatchQueue.main.async {
                         self?.cate = []
                         // lottie 消失
                         self?.wishListCollectionView.reloadData()
-                        self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } } else {
+                        self?.wishListCollectionView.backgroundView = self?.shoppingListView } } else {
                     self?.wishListCollectionView.backgroundView = nil
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
                     var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
@@ -369,14 +371,14 @@ class WishListViewController: UIViewController {
                         if foodssInfo.isEmpty {
                             self?.cate = []
                             self?.wishListCollectionView.reloadData()
-                            self?.wishListCollectionView.backgroundView = SearchPlaceholderView() }
+                            self?.wishListCollectionView.backgroundView = self?.shoppingListView }
                         else {
                         if foodssInfo[0] == "" {
                             DispatchQueue.main.async {
                                 self?.cate = []
                                 // lottie 消失
                                 self?.wishListCollectionView.reloadData()
-                                self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } } else {
+                                self?.wishListCollectionView.backgroundView = self?.shoppingListView } } else {
                             self?.wishListCollectionView.backgroundView = nil
                             self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
                                 var wishshopFoodInfo = allfoodInfo.filter { foodinfo in

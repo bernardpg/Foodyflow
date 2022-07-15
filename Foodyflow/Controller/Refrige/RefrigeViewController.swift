@@ -13,14 +13,20 @@ import LZViewPager
 import SnapKit
 import Combine
 import FirebaseAuth
-//  signin signout
+
 // refrige  內部未完全更改
+    
 // shoppinglist 也是
+// launchScreen
+
 // 圖片與文字如果沒有的話要改成預設值
 // personal 更改畫面圖片跟文字
+
 //  fetch 資料及更改 再次確認
 //    開啟提醒通知
+
 // 個人頁面照片上傳跟fetch 未用
+
 // MARK: - fetch for change UI and add photos
 // logic change for fetch on this VC
 // MARK: - create Recipe Page
@@ -137,7 +143,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             case .onboarding:
 //                self.searchResults = nil
                 // each cancel will become nil
-                self.refrigeAllFoodVC.refrigeTableView.backgroundView = SearchPlaceholderView()
+                self.refrigeAllFoodVC.refrigeTableView.backgroundView = RefrigeView()
                 self.refrigeAllFoodVC.refrigeTableView.reloadData()
             case .login:
                 self.refrigeAllFoodVC.refrigeTableView.backgroundView = nil
@@ -157,6 +163,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                 self.fetchAllRefrige(userRefriges: userInfo.personalRefrige) { [weak self] refrige in
                     
                     self?.setDropdown(self?.refrige)
+                    guard !(self?.refrige.isEmpty ?? true) else { return }
+                    // MARK: - initial open refrige as one
                     refrigeNow = self?.refrige[0]
                     DispatchQueue.main.async {
                                     // lottie 消失
@@ -196,8 +204,12 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         )
         }
     }
-
-    func fetchAllRefrige(userRefriges: [String?],completion: @escaping (CompletionHandler)) {
+    
+    func fetchAllRefrige(userRefriges: [String?], completion: @escaping (CompletionHandler)) {
+        
+        if userRefriges.isEmpty {
+            self.refrige = []
+            completion(["refrige": []])}
         RefrigeManager.shared.fetchArticles(userRefrige: userRefriges) { [weak self] result in
             switch result {
             case .success(let refrige):

@@ -50,7 +50,11 @@
                         </subviews>
                     </stackView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jwO-8g-hI5">
-                        <rect key="frame" x="525.5" y="198.5" width="20.5" height="22"/>
+                        <rect key="frame" x="506" y="189.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="OGM-Vh-2Q7"/>
+                            <constraint firstAttribute="height" constant="40" id="apg-ZE-r8z"/>
+                        </constraints>
                         <color key="tintColor" red="0.95686274510000002" green="0.58039215690000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                         <state key="normal" image="heart" catalog="system"/>
@@ -67,6 +71,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="likeRecipeBtn" destination="jwO-8g-hI5" id="phn-9M-tO0"/>
                 <outlet property="recipeImage" destination="Z9e-vI-hSM" id="cb3-M5-fpC"/>
                 <outlet property="recipeName" destination="vqK-Ya-3WC" id="jOJ-C9-chX"/>
                 <outlet property="recipeUserName" destination="7Qt-DT-1nv" id="gb6-qo-z2j"/>
