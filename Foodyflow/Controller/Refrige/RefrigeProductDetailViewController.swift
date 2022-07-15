@@ -164,7 +164,7 @@ class RefrigeProductDetailViewController: UIViewController {
                 }
                 
                 self.navigationController?.popViewController(animated: true)
-            case .failure(_):
+            case .failure:
                 print("UploadPhoto Error")
             }
         }
@@ -198,9 +198,8 @@ class RefrigeProductDetailViewController: UIViewController {
         refrige.foodID.append(foodId)
         RefrigeManager.shared.publishFoodOnRefrige(refrige: self.refrige) {
             
-            result in
-            
-            self.onPublished?() 
+             result in
+            self.onPublished?()
             
         }
         

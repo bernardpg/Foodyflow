@@ -14,6 +14,8 @@ import SnapKit
 import Combine
 import FirebaseAuth
 
+// refirige 要 dropdown 下拉才會更新
+
 // refrige  內部未完全更改
     
 // shoppinglist 也是
@@ -23,7 +25,8 @@ import FirebaseAuth
 // personal 更改畫面圖片跟文字
 
 //  fetch 資料及更改 再次確認
-//    開啟提醒通知
+
+// plus button 判斷button array
 
 // 個人頁面照片上傳跟fetch 未用
 
@@ -53,7 +56,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     var menuView: BTNavigationDropdownMenu!
 
     private var tapButton = UIButton()
-    
+        
     var refrige: [Refrige] = []
     
     var completion: CompletionHandler?
@@ -120,7 +123,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (_, user) in
             if user != nil {
                 guard let userID = user?.uid else { return }
                 
@@ -182,7 +185,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         }
     }
     
-    func reloadRefrige() {
+   /* func reloadRefrige() {
         
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -203,7 +206,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             semaphore.wait()}
         )
         }
-    }
+    }*/
     
     func fetchAllRefrige(userRefriges: [String?], completion: @escaping (CompletionHandler)) {
         
@@ -296,8 +299,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                 if ((foodInfo.foodId?.isEmpty) != nil)
                 { self?.foodsInfo.append(foodInfo)
                     if self?.foodsInfo.count == self?.refrige[self?.didSelectDifferentRef ?? 0].foodID.count
-                    {completion(self?.foodsInfo ?? [foodInfo])}
-                    else { print("append not finish yet ") }
+                    { completion(self?.foodsInfo ?? [foodInfo])} else{
+                    print("append not finish yet ") }
                 }
                 else {completion([foodInfo])}
             case .failure:
@@ -332,7 +335,6 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                 title: BTTitle.index(0), items: items)
                 menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
                     print("Did select item at index: \(indexPath)")}
-
         } else {
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
@@ -358,7 +360,6 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         menuView.animationDuration = 0.5
         menuView.maskBackgroundOpacity = 0.3
 
-        
         self.navigationItem.titleView = menuView
         
     }
@@ -483,9 +484,4 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         250.0
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // UIAlert to didselect or delete
-        
-    }
 }

@@ -139,7 +139,8 @@ class LoginViewController: UIViewController {
         
         var webVC: WebViewController
         if gesture.didTapAttributedTextInLabel(label: licenseLabel, inRange: privacyRange) {
-            webVC = WebViewController(urlString: "https://www.privacypolicies.com/live/f47437a1-9d69-4959-bebe-f50c1928bcaf")
+            webVC = WebViewController(
+                urlString: "https://www.privacypolicies.com/live/f47437a1-9d69-4959-bebe-f50c1928bcaf")
         } else if gesture.didTapAttributedTextInLabel(label: licenseLabel, inRange: standardRange) {
             webVC = WebViewController(urlString: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")
         } else {
@@ -148,7 +149,6 @@ class LoginViewController: UIViewController {
         self.present(webVC, animated: true, completion: nil)
     }
 
-    
     func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
         return (UITraitCollection.current.userInterfaceStyle == .light) ? .black : .white // 淺色模式就顯示黑色的按鈕，深色模式就顯示白色的按鈕
     }
@@ -308,7 +308,7 @@ extension LoginViewController {
             
 //            guard let userID = userID else { return }
             
-            db.whereField("userID", isEqualTo: userID ).getDocuments { (querySnapshot, error) in
+            db.whereField("userID", isEqualTo: userID).getDocuments { (querySnapshot, error) in
                 if let doc = querySnapshot?.documents.first {
                     print("ok")
                 } else {
@@ -318,12 +318,10 @@ extension LoginViewController {
 //            self.navigationController?.pushViewController(self.recipeVC)
            // CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
             
-            //self.dismiss(animated: true)
             self.dismiss(animated: true)
 //                self.navigationController?.pushViewController(RecipeViewController(), animated: true)
 
 //                self.navigationController?.pushViewController(self.recipeVC)
-
             
         }
     }

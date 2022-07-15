@@ -73,8 +73,7 @@ class UserManager {
     func updateUserInfo(user: UserInfo, completion: @escaping () -> Void ) {
         
         do {
-            
-                
+
                 try database.document(user.userID).setData(from: user, merge: true)
                 
                 completion()

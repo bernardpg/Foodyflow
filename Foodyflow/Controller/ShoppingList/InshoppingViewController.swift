@@ -267,7 +267,7 @@ class InshoppingViewController: UIViewController {
     }
     // fetch shoppingList number
     private func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-        refrigeNowID = "2" // rename
+//        refrigeNowID = "2" // rename
         ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige(completion: { result in
           switch result {
           case .success(let shoppingLists):

@@ -101,9 +101,45 @@ class ExpiredRefirgeViewController: UIViewController {
         self.userManager.fetchUserInfo(fetchUserID: userID) { result in
             switch result {
             case .success(let userInfo):
+                if userInfo.personalRefrige.isEmpty {
+                    
+                    self.refrigeTableView.isHidden = true
+                    self.view.addSubview(self.searchView)
+                    self.searchView.isHidden = false
+                    self.searchView.translatesAutoresizingMaskIntoConstraints = false
+                    self.searchView.leadingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.trailingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                    self.searchView.bottomAnchor.constraint(
+                        equalTo: self.view.bottomAnchor,
+                        constant: -300).isActive = true
+                    
+                }
+
                 self.fetchAllRefrige(userRefriges: userInfo.personalRefrige) { [weak self] refrige in
                     self?.resetRefrigeFood()
-                    self?.fetAllFood(completion: { foodInfo in
+                    self?.fetAllFood(completion: {  foodInfo in
+                        
+                        if foodInfo.isEmpty {
+                            self?.refrigeTableView.isHidden = true
+                            self?.view.addSubview(self?.searchView ?? NoExpiredView())
+                            self?.searchView.isHidden = false
+                            self?.searchView.translatesAutoresizingMaskIntoConstraints = false
+                            self?.searchView.leadingAnchor.constraint(
+                                equalTo: (self?.view.safeAreaLayoutGuide.leadingAnchor)!,
+                                constant: 0).isActive = true
+                            self?.searchView.trailingAnchor.constraint(
+                                equalTo: (self?.view.safeAreaLayoutGuide.trailingAnchor)!,
+                                constant: 0).isActive = true
+                            self?.searchView.topAnchor.constraint(equalTo: (self?.view.topAnchor)!, constant: 0).isActive = true
+                            self?.searchView.bottomAnchor.constraint(
+                                equalTo: (self?.view.bottomAnchor)!,
+                                constant: -300).isActive = true }
+                        
                         
                         guard let cates = self?.cate else { return }
                         

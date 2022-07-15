@@ -36,7 +36,7 @@ class BlockUserTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @objc func unblockUser(){
+    @objc func unblockUser() {
         delegate?.didunblockTap(indexPathRow: indexPath)
     }
     

@@ -12,6 +12,8 @@ import CoreMedia
 
 // Edit Recipe and delete my recipe 順過
 
+// 點擊進去查看 未做
+
 
 class PersonalLikeREcipeViewController: UIViewController {
     
@@ -241,8 +243,6 @@ class PersonalLikeREcipeViewController: UIViewController {
         }
     }
     
-    
-    
 // MARK: - Expandable tableView
 }
 
@@ -255,13 +255,12 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
         }
     }
     
-    
     func didEditRecipe(indexPathRow: IndexPath) {
 
         guard let editMyRecipe = userInfo.personalDoRecipe[indexPathRow.row-1] else { return }
         
         RecipeManager.shared.fetchSingleReci(recipe: editMyRecipe) { result in
-            switch result{
+            switch result {
             case .success(let recipe):
                 let addRecipeVC = AddRecipeViewController(nibName: "AddRecipeViewController", bundle: nil)
                 addRecipeVC.recipeName = recipe.recipeName

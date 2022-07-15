@@ -12,19 +12,28 @@
 // 刪除冰箱食物 login
 
 // 將所有 fetch 資料傳下去
-// filter 
+// filter
+
 // 點擊進去更新
+
 // fetch 回來依照食物
+// add food 判斷 冰箱是否空的 創建冰箱
 
 import UIKit
 import FirebaseAuth
 import Kingfisher
 
-class RefrigeAllFoodViewController: UIViewController {
-    
+class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
+
+    func didTapButtonWithText(_ text: String) {
+        print("dd")
+    }
+
     var refrigeTableView = UITableView() { didSet { refrigeTableView.reloadData() } }
     
     private var tapButton = UIButton()
+    
+    private let refrigeBtn = ButtonPanelView()
     
     private let authManager = AuthManager()
     
@@ -79,13 +88,13 @@ class RefrigeAllFoodViewController: UIViewController {
         refrigeTableView.register(RefrigeCatTableViewCell.nib(), forCellReuseIdentifier: "refrigeCatTableViewCell")
         refrigeTableView.delegate = self
         refrigeTableView.dataSource = self
-        
+        refrigeBtn.delegate = self
+
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         refrigeTableView.layoutIfNeeded()
-        tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +102,8 @@ class RefrigeAllFoodViewController: UIViewController {
         // lottie 開始
         
         singlerefrige()
+        
+   //     reloadRefrige()
         
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -113,10 +124,45 @@ class RefrigeAllFoodViewController: UIViewController {
         self.userManager.fetchUserInfo(fetchUserID: userID) { result in
             switch result {
             case .success(let userInfo):
+                if userInfo.personalRefrige.isEmpty {
+                    
+                    self.refrigeTableView.isHidden = true
+                    self.view.addSubview(self.searchView)
+                    self.searchView.isHidden = false
+                    self.searchView.translatesAutoresizingMaskIntoConstraints = false
+                    self.searchView.leadingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.trailingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                    self.searchView.bottomAnchor.constraint(
+                        equalTo: self.view.bottomAnchor,
+                        constant: -300).isActive = true
+                    
+                }
                 self.fetchAllRefrige(userRefriges: userInfo.personalRefrige) { [weak self] refrige in
                     self?.resetRefrigeFood()
+                    
                     self?.fetAllFood(completion: { foodInfo in
                         
+                        if foodInfo.isEmpty {
+                            self?.refrigeTableView.isHidden = true
+                            self?.view.addSubview(self?.searchView ?? NoExpiredView())
+                            self?.searchView.isHidden = false
+                            self?.searchView.translatesAutoresizingMaskIntoConstraints = false
+                            self?.searchView.leadingAnchor.constraint(
+                                equalTo: (self?.view.safeAreaLayoutGuide.leadingAnchor)!,
+                                constant: 0).isActive = true
+                            self?.searchView.trailingAnchor.constraint(
+                                equalTo: (self?.view.safeAreaLayoutGuide.trailingAnchor)!,
+                                constant: 0).isActive = true
+                            self?.searchView.topAnchor.constraint(equalTo: (self?.view.topAnchor)!, constant: 0).isActive = true
+                            self?.searchView.bottomAnchor.constraint(
+                                equalTo: (self?.view.bottomAnchor)!,
+                                constant: -300).isActive = true }
+
                         guard let cates = self?.cate else { return }
                         
                         self?.cateFilter(allFood: foodInfo, cates: cates)
@@ -426,16 +472,16 @@ class RefrigeAllFoodViewController: UIViewController {
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: 0).isActive = true
         
-        view.addSubview(tapButton)
-        tapButton.translatesAutoresizingMaskIntoConstraints = false
-        tapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-        tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
-        tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        tapButton.imageView?.tintColor = .white
-        tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
+        view.addSubview(refrigeBtn)
+        refrigeBtn.translatesAutoresizingMaskIntoConstraints = false
+        refrigeBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        refrigeBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+//        buttonPanelView.widthAnchor.constraint(equalToConstant: 45).isActive = true
+//        buttonPanelView.heightAnchor.constraint(equalToConstant: ).isActive = true
+        refrigeBtn.layer.backgroundColor = UIColor.FoodyFlow.lightOrange.cgColor
+       // tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
+      //  buttonPanelView.imageView?.tintColor = .white
+       // tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
 
 }
@@ -449,7 +495,7 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = refrigeTableView.dequeueReusableCell(withIdentifier: "refrigeCatTableViewCell",
-                                                        for: indexPath) as? RefrigeCatTableViewCell
+            for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
         cell.cateFood.font =  UIFont(name: "PingFang TC", size: 20)
@@ -500,9 +546,4 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat { 250.0 }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // UIAlert to didselect or delete
-        
-    }
 }

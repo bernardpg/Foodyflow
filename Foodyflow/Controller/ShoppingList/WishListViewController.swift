@@ -13,7 +13,9 @@ import Kingfisher
 
 class WishListViewController: UIViewController {
     
-    private lazy var tapButton = UIButton()
+   // private lazy var tapButton = UIButton()
+    
+    private let wishBtn = ButtonPanelView()
     
     var tabIndex: Int?
     
@@ -65,7 +67,7 @@ class WishListViewController: UIViewController {
         super.viewDidLoad()
         wishListCollectionView.delegate = self
         wishListCollectionView.dataSource = self
-        wishListCollectionView.addSubview(tapButton)
+        wishListCollectionView.addSubview(wishBtn)
         setUI()
 
     }
@@ -73,7 +75,7 @@ class WishListViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         wishListCollectionView.layoutIfNeeded()
-        tapButton.layer.cornerRadius = (tapButton.frame.height)/2
+  //      tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -206,15 +208,15 @@ class WishListViewController: UIViewController {
 
     func setUI() {
 
-        tapButton.translatesAutoresizingMaskIntoConstraints = false
-        tapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-        tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
-        tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        tapButton.imageView?.tintColor = UIColor.FoodyFlow.white
-        tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
+        wishBtn.translatesAutoresizingMaskIntoConstraints = false
+        wishBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        wishBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+//        tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+//        tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        wishBtn.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
+//        tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
+//        tapButton.imageView?.tintColor = UIColor.FoodyFlow.white
+//        tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
     
     @objc func addNewFood() {

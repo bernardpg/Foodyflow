@@ -89,7 +89,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { ( _, user) in
             if user != nil {
                 print( "\(String(describing: user?.uid))" )
                 return

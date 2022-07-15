@@ -79,6 +79,7 @@
 		A9C1A7E5288109DF007A891C /* NoExpiredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E4288109DF007A891C /* NoExpiredView.swift */; };
 		A9C1A7E72881127B007A891C /* WithinThreeDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E62881127B007A891C /* WithinThreeDaysView.swift */; };
 		A9C1A7E9288112F5007A891C /* ShoppingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E8288112F5007A891C /* ShoppingListView.swift */; };
+		A9C1A7EB28819008007A891C /* ButtonPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7EA28819008007A891C /* ButtonPanelView.swift */; };
 		A9C6335A2876A2540057A8E8 /* ReadRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C633582876A2540057A8E8 /* ReadRecipeViewController.swift */; };
 		A9C6335B2876A2540057A8E8 /* ReadRecipeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C633592876A2540057A8E8 /* ReadRecipeViewController.xib */; };
 		A9D44280286EE21B00D69175 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */; };
@@ -175,6 +176,7 @@
 		A9C1A7E4288109DF007A891C /* NoExpiredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoExpiredView.swift; sourceTree = "<group>"; };
 		A9C1A7E62881127B007A891C /* WithinThreeDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithinThreeDaysView.swift; sourceTree = "<group>"; };
 		A9C1A7E8288112F5007A891C /* ShoppingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListView.swift; sourceTree = "<group>"; };
+		A9C1A7EA28819008007A891C /* ButtonPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonPanelView.swift; sourceTree = "<group>"; };
 		A9C633582876A2540057A8E8 /* ReadRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadRecipeViewController.swift; sourceTree = "<group>"; };
 		A9C633592876A2540057A8E8 /* ReadRecipeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReadRecipeViewController.xib; sourceTree = "<group>"; };
 		A9D4427E286EE21B00D69175 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				A9C1A7E4288109DF007A891C /* NoExpiredView.swift */,
 				A9C1A7E62881127B007A891C /* WithinThreeDaysView.swift */,
 				A9C1A7E8288112F5007A891C /* ShoppingListView.swift */,
+				A9C1A7EA28819008007A891C /* ButtonPanelView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -688,6 +691,7 @@
 				A98D50EE28640AB900B326AC /* ShoppingListCollectionReusableView.swift in Sources */,
 				A97939772873E15A006D6EDD /* UIImage + Extension.swift in Sources */,
 				A9ED957228684A4A00FBF68A /* PersonalLikeREcipeViewController.swift in Sources */,
+				A9C1A7EB28819008007A891C /* ButtonPanelView.swift in Sources */,
 				A944E693285DE3B70068D7DD /* UserManager.swift in Sources */,
 				A96DA97F2860365A008993BB /* CategoryManager.swift in Sources */,
 				A9C1A7E5288109DF007A891C /* NoExpiredView.swift in Sources */,
@@ -904,7 +908,6 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -939,7 +942,6 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (

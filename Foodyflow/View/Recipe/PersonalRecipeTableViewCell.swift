@@ -16,7 +16,6 @@ protocol SelectPersonalRecipeCellDelegate: AnyObject {
 
 }
 
-
 class PersonalRecipeTableViewCell: UITableViewCell {
     
     let identifier = "personalrecipeTableViewCell"
@@ -29,7 +28,6 @@ class PersonalRecipeTableViewCell: UITableViewCell {
     var indexPath: IndexPath!
     
     weak var delegate: SelectPersonalRecipeCellDelegate?
-    
     
     @IBOutlet weak var personalRecipeImage: UIImageView!
     
@@ -48,7 +46,6 @@ class PersonalRecipeTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-
     }
     
     @objc func editRecipe() {
@@ -56,11 +53,8 @@ class PersonalRecipeTableViewCell: UITableViewCell {
         
     }
     
-    
     @objc func deleteRecipe() {
         delegate?.didDeleteRecipe(indexPathRow: indexPath)
     }
-    
-    
     
 }
