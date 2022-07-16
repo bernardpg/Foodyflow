@@ -75,6 +75,7 @@
 		A991AE7E287FB4E600836785 /* UItapGestureRecognizer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A991AE7D287FB4E600836785 /* UItapGestureRecognizer+Extension.swift */; };
 		A991AE82287FB56100836785 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A991AE81287FB56000836785 /* WebViewController.swift */; };
 		A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99B9E982876C80C0050F086 /* PersonalRecipe.swift */; };
+		A9A2AADE2881CD04005977A0 /* ShoppingListBtnPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A2AADD2881CD04005977A0 /* ShoppingListBtnPanelView.swift */; };
 		A9C1A7E32881077A007A891C /* RefrigeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E228810777007A891C /* RefrigeView.swift */; };
 		A9C1A7E5288109DF007A891C /* NoExpiredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E4288109DF007A891C /* NoExpiredView.swift */; };
 		A9C1A7E72881127B007A891C /* WithinThreeDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C1A7E62881127B007A891C /* WithinThreeDaysView.swift */; };
@@ -172,6 +173,7 @@
 		A991AE7D287FB4E600836785 /* UItapGestureRecognizer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UItapGestureRecognizer+Extension.swift"; sourceTree = "<group>"; };
 		A991AE81287FB56000836785 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		A99B9E982876C80C0050F086 /* PersonalRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalRecipe.swift; sourceTree = "<group>"; };
+		A9A2AADD2881CD04005977A0 /* ShoppingListBtnPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListBtnPanelView.swift; sourceTree = "<group>"; };
 		A9C1A7E228810777007A891C /* RefrigeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefrigeView.swift; sourceTree = "<group>"; };
 		A9C1A7E4288109DF007A891C /* NoExpiredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoExpiredView.swift; sourceTree = "<group>"; };
 		A9C1A7E62881127B007A891C /* WithinThreeDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithinThreeDaysView.swift; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 				A9C1A7E62881127B007A891C /* WithinThreeDaysView.swift */,
 				A9C1A7E8288112F5007A891C /* ShoppingListView.swift */,
 				A9C1A7EA28819008007A891C /* ButtonPanelView.swift */,
+				A9A2AADD2881CD04005977A0 /* ShoppingListBtnPanelView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -729,6 +732,7 @@
 				A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */,
 				A9DC8A9C2876DA31000D6BC5 /* PersonalRecipeTableViewCell.swift in Sources */,
 				A944E698285EAB1F0068D7DD /* Food.swift in Sources */,
+				A9A2AADE2881CD04005977A0 /* ShoppingListBtnPanelView.swift in Sources */,
 				A948AAB1285B309E00355C59 /* RefrigeProductDetailViewController.swift in Sources */,
 				A9ED9568286843B300FBF68A /* LoadingExtension.swift in Sources */,
 				A96DA979286012CC008993BB /* ShoppingListProductDetailViewController.swift in Sources */,
