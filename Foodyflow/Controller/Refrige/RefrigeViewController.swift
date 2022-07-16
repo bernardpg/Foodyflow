@@ -99,6 +99,9 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     var didSelectDifferentRef: Int? // {didSet{reloadRefrige()}}
     
+    private lazy var notiname = Notification.Name("dropDownReloadNoti")
+
+    
     private enum Mode {
         case onboarding
         case login
@@ -113,6 +116,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         super.viewDidLoad()
         observeForm()
         viewPagerProperties()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadDropdown), name: notiname, object: nil)
 
     }
     
@@ -127,8 +132,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             if user != nil {
                 guard let userID = user?.uid else { return }
                 
-                self.fetchAllCate { [weak self] cate in
-                    self?.cate = cate }
+                self.fetchAllCate { [weak self] cates in
+                    self?.cate = cates }
                 
                 self.userLoadRefrige(userID: userID)
                                             
@@ -152,6 +157,18 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                 self.refrigeAllFoodVC.refrigeTableView.backgroundView = nil
             }
         }.store(in: &subscribers)
+    }
+    
+    @objc func reloadDropdown() {
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        self.fetchAllCate { [weak self] cate in
+            self?.cate = cate }
+        
+        self.userLoadRefrige(userID: userID)
+
+        
     }
         
     func userLoadRefrige(userID: String) {
@@ -333,6 +350,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                 navigationController: self.navigationController,
                 containerView: self.navigationController!.view,
                 title: BTTitle.index(0), items: items)
+                refrigeNow = nil
                 menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
                     print("Did select item at index: \(indexPath)")}
         } else {

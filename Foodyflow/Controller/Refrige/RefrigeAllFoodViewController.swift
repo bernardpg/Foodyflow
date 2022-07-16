@@ -4,6 +4,7 @@
 //
 //  Created by 曹珮綺 on 6/26/22.
 //
+// 刪除到冰箱是零還沒歸零
 
 // 還沒有購買得時候 購買完須在點擊才會有改變backgroundPage
 
@@ -24,10 +25,7 @@ import FirebaseAuth
 import Kingfisher
 
 class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
-
-    func didTapButtonWithText(_ text: String) {
-        print("dd")
-    }
+    
 
     var refrigeTableView = UITableView() { didSet { refrigeTableView.reloadData() } }
     
@@ -81,6 +79,8 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
     
     var didSelectDifferentRef: Int? { didSet { reloadRefrige() } }
     
+    private lazy var notiname = Notification.Name("dropDownReloadNoti")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -115,8 +115,8 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
-            self.fetchAllCate { [weak self] cate in
-                self?.cate = cate
+            self.fetchAllCate { [weak self] cates in
+                self?.cate = cates
                 semaphore.signal()
             }
             semaphore.wait()
@@ -143,8 +143,11 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
                     
                 }
                 self.fetchAllRefrige(userRefriges: userInfo.personalRefrige) { [weak self] refrige in
-                    self?.resetRefrigeFood()
                     
+                    self?.resetRefrigeFood()
+                    if refrige.count == 1 {
+                        refrigeNow =  self?.refrige[0]
+                    }
                     self?.fetAllFood(completion: { foodInfo in
                         
                         if foodInfo.isEmpty {
@@ -289,28 +292,9 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
     
     // change refrige
     //    refrigeNow = refrige[0]
-    func verifyUser() {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user != nil {
-                let shoppingVC = RefrigeProductDetailViewController(
-                    nibName: "ShoppingProductDetailViewController",
-                    bundle: nil)
-                
-                // bug fixs
-                guard let currentRefrige = refrigeNow else { return }
-                shoppingVC.refrige = currentRefrige
-                self.navigationController!.pushViewController(shoppingVC, animated: true)
-                
-            } else {
-                self.present(LoginViewController(), animated: true)
-                
-            }
-        }
-        
-    }
     
     func verifyUserloading( completion: @escaping () -> Void) {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (_, user) in
             if user != nil {
                 guard let user = user?.uid else {
                     return
@@ -349,9 +333,9 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
         }
     }
 
-    @objc func addNewFood() {
+    /*@objc func addNewFood() {
         verifyUser()
-    }
+    }*/
     
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
         CategoryManager.shared.fetchArticles(completion: { result in
@@ -398,6 +382,7 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
     func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []
 //        print(self.refrige[self.didSelectDifferentRef ?? 0])
+        //nil
         FoodManager.shared.fetchSpecifyFood(refrige: refrigeNow!) { [weak self] result in
             switch result {
             case .success(let foodInfo):
@@ -411,6 +396,8 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
             }
         }
     }
+    
+    // MARK: - Anamation Button create
     
     private func resetRefrigeFood() {
         meatsInfo = []
@@ -426,6 +413,146 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
         othersInfo = []
         
     }
+    
+    func didTapButtonWithText(_ text: Int) {
+        
+        verifyUser(btn: text)
+        // verify uSer
+    }
+    
+    private func verifyUser(btn: Int) {
+        Auth.auth().addStateDidChangeListener { (_, user) in
+            if user != nil {
+                
+                if btn == 2 {
+                    
+                    if refrigeNow?.id == nil {
+                        
+                        self.whenFrigeIsEmptyAlert()
+                        // create refrige
+
+        //                        self.createFrige()
+                        
+                    } else {
+                    guard let currentRefrige = refrigeNow else { return }
+                    let shoppingVC = RefrigeProductDetailViewController(
+                            nibName: "ShoppingProductDetailViewController",
+                            bundle: nil)
+                    shoppingVC.refrige = currentRefrige
+                    self.navigationController!.pushViewController(shoppingVC, animated: true)
+
+                    }
+                } else if btn == 1 {
+                    self.createFrige()
+                    // create freige
+                }
+            } else {
+                self.present(LoginViewController(), animated: true)
+                
+            }
+        }
+        
+    }
+
+    private func createFrige() {
+
+    let alert = UIAlertController(title: "創建食光",
+                                  message: "冰箱",
+                                  preferredStyle: .alert)
+    // delete user delete refrige delete personalDorecipe
+                
+    let createAction = UIAlertAction(title: "建立食光", style: .default) { _  in
+        
+        var refrige = Refrige.init(id: "", title: "我的冰箱", foodID: [], createdTime: 0, category: "", shoppingList: [])
+        
+        self.promptForAnswer { refrigeName in
+            refrige.title = refrigeName
+            RefrigeManager.shared.createFrige(refrige: &refrige) { result in
+            switch result {
+            case .success(let refrigeID):
+                guard let useID = Auth.auth().currentUser?.uid else { return }
+                self.fetchUser(userID: useID) { userInfo in
+                    var personalRefirge = userInfo.personalRefrige
+                        
+                        personalRefirge.append(refrigeID)
+                    self.userManager.createRefrigeOnSingleUser(user: userInfo, refrigeID: personalRefirge) { result in
+                        switch result {
+                        case .success:
+                            HandleResult.addDataSuccess.messageHUD
+                            
+                            NotificationCenter.default.post(name: self.notiname, object: nil)
+                            
+                            DispatchQueue.main.async {
+                                self.singlerefrige()
+                            }
+//                            self.verifyUser {
+//                                HandleResult.addDataSuccess.messageHUD
+
+//                            }
+                        case .failure:
+                            HandleResult.addDataFailed.messageHUD
+                        }
+                    }
+                }
+                self.onPublished?()
+            case .failure:
+                HandleResult.addDataFailed.messageHUD
+                
+            }
+            }
+
+        }
+        
+        
+    }
+        alert.addAction(createAction)
+        
+    let falseAction = UIAlertAction(title: "取消", style: .cancel)
+            alert.addAction(falseAction)
+
+        alert.show(animated: true, vibrate: false)
+        
+    }
+    
+    private func promptForAnswer(completion: @escaping (String) -> Void) {
+        let alertVC = UIAlertController(title: "請填寫你食光的名字", message: "填寫冰箱名", preferredStyle: .alert)
+        alertVC.addTextField()
+        
+        let submitAction = UIAlertAction(title: "確認", style: .default) { [unowned alertVC] _ in
+            let answer = alertVC.textFields![0]
+            
+            guard let rename = answer.text else { return }
+            completion(rename)
+            // do something interesting with "answer" here
+        }
+        
+        alertVC.addAction(submitAction)
+        
+        let falseAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertVC.addAction(falseAction)
+        present(alertVC, animated: true)
+    }
+    
+    private func whenFrigeIsEmptyAlert() {
+        
+        let controller = UIAlertController(title: "尚未有食光冰箱", message: "請先創建", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            
+        }
+        controller.addAction(okAction)
+                                     
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
+            
+        }
+        controller.addAction(cancelAction)
+                                     
+        present(controller, animated: true, completion: nil)
+        
+    }
+    
+    // MARK: notification post
+
     
     private func cateFilter(allFood: [FoodInfo], cates: [String?]) {
         for foodInfo in allFood {
@@ -478,7 +605,7 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
         refrigeBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
 //        buttonPanelView.widthAnchor.constraint(equalToConstant: 45).isActive = true
 //        buttonPanelView.heightAnchor.constraint(equalToConstant: ).isActive = true
-        refrigeBtn.layer.backgroundColor = UIColor.FoodyFlow.lightOrange.cgColor
+        refrigeBtn.layer.backgroundColor = UIColor.FoodyFlow.btnOrange.cgColor
        // tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
       //  buttonPanelView.imageView?.tintColor = .white
        // tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)

@@ -61,8 +61,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     var onPublished: (() -> Void)?
     
     var menuView: BTNavigationDropdownMenu!
-    
-    private lazy var createVC = CreatePersonViewController()
+    // need to change
+//    private lazy var createVC = CreatePersonViewController()
     
     private var viewPager =  LZViewPager()
     
@@ -98,8 +98,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 self.setDropdown(shoppingLists: self.shoppingLists)
             }
         }
-        self.fetchAllCate { [weak self] cate in
-            self?.cate = cate
+        self.fetchAllCate { [weak self] cates in
+            self?.cate = cates
         }
         
         // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
@@ -108,7 +108,9 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
             self?.shoppingLists = shoppingLists
             if shoppingLists.isEmpty {
-                self?.present(self?.createVC ?? CreatePersonViewController(), animated: true)
+                self?.cate = []
+//                self?.present(self?.createVC ?? CreatePersonViewController(), animated: true)
+
                 
                 self?.setDropdown(shoppingLists: self?.shoppingLists ?? [])
 //                self?.setDropdown(shoppingLists: self?.shoppingLists ?? <#default value#>)
@@ -220,7 +222,9 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 containerView: self.navigationController!.view,
                 title: BTTitle.index(0), items: items)
             menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
-                print("Did select item at index: \(indexPath)")}
+                print("Did select item at index: \(indexPath)")
+            // refresh 
+            }
 
         } else {
         menuView = BTNavigationDropdownMenu(

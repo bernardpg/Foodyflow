@@ -94,8 +94,8 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
-            self.fetchAllCate { [weak self] cate in
-                self?.cate = cate
+            self.fetchAllCate { [weak self] cates in
+                self?.cate = cates
                 semaphore.signal()
             }
             semaphore.wait()

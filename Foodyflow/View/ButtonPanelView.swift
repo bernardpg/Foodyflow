@@ -6,14 +6,14 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 /// Protocol to handle interactions with buttons in the button panel.
 protocol ButtonPanelDelegate: NSObject {
 
-  
   /// Notifies the delegate that a button in the panel was tapped.
   /// - Parameter text: The text in the button that was tapped. ➕
-  func didTapButtonWithText(_ text: String)
+  func didTapButtonWithText(_ text: Int)
 }
 
 fileprivate let buttonSize: CGFloat = 56
@@ -38,6 +38,7 @@ class ButtonPanelView: UIView {
       button.setImage(UIImage(named: "refrigeratorIcon")?.resize(to: .init(width: 32, height: 32)), for: .normal)
 //    button.setTitle("🛒", for: .normal)
     button.layer.cornerRadius = buttonSize / 2
+    button.tag = 1
     button.isHidden = true
     button.addTarget(
       self, action: #selector(handleExpandedButtonTapped(_:)), for: .touchUpInside)
@@ -46,8 +47,9 @@ class ButtonPanelView: UIView {
 
   lazy var catButton: UIButton = {
     let button = UIButton(frame: .zero)
-    button.setTitle("🍛", for: .normal)
+    button.setImage(UIImage(named: "food")?.resize(to: .init(width: 32, height: 32)), for: .normal)
     button.layer.cornerRadius = buttonSize / 2
+    button.tag = 2
     button.isHidden = true
     button.addTarget(
       self, action: #selector(handleExpandedButtonTapped(_:)), for: .touchUpInside)
@@ -120,10 +122,11 @@ class ButtonPanelView: UIView {
 
 extension ButtonPanelView {
   @objc private func handleTogglePanelButtonTapped(_ sender: UIButton) {
+ 
     let willExpand = expandedStackView.isHidden
     let menuButtonNewTitle = willExpand ? "❌" : "➕"
     UIView.animate(
-      withDuration:0.3, delay: 0, options: .curveEaseIn,
+      withDuration: 0.3, delay: 0, options: .curveEaseIn,
       animations: {
         self.expandedStackView.subviews.forEach { $0.isHidden = !$0.isHidden }
         self.expandedStackView.isHidden = !self.expandedStackView.isHidden
@@ -139,8 +142,8 @@ extension ButtonPanelView {
   }
 
   @objc private func handleExpandedButtonTapped(_ sender: UIButton) {
-    guard let label = sender.titleLabel, let text = label.text else { return }
-    delegate?.didTapButtonWithText(text)
+//    guard let label = sender.titleLabel, let text = label.text else { return }
+      let btnTag  = sender.tag
+      delegate?.didTapButtonWithText(btnTag)
   }
 }
-

@@ -124,7 +124,9 @@ class InshoppingViewController: UIViewController {
                         self?.cate = []
                         self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView
                         self?.inShoppingListCollectionView.reloadData()
-                        self?.present(CreatePersonViewController(), animated: true) }} else {
+                      //  self?.present(CreatePersonViewController(), animated: true)
+                        
+                    }} else {
             shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     if foodssInfo.isEmpty {
@@ -233,8 +235,8 @@ class InshoppingViewController: UIViewController {
         
         HandleResult.readData.messageHUD
         
-        self.fetchAllCate { [weak self] cate in
-            self?.cate = cate
+        self.fetchAllCate { [weak self] cates in
+            self?.cate = cates
         }
             
             self.resetRefrigeFood()

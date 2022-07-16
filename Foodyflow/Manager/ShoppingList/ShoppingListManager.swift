@@ -20,7 +20,11 @@ class ShoppingListManager {
         
     func fetchAllShoppingListIDInSingleRefrige(  completion: @escaping (Result<[String?], Error>) -> Void) {
         
-        guard let refrigeNowID = refrigeNowID else { return }
+        
+        
+        guard let refrigeNowID = refrigeNowID else { completion(.success([])); return }
+        
+        //
         
         // Refrige empty
         let shoppingLists: [String?] = []

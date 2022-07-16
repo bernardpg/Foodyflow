@@ -11,11 +11,14 @@ import Kingfisher
 
 // Login 跟 會擋到 
 
-class WishListViewController: UIViewController {
+class WishListViewController: UIViewController, ShopButtonPanelDelegate {
     
-   // private lazy var tapButton = UIButton()
+    func didTapButtonWithText(_ text: Int) {
+        // 判別冰箱是否是空的
+        // 判別shopList是否是空的
+    }
     
-    private let wishBtn = ButtonPanelView()
+    private let wishBtn = ShoppingListBtnPanelView()
     
     var tabIndex: Int?
     
@@ -69,13 +72,13 @@ class WishListViewController: UIViewController {
         wishListCollectionView.dataSource = self
         wishListCollectionView.addSubview(wishBtn)
         setUI()
+        wishBtn.delegate = self
 
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         wishListCollectionView.layoutIfNeeded()
-  //      tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,20 +86,23 @@ class WishListViewController: UIViewController {
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
-            self.fetchAllCate { [weak self] cate in
-                self?.cate = cate
+            self.fetchAllCate { [weak self] cates in
+                self?.cate = cates
+                semaphore.signal()
             }
-            
+            semaphore.wait()
             // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
             // w for fix error 應該先fetch 在回來抓
             self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
             self?.shoppingLists = shoppingLists
             if shoppingLists.isEmpty {
-                    DispatchQueue.main.async {
-                        self?.cate = []
+                self?.cate = []
+                DispatchQueue.main.async {
                         self?.wishListCollectionView.backgroundView = self?.shoppingListView
                         self?.wishListCollectionView.reloadData()
-                        self?.present(CreatePersonViewController(), animated: true) }} else {
+                        //self?.present(CreatePersonViewController(), animated: true)
+                        
+                    }} else {
             shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     if foodssInfo.isEmpty {
@@ -134,11 +140,11 @@ class WishListViewController: UIViewController {
         
         HandleResult.readData.messageHUD
         
-        self.fetchAllCate { [weak self] cate in
-            self?.cate = cate
+        self.fetchAllCate { [weak self] cates in
+            self?.cate = cates
         }
             
-            self.resetRefrigeFood()
+        self.resetRefrigeFood()
         shoppingListNowID = self.shoppingLists[shopDidSelectDifferentRef ?? 0]
             self.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                 if foodssInfo.isEmpty {
@@ -211,12 +217,7 @@ class WishListViewController: UIViewController {
         wishBtn.translatesAutoresizingMaskIntoConstraints = false
         wishBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         wishBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-//        tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-//        tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        wishBtn.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
-//        tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
-//        tapButton.imageView?.tintColor = UIColor.FoodyFlow.white
-//        tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
+        wishBtn.layer.backgroundColor = UIColor.FoodyFlow.btnOrange.cgColor
     }
     
     @objc func addNewFood() {
@@ -287,7 +288,6 @@ class WishListViewController: UIViewController {
     }
     // fetch shoppingList number
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-     //   refrigeNowID = "2" // rename  // 邏輯修改
         ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige { result in
             switch result {
             case .success(let shoppingLists):
@@ -422,6 +422,7 @@ class WishListViewController: UIViewController {
             
         }
         }
+    
     }
 
 extension WishListViewController: UICollectionViewDataSource,
@@ -566,7 +567,7 @@ extension WishListViewController: UICollectionViewDataSource,
             ofKind: kind,
             withReuseIdentifier: "ShoppingListCollectionReusableView",
             for: indexPath) as? ShoppingListCollectionReusableView {
-            sectionHeader.sectionHeaderlabel.text = cate[indexPath.section]
+            sectionHeader.sectionHeaderlabel.text = self.cate[indexPath.section]
             sectionHeader.sectionHeaderlabel.font = UIFont(name: "PingFang TC", size: 20)
             return sectionHeader
         }

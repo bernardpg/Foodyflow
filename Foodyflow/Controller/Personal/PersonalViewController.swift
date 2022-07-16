@@ -264,13 +264,12 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     let logoutAction = UIAlertAction(title: "登出", style: .default) { _  in
         
         if Auth.auth().currentUser != nil {self.signout()
+        } else {
+            self.present( LoginViewController(), animated: true )
             
         }
-        else {
-            self.present( LoginViewController(), animated: true )
-
-        }
-        }
+        
+    }
         alert.addAction(logoutAction)
         
     let blockActionUser = UIAlertAction(title: "查看封鎖名單", style: .default) { _ in
