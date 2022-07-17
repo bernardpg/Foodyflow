@@ -99,7 +99,7 @@ class InshoppingViewController: UIViewController {
                         
                         self?.inShoppingListCollectionView.backgroundView = nil
                         self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                        var inshopFoodInfo = allfoodInfo.filter { foodinfo in
+                        let inshopFoodInfo = allfoodInfo.filter { foodinfo in
                             foodinfo.foodStatus == 2
                             }
                         guard let cates = self?.cate else { return }
@@ -216,7 +216,7 @@ class InshoppingViewController: UIViewController {
                     self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView } } else {
                     self?.inShoppingListCollectionView.backgroundView = nil
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                        var inshopFoodInfo = allfoodInfo.filter { foodinfo in
+                        let inshopFoodInfo = allfoodInfo.filter { foodinfo in
                             foodinfo.foodStatus == 2 }
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()

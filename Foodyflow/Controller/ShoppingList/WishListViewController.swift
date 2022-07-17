@@ -36,8 +36,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
                      // no shopList
                     else if self.shoppingLists.isEmpty {
                         self.whenShopListIsEmptyAlert()
-                    }
-                    else {
+                    } else {
                         
                     // create Food
                     guard let currentRefrige = refrigeNow else { return }
@@ -53,7 +52,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
                     if refrigeNow?.id == nil {
                         
                         self.whenFrigeIsEmptyAlert()
-                        } else{
+                        } else {
                         self.createShoppingList()
                         }}
             } else {
@@ -161,9 +160,6 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
         alertVC.addAction(falseAction)
         present(alertVC, animated: true)
     }
-
-    private func createFrige(){
-    }
     
     private lazy var notiname = Notification.Name("dropDownShopReloadNoti")
 
@@ -260,7 +256,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
                         
                         self?.wishListCollectionView.backgroundView = nil
                         self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                        var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
+                        let wishshopFoodInfo = allfoodInfo.filter { foodinfo in
                                 foodinfo.foodStatus == 1 }
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
@@ -306,7 +302,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
                             self?.wishListCollectionView.backgroundView = self?.shoppingListView } } else {
                         self?.wishListCollectionView.backgroundView = nil
                         self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                        var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
+                        let wishshopFoodInfo = allfoodInfo.filter { foodinfo in
                                     foodinfo.foodStatus == 1 }
                             guard let cates = self?.cate else { return }
                             self?.resetRefrigeFood()
@@ -524,8 +520,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
                         if foodssInfo.isEmpty {
                             self?.cate = []
                             self?.wishListCollectionView.reloadData()
-                            self?.wishListCollectionView.backgroundView = self?.shoppingListView }
-                        else {
+                            self?.wishListCollectionView.backgroundView = self?.shoppingListView } else {
                         if foodssInfo[0] == "" {
                             DispatchQueue.main.async {
                                 self?.cate = []
@@ -534,7 +529,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
                                 self?.wishListCollectionView.backgroundView = self?.shoppingListView } } else {
                             self?.wishListCollectionView.backgroundView = nil
                             self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                                var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
+                                let wishshopFoodInfo = allfoodInfo.filter { foodinfo in
                                         foodinfo.foodStatus == 1 }
                                 guard let cates = self?.cate else { return }
                                 self?.resetRefrigeFood()
@@ -574,13 +569,13 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
         }
         }
     
-    // MARK:  - create ShopList
+    // MARK: - create ShopList
     
-    func createShopList(newshopList: ShoppingList,refrige: Refrige, completion: @escaping() -> Void){
+    func createShopList(newshopList: ShoppingList, refrige: Refrige, completion: @escaping() -> Void) {
         
         var newshopList = newshopList
         ShoppingListManager.shared.createShoppingList(shoppingList: &newshopList, refrigeID: refrige.id) { result in
-            switch result{
+            switch result {
             case .success:
                 HandleResult.addDataSuccess.messageHUD
             case .failure:
@@ -641,7 +636,7 @@ extension WishListViewController: UICollectionViewDataSource,
         switch indexPath.section {
         case 0:
             cell.shoppingName.text = meatsInfo[indexPath.item].foodName
-                cell.shoppingItemImage.kf.setImage(with: URL( string: meatsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: meatsInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = meatsInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = meatsInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true  // meatsInfo[indexPath.item].foodWeightAmount

@@ -26,9 +26,9 @@ class LoginViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         label.isUserInteractionEnabled = true
         
-        let stringValue = "By continuing, you agree to our Privacy Police and Apple EULA"
+        let stringValue = "By continuing, you agree to our Privacy Policy and Apple EULA"
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
-        attributedString.setColor(color: UIColor.FoodyFlow.lightOrange, forText: "Privacy Police")
+        attributedString.setColor(color: UIColor.FoodyFlow.lightOrange, forText: "Privacy Policy")
         attributedString.setColor(color: UIColor.FoodyFlow.lightOrange, forText: "EULA")
         label.attributedText = attributedString
         

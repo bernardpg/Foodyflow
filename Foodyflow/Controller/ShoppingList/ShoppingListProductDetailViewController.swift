@@ -139,8 +139,7 @@ class ShoppingListProductDetailViewController: UIViewController, UINavigationCon
     @objc func postToRefirgeDB() {
         
         guard let foodImage = foodImage.image else {
-            return
-        }
+            return }
         uploadPhoto(image: foodImage) { [self] result in
             switch result {
             case .success(let url):

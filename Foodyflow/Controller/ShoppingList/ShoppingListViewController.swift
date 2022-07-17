@@ -5,6 +5,8 @@
 //  Created by 曹珮綺 on 6/20/22.
 //
 
+// delete food delete shoppingList
+
 // shoppingList 再次確認有無問題
 
 // bug shoppingList Name fetch 回來
@@ -368,8 +370,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 shoppingListsTitle.append(shoppingList?.title ?? "我的購買清單")
                 // change shoppingList 判別數量相同
                 if ((self.shoppingLists[0]?.count) != nil) {
-                    completion(shoppingListsTitle)}
-                else { print("not finish ") }
+                    completion(shoppingListsTitle)} else { print("not finish ") }
             case .failure:
                 print("fetch shoppingListInfo error")
             }

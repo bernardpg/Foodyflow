@@ -312,7 +312,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     // change refrige
     //    refrigeNow = refrige[0]
     func verifyUser() {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (_, user) in
             if user != nil {
                 let shoppingVC = RefrigeProductDetailViewController(
                     nibName: "ShoppingProductDetailViewController",
@@ -332,7 +332,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     }
     
     func verifyUserloading( completion: @escaping () -> Void) {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (_, user) in
             if user != nil {
                 guard let user = user?.uid else {
                     return

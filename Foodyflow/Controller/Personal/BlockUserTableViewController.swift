@@ -141,7 +141,7 @@ class BlockUserTableViewController: UITableViewController, UnblockUserCellDelega
         // update and fetch
         
         
-        //UserManager.shared.updateUserInfo(user: <#T##UserInfo#>, completion: <#T##() -> Void#>)
+        // UserManager.shared.updateUserInfo(user: <#T##UserInfo#>, completion: <#T##() -> Void#>)
         
   //  }
     

@@ -18,7 +18,6 @@ import SwifterSwift
 
 class AllRecipeViewController: UIViewController {
     
-    
     private lazy var allRecipeTableView = UITableView() { didSet { allRecipeTableView.reloadData()} }
     
     private enum Mode {
@@ -27,7 +26,7 @@ class AllRecipeViewController: UIViewController {
     }
         
     private var recipeAmount: [Recipe] = []
-    private var usersinfo: UserInfo?  {didSet{fetchReload()}}
+    private var usersinfo: UserInfo?  { didSet{fetchReload()} }
     
     private lazy var searchController: UISearchController = {
         let searchVC = UISearchController(searchResultsController: nil)
@@ -372,7 +371,6 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, R
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         recipeAmount.count
-//        20 //searchResults?.items.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
