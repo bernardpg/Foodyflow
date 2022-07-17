@@ -45,7 +45,7 @@ class ShoppingListProductDetailViewController: UIViewController, UINavigationCon
     
     var foodInfo = FoodInfo()
     
-    var shoppingList: ShoppingList = ShoppingList( title: "", foodID: [""] )
+    var shoppingList: ShoppingList = ShoppingList( id: "", title: "", foodID: [""] )
     
     override func viewDidLoad() {
         super.viewDidLoad()

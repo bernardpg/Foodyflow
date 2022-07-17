@@ -20,11 +20,8 @@ class ShoppingListManager {
         
     func fetchAllShoppingListIDInSingleRefrige(  completion: @escaping (Result<[String?], Error>) -> Void) {
         
-        
-        
         guard let refrigeNowID = refrigeNowID else { completion(.success([])); return }
         
-        //
         
         // Refrige empty
         let shoppingLists: [String?] = []
@@ -54,7 +51,6 @@ class ShoppingListManager {
     
     func fetchALLShopListInfoInSingleRefrige(shopplingLists: [String?], completion: @escaping (Result<ShoppingList?, Error >) -> Void) {
     let colRef = db.collection("shoppingList")
-    
 //        let foods = FoodInfo()
 //        guard !refrige.foodID.isEmpty else {
 //            completion(.success(foods))
@@ -122,9 +118,25 @@ class ShoppingListManager {
         }
     }
     
-//    func createShoppingList( shoppingList:  ) {
-    
-//    }
+    func createShoppingList(shoppingList: inout ShoppingList, refrigeID: String, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        let document = db.collection("shoppingList").document()
+        shoppingList.id = document.documentID
+        let refrigeRef = db.collection("Refrige").document(refrigeID)
+        
+        refrigeRef.updateData([ "shoppingList": FieldValue.arrayUnion([shoppingList.id])])
+        
+        document.setData(shoppingList.toDict) { error in
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                completion(.success(document.documentID))
+            }
+        }
+    }
+
         
     func createShoppingListOnSingleUser(user: UserInfo, refrigeID: [String?], completion: @escaping (Result<String, Error>) -> Void ) {
 

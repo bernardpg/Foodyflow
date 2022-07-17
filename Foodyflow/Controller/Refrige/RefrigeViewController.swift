@@ -19,14 +19,13 @@ import FirebaseAuth
 // refrige  內部未完全更改
     
 // shoppinglist 也是
+
 // launchScreen
 
 // 圖片與文字如果沒有的話要改成預設值
 // personal 更改畫面圖片跟文字
 
 //  fetch 資料及更改 再次確認
-
-// plus button 判斷button array
 
 // 個人頁面照片上傳跟fetch 未用
 
@@ -101,7 +100,6 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     private lazy var notiname = Notification.Name("dropDownReloadNoti")
 
-    
     private enum Mode {
         case onboarding
         case login
@@ -167,8 +165,6 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             self?.cate = cate }
         
         self.userLoadRefrige(userID: userID)
-
-        
     }
         
     func userLoadRefrige(userID: String) {

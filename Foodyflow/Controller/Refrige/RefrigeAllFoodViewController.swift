@@ -26,7 +26,6 @@ import Kingfisher
 
 class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
     
-
     var refrigeTableView = UITableView() { didSet { refrigeTableView.reloadData() } }
     
     private var tapButton = UIButton()
@@ -503,7 +502,6 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
 
         }
         
-        
     }
         alert.addAction(createAction)
         
@@ -537,15 +535,17 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
         
         let controller = UIAlertController(title: "尚未有食光冰箱", message: "請先創建", preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            
-        }
-        controller.addAction(okAction)
                                      
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
             
         }
         controller.addAction(cancelAction)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            
+        }
+        controller.addAction(okAction)
+
                                      
         present(controller, animated: true, completion: nil)
         
@@ -553,7 +553,6 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
     
     // MARK: notification post
 
-    
     private func cateFilter(allFood: [FoodInfo], cates: [String?]) {
         for foodInfo in allFood {
             for cate in cates {

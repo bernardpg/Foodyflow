@@ -8,16 +8,165 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import FirebaseAuth
 
 // Login 跟 會擋到 
 
 class WishListViewController: UIViewController, ShopButtonPanelDelegate {
     
     func didTapButtonWithText(_ text: Int) {
-        // 判別冰箱是否是空的
-        // 判別shopList是否是空的
+        
+        verifyUser(btn: text)
+        // verifyUser
     }
     
+    private func verifyUser(btn: Int) {
+        Auth.auth().addStateDidChangeListener { (_, user) in
+            if user != nil {
+                
+                // create food
+                if btn == 1 {
+                    
+                     // no refrige
+                    if refrigeNow?.id == nil {
+                        
+                        self.whenFrigeIsEmptyAlert()
+                        
+                    }
+                     // no shopList
+                    else if self.shoppingLists.isEmpty {
+                        self.whenShopListIsEmptyAlert()
+                    }
+                    else {
+                        
+                    // create Food
+                    guard let currentRefrige = refrigeNow else { return }
+                    let shoppingVC = RefrigeProductDetailViewController(
+                            nibName: "ShoppingProductDetailViewController",
+                            bundle: nil)
+                    shoppingVC.refrige = currentRefrige
+                    self.navigationController!.pushViewController(shoppingVC, animated: true)
+
+                    }
+                } else if btn == 2 {
+                    // create shopList
+                    if refrigeNow?.id == nil {
+                        
+                        self.whenFrigeIsEmptyAlert()
+                        } else{
+                        self.createShoppingList()
+                        }}
+            } else {
+                self.present(LoginViewController(), animated: true)
+            }
+        }
+
+    }
+    
+    private func whenFrigeIsEmptyAlert() {
+        
+        let controller = UIAlertController(title: "尚未有食光冰箱", message: "請先在冰箱頁創立", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
+            
+        }
+        controller.addAction(cancelAction)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            
+        }
+        controller.addAction(okAction)
+
+        present(controller, animated: true, completion: nil)
+        
+    }
+    
+    private func whenShopListIsEmptyAlert() {
+        
+        let controller = UIAlertController(title: "尚未有購物清單", message: "請先創立購物清單", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
+            
+        }
+        controller.addAction(cancelAction)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            
+        }
+        controller.addAction(okAction)
+
+        present(controller, animated: true, completion: nil)
+        
+    }
+
+    private func createShoppingList() {
+        
+        let alert = UIAlertController(title: "創建購物清單", message: nil, preferredStyle: .alert)
+        
+        let createAction = UIAlertAction(title: "建立清單", style: .default) { _ in
+            
+            guard let refrigeID = refrigeNow?.id else { return }
+            
+            var createNewShop = ShoppingList.init(id: "", title: "我的購物清單", foodID: [])
+            
+            self.promptForAnswer { createNewShopListName in
+                createNewShop.title = createNewShopListName
+                
+                ShoppingListManager.shared.createShoppingList(shoppingList: &createNewShop, refrigeID: refrigeID) { result in
+                    switch result {
+                    case .success:
+                        NotificationCenter.default.post(name: self.notiname, object: nil)
+                        
+                        DispatchQueue.main.async {
+                            self.reloadWishList()
+                        }
+                        
+                        HandleResult.addDataSuccess.messageHUD
+                    case .failure:
+                        HandleResult.addDataFailed.messageHUD
+                    }
+                }
+        
+            }
+        }
+        alert.addAction(createAction)
+        
+        let falseAction = UIAlertAction(title: "取消", style: .cancel)
+        
+        alert.addAction(falseAction)
+        
+        alert.show(animated: true, vibrate: false, completion: nil)
+        
+        // fetch Refrige
+        
+        // else create Refrige
+        
+    }
+    
+    private func promptForAnswer(completion: @escaping (String) -> Void) {
+        let alertVC = UIAlertController(title: "請填寫你購物清單的名字", message: "填寫你想紀錄的清單", preferredStyle: .alert)
+        alertVC.addTextField()
+        
+        let submitAction = UIAlertAction(title: "確認", style: .default) { [unowned alertVC] _ in
+            let answer = alertVC.textFields![0]
+            
+            guard let rename = answer.text else { return }
+            completion(rename)
+            // do something interesting with "answer" here
+        }
+        
+        alertVC.addAction(submitAction)
+        
+        let falseAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertVC.addAction(falseAction)
+        present(alertVC, animated: true)
+    }
+
+    private func createFrige(){
+    }
+    
+    private lazy var notiname = Notification.Name("dropDownShopReloadNoti")
+
     private let wishBtn = ShoppingListBtnPanelView()
     
     var tabIndex: Int?
@@ -100,8 +249,6 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
                 DispatchQueue.main.async {
                         self?.wishListCollectionView.backgroundView = self?.shoppingListView
                         self?.wishListCollectionView.reloadData()
-                        //self?.present(CreatePersonViewController(), animated: true)
-                        
                     }} else {
             shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
@@ -145,30 +292,34 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
         }
             
         self.resetRefrigeFood()
-        shoppingListNowID = self.shoppingLists[shopDidSelectDifferentRef ?? 0]
-            self.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
-                if foodssInfo.isEmpty {
-                    self?.wishListCollectionView.backgroundView = self?.shoppingListView } else {
-                if foodssInfo[0] == "" {
-                    DispatchQueue.main.async {
-                        self?.cate = []
-                        // lottie 消失
-                        self?.wishListCollectionView.reloadData()
-                        self?.wishListCollectionView.backgroundView = self?.shoppingListView } } else {
-                    self?.wishListCollectionView.backgroundView = nil
-                    self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                    var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
-                                foodinfo.foodStatus == 1 }
-                        guard let cates = self?.cate else { return }
-                        self?.resetRefrigeFood()
-                        self?.cateFilter(allFood: wishshopFoodInfo, cates: cates)
+        self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingList in
+            self?.shoppingLists = shoppingList
+            shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
+                self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
+                    if foodssInfo.isEmpty {
+                        self?.wishListCollectionView.backgroundView = self?.shoppingListView } else {
+                    if foodssInfo[0] == "" {
                         DispatchQueue.main.async {
+                            self?.cate = []
                             // lottie 消失
                             self?.wishListCollectionView.reloadData()
-                        }
-                    })}
+                            self?.wishListCollectionView.backgroundView = self?.shoppingListView } } else {
+                        self?.wishListCollectionView.backgroundView = nil
+                        self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
+                        var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
+                                    foodinfo.foodStatus == 1 }
+                            guard let cates = self?.cate else { return }
+                            self?.resetRefrigeFood()
+                            self?.cateFilter(allFood: wishshopFoodInfo, cates: cates)
+                            DispatchQueue.main.async {
+                                // lottie 消失
+                                self?.wishListCollectionView.reloadData()
+                            }
+                        })}
+                    }
                 }
-            }
+
+        }
     }
     
     private func alertSheet(food: FoodInfo) {
@@ -361,7 +512,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
         self.fetchAllFoodInfoInSingleShopList { foodsInfos in
             
             var newshoppingList: ShoppingList = ShoppingList(
-                title: "", foodID: [""])
+                id: "", title: "", foodID: [""])
             
             newshoppingList.foodID = foodsInfos.filter { $0 != foodId }
             self.shoppingLists = newshoppingList.foodID
@@ -422,6 +573,21 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
             
         }
         }
+    
+    // MARK:  - create ShopList
+    
+    func createShopList(newshopList: ShoppingList,refrige: Refrige, completion: @escaping() -> Void){
+        
+        var newshopList = newshopList
+        ShoppingListManager.shared.createShoppingList(shoppingList: &newshopList, refrigeID: refrige.id) { result in
+            switch result{
+            case .success:
+                HandleResult.addDataSuccess.messageHUD
+            case .failure:
+                HandleResult.addDataFailed.messageHUD
+            }
+        }
+    }
     
     }
 
@@ -593,31 +759,14 @@ extension WishListViewController: UICollectionViewDataSource,
         switch indexPath.section {
         case 0:
             alertSheet(food: meatsInfo[indexPath.item])
-           // finishShoppingToRefrige(foodId: meatsInfo[indexPath.item].foodId ?? "2") {
-//            }
         case 1:
             alertSheet(food: beansInfo[indexPath.item])
-//            finishShoppingToRefrige(foodId: beansInfo[indexPath.item].foodId ?? "2") {
-//                print("success to reFirge ")
-//            }
         case 2:
             alertSheet(food: eggsInfo[indexPath.item])
-//            finishShoppingToRefrige(foodId: eggsInfo[indexPath.item].foodId ?? "2") {
-//                print("success to reFirge ")
-//            }
-
         case 3:
             alertSheet(food: vegsInfo[indexPath.item])
-  //          finishShoppingToRefrige(foodId: vegsInfo[indexPath.item].foodId ?? "2") {
- //               print("success to reFirge ")
- //           }
-
         case 4:
             alertSheet(food: picklesInfo[indexPath.item])
-
-//            finishShoppingToRefrige(foodId: picklesInfo[indexPath.item].foodId ?? "2") {
-//                print("success to reFirge ")
-//            }
         case 5:
             alertSheet(food: fruitsInfo[indexPath.item])
 //            finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
@@ -628,31 +777,16 @@ extension WishListViewController: UICollectionViewDataSource,
 //            }
         case 6:
             alertSheet(food: fishesInfo[indexPath.item])
-        //    finishShoppingToRefrige(foodId: fishesInfo[indexPath.item].foodId ?? "2") {
-        //        print("success to reFirge ")
-        //    }
         case 7:
             alertSheet(food: seafoodsInfo[indexPath.item])
-       //     finishShoppingToRefrige(foodId: seafoodsInfo[indexPath.item].foodId ?? "2") {
-       //         print("success to reFirge ")
-       //     }
         case 8:
-           // finishShoppingToRefrige(foodId: beveragesInfo[indexPath.item].foodId ?? "2") {
-            //    print("success to reFirge ")
-           // }
             alertSheet(food: beveragesInfo[indexPath.item])
 
         case 9:
             alertSheet(food: seasonsInfo[indexPath.item])
-       //     finishShoppingToRefrige(foodId: seasonsInfo[indexPath.item].foodId ?? "2") {
-       //         print("success to reFirge ")
-       //     }
 
         case 10:
             alertSheet(food: othersInfo[indexPath.item])
-        //    finishShoppingToRefrige(foodId: othersInfo[indexPath.item].foodId ?? "2") {
-        //        print("success to reFirge ")
-        //    }
 
         default:
             print("dd")

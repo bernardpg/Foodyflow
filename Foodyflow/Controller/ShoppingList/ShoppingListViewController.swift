@@ -61,9 +61,9 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     var onPublished: (() -> Void)?
     
     var menuView: BTNavigationDropdownMenu!
-    // need to change
-//    private lazy var createVC = CreatePersonViewController()
     
+    private lazy var notiname = Notification.Name("dropDownShopReloadNoti")
+        
     private var viewPager =  LZViewPager()
     
     private lazy var wishListVC = UIStoryboard(name: "Main", bundle: nil)
@@ -79,6 +79,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         
         viewPagerProperties()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadDropdown), name: notiname, object: nil)
+
         //        shoppingList.collectionViewLayout = UICollectionViewLayout()
         
     }
@@ -91,29 +93,26 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         super.viewWillAppear(animated)
         Auth.auth().addStateDidChangeListener { ( _, user) in
             if user != nil {
-                print( "\(String(describing: user?.uid))" )
-                return
+                
+                self.fetchAllCate { [weak self] cates in
+                self?.cate = cates }
+
+                self.loadShopList()
+                
             } else {
                 self.present( LoginViewController(), animated: true )
                 self.setDropdown(shoppingLists: self.shoppingLists)
             }
         }
-        self.fetchAllCate { [weak self] cates in
-            self?.cate = cates
-        }
         
         // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
         // w for fix error 應該先fetch 在回來抓
         
-        self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
+      /*  self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
             self?.shoppingLists = shoppingLists
             if shoppingLists.isEmpty {
-                self?.cate = []
-//                self?.present(self?.createVC ?? CreatePersonViewController(), animated: true)
-
-                
-                self?.setDropdown(shoppingLists: self?.shoppingLists ?? [])
-//                self?.setDropdown(shoppingLists: self?.shoppingLists ?? <#default value#>)
+            self?.cate = []
+            self?.setDropdown(shoppingLists: self?.shoppingLists ?? [])
             }
             self?.fetchAllShoppingListInfoInsingleRefrige(
                 shopingLists: shoppingLists,
@@ -138,7 +137,26 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                     }
                 })
             }*/
+        }*/
+    }
+    
+    private func loadShopList() {
+        
+        self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
+            self?.shoppingLists = shoppingLists
+            if shoppingLists.isEmpty {
+            self?.cate = []
+            self?.setDropdown(shoppingLists: self?.shoppingLists ?? [])
+            }
+            self?.fetchAllShoppingListInfoInsingleRefrige(
+                shopingLists: shoppingLists,
+                completion: { [weak self] totalShopListInfo in
+                
+                self?.setDropdown(shoppingLists: totalShopListInfo)
+                })
+            self?.setDropdown(shoppingLists: shoppingLists)
         }
+
     }
     
     // MARK: - Main containerView
@@ -200,6 +218,17 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     // MARK: - dropdownView
     
+    @objc func reloadDropdown() {
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        self.fetchAllCate { [weak self] cate in
+            self?.cate = cate }
+        
+        self.loadShopList()
+        
+    }
+    
     func setDropdown(shoppingLists: [String?]) {
         
         var items: [String] = []
@@ -223,6 +252,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 title: BTTitle.index(0), items: items)
             menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
                 print("Did select item at index: \(indexPath)")
+                self.shopDidSelectDifferentRef = nil 
             // refresh 
             }
 
@@ -326,6 +356,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             }
             
         })
+        
     }
     
     func fetchAllShoppingListInfoInsingleRefrige( shopingLists:[String?],  completion: @escaping([String?]) -> Void) {
