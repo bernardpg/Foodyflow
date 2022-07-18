@@ -144,4 +144,13 @@ class UserManager {
         }
     }
     
+    func addRecipe(userID: String, recipeID: String, completion: @escaping() -> Void){
+        
+        let userRef = database.document(userID)
+        
+        userRef.updateData(["personalDoRecipe": FieldValue.arrayUnion([recipeID])])
+        
+        completion()
+    }
+    
 }

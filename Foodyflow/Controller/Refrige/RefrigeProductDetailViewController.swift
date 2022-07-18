@@ -25,13 +25,15 @@ class RefrigeProductDetailViewController: UIViewController {
     
     @IBOutlet weak var foodNameTextField: UITextField!
     
-    @IBOutlet weak var foodNameCateTextField: UITextField!
+ //   @IBOutlet weak var foodNameCateTextField: UITextField!
     @IBOutlet weak var foodName: UILabel!
     
     @IBOutlet weak var foodImage: UIImageView!
     @IBOutlet weak var foodCate: UILabel!
     
     @IBOutlet weak var foodWeightAmount: UITextField!
+    
+    @IBOutlet weak var catePick: UIButton!
     
     @IBOutlet weak var foodWeiight: UILabel!
     @IBOutlet weak var foodWeighType: UIPickerView!
@@ -72,6 +74,7 @@ class RefrigeProductDetailViewController: UIViewController {
         
         imageUpload.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
         updateButton.addTarget(self, action: #selector(postToRefirgeDB), for: .touchUpInside)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,10 +108,10 @@ class RefrigeProductDetailViewController: UIViewController {
         foodNameTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodNameTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
         
-        foodNameCateTextField.lkCornerRadius = 20
-        foodNameCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
-        foodNameCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
-        
+//        foodNameCateTextField.lkCornerRadius = 20
+//        foodNameCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+//        foodNameCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+        foodWeightAmount.keyboardType = UIKeyboardType.numberPad
         foodWeightAmount.lkCornerRadius = 20
         foodWeightAmount.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodWeightAmount.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
@@ -116,6 +119,29 @@ class RefrigeProductDetailViewController: UIViewController {
         updateButton.lkCornerRadius = 10
         updateButton.tintColor = UIColor.FoodyFlow.white
         updateButton.backgroundColor = UIColor.FoodyFlow.darkOrange
+        catePick.titleLabel?.font = UIFont(name: "PingFang TC", size: 20)
+        catePick.setTitle("請選擇食材種類", for: .normal)
+        catePick.showsMenuAsPrimaryAction = true
+        if #available(iOS 15.0, *) {
+            catePick.changesSelectionAsPrimaryAction = true
+            catePick.menu = UIMenu(title: "請選擇種類", image: nil, identifier: nil, options: .singleSelection, children: [
+                UIAction(title: "肉類", state: .on, handler: { _ in
+                }),
+                UIAction(title: "豆類", handler: { _ in  }),
+                UIAction(title: "雞蛋類", handler: { _ in }),
+                UIAction(title: "青菜類", handler: { _ in }),
+                UIAction(title: "醃製類", handler: { _ in }),
+                UIAction(title: "水果類", handler: { _ in }),
+                UIAction(title: "魚類", handler: { _ in   }),
+                UIAction(title: "海鮮類", handler: { _ in }),
+                UIAction(title: "飲料類", handler: { _  in }),
+                UIAction(title: "調味料類", handler: { _ in }),
+                UIAction(title: "其他類", handler: { _ in })
+            ])
+        } else {
+            // Fallback on earlier versions
+        }
+                
     }
     
     func setFoodName(with name: String) {
@@ -132,7 +158,7 @@ class RefrigeProductDetailViewController: UIViewController {
             case .success(let url):
                 
                 foodInfo.foodName = foodNameTextField.text
-                foodInfo.foodCategory = foodNameCateTextField.text
+//                foodInfo.foodCategory = foodNameCateTextField.text
                 
                 foodInfo.foodStatus = 3
                 guard let foodWeightAmount = foodWeightAmount.text else { return }
@@ -173,11 +199,12 @@ class RefrigeProductDetailViewController: UIViewController {
     @objc func finishUpdate() {
         
         foodInfo.foodName = foodNameTextField.text
-        foodInfo.foodCategory = foodNameCateTextField.text
+//        foodInfo.foodCategory = foodNameCateTextField.text
         
         foodInfo.foodStatus = 3
         guard let foodWeightAmount = foodWeightAmount.text else { return }
         foodInfo.foodWeightAmount = Double(foodWeightAmount)
+        
         foodInfo.purchaseDate =  purchaseDatePicker.date.millisecondsSince1970
         foodInfo.expireDate = expireDatePicker.date.millisecondsSince1970
         
@@ -197,8 +224,8 @@ class RefrigeProductDetailViewController: UIViewController {
         guard let foodId = foodId else { return }  // bugs
         refrige.foodID.append(foodId)
         RefrigeManager.shared.publishFoodOnRefrige(refrige: self.refrige) {
+            result in
             
-             result in
             self.onPublished?()
             
         }
@@ -282,7 +309,6 @@ class RefrigeProductDetailViewController: UIViewController {
         let imageData =  selectedImage?.jpegData(compressionQuality: 0.8)
         
         guard let imageData = imageData else { return }
-        //        Storage.storage().reference()
         let storageRef =   FirebaseStorage.Storage.storage().reference()
         
         // file Name

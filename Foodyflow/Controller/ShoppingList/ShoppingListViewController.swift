@@ -82,9 +82,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         viewPagerProperties()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadDropdown), name: notiname, object: nil)
-
         //        shoppingList.collectionViewLayout = UICollectionViewLayout()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -146,6 +144,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         
         self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
             self?.shoppingLists = shoppingLists
+            print("DD" + "\(shoppingLists)")
             if shoppingLists.isEmpty {
             self?.cate = []
             self?.setDropdown(shoppingLists: self?.shoppingLists ?? [])
@@ -187,12 +186,10 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     }
     
     func numberOfItems() -> Int {
-        containerView.count
-    }
+        containerView.count }
     
     func controller(at index: Int) -> UIViewController {
-        containerView[index]
-    }
+        containerView[index] }
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
@@ -206,17 +203,14 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     func backgroundColorForHeader() -> UIColor {
         
-        return UIColor.FoodyFlow.lightOrange
-    }
+        return UIColor.FoodyFlow.lightOrange }
     
     func colorForIndicator(at index: Int) -> UIColor {
         
-        return UIColor.FoodyFlow.darkOrange
-    }
+        return UIColor.FoodyFlow.darkOrange }
     
     func heightForIndicator(at index: Int) -> CGFloat {
-        return CGFloat(50.0)
-    }
+        return CGFloat(50.0) }
     
     // MARK: - dropdownView
     
@@ -262,7 +256,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
             containerView: self.navigationController!.view,
-            title: BTTitle.index(0), items: items)
+            title: BTTitle.index(shopDidSelectDifferentRef ?? 0), items: items)
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")
             self.shopDidSelectDifferentRef = indexPath

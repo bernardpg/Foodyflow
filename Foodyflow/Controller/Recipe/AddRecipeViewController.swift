@@ -45,7 +45,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     var recipeholderLabel = UILabel()
     
     var recipe: Recipe?
-    // = Recipe(recipeID: "", recipeName: "", recipeImage: "", recipeFood: "", recipeStep: "")
     
     var recipeName: String = ""
     
@@ -77,7 +76,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
             }
         }
         
-        
         setUI()
 
     }
@@ -91,10 +89,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         
         imagePickerController.delegate = self
         
-        // changeRecipePic.backgroundColor = UIColor.FoodyFlow.lightOrange
         recipeImage.lkCornerRadius = 20
-        // changeRecipePic.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
-        // changeRecipePic.imageView?.tintColor = UIColor.FoodyFlow.white
         changeRecipePic.addTarget(self, action: #selector(changeRecipeImage), for: .touchUpInside)
         recipeImage.isOpaque = true
         recipeNameLabel.text = "食譜名稱"
@@ -151,11 +146,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         
     }
     @objc func postToRecipeDB() {
-    //    let url = URL(string: ("\(recipe?.recipeImage)"))
-    //    guard let url = url else {
-     //       return
-     //   }
-      //  let recipeURL =  String(contentsOf: url)
         guard let recipeImage = recipeImage.image else {
             return
         }
@@ -175,9 +165,12 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
                 RecipeManager.shared.createRecipe(recipe: &recipe) {
                     result in
                         switch result {
-                        case .success:
-                            self.onPublished?()
-                            self.navigationController?.popViewController(animated: true)
+                        case .success(let recipeID):
+                            UserManager.shared.addRecipe(userID: userInfos.userID, recipeID: recipeID) {
+                                self.onPublished?()
+                                self.navigationController?.popViewController(animated: true)
+
+                            }
                         case .failure(let error):
                             
                             print("publishArticle.failure: \(error)")

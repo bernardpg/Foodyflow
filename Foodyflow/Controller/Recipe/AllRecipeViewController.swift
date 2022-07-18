@@ -26,7 +26,7 @@ class AllRecipeViewController: UIViewController {
     }
         
     private var recipeAmount: [Recipe] = []
-    private var usersinfo: UserInfo?  { didSet{fetchReload()} }
+    private var usersinfo: UserInfo? { didSet { fetchReload() } }
     
     private lazy var searchController: UISearchController = {
         let searchVC = UISearchController(searchResultsController: nil)
@@ -91,8 +91,8 @@ class AllRecipeViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.searchController.searchBar.isHidden = false
-//        self.searchController.searchBar.isHidden = true
+        self.searchController.searchBar.isHidden = true
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -298,9 +298,12 @@ class AllRecipeViewController: UIViewController {
             make.trailing.equalTo(view)
         }
     }
+    
     // array Union 改寫
     func likeRecipe( userInfo:UserInfo, needtoLike: String, completion: @escaping () -> Void) {
         var newUserInfo = userInfo
+        
+        // recipeChangeLike
         newUserInfo.personalLikeRecipe.append(needtoLike)
         UserManager.shared.updateUserInfo(user: newUserInfo) {
             
@@ -379,15 +382,15 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, R
             for: indexPath) as? RecipeTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.selectionStyle = .none
+        cell.likeRecipeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
         cell.delegate = self
         cell.indexPath = indexPath
+        cell.recipeName.font = UIFont(name: "PingFang TC", size: 20)
+        cell.recipeUserName.font =  UIFont(name: "PingFang TC", size: 16)
+
         cell.recipeName.text =
         recipeAmount[indexPath.row].recipeName
-     //   if let searchResults = self.searchResults {
-     //       let searchResult = searchResults.items[indexPath.row]
-     //       cell.recipeName.text = searchResult.name
-            // cell.configure(with: searchResult)
-     //   }
+
         if recipeAmount[indexPath.row].recipeImage == "" {
         cell.recipeImage.image = UIImage(named: "imageDefault") } else {
             //        cell.recipeImage.download(from: URL(string: recipeAmount[indexPath.row].recipeImage)!)
@@ -439,13 +442,10 @@ extension AllRecipeViewController: UISearchResultsUpdating, UISearchControllerDe
     func updateSearchResults(for searchController: UISearchController) {
         
         guard let searchQuery = searchController.searchBar.text, !searchQuery.isEmpty else { return }
-        self.searchQuery = searchQuery
-    }
+        self.searchQuery = searchQuery }
     func willDismissSearchController(_ searchController: UISearchController) {
-        mode = .onboarding
-    }
+        mode = .onboarding }
     func willPresentSearchController(_ searchController: UISearchController) {
-        mode = .search
-    }
+        mode = .search }
     
 }

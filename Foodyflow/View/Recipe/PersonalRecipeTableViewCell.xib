@@ -25,13 +25,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vC2-EW-zP3">
-                        <rect key="frame" x="173" y="75" width="42" height="20.5"/>
+                        <rect key="frame" x="173" y="65" width="42" height="40"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csP-jX-jGQ">
-                        <rect key="frame" x="321" y="75" width="40" height="40"/>
+                        <rect key="frame" x="337" y="65" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="0Gt-FA-YN0"/>
                             <constraint firstAttribute="height" constant="40" id="VOT-xi-Z4g"/>
@@ -41,7 +41,7 @@
                         <state key="normal" image="pencil" catalog="system"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBc-1X-9Wo">
-                        <rect key="frame" x="377" y="75" width="40" height="40"/>
+                        <rect key="frame" x="385" y="65" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="PYF-3e-KJs"/>
                             <constraint firstAttribute="height" constant="40" id="VBS-eu-XhA"/>
@@ -54,9 +54,10 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="cBc-1X-9Wo" secondAttribute="trailing" constant="16" id="2Wj-Oh-ojH"/>
+                    <constraint firstItem="csP-jX-jGQ" firstAttribute="centerY" secondItem="vC2-EW-zP3" secondAttribute="centerY" id="0OO-LG-jRb"/>
+                    <constraint firstAttribute="trailing" secondItem="cBc-1X-9Wo" secondAttribute="trailing" constant="8" id="2Wj-Oh-ojH"/>
                     <constraint firstItem="vC2-EW-zP3" firstAttribute="leading" secondItem="wnu-ho-NiB" secondAttribute="trailing" constant="23" id="4za-3m-3vL"/>
-                    <constraint firstItem="cBc-1X-9Wo" firstAttribute="leading" secondItem="csP-jX-jGQ" secondAttribute="trailing" constant="16" id="Hdo-DW-MG4"/>
+                    <constraint firstItem="cBc-1X-9Wo" firstAttribute="leading" secondItem="csP-jX-jGQ" secondAttribute="trailing" constant="8" id="Hdo-DW-MG4"/>
                     <constraint firstItem="csP-jX-jGQ" firstAttribute="top" secondItem="vC2-EW-zP3" secondAttribute="top" id="Rjc-9U-mlp"/>
                     <constraint firstItem="vC2-EW-zP3" firstAttribute="centerY" secondItem="wnu-ho-NiB" secondAttribute="centerY" id="SMb-oN-3ak"/>
                     <constraint firstItem="wnu-ho-NiB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="W9r-dh-RRk"/>

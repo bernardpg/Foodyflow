@@ -231,7 +231,7 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
 
     private func reloadRefrige() {
         
-        HandleResult.readData.messageHUD
+     //   HandleResult.readData.messageHUD
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
@@ -602,12 +602,7 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
         refrigeBtn.translatesAutoresizingMaskIntoConstraints = false
         refrigeBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         refrigeBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-//        buttonPanelView.widthAnchor.constraint(equalToConstant: 45).isActive = true
-//        buttonPanelView.heightAnchor.constraint(equalToConstant: ).isActive = true
         refrigeBtn.layer.backgroundColor = UIColor.FoodyFlow.btnOrange.cgColor
-       // tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
-      //  buttonPanelView.imageView?.tintColor = .white
-       // tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
     }
 
 }
@@ -625,11 +620,7 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
         cell.cateFood.font =  UIFont(name: "PingFang TC", size: 20)
-        
-        // need to change for dictionary to solve
-        
-        // Need to fix
-        
+        cell.selectionStyle =  .none
         switch indexPath.row {
         case 0:
             cell.configure(with: meatsInfo)

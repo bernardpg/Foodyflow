@@ -18,10 +18,9 @@ class ShoppingListManager {
     
     let database = Firestore.firestore().collection("User")
         
-    func fetchAllShoppingListIDInSingleRefrige(  completion: @escaping (Result<[String?], Error>) -> Void) {
+    func fetchAllShoppingListIDInSingleRefrige( completion: @escaping (Result<[String?], Error>) -> Void) {
         
         guard let refrigeNowID = refrigeNowID else { completion(.success([])); return }
-        
         
         // Refrige empty
         let shoppingLists: [String?] = []
@@ -79,6 +78,27 @@ class ShoppingListManager {
     
 }
     
+    func fetchShopListInfo(shopplingListID: String?, completion: @escaping(Result<ShoppingList?, Error>) -> Void) {
+        
+        let colRef = db.collection("shoppingList")
+        
+        guard let shopplingListID = shopplingListID else {
+            return }
+        colRef.document(shopplingListID).getDocument { (document, error) in
+            
+            do {
+                let shopList =  try document?.data(as: ShoppingList.self, decoder: Firestore.Decoder())
+                
+                completion(.success(shopList))
+            } catch {
+                
+                completion(.failure(error))
+            }
+
+        }
+        
+    }
+    
     func fetchfoodInfoInsideSingleShoppingList(completion: @escaping (Result<[String?], Error>) -> Void) {
         
         // guard let shoppingListNowID = shoppingListNowID else { return }
@@ -109,6 +129,7 @@ class ShoppingListManager {
                                  completion: @escaping (Result<String, Error>) -> Void ) {
         
      //   guard let shoppingListNowID = shoppingListNowID else { return }
+        
         let document = db.collection("shoppingList").document(shoppingListNowID!)
         
         do {
@@ -137,7 +158,6 @@ class ShoppingListManager {
         }
     }
 
-        
     func createShoppingListOnSingleUser(user: UserInfo, refrigeID: [String?], completion: @escaping (Result<String, Error>) -> Void ) {
 
         let userRef = database.document(user.userID)

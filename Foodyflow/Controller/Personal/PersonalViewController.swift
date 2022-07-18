@@ -4,7 +4,7 @@
 //
 //  Created by 曹珮綺 on 6/20/22.
 //
-// 字體未完全
+
 import UIKit
 import SnapKit
 import FirebaseStorage
@@ -106,6 +106,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    
         personalImage.clipsToBounds = true
         personalImage.contentMode = .scaleAspectFill
         
@@ -155,17 +156,22 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         
         self.fetchUser(userID: userID) { userInfo in
             if userInfo.personalRefrige.isEmpty {
+                self.personalName.text = userInfo.userName
+                if userInfo.userPhoto == "" {
+                    self.personalImage.image = self.personalImageChange
+                } else {self.personalImage.kf.setImage(with: URL(string: userInfo.userPhoto ))}
                 self.refrigeAmount = []
                 DispatchQueue.main.async {
                     self.personalTableView.reloadData()
                 }
                
             } else {
-            self.fetchAllRefrige(userRefriges: userInfo.personalRefrige)
             self.personalName.text = userInfo.userName
             if userInfo.userPhoto == "" {
                 self.personalImage.image = self.personalImageChange
             } else {self.personalImage.kf.setImage(with: URL(string: userInfo.userPhoto ))}
+
+            self.fetchAllRefrige(userRefriges: userInfo.personalRefrige)
             
             }
         }
@@ -240,7 +246,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                     self.userManager.updateUserInfo(user: userData) {
                     self.fetchUserByUserID(userID: userID) { _ in }
                     }
-                    HandleInputResult.uploadImage.messageHUD
+//                    HandleInputResult.uploadImage.messageHUD
                 case .failure:
                     HandleResult.addDataFailed.messageHUD
                 }
@@ -541,6 +547,8 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         signOut.addTarget(self, action: #selector(signOutTap), for: .touchUpInside)
         
         personalName.text = "Ryan"
+        
+        personalName.font = UIFont(name: "PingFang TC", size: 20)
         view.backgroundColor = UIColor.FoodyFlow.darkOrange
         personalImage.image = personalImageChange
         
@@ -588,14 +596,16 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         personalTableView.backgroundColor = UIColor.FoodyFlow.white
         
         background.addSubview(notificationLabel)
+        notificationLabel.isHidden = true
         
         notificationLabel.snp.makeConstraints { make in
             make.top.equalTo(personalTableView.snp.bottom).offset(5)
             make.leading.equalTo(view).offset(20)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(0)
         }
-        notificationLabel.text = "開啟即將到期提醒通知"
+//        notificationLabel.text = "開啟即將到期提醒通知"
         background.addSubview(notificationSwitch)
+        notificationSwitch.isHidden = true 
         
         notificationSwitch.snp.makeConstraints { make in
             make.centerY.equalTo(notificationLabel)
@@ -714,6 +724,8 @@ extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
         cell.indexPath = indexPath
         cell.selectionStyle  = .none
         cell.delegate = self
+        cell.refreigeName.font = UIFont(name: "PingFang TC", size: 20)
+
         cell.refreigeName.text = refrigeAmount[indexPath.row].title
         
         return cell

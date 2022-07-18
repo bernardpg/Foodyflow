@@ -251,7 +251,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     
     private func reloadRefrige() {
         
-        HandleResult.readData.messageHUD
+    //    HandleResult.readData.messageHUD
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
@@ -514,11 +514,7 @@ extension WithinThreeDaysRefirgeViewController: UITableViewDelegate, UITableView
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
         cell.cateFood.font =  UIFont(name: "PingFang TC", size: 20)
-        
-        // need to change for dictionary to solve
-        
-        // Need to fix
-        
+        cell.selectionStyle = .none
         switch indexPath.row {
         case 0:
             cell.configure(with: meatsInfo)

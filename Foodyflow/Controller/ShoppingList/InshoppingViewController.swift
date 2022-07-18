@@ -4,7 +4,7 @@
 //
 //  Created by 曹珮綺 on 6/26/22.
 //
-
+// delete food // 點進去 
 // Filter status 2
 
 import UIKit
@@ -102,6 +102,14 @@ class InshoppingViewController: UIViewController {
                         let inshopFoodInfo = allfoodInfo.filter { foodinfo in
                             foodinfo.foodStatus == 2
                             }
+                        if  inshopFoodInfo.isEmpty {
+                                DispatchQueue.main.async {
+                                    self?.cate = []
+                                    // lottie 消失
+                                    self?.inShoppingListCollectionView.reloadData()
+                                    self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView }
+                            }
+
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
                         self?.cateFilter(allFood: inshopFoodInfo, cates: cates)
@@ -195,7 +203,7 @@ class InshoppingViewController: UIViewController {
     
     private func reloadShoppingList() {
         
-        HandleResult.readData.messageHUD
+//        HandleResult.readData.messageHUD
         
         self.fetchAllCate { [weak self] cates in
             self?.cate = cates  }
@@ -218,6 +226,14 @@ class InshoppingViewController: UIViewController {
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
                         let inshopFoodInfo = allfoodInfo.filter { foodinfo in
                             foodinfo.foodStatus == 2 }
+                        if  inshopFoodInfo.isEmpty {
+                            DispatchQueue.main.async {
+                                self?.cate = []
+                                // lottie 消失
+                                self?.inShoppingListCollectionView.reloadData()
+                                self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView }
+                        }
+
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
                         self?.cateFilter(allFood: inshopFoodInfo, cates: cates)
@@ -289,7 +305,7 @@ class InshoppingViewController: UIViewController {
                         switch result {
                         case .success(let refrigeInfo):
                             refrigeNow = refrigeInfo
-        
+                            complection()
                             // 抓 fetch shoppingList foodInfo
                             // remove foodID
                             // d
@@ -326,6 +342,7 @@ class InshoppingViewController: UIViewController {
                         self.resetRefrigeFood()
                         if let cates = self.cate as? [String] {
                         self.cateFilter(allFood: allfoodInfo, cates: cates)
+                            
                         DispatchQueue.main.async {
                             // lottie 消失
                             self.inShoppingListCollectionView.reloadData()
@@ -489,6 +506,7 @@ extension InshoppingViewController: UICollectionViewDataSource,
             withReuseIdentifier: "ShoppingListCollectionReusableView",
             for: indexPath) as? ShoppingListCollectionReusableView {
             sectionHeader.sectionHeaderlabel.text = cate[indexPath.section]
+            sectionHeader.sectionHeaderlabel.font = UIFont(name: "PingFang TC", size: 20)
             return sectionHeader
         }
         return UICollectionReusableView()
@@ -510,56 +528,69 @@ extension InshoppingViewController: UICollectionViewDataSource,
         switch indexPath.section {
         case 0:
             finishShoppingToRefrige(foodId: meatsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 
             }
         case 1:
             finishShoppingToRefrige(foodId: beansInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
         case 2:
             finishShoppingToRefrige(foodId: eggsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 
         case 3:
             finishShoppingToRefrige(foodId: vegsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 
         case 4:
             finishShoppingToRefrige(foodId: picklesInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
         case 5:
             finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 self.deleteFoodOnShoppingList(foodId: self.fruitsInfo[indexPath.item].foodId ?? "2", complection: {
                     print("success reload")
                 })
                 print("success to reFirge ")
             }
             deleteFoodOnShoppingList(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
+                
                 print("success to delete " )
             }
         case 6:
             finishShoppingToRefrige(foodId: fishesInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
         case 7:
             finishShoppingToRefrige(foodId: seafoodsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
         case 8:
             finishShoppingToRefrige(foodId: beveragesInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 
         case 9:
             finishShoppingToRefrige(foodId: seasonsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 
         case 10:
             finishShoppingToRefrige(foodId: othersInfo[indexPath.item].foodId ?? "2") {
+                
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 

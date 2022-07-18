@@ -14,7 +14,6 @@ import CoreMedia
 
 // 點擊進去查看 未做
 
-
 class PersonalLikeREcipeViewController: UIViewController {
     
     private lazy var addRecipe: UIButton = {
@@ -111,7 +110,7 @@ class PersonalLikeREcipeViewController: UIViewController {
         
     }
     
-    private func fetchallData(){
+    private func fetchallData() {
         
         verifyUser { result in
             switch result {
@@ -156,7 +155,6 @@ class PersonalLikeREcipeViewController: UIViewController {
         Auth.auth().addStateDidChangeListener { ( _, user) in
         if user != nil {
             
-                print("\(String(describing: user?.uid))")
             guard let userID = user?.uid else { return }
             self.userManager.fetchUserInfo(fetchUserID: userID) { result in
                 switch result {
@@ -185,7 +183,8 @@ class PersonalLikeREcipeViewController: UIViewController {
             switch result {
             case .success(let recipes):
             let myrecipe = recipes.filter { recipe in
-                    recipe.recipeUserName == userID }   
+                    recipe.recipeUserID == userID }
+            
             completion(myrecipe)
             case .failure:
             HandleResult.readDataFailed.messageHUD
@@ -238,6 +237,7 @@ class PersonalLikeREcipeViewController: UIViewController {
         
         var newUserInfo = userInfo
         newUserInfo.personalDoRecipe = userInfo.personalDoRecipe.filter { $0 != userRemoveRecipe }
+        RecipeManager.shared.deleteSingleRecipe(recipeID: userRemoveRecipe)
         userManager.updateUserInfo(user: newUserInfo) {
             completion()
         }
@@ -276,7 +276,6 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
         
     }
     
-    
     func didDeleteTap(indexPathRow: IndexPath) {
         guard let dislikeRecipe = userInfo.personalLikeRecipe[indexPathRow.row-1] else { return  }
         removeLikeRecipe(userInfo: userInfo, userdisLikeRecipe: dislikeRecipe){
@@ -311,6 +310,7 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
             attributedString1.append(attributedString2)
             
             cell.textLabel?.attributedText = attributedString1
+            cell.selectionStyle = .none
             
             return cell
         } else {
@@ -320,8 +320,11 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
                 PersonalRecipeTableViewCell else { return UITableViewCell() }
                 
                 cell.personalRecipeName.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeName
+                cell.personalRecipeName.font = UIFont(name: "PingFang TC", size: 18)
+
                 cell.personalRecipeImage.clipsToBounds = true
                 cell.personalRecipeImage.contentMode = .scaleAspectFill
+                cell.selectionStyle = .none
                 cell.delegate = self
                 cell.indexPath = indexPath
                 if tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeImage == "" {
@@ -339,6 +342,9 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
                 cell.personalLikeRecipeName.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeName
                 cell.indexPath = indexPath
                 cell.delegate = self
+                cell.selectionStyle = .none
+                cell.personalLikeRecipeName.font =  UIFont(name: "PingFang TC", size: 20)
+
                 cell.personalLikeRecipe.clipsToBounds = true
                 cell.personalLikeRecipe.contentMode = .scaleAspectFill
                 if tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeImage == "" {
@@ -369,7 +375,9 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
             if indexPath.section ==  0 {
                 
             } else {
-                // bug fix
+
+//                print(tableViewData[indexPath.section].sectionData[indexPath.row])
+// bug fix
 //                print(tableViewData[indexPath.section].sectionData[indexPath.row].recipeName)
 //                print(indexPath.row)
 //                print(indexPath.section)

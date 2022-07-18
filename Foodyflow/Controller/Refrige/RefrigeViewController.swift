@@ -14,20 +14,16 @@ import SnapKit
 import Combine
 import FirebaseAuth
 
-// refirige 要 dropdown 下拉才會更新
+// launchScreen
+
+// refirige 要 dropdown 下拉才會更新  // fetch順序可能會有不同
 
 // refrige  內部未完全更改
     
 // shoppinglist 也是
 
-// launchScreen
-
-// 圖片與文字如果沒有的話要改成預設值
-// personal 更改畫面圖片跟文字
-
 //  fetch 資料及更改 再次確認
 
-// 個人頁面照片上傳跟fetch 未用
 
 // MARK: - fetch for change UI and add photos
 // logic change for fetch on this VC
@@ -350,10 +346,11 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                 menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
                     print("Did select item at index: \(indexPath)")}
         } else {
+            
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
             containerView: self.navigationController!.view,
-            title: BTTitle.index(0), items: items)
+            title: BTTitle.index(didSelectDifferentRef ?? 0), items: items)
             menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
                 print("Did select item at index: \(indexPath)")
             self.didSelectDifferentRef = indexPath

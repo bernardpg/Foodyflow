@@ -26,7 +26,6 @@ class ReadRecipeViewController: UIViewController {
     @IBOutlet weak var recipeStepTextView: UITextView!
     
     var recipe: Recipe?
-    // = Recipe(recipeID: "", recipeName: "", recipeImage: "", recipeFood: "", recipeStep: "")
     
     var recipeNames: String = ""
     
@@ -84,6 +83,5 @@ class ReadRecipeViewController: UIViewController {
         recipeStepTextView.backgroundColor = UIColor.FoodyFlow.extraOrange
 
     }
-    
     
 }

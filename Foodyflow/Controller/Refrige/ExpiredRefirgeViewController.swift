@@ -207,7 +207,6 @@ class ExpiredRefirgeViewController: UIViewController {
 
     private func reloadRefrige() {
         
-        HandleResult.readData.messageHUD
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
@@ -462,15 +461,11 @@ extension ExpiredRefirgeViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = refrigeTableView.dequeueReusableCell(withIdentifier: "refrigeCatTableViewCell",
-                                                        for: indexPath) as? RefrigeCatTableViewCell
+            for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
         cell.cateFood.font =  UIFont(name: "PingFang TC", size: 20)
-        
-        // need to change for dictionary to solve
-        
-        // Need to fix
-        
+        cell.selectionStyle = .none 
         switch indexPath.row {
         case 0:
             cell.configure(with: meatsInfo)
@@ -505,16 +500,9 @@ extension ExpiredRefirgeViewController: UITableViewDelegate, UITableViewDataSour
             let shoppingVC = RefrigeProductDetailViewController(nibName: "ShoppingProductDetailViewController", bundle: nil)
             self?.navigationController?.pushViewController( shoppingVC, animated: true )
         }
-        
-        return cell
-    }
+        return cell }
     
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat { 250.0 }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // UIAlert to didselect or delete
-        
-    }
 }

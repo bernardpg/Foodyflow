@@ -125,7 +125,7 @@ extension ShoppingListBtnPanelView {
     let willExpand = expandedStackView.isHidden
     let menuButtonNewTitle = willExpand ? "❌" : "➕"
     UIView.animate(
-      withDuration:0.3, delay: 0, options: .curveEaseIn,
+      withDuration: 0.3, delay: 0, options: .curveEaseIn,
       animations: {
         self.expandedStackView.subviews.forEach { $0.isHidden = !$0.isHidden }
         self.expandedStackView.isHidden = !self.expandedStackView.isHidden

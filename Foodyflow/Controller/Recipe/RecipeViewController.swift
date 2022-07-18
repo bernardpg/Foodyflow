@@ -59,39 +59,7 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
     }
     
     // MARK: - Main VC
-    
-    /*func viewPagerProperties() {
-        view.addSubview(viewPager)
         
-        viewPager.snp.makeConstraints { make in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
-            make.top.equalTo(view)
-            make.bottom.equalTo(view)
-        }
-        
-        viewPager.delegate = self
-        viewPager.dataSource = self
-        viewPager.hostController = self
-        
-     //   let allRecipeVC = UIStoryboard(name: "Main", bundle: nil)
-       //     .instantiateViewController(withIdentifier: "allRecipeViewController")
-       // as? AllRecipeViewController
-        
-       // let personalLikeVC = UIStoryboard(name: "Main", bundle: nil)
-       //     .instantiateViewController(withIdentifier: "personalLikeREcipeViewController")
-       // as? PersonalLikeREcipeViewController
-        
-      //  guard let allRecipeVC = allRecipeVC else { return }
-     //   guard let personalLikeVC = personalLikeVC else { return }
-        
-        //allRecipeVC.title = "Recipe" allRecipeVC,
-        personalLikeVC.title = "PresonalRecipe"
-        
-        containerView = [ personalLikeVC]
-        viewPager.reload()
-    }*/
-    
     func viewPagerProperties() {
         view.addSubview(viewPager)
         
@@ -104,31 +72,24 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
         viewPager.delegate = self
         viewPager.dataSource = self
         viewPager.hostController = self
-        
-       // let wishListVC = UIStoryboard(name: "Main", bundle: nil).
-        // instantiateViewController(withIdentifier: "wishListVC") as? WishListViewController
-                
+                        
         let personalLikeREcipeViewController = UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "personalLikeREcipeViewController")
             as? PersonalLikeREcipeViewController
         
-        // guard let wishListVC = wishListVC else { return }
         guard let personalLikeREcipeViewController = personalLikeREcipeViewController else { return }
 
         allRecipeVC.title = "食譜"
         personalLikeREcipeViewController.title = "私藏菜單"
         
         containerView = [allRecipeVC, personalLikeREcipeViewController]
-        viewPager.reload()
-    }
+        viewPager.reload() }
     
     func numberOfItems() -> Int {
-        containerView.count
-    }
+        containerView.count }
     
     func controller(at index: Int) -> UIViewController {
-        containerView[index]
-    }
+        containerView[index] }
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
@@ -136,17 +97,14 @@ class RecipeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerDa
         button.setTitleColor(.FoodyFlow.lightGray, for: .normal)
         button.setTitleColor(.FoodyFlow.black, for: .selected)
         button.backgroundColor = UIColor.FoodyFlow.white
-        return button
-    }
+        return button }
     
     func backgroundColorForHeader() -> UIColor {
         
-        return UIColor.FoodyFlow.lightOrange
-    }
+        return UIColor.FoodyFlow.lightOrange }
     
     func colorForIndicator(at index: Int) -> UIColor {
         
-        return UIColor.FoodyFlow.darkOrange
-    }
+        return UIColor.FoodyFlow.darkOrange }
     
 }

@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 protocol SelectCellDelegate: AnyObject {
     
     func didDeleteTap(indexPathRow: IndexPath)

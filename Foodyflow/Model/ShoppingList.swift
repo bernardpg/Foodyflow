@@ -7,6 +7,8 @@
 
 import Foundation
 
+// create time
+
 struct ShoppingList: Codable {
     
     var id: String
