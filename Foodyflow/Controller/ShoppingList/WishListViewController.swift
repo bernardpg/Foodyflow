@@ -463,7 +463,6 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
         present(alertVC, animated: true)
     }
 
-    
 //    shoppingListNowID
     func fetAllFood(foodID: [String?], completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []

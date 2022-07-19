@@ -133,47 +133,10 @@ class ShoppingListProductDetailViewController: UIViewController, UINavigationCon
 
             catePick.setTitle(foodInfo.foodCategory, for: .application)
             
-            //catePick.titleLabel?.text = "\()"
-            
 //            catePick.showsMenuAsPrimaryAction = true
 
 //            catePick.changesSelectionAsPrimaryAction = true
             catePick.menu = createSiteMenu(actionTitle: foodInfo.foodCategory)
-/*            catePick.menu = UIMenu(title: "請選擇種類", image: nil, identifier: nil, options: .singleSelection, children: [
-                UIAction(title: "肉類", handler: { _ in
-                    self.foodInfo.foodCategory = "肉類"
-                }),
-                UIAction(title: "豆類", handler: { _ in
-                    self.foodInfo.foodCategory = "豆類"
-                }),
-                UIAction(title: "雞蛋類", handler: { _ in
-                    self.foodInfo.foodCategory = "雞蛋類"
-                }),
-                UIAction(title: "青菜類", handler: { _ in
-                    self.foodInfo.foodCategory = "青菜類"
-                }),
-                UIAction(title: "醃製類", handler: { _ in
-                    self.foodInfo.foodCategory = "醃製類"
-                }),
-                UIAction(title: "水果類", handler: { _ in
-                    self.foodInfo.foodCategory = "水果類"
-                }),
-                UIAction(title: "魚類", handler: { _ in
-                    self.foodInfo.foodCategory = "魚類"
-                }),
-                UIAction(title: "海鮮類", handler: { _ in
-                    self.foodInfo.foodCategory = "海鮮類"
-                }),
-                UIAction(title: "飲料類", handler: { _  in
-                    self.foodInfo.foodCategory = "飲料類"
-                }),
-                UIAction(title: "調味料類", handler: { _ in
-                    self.foodInfo.foodCategory = "調味料類"
-                }),
-                UIAction(title: "其他類", handler: { _ in
-                    self.foodInfo.foodCategory = "其他類"
-                })
-            ])*/
         } else {
             // Fallback on earlier versions
         }

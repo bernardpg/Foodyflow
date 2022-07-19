@@ -371,7 +371,7 @@ class AllRecipeViewController: UIViewController {
 }
 
 extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, RecipeLikeDelegate {
-    
+        
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         recipeAmount.count
     }
@@ -382,14 +382,6 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, R
             for: indexPath) as? RecipeTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.selectionStyle = .none
-        // need to fix
-        guard let usersinfo = usersinfo else { return UITableViewCell() }
-        cell.likeRecipeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-        for personalike in usersinfo.personalLikeRecipe {
-            if personalike == recipeAmount[indexPath.row].recipeID {
-                cell.likeRecipeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            } else { }
-        }
         cell.delegate = self
         cell.indexPath = indexPath
         cell.recipeName.font = UIFont(name: "PingFang TC", size: 20)
@@ -408,6 +400,17 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, R
         cell.recipeImage.clipsToBounds = true
         cell.recipeImage.contentMode = .scaleAspectFill
         cell.recipeImage.lkCornerRadius = 20
+        cell.likeRecipeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+        guard let usersinfo = usersinfo else { return cell }
+        
+        for personalike in usersinfo.personalLikeRecipe {
+            if personalike == recipeAmount[indexPath.row].recipeID {
+                cell.likeRecipeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            } else {
+                cell.likeRecipeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+            }
+        }
+
         return cell
     }
     
@@ -433,14 +436,24 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, R
     }
     
     func didLikeTap(indexPathRow: IndexPath) {
-        let likeRecipe = recipeAmount[indexPathRow.row].recipeID
         
-        fetchUser(userID: Auth.auth().currentUser?.uid ?? "") { userInfo in
-            self.likeRecipe(userInfo: userInfo, needtoLike: "\(likeRecipe)") {
+        Auth.auth().addStateDidChangeListener { ( _, user) in
+            if user != nil {
                 
+                let likeRecipe = self.recipeAmount[indexPathRow.row].recipeID
+                
+                self.fetchUser(userID: Auth.auth().currentUser?.uid ?? "") { userInfo in
+                    self.likeRecipe(userInfo: userInfo, needtoLike: "\(likeRecipe)") {
+                        
+                    }
+                }
+                                
+            } else {
+                
+                self.present( LoginViewController(), animated: true )
             }
         }
-        
+
     }
 
 }

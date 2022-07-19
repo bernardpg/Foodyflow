@@ -166,9 +166,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
                                     recipeStep: foodStepTypeIn.text,
                                     recipeUserName: self.userInfos.userName,
                                     recipeUserID: self.userInfos.userID)
-        //        recipe.recipeName = recipeTextField.text!
-        //        recipe.recipeFood = foodTypeIn.text
-        //        recipe.recipeStep = foodStepTypeIn.text
                 RecipeManager.shared.createRecipe(recipe: &recipe) {
                     result in
                         switch result {

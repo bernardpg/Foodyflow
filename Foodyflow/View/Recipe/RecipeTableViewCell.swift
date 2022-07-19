@@ -61,45 +61,4 @@ class RecipeTableViewCell: UITableViewCell {
         }
         
     }
-    
-  /*  @objc func addToCollection(_ sender: UIButton) {
-
-            if sender.isSelected == false {
-
-                sender.setImage(UIImage(named: "isliked"), for: .normal)
-                sender.isSelected = true
-                setupLottie()
-
-                userManager.addLikedTelent(uid: self.userID ?? "", talentID: self.selectedArticle.talentPostID ?? "") { [weak self] result in
-
-                    switch result {
-
-                    case .success:
-                        self?.dismiss(animated: true)
-
-                    case .failure:
-                        print("can't fetch data")
-
-                    }
-                }
-
-            } else {
-                sender.isSelected = false
-                sender.setImage(UIImage(named: "unlike"), for: .normal)
-
-                userManager.removeLikedTelent(uid: self.userID ?? "", talentID: self.selectedArticle.talentPostID ?? "") { [weak self] result in
-                    switch result {
-
-                    case .success:
-                        self?.dismiss(animated: true)
-
-                    case .failure:
-                        print("can't fetch data")
-
-                    }
-                }
-
-            }
-        }*/
-    
 }

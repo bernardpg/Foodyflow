@@ -97,25 +97,7 @@ class RecipeManager {
     func personalRecipe() {
         
     }
-    
-    func recipeChangeLike(recipeID: String?,isLike: Bool, completion: @escaping(Result< String, Error>) -> Void ) {
         
-        guard let recipeID = recipeID else { return }
-
-        let docref = db.collection("recipe").document(recipeID)
-        
-        docref.updateData(["isLike": isLike]) { error in
-            
-            if let error = error {
-                
-                completion(.failure(error))
-            } else {
-                completion(.success("success"))
-            }
-        }
-        
-    }
-    
     func fetchSingleRecipe( recipe: Recipe, completion: @escaping(Result<Recipe, Error>) -> Void) {
          let collection = db.collection("recipe")
         
