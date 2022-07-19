@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gfe-fe-Dn1">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -559,6 +558,7 @@
         <!--Personal LikeR Ecipe View Controller-->
         <scene sceneID="OFO-2y-upz">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lsa-We-bM5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="personalLikeREcipeViewController" id="Xom-Ua-ner" customClass="PersonalLikeREcipeViewController" customModule="Foodyflow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rrz-EB-OHv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
@@ -640,13 +640,9 @@
                             <constraint firstItem="awE-c2-s8S" firstAttribute="trailing" secondItem="gC2-x4-c8s" secondAttribute="trailing" id="yec-KF-OYZ"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="personalLikeTableView" destination="gC2-x4-c8s" id="etw-GE-uck"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lsa-We-bM5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6231" y="-222"/>
+            <point key="canvasLocation" x="5199" y="-218"/>
         </scene>
     </scenes>
     <resources>

@@ -38,6 +38,8 @@ extension UIColor {
         static var darkOrange: UIColor { return UIColor(red: 244/255, green: 148/255, blue: 58/255, alpha: 1) }
 
         static var lightOrange: UIColor { return UIColor(red: 252/255, green: 227/255, blue: 203/255, alpha: 1) }
+        
+        static var btnOrange: UIColor {return UIColor(red: 255/255, green: 237/255, blue: 220/255, alpha: 1)}
 
         static var extraOrange: UIColor { return UIColor(red: 255/255, green: 246/255, blue: 237/255, alpha: 1) }
 

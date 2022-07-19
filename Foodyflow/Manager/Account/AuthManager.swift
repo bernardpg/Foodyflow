@@ -63,5 +63,4 @@ struct AuthManager {
         }
     }
     
-
 }

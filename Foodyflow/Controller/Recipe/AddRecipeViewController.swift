@@ -9,6 +9,7 @@ import UIKit
 import FirebaseStorage
 import AVFoundation
 import FirebaseAuth
+import MBProgressHUD
 
 class AddRecipeViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -36,7 +37,10 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     
     var userManager = UserManager()
     
-    var userInfos = UserInfo(userID: "", userName: "", userEmail: "", userPhoto: "", signInType: "", personalRefrige: [], personalLikeRecipe: [], personalDoRecipe: [])
+    var userInfos = UserInfo(userID: "", userName: "",
+                             userEmail: "", userPhoto: "",
+                             signInType: "", personalRefrige: [],
+                             personalLikeRecipe: [], personalDoRecipe: [], blockLists: [])
     
     var onPublished: (() -> Void)?
     
@@ -45,7 +49,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     var recipeholderLabel = UILabel()
     
     var recipe: Recipe?
-    // = Recipe(recipeID: "", recipeName: "", recipeImage: "", recipeFood: "", recipeStep: "")
     
     var recipeName: String = ""
     
@@ -63,20 +66,19 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         foodStepTypeIn.text = recipeStep
         
         if recipeInImage == "" {
-                recipeImage.image = UIImage(named: "imageDefault") } else{
+                recipeImage.image = UIImage(named: "imageDefault") } else {
             recipeImage.kf.setImage( with: URL(string: recipeInImage ))
         }
         
         guard let userID = Auth.auth().currentUser?.uid else { return }
         userManager.fetchUserInfo(fetchUserID: userID) { result in
-            switch result{
+            switch result {
             case .success(let userInfo):
                 self.userInfos = userInfo
             case .failure:
                 HandleResult.readDataFailed.messageHUD
             }
         }
-        
         
         setUI()
 
@@ -91,10 +93,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         
         imagePickerController.delegate = self
         
-        // changeRecipePic.backgroundColor = UIColor.FoodyFlow.lightOrange
         recipeImage.lkCornerRadius = 20
-        // changeRecipePic.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
-        // changeRecipePic.imageView?.tintColor = UIColor.FoodyFlow.white
         changeRecipePic.addTarget(self, action: #selector(changeRecipeImage), for: .touchUpInside)
         recipeImage.isOpaque = true
         recipeNameLabel.text = "食譜名稱"
@@ -151,11 +150,9 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         
     }
     @objc func postToRecipeDB() {
-    //    let url = URL(string: ("\(recipe?.recipeImage)"))
-    //    guard let url = url else {
-     //       return
-     //   }
-      //  let recipeURL =  String(contentsOf: url)
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Loading"
         guard let recipeImage = recipeImage.image else {
             return
         }
@@ -167,23 +164,25 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
                                     recipeImage: "\(url)",
                                     recipeFood: foodTypeIn.text,
                                     recipeStep: foodStepTypeIn.text,
-                                    recipeUserName: self.userInfos.userName)
-        //        recipe.recipeName = recipeTextField.text!
-        //        recipe.recipeFood = foodTypeIn.text
-        //        recipe.recipeStep = foodStepTypeIn.text
+                                    recipeUserName: self.userInfos.userName,
+                                    recipeUserID: self.userInfos.userID)
                 RecipeManager.shared.createRecipe(recipe: &recipe) {
                     result in
                         switch result {
-                        case .success:
-                            self.onPublished?()
-                            self.navigationController?.popViewController(animated: true)
+                        case .success(let recipeID):
+                            UserManager.shared.addRecipe(userID: userInfos.userID, recipeID: recipeID) {
+                                loadingNotification.hide(animated: true)
+                                self.onPublished?()
+                                self.navigationController?.popViewController(animated: true)
+
+                            }
                         case .failure(let error):
                             
                             print("publishArticle.failure: \(error)")
                         }
                 }
                 
-            case .failure(_):
+            case .failure:
                 print("UploadPhoto Error")
             }
         }
@@ -215,7 +214,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     }
 }
 
-extension AddRecipeViewController : UITextViewDelegate {
+extension AddRecipeViewController: UITextViewDelegate {
    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 

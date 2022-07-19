@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol SelectPersonalRecipeCellDelegate: AnyObject {
+    
+    func didDeleteRecipe(indexPathRow: IndexPath)
+    
+    func didEditRecipe(indexPathRow: IndexPath)
+
+}
+
 class PersonalRecipeTableViewCell: UITableViewCell {
     
     let identifier = "personalrecipeTableViewCell"
@@ -16,6 +24,10 @@ class PersonalRecipeTableViewCell: UITableViewCell {
                      bundle: nil)
     }
     
+    var indexPath: IndexPath!
+    
+    weak var delegate: SelectPersonalRecipeCellDelegate?
+    
     @IBOutlet weak var personalRecipeImage: UIImageView!
     
     @IBOutlet weak var personalRecipeName: UILabel!
@@ -23,18 +35,25 @@ class PersonalRecipeTableViewCell: UITableViewCell {
     @IBOutlet weak var personalEditRecipe: UIButton!
     
     @IBOutlet weak var personalDeleteRecipe: UIButton!
-    
-    var indexPath: IndexPath!
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        personalEditRecipe.addTarget(self, action: #selector(editRecipe), for: .touchUpInside)
+        personalDeleteRecipe.addTarget(self, action: #selector(deleteRecipe), for: .touchUpInside)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
+    }
+    
+    @objc func editRecipe() {
+        delegate?.didEditRecipe(indexPathRow: indexPath)
+        
+    }
+    
+    @objc func deleteRecipe() {
+        delegate?.didDeleteRecipe(indexPathRow: indexPath)
     }
     
 }

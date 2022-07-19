@@ -4,7 +4,7 @@
 //
 //  Created by 曹珮綺 on 6/26/22.
 //
-
+// delete food // 點進去 
 // Filter status 2
 
 import UIKit
@@ -25,6 +25,8 @@ class InshoppingViewController: UIViewController {
     var shoppingLists: [String?] = []
     
     var foodsInShoppingList: [String?] = []
+    
+    var inshoppingListView = ShoppingListView()
     
     var foodsInfo: [FoodInfo] = []
     
@@ -66,44 +68,6 @@ class InshoppingViewController: UIViewController {
         inShoppingListCollectionView.layoutIfNeeded()
     }
     
-   /* override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        DispatchQueue.global().async {
-            self.fetchAllCate { [weak self] cate in
-                self?.cate = cate
-            }
-            
-            // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
-            // w for fix error 應該先fetch 在回來抓
-            self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
-                self?.shoppingLists = shoppingLists
-                
-                // if nil present view
-                // if ok present last or first one
-                shoppingListNowID = "23" // fetch initial
-                
-                self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
-                    self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                        guard let cates = self?.cate else { return }
-                        self?.resetRefrigeFood()
-                        self?.cateFilter(allFood: allfoodInfo, cates: cates)
-                        DispatchQueue.main.async {
-                            // lottie 消失
-                            
-                            self?.inShoppingListCollectionView.reloadData()
-                            semaphore.signal()
-                        }
-                    })
-                }
-            }
-            
-            semaphore.wait()
-            
-        }
-    } */
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let semaphore = DispatchSemaphore(value: 0)
@@ -120,23 +84,32 @@ class InshoppingViewController: UIViewController {
             if shoppingLists.isEmpty {
                     DispatchQueue.main.async {
                         self?.cate = []
-                        self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView()
+                        self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView
                         self?.inShoppingListCollectionView.reloadData()
-                        self?.present(CreatePersonViewController(), animated: true) }} else {
+                      //  self?.present(CreatePersonViewController(), animated: true)
+                        
+                    }} else {
             shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     if foodssInfo.isEmpty {
-                        self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView()
-                    }
-                    else {
+                        self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView
+                    } else {
                     if foodssInfo[0] == "" {
-                        self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView() } else {
+                        self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView } else {
                         
                         self?.inShoppingListCollectionView.backgroundView = nil
                         self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                        var inshopFoodInfo = allfoodInfo.filter { foodinfo in
+                        let inshopFoodInfo = allfoodInfo.filter { foodinfo in
                             foodinfo.foodStatus == 2
                             }
+                        if  inshopFoodInfo.isEmpty {
+                                DispatchQueue.main.async {
+                                    self?.cate = []
+                                    // lottie 消失
+                                    self?.inShoppingListCollectionView.reloadData()
+                                    self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView }
+                            }
+
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
                         self?.cateFilter(allFood: inshopFoodInfo, cates: cates)
@@ -230,29 +203,37 @@ class InshoppingViewController: UIViewController {
     
     private func reloadShoppingList() {
         
-        HandleResult.readData.messageHUD
+//        HandleResult.readData.messageHUD
         
-        self.fetchAllCate { [weak self] cate in
-            self?.cate = cate
-        }
-            
-            self.resetRefrigeFood()
-        shoppingListNowID = self.shoppingLists[shopDidSelectDifferentRef ?? 0]
-            self.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
+        self.fetchAllCate { [weak self] cates in
+            self?.cate = cates  }
+    
+        self.resetRefrigeFood()
+        
+        self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingList in
+            self?.shoppingLists = shoppingList
+            shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
+            self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                 if foodssInfo.isEmpty {
-                    self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView() }
-                else {
+                self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView } else {
                 if foodssInfo[0] == "" {
-                    DispatchQueue.main.async {
-                        self?.cate = []
+                DispatchQueue.main.async {
+                    self?.cate = []
                         // lottie 消失
-                        self?.inShoppingListCollectionView.reloadData()
-                        self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView() } } else {
+                    self?.inShoppingListCollectionView.reloadData()
+                    self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView } } else {
                     self?.inShoppingListCollectionView.backgroundView = nil
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                        var inshopFoodInfo = allfoodInfo.filter { foodinfo in
-                            foodinfo.foodStatus == 2
-                            }
+                        let inshopFoodInfo = allfoodInfo.filter { foodinfo in
+                            foodinfo.foodStatus == 2 }
+                        if  inshopFoodInfo.isEmpty {
+                            DispatchQueue.main.async {
+                                self?.cate = []
+                                // lottie 消失
+                                self?.inShoppingListCollectionView.reloadData()
+                                self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView }
+                        }
+
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()
                         self?.cateFilter(allFood: inshopFoodInfo, cates: cates)
@@ -262,11 +243,11 @@ class InshoppingViewController: UIViewController {
                         }
                     })}
                 }
-            }
+            }}
     }
     // fetch shoppingList number
     private func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-        refrigeNowID = "2" // rename
+//        refrigeNowID = "2" // rename
         ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige(completion: { result in
           switch result {
           case .success(let shoppingLists):
@@ -324,7 +305,7 @@ class InshoppingViewController: UIViewController {
                         switch result {
                         case .success(let refrigeInfo):
                             refrigeNow = refrigeInfo
-        
+                            complection()
                             // 抓 fetch shoppingList foodInfo
                             // remove foodID
                             // d
@@ -350,7 +331,7 @@ class InshoppingViewController: UIViewController {
         self.fetchAllFoodInfoInSingleShopList { foodsInfos in
             
             var newshoppingList: ShoppingList = ShoppingList(
-                title: "", foodID: [""])
+                id: "", title: "", foodID: [""])
             newshoppingList.foodID = foodsInfos.filter { $0 != foodId }
             self.shoppingLists = newshoppingList.foodID
 
@@ -361,6 +342,7 @@ class InshoppingViewController: UIViewController {
                         self.resetRefrigeFood()
                         if let cates = self.cate as? [String] {
                         self.cateFilter(allFood: allfoodInfo, cates: cates)
+                            
                         DispatchQueue.main.async {
                             // lottie 消失
                             self.inShoppingListCollectionView.reloadData()
@@ -524,6 +506,7 @@ extension InshoppingViewController: UICollectionViewDataSource,
             withReuseIdentifier: "ShoppingListCollectionReusableView",
             for: indexPath) as? ShoppingListCollectionReusableView {
             sectionHeader.sectionHeaderlabel.text = cate[indexPath.section]
+            sectionHeader.sectionHeaderlabel.font = UIFont(name: "PingFang TC", size: 20)
             return sectionHeader
         }
         return UICollectionReusableView()
@@ -545,56 +528,69 @@ extension InshoppingViewController: UICollectionViewDataSource,
         switch indexPath.section {
         case 0:
             finishShoppingToRefrige(foodId: meatsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 
             }
         case 1:
             finishShoppingToRefrige(foodId: beansInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
         case 2:
             finishShoppingToRefrige(foodId: eggsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 
         case 3:
             finishShoppingToRefrige(foodId: vegsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 
         case 4:
             finishShoppingToRefrige(foodId: picklesInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
         case 5:
             finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 self.deleteFoodOnShoppingList(foodId: self.fruitsInfo[indexPath.item].foodId ?? "2", complection: {
                     print("success reload")
                 })
                 print("success to reFirge ")
             }
             deleteFoodOnShoppingList(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
+                
                 print("success to delete " )
             }
         case 6:
             finishShoppingToRefrige(foodId: fishesInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
         case 7:
             finishShoppingToRefrige(foodId: seafoodsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
         case 8:
             finishShoppingToRefrige(foodId: beveragesInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 
         case 9:
             finishShoppingToRefrige(foodId: seasonsInfo[indexPath.item].foodId ?? "2") {
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 
         case 10:
             finishShoppingToRefrige(foodId: othersInfo[indexPath.item].foodId ?? "2") {
+                
+                self.reloadShoppingList()
                 print("success to reFirge ")
             }
 

@@ -24,6 +24,8 @@ struct UserInfo: Codable {
     var personalLikeRecipe: [String?]
     
     var personalDoRecipe: [String?]
+    
+    var blockLists: [String?]
         
 }
 

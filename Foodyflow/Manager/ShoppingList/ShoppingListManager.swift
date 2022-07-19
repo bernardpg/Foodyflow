@@ -15,11 +15,16 @@ class ShoppingListManager {
     static let shared = ShoppingListManager()
     
     lazy var db = Firestore.firestore()
+    
+    let database = Firestore.firestore().collection("User")
         
-    func fetchAllShoppingListIDInSingleRefrige(  completion: @escaping (Result<[String?], Error>) -> Void) {
+    func fetchAllShoppingListIDInSingleRefrige( completion: @escaping (Result<[String?], Error>) -> Void) {
         
-        guard let refrigeNowID = refrigeNowID else { return }
+        guard let refrigeNowID = refrigeNowID else { completion(.success([])); return }
         
+        // Refrige empty
+        let shoppingLists: [String?] = []
+        guard !refrigeNowID.isEmpty else { completion(.success(shoppingLists)); return }
         let docRef = db.collection("Refrige").document(refrigeNowID)
         // .collection("dwdwdwd")
 
@@ -42,34 +47,47 @@ class ShoppingListManager {
                 completion(.success(shopingLists))
         }
     }
-    func fetchALLShopListInfoInSingleRefrige(shopplingLists: [String?],
-                                             completion: @escaping (Result<ShoppingList?, Error >) -> Void){
-        let colRef = db.collection("shoppingList")
-        
-//        let foods = FoodInfo()
-//        guard !refrige.foodID.isEmpty else {
-//            completion(.success(foods))
-//            return
-//        }
-
-//        guard !shopplingLists.isEmpty else { completion() return }
-        
-        for shopplingList in shopplingLists {
-            guard let shopplingList = shopplingList else { return }
-            colRef.document(shopplingList).getDocument { (document, error) in
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    
-                    do {
-                        if let shoppingList = try document?.data(as: ShoppingList.self, decoder: Firestore.Decoder()) {
-                            completion(.success(shoppingList))
-                        }
-                    } catch {
-                        completion(.failure(error))
+    
+    func fetchALLShopListInfoInSingleRefrige(shopplingLists: [String?], completion: @escaping (Result<ShoppingList?, Error >) -> Void) {
+    let colRef = db.collection("shoppingList")
+    
+    for shopplingList in shopplingLists {
+        guard let shopplingList = shopplingList else { return }
+        colRef.document(shopplingList).getDocument { (document, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                
+                do {
+                    if let shoppingList = try document?.data(as: ShoppingList.self, decoder: Firestore.Decoder()) {
+                        completion(.success(shoppingList))
                     }
+                } catch {
+                    completion(.failure(error))
                 }
             }
+        }
+    }
+    
+}
+    
+    func fetchShopListInfo(shopplingListID: String?, completion: @escaping(Result<ShoppingList?, Error>) -> Void) {
+        
+        let colRef = db.collection("shoppingList")
+        
+        guard let shopplingListID = shopplingListID else {
+            return }
+        colRef.document(shopplingListID).getDocument { (document, error) in
+            
+            do {
+                let shopList =  try document?.data(as: ShoppingList.self, decoder: Firestore.Decoder())
+                
+                completion(.success(shopList))
+            } catch {
+                
+                completion(.failure(error))
+            }
+
         }
         
     }
@@ -104,6 +122,7 @@ class ShoppingListManager {
                                  completion: @escaping (Result<String, Error>) -> Void ) {
         
      //   guard let shoppingListNowID = shoppingListNowID else { return }
+        
         let document = db.collection("shoppingList").document(shoppingListNowID!)
         
         do {
@@ -113,7 +132,42 @@ class ShoppingListManager {
         }
     }
     
-    // func createShoppingList() {
-    //
-   // }
+    func createShoppingList(shoppingList: inout ShoppingList,
+                            refrigeID: String,
+                            completion: @escaping (Result<String, Error>) -> Void) {
+        
+        let document = db.collection("shoppingList").document()
+        shoppingList.id = document.documentID
+        let refrigeRef = db.collection("Refrige").document(refrigeID)
+        
+        refrigeRef.updateData([ "shoppingList": FieldValue.arrayUnion([shoppingList.id])])
+        
+        document.setData(shoppingList.toDict) { error in
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                completion(.success(document.documentID))
+            }
+        }
+    }
+
+    func createShoppingListOnSingleUser(user: UserInfo, refrigeID: [String?], completion: @escaping (Result<String, Error>) -> Void ) {
+
+        let userRef = database.document(user.userID)
+        
+        userRef.updateData(["personalRefrige": refrigeID]) { error in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                completion(.success("success"))
+            }
+        }
+        
+    }
+
 }

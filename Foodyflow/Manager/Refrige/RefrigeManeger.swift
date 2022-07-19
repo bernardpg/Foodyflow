@@ -104,9 +104,6 @@ class RefrigeManager {
                 completion(.failure(error))
             } else {
                 
- //               article.foodID.append(foodId!)
- //               articles.append(article)
-
                 completion(.success("Success"))
             }
         }

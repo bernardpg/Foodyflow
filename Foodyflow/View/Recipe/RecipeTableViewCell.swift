@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol RecipeLikeDelegate: AnyObject {
+    
+    func didLikeTap( indexPathRow:IndexPath )
+}
+
 class RecipeTableViewCell: UITableViewCell {
     
     @IBOutlet weak var recipeImage: UIImageView!
@@ -14,6 +19,12 @@ class RecipeTableViewCell: UITableViewCell {
     @IBOutlet weak var recipeName: UILabel!
     
     @IBOutlet weak var recipeUserName: UILabel!
+    
+    var indexPath: IndexPath!
+    
+    @IBOutlet weak var likeRecipeBtn: UIButton!
+    
+    weak var delegate: RecipeLikeDelegate?
     
     let identifier = "recipeTableViewCell"
     
@@ -25,6 +36,11 @@ class RecipeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         recipeImage.clipsToBounds = true
+        likeRecipeBtn.addTarget(self, action: #selector(likeRecipe), for: .touchUpInside)
+        likeRecipeBtn.isSelected = false 
+//        likeRecipeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+//        likeRecipeBtn.isSelected = false
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -32,4 +48,17 @@ class RecipeTableViewCell: UITableViewCell {
 
     }
     
+    @objc func likeRecipe(_ sender: UIButton) {
+        
+        if sender.isSelected == false {
+            sender.isSelected = true
+            sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            delegate?.didLikeTap(indexPathRow: indexPath)
+            
+        } else {
+            sender.isSelected = false
+            sender.setImage(UIImage(named: "heart"), for: .normal)
+        }
+        
+    }
 }

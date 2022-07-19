@@ -4,27 +4,33 @@
 //
 //  Created by 曹珮綺 on 6/26/22.
 //
+// 刪除到冰箱是零還沒歸零
 
 // 還沒有購買得時候 購買完須在點擊才會有改變backgroundPage
-// 新增食物crash
+
 // delefood in refrige
 
 // 刪除冰箱食物 login
 
 // 將所有 fetch 資料傳下去
-// filter 
+// filter
+
 // 點擊進去更新
+
 // fetch 回來依照食物
+// add food 判斷 冰箱是否空的 創建冰箱
 
 import UIKit
 import FirebaseAuth
 import Kingfisher
 
-class RefrigeAllFoodViewController: UIViewController {
+class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
     
     var refrigeTableView = UITableView() { didSet { refrigeTableView.reloadData() } }
     
     private var tapButton = UIButton()
+    
+    private let refrigeBtn = ButtonPanelView()
     
     private let authManager = AuthManager()
     
@@ -62,7 +68,7 @@ class RefrigeAllFoodViewController: UIViewController {
     
     var othersInfo: [FoodInfo] = []
     
-    var searchView = SearchPlaceholderView()
+    var searchView = RefrigeView()
     
     var tabIndex: Int?
     
@@ -72,6 +78,8 @@ class RefrigeAllFoodViewController: UIViewController {
     
     var didSelectDifferentRef: Int? { didSet { reloadRefrige() } }
     
+    private lazy var notiname = Notification.Name("dropDownReloadNoti")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,13 +87,13 @@ class RefrigeAllFoodViewController: UIViewController {
         refrigeTableView.register(RefrigeCatTableViewCell.nib(), forCellReuseIdentifier: "refrigeCatTableViewCell")
         refrigeTableView.delegate = self
         refrigeTableView.dataSource = self
-        
+        refrigeBtn.delegate = self
+
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         refrigeTableView.layoutIfNeeded()
-        tapButton.layer.cornerRadius = (tapButton.frame.height)/2
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +101,8 @@ class RefrigeAllFoodViewController: UIViewController {
         // lottie 開始
         
         singlerefrige()
+        
+   //     reloadRefrige()
         
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -104,8 +114,8 @@ class RefrigeAllFoodViewController: UIViewController {
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
-            self.fetchAllCate { [weak self] cate in
-                self?.cate = cate
+            self.fetchAllCate { [weak self] cates in
+                self?.cate = cates
                 semaphore.signal()
             }
             semaphore.wait()
@@ -113,10 +123,48 @@ class RefrigeAllFoodViewController: UIViewController {
         self.userManager.fetchUserInfo(fetchUserID: userID) { result in
             switch result {
             case .success(let userInfo):
+                if userInfo.personalRefrige.isEmpty {
+                    
+                    self.refrigeTableView.isHidden = true
+                    self.view.addSubview(self.searchView)
+                    self.searchView.isHidden = false
+                    self.searchView.translatesAutoresizingMaskIntoConstraints = false
+                    self.searchView.leadingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.trailingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                    self.searchView.bottomAnchor.constraint(
+                        equalTo: self.view.bottomAnchor,
+                        constant: -300).isActive = true
+                    
+                }
                 self.fetchAllRefrige(userRefriges: userInfo.personalRefrige) { [weak self] refrige in
+                    
                     self?.resetRefrigeFood()
+                    if refrige.count == 1 {
+                        refrigeNow =  self?.refrige[0]
+                    }
                     self?.fetAllFood(completion: { foodInfo in
                         
+                        if foodInfo.isEmpty {
+                            self?.refrigeTableView.isHidden = true
+                            self?.view.addSubview(self?.searchView ?? NoExpiredView())
+                            self?.searchView.isHidden = false
+                            self?.searchView.translatesAutoresizingMaskIntoConstraints = false
+                            self?.searchView.leadingAnchor.constraint(
+                                equalTo: (self?.view.safeAreaLayoutGuide.leadingAnchor)!,
+                                constant: 0).isActive = true
+                            self?.searchView.trailingAnchor.constraint(
+                                equalTo: (self?.view.safeAreaLayoutGuide.trailingAnchor)!,
+                                constant: 0).isActive = true
+                            self?.searchView.topAnchor.constraint(equalTo: (self?.view.topAnchor)!, constant: 0).isActive = true
+                            self?.searchView.bottomAnchor.constraint(
+                                equalTo: (self?.view.bottomAnchor)!,
+                                constant: -300).isActive = true }
+
                         guard let cates = self?.cate else { return }
                         
                         self?.cateFilter(allFood: foodInfo, cates: cates)
@@ -133,7 +181,7 @@ class RefrigeAllFoodViewController: UIViewController {
                         
                     }
                 
-                case .failure:
+            case .failure:
                     HandleResult.readDataFailed.messageHUD
                 
                 }
@@ -145,53 +193,39 @@ class RefrigeAllFoodViewController: UIViewController {
     private func cateOfCount() -> Int {
         var count: Int = 0
         if meatsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beansInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if eggsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if vegsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if picklesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fruitsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fishesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seafoodsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beveragesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seasonsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if othersInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         return count
 
     }
 
     private func reloadRefrige() {
-        
-        HandleResult.readData.messageHUD
-        let semaphore = DispatchSemaphore(value: 0)
+    let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
             
             self.resetRefrigeFood()
             
             self.fetAllFood(completion: { foodinfo21 in
-//                HandleResult.readDataFailed.messageHUD
                 self.cateFilter(allFood: foodinfo21, cates: self.cate)
                 if foodinfo21.isEmpty {
                     self.refrigeTableView.isHidden = true
@@ -243,28 +277,9 @@ class RefrigeAllFoodViewController: UIViewController {
     
     // change refrige
     //    refrigeNow = refrige[0]
-    func verifyUser() {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user != nil {
-                let shoppingVC = RefrigeProductDetailViewController(
-                    nibName: "ShoppingProductDetailViewController",
-                    bundle: nil)
-                
-                // bug fixs
-                guard let currentRefrige = refrigeNow else { return }
-                shoppingVC.refrige = currentRefrige
-                self.navigationController!.pushViewController(shoppingVC, animated: true)
-                
-            } else {
-                self.present(LoginViewController(), animated: true)
-                
-            }
-        }
-        
-    }
     
     func verifyUserloading( completion: @escaping () -> Void) {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (_, user) in
             if user != nil {
                 guard let user = user?.uid else {
                     return
@@ -301,10 +316,6 @@ class RefrigeAllFoodViewController: UIViewController {
                 print(LocalizedError.self)
             }
         }
-    }
-
-    @objc func addNewFood() {
-        verifyUser()
     }
     
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
@@ -352,6 +363,7 @@ class RefrigeAllFoodViewController: UIViewController {
     func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []
 //        print(self.refrige[self.didSelectDifferentRef ?? 0])
+        // nil
         FoodManager.shared.fetchSpecifyFood(refrige: refrigeNow!) { [weak self] result in
             switch result {
             case .success(let foodInfo):
@@ -365,6 +377,8 @@ class RefrigeAllFoodViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Anamation Button create
     
     private func resetRefrigeFood() {
         meatsInfo = []
@@ -381,6 +395,144 @@ class RefrigeAllFoodViewController: UIViewController {
         
     }
     
+    func didTapButtonWithText(_ text: Int) {
+        
+        verifyUser(btn: text)
+        // verify uSer
+    }
+    
+    private func verifyUser(btn: Int) {
+        Auth.auth().addStateDidChangeListener { (_, user) in
+            if user != nil {
+                
+                if btn == 2 {
+                    
+                    if refrigeNow?.id == nil {
+                        
+                        self.whenFrigeIsEmptyAlert()
+                        // create refrige
+
+        //                        self.createFrige()
+                        
+                    } else {
+                    guard let currentRefrige = refrigeNow else { return }
+                    let shoppingVC = RefrigeProductDetailViewController(
+                            nibName: "ShoppingProductDetailViewController",
+                            bundle: nil)
+                    shoppingVC.refrige = currentRefrige
+                    self.navigationController!.pushViewController(shoppingVC, animated: true)
+
+                    }
+                } else if btn == 1 {
+                    self.createFrige()
+                    // create freige
+                }
+            } else {
+                self.present(LoginViewController(), animated: true)
+                
+            }
+        }
+        
+    }
+
+    private func createFrige() {
+
+    let alert = UIAlertController(title: "創建食光",
+                                  message: "冰箱",
+                                  preferredStyle: .alert)
+    // delete user delete refrige delete personalDorecipe
+                
+    let createAction = UIAlertAction(title: "建立食光", style: .default) { _  in
+        
+        var refrige = Refrige.init(id: "", title: "我的冰箱", foodID: [], createdTime: 0, category: "", shoppingList: [])
+        
+        self.promptForAnswer { refrigeName in
+            refrige.title = refrigeName
+            RefrigeManager.shared.createFrige(refrige: &refrige) { result in
+            switch result {
+            case .success(let refrigeID):
+                guard let useID = Auth.auth().currentUser?.uid else { return }
+                self.fetchUser(userID: useID) { userInfo in
+                    var personalRefirge = userInfo.personalRefrige
+                        
+                        personalRefirge.append(refrigeID)
+                    self.userManager.createRefrigeOnSingleUser(user: userInfo, refrigeID: personalRefirge) { result in
+                        switch result {
+                        case .success:
+                            HandleResult.addDataSuccess.messageHUD
+                            
+                            NotificationCenter.default.post(name: self.notiname, object: nil)
+                            
+                            DispatchQueue.main.async {
+                                self.singlerefrige()
+                            }
+//                            self.verifyUser {
+//                                HandleResult.addDataSuccess.messageHUD
+
+//                            }
+                        case .failure:
+                            HandleResult.addDataFailed.messageHUD
+                        }
+                    }
+                }
+                self.onPublished?()
+            case .failure:
+                HandleResult.addDataFailed.messageHUD
+                
+            }
+            }
+
+        }
+        
+    }
+        alert.addAction(createAction)
+        
+    let falseAction = UIAlertAction(title: "取消", style: .cancel)
+            alert.addAction(falseAction)
+
+        alert.show(animated: true, vibrate: false)
+        
+    }
+    
+    private func promptForAnswer(completion: @escaping (String) -> Void) {
+        let alertVC = UIAlertController(title: "請填寫你食光的名字", message: "填寫冰箱名", preferredStyle: .alert)
+        alertVC.addTextField()
+        
+        let submitAction = UIAlertAction(title: "確認", style: .default) { [unowned alertVC] _ in
+            let answer = alertVC.textFields![0]
+            
+            guard let rename = answer.text else { return }
+            completion(rename)
+            // do something interesting with "answer" here
+        }
+        
+        alertVC.addAction(submitAction)
+        
+        let falseAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertVC.addAction(falseAction)
+        present(alertVC, animated: true)
+    }
+    
+    private func whenFrigeIsEmptyAlert() {
+        
+        let controller = UIAlertController(title: "尚未有食光冰箱", message: "請先創建", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
+            
+        }
+        controller.addAction(cancelAction)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            
+        }
+        controller.addAction(okAction)
+
+        present(controller, animated: true, completion: nil)
+        
+    }
+    
+    // MARK: notification post
+
     private func cateFilter(allFood: [FoodInfo], cates: [String?]) {
         for foodInfo in allFood {
             for cate in cates {
@@ -426,16 +578,12 @@ class RefrigeAllFoodViewController: UIViewController {
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
             constant: 0).isActive = true
         
-        view.addSubview(tapButton)
-        tapButton.translatesAutoresizingMaskIntoConstraints = false
-        tapButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        tapButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-        tapButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        tapButton.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
-        tapButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        tapButton.imageView?.tintColor = .white
-        tapButton.addTarget(self, action: #selector(addNewFood), for: .touchUpInside)
+        view.addSubview(refrigeBtn)
+        refrigeBtn.translatesAutoresizingMaskIntoConstraints = false
+        refrigeBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        refrigeBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                           constant: -16).isActive = true
+        refrigeBtn.layer.backgroundColor = UIColor.FoodyFlow.btnOrange.cgColor
     }
 
 }
@@ -449,15 +597,11 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = refrigeTableView.dequeueReusableCell(withIdentifier: "refrigeCatTableViewCell",
-                                                        for: indexPath) as? RefrigeCatTableViewCell
+            for: indexPath) as? RefrigeCatTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
         cell.cateFood.font =  UIFont(name: "PingFang TC", size: 20)
-        
-        // need to change for dictionary to solve
-        
-        // Need to fix
-        
+        cell.selectionStyle =  .none
         switch indexPath.row {
         case 0:
             cell.configure(with: meatsInfo)
@@ -500,9 +644,4 @@ extension RefrigeAllFoodViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat { 250.0 }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // UIAlert to didselect or delete
-        
-    }
 }

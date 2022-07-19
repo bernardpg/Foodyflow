@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseStorage
 
-class ShoppingListProductDetailViewController: UIViewController {
+class ShoppingListProductDetailViewController: UIViewController, UINavigationControllerDelegate {
 
     @IBOutlet weak var foodCateName: UILabel!
     
@@ -36,6 +36,8 @@ class ShoppingListProductDetailViewController: UIViewController {
     @IBOutlet weak var updateButton: UIButton!
     @IBOutlet weak var selectPhoto: UIButton!
     
+    @IBOutlet weak var catePick: UIButton!
+    
     @IBOutlet weak var catePicker: UIPickerView!
     let imagePickerController = UIImagePickerController()
     
@@ -45,9 +47,7 @@ class ShoppingListProductDetailViewController: UIViewController {
     
     var foodInfo = FoodInfo()
     
-    var shoppingList: ShoppingList = ShoppingList(
-        title: "", foodID: [""]
-)
+    var shoppingList: ShoppingList = ShoppingList( id: "", title: "", foodID: [""] )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +56,8 @@ class ShoppingListProductDetailViewController: UIViewController {
         selectPhoto.addTarget(self, action: #selector(changePhoto), for: .touchUpInside)
         updateButton.addTarget(self, action: #selector(postToRefirgeDB), for: .touchUpInside)
         catePicker.isHidden = true
+        
+        imagePickerController.delegate = self
 
     }
     
@@ -79,10 +81,10 @@ class ShoppingListProductDetailViewController: UIViewController {
     
     func setUI() {
         foodCateName.text = "分類"
-        foodCateTextField.lkCornerRadius = 20
-        foodCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
-        foodCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
-        foodCateTextField.text = foodInfo.foodCategory
+//        foodCateTextField.lkCornerRadius = 20
+//        foodCateTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
+//        foodCateTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
+//        foodCateTextField.text = foodInfo.foodCategory
         foodName.text = "食材名稱"
         foodNameTextField.lkCornerRadius = 20
         foodNameTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
@@ -95,12 +97,12 @@ class ShoppingListProductDetailViewController: UIViewController {
         foodBrandTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodBrandTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
         
-        foodBrandTextField.text = foodInfo.foodCategory
-        
+        foodBrandTextField.text = foodInfo.foodBrand
+
         foodWeightTextField.lkCornerRadius = 20
         foodWeightTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodWeightTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
-        
+        foodWeightTextField.keyboardType = UIKeyboardType.numberPad
         foodWeightTextField.text = foodInfo.foodBrand
 
         foodBuy.text = "購買地點"
@@ -121,7 +123,83 @@ class ShoppingListProductDetailViewController: UIViewController {
         updateButton.lkCornerRadius = 10
         updateButton.tintColor = UIColor.FoodyFlow.white
         updateButton.backgroundColor = UIColor.FoodyFlow.darkOrange
+        if foodInfo.foodImages == "" {
+            foodImage.image = UIImage(named: "imageDefault") } else if foodInfo.foodImages == nil {foodImage.image = UIImage(named: "imageDefault")} else {
+            foodImage.kf.setImage( with: URL(string: foodInfo.foodImages ))
+        }
+        catePick.titleLabel?.font = UIFont(name: "PingFang TC", size: 20)
+        if #available(iOS 15.0, *) {
+            catePick.setTitle(foodInfo.foodCategory, for: .selected)
 
+            catePick.setTitle(foodInfo.foodCategory, for: .application)
+            
+//            catePick.showsMenuAsPrimaryAction = true
+
+//            catePick.changesSelectionAsPrimaryAction = true
+            catePick.menu = createSiteMenu(actionTitle: foodInfo.foodCategory)
+        } else {
+            // Fallback on earlier versions
+        }
+
+    }
+    
+     func createSiteMenu(actionTitle: String? = nil) -> UIMenu {
+        let siteMenuItems =  [
+            UIAction(title: "肉類", handler: { _ in
+                self.foodInfo.foodCategory = "肉類"
+            }),
+            UIAction(title: "豆類", handler: { _ in
+                self.foodInfo.foodCategory = "豆類"
+            }),
+            UIAction(title: "雞蛋類", handler: { _ in
+                self.foodInfo.foodCategory = "雞蛋類"
+            }),
+            UIAction(title: "青菜類", handler: { _ in
+                self.foodInfo.foodCategory = "青菜類"
+            }),
+            UIAction(title: "醃製類", handler: { _ in
+                self.foodInfo.foodCategory = "醃製類"
+            }),
+            UIAction(title: "水果類", handler: { _ in
+                self.foodInfo.foodCategory = "水果類"
+            }),
+            UIAction(title: "魚類", handler: { _ in
+                self.foodInfo.foodCategory = "魚類"
+            }),
+            UIAction(title: "海鮮類", handler: { _ in
+                self.foodInfo.foodCategory = "海鮮類"
+            }),
+            UIAction(title: "飲料類", handler: { _  in
+                self.foodInfo.foodCategory = "飲料類"
+            }),
+            UIAction(title: "調味料類", handler: { _ in
+                self.foodInfo.foodCategory = "調味料類"
+            }),
+            UIAction(title: "其他類", handler: { _ in
+                self.foodInfo.foodCategory = "其他類"
+            })
+        ]
+        let menu = UIMenu(title: "請選擇種類", image: nil, identifier: nil, options: [], children: siteMenuItems)
+        catePick?.menu = updateActionState(actionTitle: actionTitle, menu: menu)
+        catePick?.showsMenuAsPrimaryAction = true
+        return menu
+    }
+    
+     func updateActionState(actionTitle: String? = nil, menu: UIMenu) -> UIMenu {
+        if let actionTitle = actionTitle {
+            menu.children.forEach { action in
+                guard let action = action as? UIAction else {
+                    return
+                }
+                if action.title == actionTitle {
+                    action.state = .on
+                }
+            }
+        } else {
+            let action = menu.children.first as? UIAction
+            action?.state = .on
+        }
+        return menu
     }
     
     func postFoodOnShoppingList() {
@@ -139,14 +217,13 @@ class ShoppingListProductDetailViewController: UIViewController {
     @objc func postToRefirgeDB() {
         
         guard let foodImage = foodImage.image else {
-            return
-        }
+            return }
         uploadPhoto(image: foodImage) { [self] result in
             switch result {
             case .success(let url):
                 
                 foodInfo.foodName = foodNameTextField.text
-                foodInfo.foodCategory = foodCateTextField.text
+//                foodInfo.foodCategory = foodCateTextField.text
                 foodInfo.foodWeightAmount = Double(foodWeightTextField.text ?? "")
                 foodInfo.foodBrand = foodBrandTextField.text
                 foodInfo.foodPurchasePlace = foodBuyPlaceTextfield.text
@@ -165,7 +242,7 @@ class ShoppingListProductDetailViewController: UIViewController {
                         print("publishArticle.failure: \(error)")
                     }
                 }
-                shoppingListNowID = "dwdwdwd" // fetch initial
+                shoppingListNowID = shoppingList.id
                 guard let foodId = foodId else { return }  // bugs
                 shoppingList.foodID.append(foodId)
                 ShoppingListManager.shared.postFoodOnShoppingList(shoppingList: &shoppingList) { result in
@@ -188,7 +265,7 @@ class ShoppingListProductDetailViewController: UIViewController {
     @objc func postUpdate() {
         
         foodInfo.foodName = foodNameTextField.text
-        foodInfo.foodCategory = foodCateTextField.text
+//        foodInfo.foodCategory = foodCateTextField.text
         foodInfo.foodWeightAmount = Double(foodWeightTextField.text ?? "")
         foodInfo.foodBrand = foodBrandTextField.text
         foodInfo.foodPurchasePlace = foodBuyPlaceTextfield.text
