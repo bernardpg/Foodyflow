@@ -25,8 +25,6 @@
 		A9369E5028632C430063928E /* ShoppingListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9369E4F28632C430063928E /* ShoppingListCollectionViewCell.swift */; };
 		A93EF94E286AEE6400EDDA4B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93EF94C286AEE6400EDDA4B /* LoginViewController.swift */; };
 		A93EF94F286AEE6400EDDA4B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A93EF94D286AEE6400EDDA4B /* LoginViewController.xib */; };
-		A93EF952286AEEB600EDDA4B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93EF950286AEEB600EDDA4B /* OnboardingViewController.swift */; };
-		A93EF953286AEEB600EDDA4B /* OnboardingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A93EF951286AEEB600EDDA4B /* OnboardingViewController.xib */; };
 		A93EF955286B2A4800EDDA4B /* CreatePersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93EF954286B2A4800EDDA4B /* CreatePersonViewController.swift */; };
 		A941E03C286BE51E00B603AF /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A941E03B286BE51E00B603AF /* AuthManager.swift */; };
 		A941E03E286BF45C00B603AF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A941E03D286BF45C00B603AF /* User.swift */; };
@@ -121,8 +119,6 @@
 		A9369E4F28632C430063928E /* ShoppingListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A93EF94C286AEE6400EDDA4B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A93EF94D286AEE6400EDDA4B /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
-		A93EF950286AEEB600EDDA4B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		A93EF951286AEEB600EDDA4B /* OnboardingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OnboardingViewController.xib; sourceTree = "<group>"; };
 		A93EF954286B2A4800EDDA4B /* CreatePersonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePersonViewController.swift; sourceTree = "<group>"; };
 		A941E03B286BE51E00B603AF /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		A941E03D286BF45C00B603AF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -274,8 +270,6 @@
 			children = (
 				A93EF94C286AEE6400EDDA4B /* LoginViewController.swift */,
 				A93EF94D286AEE6400EDDA4B /* LoginViewController.xib */,
-				A93EF950286AEEB600EDDA4B /* OnboardingViewController.swift */,
-				A93EF951286AEEB600EDDA4B /* OnboardingViewController.xib */,
 				A93EF954286B2A4800EDDA4B /* CreatePersonViewController.swift */,
 				A991AE81287FB56000836785 /* WebViewController.swift */,
 			);
@@ -612,7 +606,6 @@
 				A9335AD72869228E00AE551B /* GoogleService-Info.plist in Resources */,
 				A92F6BC8285C927B0090EE90 /* RefrigeCatTableViewCell.xib in Resources */,
 				A95B6CAF286165CC003153B0 /* PersonalTableViewCell.xib in Resources */,
-				A93EF953286AEEB600EDDA4B /* OnboardingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,7 +719,6 @@
 				A9DC8AA02876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift in Sources */,
 				A9C1A7E72881127B007A891C /* WithinThreeDaysView.swift in Sources */,
 				A944E691285DE1300068D7DD /* FoodManager.swift in Sources */,
-				A93EF952286AEEB600EDDA4B /* OnboardingViewController.swift in Sources */,
 				A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */,
 				A991AE7C287FB43200836785 /* NSMutableAttributedString+Extension.swift in Sources */,
 				A98D50F028643F6000B326AC /* GlobalVariable.swift in Sources */,

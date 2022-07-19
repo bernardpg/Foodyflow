@@ -5,6 +5,9 @@
 //  Created by 曹珮綺 on 6/27/22.
 //
 
+// block user long touch
+// 點擊愛心 deque error
+
 import UIKit
 import SnapKit
 import Combine
@@ -12,9 +15,6 @@ import FirebaseAuth
 import Kingfisher
 import PKHUD
 import SwifterSwift
-
-// block user long touch
-// 點擊愛心 deque error 
 
 class AllRecipeViewController: UIViewController {
     
@@ -300,7 +300,7 @@ class AllRecipeViewController: UIViewController {
     }
     
     // array Union 改寫
-    func likeRecipe( userInfo:UserInfo, needtoLike: String, completion: @escaping () -> Void) {
+    func likeRecipe( userInfo: UserInfo, needtoLike: String, completion: @escaping () -> Void) {
         var newUserInfo = userInfo
         
         // recipeChangeLike
@@ -382,7 +382,14 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, R
             for: indexPath) as? RecipeTableViewCell
         guard let cell = cell else { return UITableViewCell() }
         cell.selectionStyle = .none
+        // need to fix
+        guard let usersinfo = usersinfo else { return UITableViewCell() }
         cell.likeRecipeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+        for personalike in usersinfo.personalLikeRecipe {
+            if personalike == recipeAmount[indexPath.row].recipeID {
+                cell.likeRecipeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            } else { }
+        }
         cell.delegate = self
         cell.indexPath = indexPath
         cell.recipeName.font = UIFont(name: "PingFang TC", size: 20)

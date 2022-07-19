@@ -50,13 +50,6 @@ class ShoppingListManager {
     
     func fetchALLShopListInfoInSingleRefrige(shopplingLists: [String?], completion: @escaping (Result<ShoppingList?, Error >) -> Void) {
     let colRef = db.collection("shoppingList")
-//        let foods = FoodInfo()
-//        guard !refrige.foodID.isEmpty else {
-//            completion(.success(foods))
-//            return
-//        }
-
-//        guard !shopplingLists.isEmpty else { completion() return }
     
     for shopplingList in shopplingLists {
         guard let shopplingList = shopplingList else { return }
@@ -139,7 +132,9 @@ class ShoppingListManager {
         }
     }
     
-    func createShoppingList(shoppingList: inout ShoppingList, refrigeID: String, completion: @escaping (Result<String, Error>) -> Void) {
+    func createShoppingList(shoppingList: inout ShoppingList,
+                            refrigeID: String,
+                            completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection("shoppingList").document()
         shoppingList.id = document.documentID

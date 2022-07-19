@@ -9,6 +9,7 @@ import UIKit
 import FirebaseStorage
 import AVFoundation
 import FirebaseAuth
+import MBProgressHUD
 
 class AddRecipeViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -36,7 +37,10 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     
     var userManager = UserManager()
     
-    var userInfos = UserInfo(userID: "", userName: "", userEmail: "", userPhoto: "", signInType: "", personalRefrige: [], personalLikeRecipe: [], personalDoRecipe: [], blockLists: [])
+    var userInfos = UserInfo(userID: "", userName: "",
+                             userEmail: "", userPhoto: "",
+                             signInType: "", personalRefrige: [],
+                             personalLikeRecipe: [], personalDoRecipe: [], blockLists: [])
     
     var onPublished: (() -> Void)?
     
@@ -146,6 +150,9 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         
     }
     @objc func postToRecipeDB() {
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Loading"
         guard let recipeImage = recipeImage.image else {
             return
         }
@@ -167,6 +174,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
                         switch result {
                         case .success(let recipeID):
                             UserManager.shared.addRecipe(userID: userInfos.userID, recipeID: recipeID) {
+                                loadingNotification.hide(animated: true)
                                 self.onPublished?()
                                 self.navigationController?.popViewController(animated: true)
 
@@ -177,7 +185,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
                         }
                 }
                 
-            case .failure(_):
+            case .failure:
                 print("UploadPhoto Error")
             }
         }

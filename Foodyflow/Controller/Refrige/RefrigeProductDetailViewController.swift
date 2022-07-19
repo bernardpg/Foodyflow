@@ -126,17 +126,38 @@ class RefrigeProductDetailViewController: UIViewController {
             catePick.changesSelectionAsPrimaryAction = true
             catePick.menu = UIMenu(title: "請選擇種類", image: nil, identifier: nil, options: .singleSelection, children: [
                 UIAction(title: "肉類", state: .on, handler: { _ in
+                    self.foodInfo.foodCategory = "肉類"
                 }),
-                UIAction(title: "豆類", handler: { _ in  }),
-                UIAction(title: "雞蛋類", handler: { _ in }),
-                UIAction(title: "青菜類", handler: { _ in }),
-                UIAction(title: "醃製類", handler: { _ in }),
-                UIAction(title: "水果類", handler: { _ in }),
-                UIAction(title: "魚類", handler: { _ in   }),
-                UIAction(title: "海鮮類", handler: { _ in }),
-                UIAction(title: "飲料類", handler: { _  in }),
-                UIAction(title: "調味料類", handler: { _ in }),
-                UIAction(title: "其他類", handler: { _ in })
+                UIAction(title: "豆類", handler: { _ in
+                    self.foodInfo.foodCategory = "豆類"
+                }),
+                UIAction(title: "雞蛋類", handler: { _ in
+                    self.foodInfo.foodCategory = "雞蛋類"
+                }),
+                UIAction(title: "青菜類", handler: { _ in
+                    self.foodInfo.foodCategory = "青菜類"
+                }),
+                UIAction(title: "醃製類", handler: { _ in
+                    self.foodInfo.foodCategory = "醃製類"
+                }),
+                UIAction(title: "水果類", handler: { _ in
+                    self.foodInfo.foodCategory = "水果類"
+                }),
+                UIAction(title: "魚類", handler: { _ in
+                    self.foodInfo.foodCategory = "魚類"
+                }),
+                UIAction(title: "海鮮類", handler: { _ in
+                    self.foodInfo.foodCategory = "海鮮類"
+                }),
+                UIAction(title: "飲料類", handler: { _  in
+                    self.foodInfo.foodCategory = "飲料類"
+                }),
+                UIAction(title: "調味料類", handler: { _ in
+                    self.foodInfo.foodCategory = "調味料類"
+                }),
+                UIAction(title: "其他類", handler: { _ in
+                    self.foodInfo.foodCategory = "其他類"
+                })
             ])
         } else {
             // Fallback on earlier versions
@@ -182,7 +203,6 @@ class RefrigeProductDetailViewController: UIViewController {
                 guard let foodId = foodId else { return }  // bugs
                 refrige.foodID.append(foodId)
                 RefrigeManager.shared.publishFoodOnRefrige(refrige: self.refrige) {
-                    
                     result in
                     
                     self.onPublished?()
@@ -333,7 +353,7 @@ class RefrigeProductDetailViewController: UIViewController {
 extension RefrigeProductDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
         foodImage?.image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         selectedImage = foodImage?.image

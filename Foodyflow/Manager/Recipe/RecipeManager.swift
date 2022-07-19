@@ -100,7 +100,6 @@ class RecipeManager {
     
     func recipeChangeLike(recipeID: String?,isLike: Bool, completion: @escaping(Result< String, Error>) -> Void ) {
         
-        
         guard let recipeID = recipeID else { return }
 
         let docref = db.collection("recipe").document(recipeID)

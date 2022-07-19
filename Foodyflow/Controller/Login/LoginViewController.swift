@@ -315,14 +315,8 @@ extension LoginViewController {
                     self.userManager.addUserInfo(user: userInfo)
                 }
             }
-//            self.navigationController?.pushViewController(self.recipeVC)
-           // CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
             
-            self.dismiss(animated: true)
-//                self.navigationController?.pushViewController(RecipeViewController(), animated: true)
-
-//                self.navigationController?.pushViewController(self.recipeVC)
-            
+            self.dismiss(animated: true)            
         }
     }
     

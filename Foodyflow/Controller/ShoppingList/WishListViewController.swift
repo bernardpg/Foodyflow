@@ -14,154 +14,6 @@ import FirebaseAuth
 
 class WishListViewController: UIViewController, ShopButtonPanelDelegate {
     
-    func didTapButtonWithText(_ text: Int) { verifyUser(btn: text) }
-    
-    private func verifyUser(btn: Int) {
-        Auth.auth().addStateDidChangeListener { (_, user) in
-            if user != nil {
-                
-                // create food
-                if btn == 1 {
-                    
-                     // no refrige
-                    if refrigeNow?.id == nil {
-                        
-                        self.whenFrigeIsEmptyAlert()
-                        
-                    }
-                     // no shopList
-                    else if self.shoppingLists.isEmpty {
-                        self.whenShopListIsEmptyAlert()
-                    } else {
-                        
-                    // create Food
-                    let shoppingVC = ShoppingListProductDetailViewController(
-                                nibName: "ShoppingListProductDetailViewController",
-                                bundle: nil)
-                            
-                    shoppingVC.shoppingList.foodID = self.foodsInShoppingList
-                    ShoppingListManager.shared.fetchShopListInfo(shopplingListID: shoppingListNowID) { [weak self ] result in
-                    switch result {
-                    case .success(let shopLists):
-                    shoppingVC.shoppingList = shopLists ?? ShoppingList(id: "dd", title: "", foodID: [])
-                    self?.navigationController!.pushViewController(shoppingVC, animated: true)
-
-                    case .failure:
-                        HandleResult.reportFailed.messageHUD
-                        
-                    }
-                        
-                    }
-                    } } else if btn == 2 {
-                    // create shopList
-                    if refrigeNow?.id == nil {
-                        
-                        self.whenFrigeIsEmptyAlert()
-                        } else {
-                        self.createShoppingList()
-                        }}
-            } else {
-                self.present(LoginViewController(), animated: true)
-            }
-        }
-
-    }
-    
-    private func whenFrigeIsEmptyAlert() {
-        
-        let controller = UIAlertController(title: "尚未有食光冰箱", message: "請先在冰箱頁創立", preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
-            
-        }
-        controller.addAction(cancelAction)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            
-        }
-        controller.addAction(okAction)
-
-        present(controller, animated: true, completion: nil)
-        
-    }
-    
-    private func whenShopListIsEmptyAlert() {
-        
-        let controller = UIAlertController(title: "尚未有購物清單", message: "請先創立購物清單", preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
-            
-        }
-        controller.addAction(cancelAction)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            
-        }
-        controller.addAction(okAction)
-
-        present(controller, animated: true, completion: nil)
-        
-    }
-
-    private func createShoppingList() {
-        
-        let alert = UIAlertController(title: "創建購物清單", message: nil, preferredStyle: .alert)
-        
-        let createAction = UIAlertAction(title: "建立清單", style: .default) { _ in
-            
-            guard let refrigeID = refrigeNow?.id else { return }
-            
-            var createNewShop = ShoppingList.init(id: "", title: "我的購物清單", foodID: [])
-            
-            self.promptForAnswer { createNewShopListName in
-                createNewShop.title = createNewShopListName
-                
-                ShoppingListManager.shared.createShoppingList(shoppingList: &createNewShop, refrigeID: refrigeID) { result in
-                    switch result {
-                    case .success:
-                        NotificationCenter.default.post(name: self.notiname, object: nil)
-                        
-                        DispatchQueue.main.async {
-                            self.reloadWishList()
-                        }
-                        
-                        HandleResult.addDataSuccess.messageHUD
-                    case .failure:
-                        HandleResult.addDataFailed.messageHUD
-                    }
-                }
-        
-            }
-        }
-        alert.addAction(createAction)
-        
-        let falseAction = UIAlertAction(title: "取消", style: .cancel)
-        
-        alert.addAction(falseAction)
-        
-        alert.show(animated: true, vibrate: false, completion: nil)
-                
-    }
-    
-    private func promptForAnswer(completion: @escaping (String) -> Void) {
-        let alertVC = UIAlertController(title: "請填寫你購物清單的名字", message: "填寫你想紀錄的清單", preferredStyle: .alert)
-        alertVC.addTextField()
-        
-        let submitAction = UIAlertAction(title: "確認", style: .default) { [unowned alertVC] _ in
-            let answer = alertVC.textFields![0]
-            
-            guard let rename = answer.text else { return }
-            completion(rename)
-            // do something interesting with "answer" here
-        }
-        
-        alertVC.addAction(submitAction)
-        
-        let falseAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertVC.addAction(falseAction)
-        present(alertVC, animated: true)
-    }
-    
     private lazy var notiname = Notification.Name("dropDownShopReloadNoti")
 
     private let wishBtn = ShoppingListBtnPanelView()
@@ -290,19 +142,15 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
     }
     
     private func reloadWishList() {
-        
-//        HandleResult.readData.messageHUD
-        
-        self.fetchAllCate { [weak self] cates in
-            self?.cate = cates
-        }
+                
+        self.fetchAllCate { [weak self] cates in self?.cate = cates }
             
         self.resetRefrigeFood()
         self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingList in
             self?.shoppingLists = shoppingList
            //  crash point
             shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
-            print(shoppingListNowID)
+            print("\(shoppingListNowID)")
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     if foodssInfo.isEmpty {
                         self?.wishListCollectionView.backgroundView = self?.shoppingListView } else {
@@ -466,6 +314,155 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
             }
         }
     }
+    
+    func didTapButtonWithText(_ text: Int) { verifyUser(btn: text) }
+    
+    private func verifyUser(btn: Int) {
+        Auth.auth().addStateDidChangeListener { (_, user) in
+            if user != nil {
+                
+                // create food
+                if btn == 1 {
+                    
+                     // no refrige
+                    if refrigeNow?.id == nil {
+                        
+                        self.whenFrigeIsEmptyAlert()
+                        
+                    }
+                     // no shopList
+                    else if self.shoppingLists.isEmpty {
+                        self.whenShopListIsEmptyAlert()
+                    } else {
+                        
+                    // create Food
+                    let shoppingVC = ShoppingListProductDetailViewController(
+                                nibName: "ShoppingListProductDetailViewController",
+                                bundle: nil)
+                            
+                    shoppingVC.shoppingList.foodID = self.foodsInShoppingList
+                    ShoppingListManager.shared.fetchShopListInfo(shopplingListID: shoppingListNowID) { [weak self ] result in
+                    switch result {
+                    case .success(let shopLists):
+                    shoppingVC.shoppingList = shopLists ?? ShoppingList(id: "dd", title: "", foodID: [])
+                    self?.navigationController!.pushViewController(shoppingVC, animated: true)
+
+                    case .failure:
+                        HandleResult.reportFailed.messageHUD
+                        
+                    }
+                        
+                    }
+                    } } else if btn == 2 {
+                    // create shopList
+                    if refrigeNow?.id == nil {
+                        
+                        self.whenFrigeIsEmptyAlert()
+                        } else {
+                        self.createShoppingList()
+                        }}
+            } else {
+                self.present(LoginViewController(), animated: true)
+            }
+        }
+
+    }
+    
+    private func whenFrigeIsEmptyAlert() {
+        
+        let controller = UIAlertController(title: "尚未有食光冰箱", message: "請先在冰箱頁創立", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
+            
+        }
+        controller.addAction(cancelAction)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            
+        }
+        controller.addAction(okAction)
+
+        present(controller, animated: true, completion: nil)
+        
+    }
+    
+    private func whenShopListIsEmptyAlert() {
+        
+        let controller = UIAlertController(title: "尚未有購物清單", message: "請先創立購物清單", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
+            
+        }
+        controller.addAction(cancelAction)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            
+        }
+        controller.addAction(okAction)
+
+        present(controller, animated: true, completion: nil)
+        
+    }
+
+    private func createShoppingList() {
+        
+        let alert = UIAlertController(title: "創建購物清單", message: nil, preferredStyle: .alert)
+        
+        let createAction = UIAlertAction(title: "建立清單", style: .default) { _ in
+            
+            guard let refrigeID = refrigeNow?.id else { return }
+            
+            var createNewShop = ShoppingList.init(id: "", title: "我的購物清單", foodID: [])
+            
+            self.promptForAnswer { createNewShopListName in
+                createNewShop.title = createNewShopListName
+                
+                ShoppingListManager.shared.createShoppingList(shoppingList: &createNewShop, refrigeID: refrigeID) { result in
+                    switch result {
+                    case .success:
+                        NotificationCenter.default.post(name: self.notiname, object: nil)
+                        
+                        DispatchQueue.main.async {
+                            self.reloadWishList()
+                        }
+                        
+                        HandleResult.addDataSuccess.messageHUD
+                    case .failure:
+                        HandleResult.addDataFailed.messageHUD
+                    }
+                }
+        
+            }
+        }
+        alert.addAction(createAction)
+        
+        let falseAction = UIAlertAction(title: "取消", style: .cancel)
+        
+        alert.addAction(falseAction)
+        
+        alert.show(animated: true, vibrate: false, completion: nil)
+                
+    }
+    
+    private func promptForAnswer(completion: @escaping (String) -> Void) {
+        let alertVC = UIAlertController(title: "請填寫你購物清單的名字", message: "填寫你想紀錄的清單", preferredStyle: .alert)
+        alertVC.addTextField()
+        
+        let submitAction = UIAlertAction(title: "確認", style: .default) { [unowned alertVC] _ in
+            let answer = alertVC.textFields![0]
+            
+            guard let rename = answer.text else { return }
+            completion(rename)
+            // do something interesting with "answer" here
+        }
+        
+        alertVC.addAction(submitAction)
+        
+        let falseAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertVC.addAction(falseAction)
+        present(alertVC, animated: true)
+    }
+
     
 //    shoppingListNowID
     func fetAllFood(foodID: [String?], completion: @escaping([FoodInfo]) -> Void) {
@@ -651,7 +648,7 @@ extension WishListViewController: UICollectionViewDataSource,
             cell.shoppingItemImage.kf.setImage(with: URL( string: meatsInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = meatsInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = meatsInfo[indexPath.item].foodPurchasePlace
-            cell.shoppingWeight.isHidden = true  // meatsInfo[indexPath.item].foodWeightAmount
+            cell.shoppingWeight.isHidden = true
         case 1:
             cell.shoppingName.text = beansInfo[indexPath.item].foodName
 

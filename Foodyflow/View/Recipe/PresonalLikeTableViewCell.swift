@@ -47,14 +47,14 @@ class PresonalLikeTableViewCell: UITableViewCell {
     
     @objc func likeRecipe() {
         
-        if like {
-            like = !like
+   //     if like {
+   //         like = !like
             delegate?.didDeleteTap(indexPathRow: indexPath)
-            personalLikeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+     //       personalLikeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
         
-        } else {
-            like = !like
-            personalLikeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)}
+   //     } else {
+    //        like = !like
+   //         personalLikeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)}
         
     }
 

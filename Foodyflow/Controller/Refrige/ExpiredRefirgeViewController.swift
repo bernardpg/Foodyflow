@@ -140,7 +140,6 @@ class ExpiredRefirgeViewController: UIViewController {
                                 equalTo: (self?.view.bottomAnchor)!,
                                 constant: -300).isActive = true }
                         
-                        
                         guard let cates = self?.cate else { return }
                         
                         self?.cateFilter(allFood: foodInfo, cates: cates)
@@ -169,38 +168,27 @@ class ExpiredRefirgeViewController: UIViewController {
     private func cateOfCount() -> Int {
         var count: Int = 0
         if meatsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beansInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if eggsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if vegsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if picklesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fruitsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fishesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seafoodsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beveragesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seasonsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if othersInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         return count
 
     }
@@ -381,7 +369,7 @@ class ExpiredRefirgeViewController: UIViewController {
                             guard let expireDate = foodsInfo.expireDate else { return false }
                             return expireDate < Date().millisecondsSince1970})
                     completion(expireFood ?? [foodInfo]) }
-                    else {print("append not finish yet ")}}
+                    else { print("append not finish yet ") } }
                 else {completion([foodInfo])}
             case .failure:
                 print("fetch food error")

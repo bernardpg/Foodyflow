@@ -170,38 +170,27 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     private func cateOfCount() -> Int {
         var count: Int = 0
         if meatsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beansInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if eggsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if vegsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if picklesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fruitsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fishesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seafoodsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beveragesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seasonsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if othersInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         return count
 
     }
@@ -251,7 +240,6 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     
     private func reloadRefrige() {
         
-    //    HandleResult.readData.messageHUD
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
@@ -259,7 +247,6 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
             self.resetRefrigeFood()
             
             self.fetAllFood(completion: { foodinfo21 in
-//                HandleResult.readDataFailed.messageHUD
                 self.cateFilter(allFood: foodinfo21, cates: self.cate)
                 if foodinfo21.isEmpty {
                     self.refrigeTableView.isHidden = true

@@ -63,9 +63,6 @@ class PersonalLikeREcipeViewController: UIViewController {
         personalRecipeTableView.register(UINib(nibName:
             "PersonalTitleTableViewCell", bundle: nil),
         forCellReuseIdentifier: "personalrecipeTitleTableViewCell")
-        
-       // tableViewData = [PersonalRecipe(opened: false, title: "我的食譜", sectionData: ["cell1", "cell2", "cell"]),
-        
         setupUI()
         
     }
@@ -214,7 +211,7 @@ class PersonalLikeREcipeViewController: UIViewController {
     
     // remove personal
     
-    func likeRecipe( userInfo:UserInfo, needtoLike: String, completion: @escaping () -> Void) {
+    func likeRecipe( userInfo: UserInfo, needtoLike: String, completion: @escaping () -> Void) {
         var newUserInfo = userInfo
         newUserInfo.personalLikeRecipe.append(needtoLike)
         UserManager.shared.updateUserInfo(user: newUserInfo) {
@@ -246,7 +243,8 @@ class PersonalLikeREcipeViewController: UIViewController {
 // MARK: - Expandable tableView
 }
 
-extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewDataSource, SelectLikeRecipeCellDelegate,SelectPersonalRecipeCellDelegate {
+extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewDataSource,
+    SelectLikeRecipeCellDelegate, SelectPersonalRecipeCellDelegate {
     
     func didDeleteRecipe(indexPathRow: IndexPath) {
         guard let removeMyRecipe = userInfo.personalDoRecipe[indexPathRow.row-1] else { return }
@@ -278,7 +276,7 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
     
     func didDeleteTap(indexPathRow: IndexPath) {
         guard let dislikeRecipe = userInfo.personalLikeRecipe[indexPathRow.row-1] else { return  }
-        removeLikeRecipe(userInfo: userInfo, userdisLikeRecipe: dislikeRecipe){
+        removeLikeRecipe(userInfo: userInfo, userdisLikeRecipe: dislikeRecipe) {
             self.fetchallData() }
         
     }
@@ -344,7 +342,6 @@ extension PersonalLikeREcipeViewController: UITableViewDelegate, UITableViewData
                 cell.delegate = self
                 cell.selectionStyle = .none
                 cell.personalLikeRecipeName.font =  UIFont(name: "PingFang TC", size: 20)
-
                 cell.personalLikeRecipe.clipsToBounds = true
                 cell.personalLikeRecipe.contentMode = .scaleAspectFill
                 if tableViewData[indexPath.section].sectionData[indexPath.row - 1].recipeImage == "" {

@@ -7,9 +7,9 @@
 
 import UIKit
 
-protocol RecipeLikeDelegate: AnyObject{
+protocol RecipeLikeDelegate: AnyObject {
     
-    func didLikeTap(indexPathRow:IndexPath)
+    func didLikeTap( indexPathRow:IndexPath )
 }
 
 class RecipeTableViewCell: UITableViewCell {

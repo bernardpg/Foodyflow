@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 protocol SelectPersonalRecipeCellDelegate: AnyObject {
     
     func didDeleteRecipe(indexPathRow: IndexPath)

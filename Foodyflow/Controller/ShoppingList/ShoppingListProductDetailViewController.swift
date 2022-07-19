@@ -97,7 +97,7 @@ class ShoppingListProductDetailViewController: UIViewController, UINavigationCon
         foodBrandTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
         foodBrandTextField.layer.borderColor = UIColor.FoodyFlow.lightOrange.cgColor
         
-        foodBrandTextField.text = foodInfo.foodCategory
+        foodBrandTextField.text = foodInfo.foodBrand
 
         foodWeightTextField.lkCornerRadius = 20
         foodWeightTextField.backgroundColor = UIColor.FoodyFlow.extraOrange
@@ -128,28 +128,115 @@ class ShoppingListProductDetailViewController: UIViewController, UINavigationCon
             foodImage.kf.setImage( with: URL(string: foodInfo.foodImages ))
         }
         catePick.titleLabel?.font = UIFont(name: "PingFang TC", size: 20)
-        catePick.setTitle("請選擇食材種類", for: .normal)
-        catePick.showsMenuAsPrimaryAction = true
         if #available(iOS 15.0, *) {
-            catePick.changesSelectionAsPrimaryAction = true
-            catePick.menu = UIMenu(title: "請選擇種類", image: nil, identifier: nil, options: .singleSelection, children: [
-                UIAction(title: "肉類", state: .on, handler: { _ in
+            catePick.setTitle(foodInfo.foodCategory, for: .selected)
+
+            catePick.setTitle(foodInfo.foodCategory, for: .application)
+            
+            //catePick.titleLabel?.text = "\()"
+            
+//            catePick.showsMenuAsPrimaryAction = true
+
+//            catePick.changesSelectionAsPrimaryAction = true
+            catePick.menu = createSiteMenu(actionTitle: foodInfo.foodCategory)
+/*            catePick.menu = UIMenu(title: "請選擇種類", image: nil, identifier: nil, options: .singleSelection, children: [
+                UIAction(title: "肉類", handler: { _ in
+                    self.foodInfo.foodCategory = "肉類"
                 }),
-                UIAction(title: "豆類", handler: { _ in  }),
-                UIAction(title: "雞蛋類", handler: { _ in }),
-                UIAction(title: "青菜類", handler: { _ in }),
-                UIAction(title: "醃製類", handler: { _ in }),
-                UIAction(title: "水果類", handler: { _ in }),
-                UIAction(title: "魚類", handler: { _ in   }),
-                UIAction(title: "海鮮類", handler: { _ in }),
-                UIAction(title: "飲料類", handler: { _  in }),
-                UIAction(title: "調味料類", handler: { _ in }),
-                UIAction(title: "其他類", handler: { _ in })
-            ])
+                UIAction(title: "豆類", handler: { _ in
+                    self.foodInfo.foodCategory = "豆類"
+                }),
+                UIAction(title: "雞蛋類", handler: { _ in
+                    self.foodInfo.foodCategory = "雞蛋類"
+                }),
+                UIAction(title: "青菜類", handler: { _ in
+                    self.foodInfo.foodCategory = "青菜類"
+                }),
+                UIAction(title: "醃製類", handler: { _ in
+                    self.foodInfo.foodCategory = "醃製類"
+                }),
+                UIAction(title: "水果類", handler: { _ in
+                    self.foodInfo.foodCategory = "水果類"
+                }),
+                UIAction(title: "魚類", handler: { _ in
+                    self.foodInfo.foodCategory = "魚類"
+                }),
+                UIAction(title: "海鮮類", handler: { _ in
+                    self.foodInfo.foodCategory = "海鮮類"
+                }),
+                UIAction(title: "飲料類", handler: { _  in
+                    self.foodInfo.foodCategory = "飲料類"
+                }),
+                UIAction(title: "調味料類", handler: { _ in
+                    self.foodInfo.foodCategory = "調味料類"
+                }),
+                UIAction(title: "其他類", handler: { _ in
+                    self.foodInfo.foodCategory = "其他類"
+                })
+            ])*/
         } else {
             // Fallback on earlier versions
         }
 
+    }
+    
+     func createSiteMenu(actionTitle: String? = nil) -> UIMenu {
+        let siteMenuItems =  [
+            UIAction(title: "肉類", handler: { _ in
+                self.foodInfo.foodCategory = "肉類"
+            }),
+            UIAction(title: "豆類", handler: { _ in
+                self.foodInfo.foodCategory = "豆類"
+            }),
+            UIAction(title: "雞蛋類", handler: { _ in
+                self.foodInfo.foodCategory = "雞蛋類"
+            }),
+            UIAction(title: "青菜類", handler: { _ in
+                self.foodInfo.foodCategory = "青菜類"
+            }),
+            UIAction(title: "醃製類", handler: { _ in
+                self.foodInfo.foodCategory = "醃製類"
+            }),
+            UIAction(title: "水果類", handler: { _ in
+                self.foodInfo.foodCategory = "水果類"
+            }),
+            UIAction(title: "魚類", handler: { _ in
+                self.foodInfo.foodCategory = "魚類"
+            }),
+            UIAction(title: "海鮮類", handler: { _ in
+                self.foodInfo.foodCategory = "海鮮類"
+            }),
+            UIAction(title: "飲料類", handler: { _  in
+                self.foodInfo.foodCategory = "飲料類"
+            }),
+            UIAction(title: "調味料類", handler: { _ in
+                self.foodInfo.foodCategory = "調味料類"
+            }),
+            UIAction(title: "其他類", handler: { _ in
+                self.foodInfo.foodCategory = "其他類"
+            })
+        ]
+        let menu = UIMenu(title: "請選擇種類", image: nil, identifier: nil, options: [], children: siteMenuItems)
+        catePick?.menu = updateActionState(actionTitle: actionTitle, menu: menu)
+        catePick?.showsMenuAsPrimaryAction = true
+        return menu
+    }
+    
+     func updateActionState(actionTitle: String? = nil, menu: UIMenu) -> UIMenu {
+        if let actionTitle = actionTitle {
+            menu.children.forEach { action in
+                guard let action = action as? UIAction else {
+                    return
+                }
+                if action.title == actionTitle {
+                    action.state = .on
+                }
+            }
+        } else {
+            let action = menu.children.first as? UIAction
+            action?.state = .on
+        }
+        return menu
     }
     
     func postFoodOnShoppingList() {

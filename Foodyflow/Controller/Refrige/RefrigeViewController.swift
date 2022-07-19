@@ -24,7 +24,6 @@ import FirebaseAuth
 
 //  fetch 資料及更改 再次確認
 
-
 // MARK: - fetch for change UI and add photos
 // logic change for fetch on this VC
 // MARK: - create Recipe Page
@@ -359,13 +358,14 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
                 self.expiredRefrigeVC.didSelectDifferentRef = indexPath        }
         }
+        menuView.navigationBarTitleFont = UIFont(name: "PingFang TC", size: 20)
         menuView.cellHeight = 50
         menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
         menuView.selectedCellTextLabelColor = UIColor.lightGray
         menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = UIColor.white
-        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 17)
+        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 20)
         menuView.cellTextLabelAlignment = .left
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5

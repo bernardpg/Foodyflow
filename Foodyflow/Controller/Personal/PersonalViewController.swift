@@ -267,7 +267,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                             switch result {
                             case .success(let url):
                                 
-                                //self..foodImages = "\(url)"
+                                // self..foodImages = "\(url)"
                                 completion(.success(url))
                             case .failure(let error):
                                 completion(.failure(error))

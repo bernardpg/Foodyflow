@@ -265,13 +265,14 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         }
 
         }
+        menuView.navigationBarTitleFont = UIFont(name: "PingFang TC", size: 20)
         menuView.cellHeight = 50
         menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
         menuView.selectedCellTextLabelColor = UIColor.FoodyFlow.lightGray
         menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = UIColor.FoodyFlow.white
-        menuView.cellTextLabelFont = UIFont(name: "PingFang TC", size: 16)
+        menuView.cellTextLabelFont = UIFont(name: "PingFang TC", size: 20)
         menuView.cellTextLabelAlignment = .left // .Center // .Right // .Left
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5

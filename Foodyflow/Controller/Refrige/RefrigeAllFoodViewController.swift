@@ -193,53 +193,39 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
     private func cateOfCount() -> Int {
         var count: Int = 0
         if meatsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beansInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if eggsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if vegsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if picklesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fruitsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fishesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seafoodsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beveragesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seasonsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if othersInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         return count
 
     }
 
     private func reloadRefrige() {
-        
-     //   HandleResult.readData.messageHUD
-        let semaphore = DispatchSemaphore(value: 0)
+    let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
             
             self.resetRefrigeFood()
             
             self.fetAllFood(completion: { foodinfo21 in
-//                HandleResult.readDataFailed.messageHUD
                 self.cateFilter(allFood: foodinfo21, cates: self.cate)
                 if foodinfo21.isEmpty {
                     self.refrigeTableView.isHidden = true
@@ -331,10 +317,6 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
             }
         }
     }
-
-    /*@objc func addNewFood() {
-        verifyUser()
-    }*/
     
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
         CategoryManager.shared.fetchArticles(completion: { result in
@@ -381,7 +363,7 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
     func fetAllFood(completion: @escaping([FoodInfo]) -> Void) {
         self.foodsInfo = []
 //        print(self.refrige[self.didSelectDifferentRef ?? 0])
-        //nil
+        // nil
         FoodManager.shared.fetchSpecifyFood(refrige: refrigeNow!) { [weak self] result in
             switch result {
             case .success(let foodInfo):
@@ -535,7 +517,6 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
         
         let controller = UIAlertController(title: "尚未有食光冰箱", message: "請先創建", preferredStyle: .alert)
         
-                                     
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { _ in
             
         }
@@ -546,7 +527,6 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
         }
         controller.addAction(okAction)
 
-                                     
         present(controller, animated: true, completion: nil)
         
     }
@@ -601,7 +581,8 @@ class RefrigeAllFoodViewController: UIViewController, ButtonPanelDelegate {
         view.addSubview(refrigeBtn)
         refrigeBtn.translatesAutoresizingMaskIntoConstraints = false
         refrigeBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        refrigeBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+        refrigeBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                           constant: -16).isActive = true
         refrigeBtn.layer.backgroundColor = UIColor.FoodyFlow.btnOrange.cgColor
     }
 
