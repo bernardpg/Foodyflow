@@ -10,9 +10,7 @@ import UIKit
 protocol SelectLikeRecipeCellDelegate: AnyObject {
     
     func didDeleteTap(indexPathRow: IndexPath)
-    
-    func didChangeName(indexPathRow: IndexPath)
-    
+        
 }
 
 class PresonalLikeTableViewCell: UITableViewCell {
@@ -24,7 +22,7 @@ class PresonalLikeTableViewCell: UITableViewCell {
                      bundle: nil)
     }
     
-    var like: Bool = false
+    var like: Bool = true
     
     @IBOutlet weak var personalLikeRecipe: UIImageView!
     
@@ -35,8 +33,6 @@ class PresonalLikeTableViewCell: UITableViewCell {
     var indexPath: IndexPath!
     
     weak var delegate: SelectLikeRecipeCellDelegate?
-    
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -51,15 +47,15 @@ class PresonalLikeTableViewCell: UITableViewCell {
     
     @objc func likeRecipe() {
         
-        if like {
-            like = !like
-            personalLikeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-
-        } else {
-            like = !like
-            personalLikeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)}
+   //     if like {
+   //         like = !like
+            delegate?.didDeleteTap(indexPathRow: indexPath)
+     //       personalLikeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+        
+   //     } else {
+    //        like = !like
+   //         personalLikeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)}
         
     }
-    
-    
+
 }

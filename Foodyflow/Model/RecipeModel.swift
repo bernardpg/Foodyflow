@@ -23,6 +23,8 @@ struct Recipe: Codable {
     
     var recipeUserID: String
     
+ //   var isLike: Bool = false
+    
     enum CodingKeys: String, CodingKey {
         case recipeID
         case recipeName
@@ -31,6 +33,7 @@ struct Recipe: Codable {
         case recipeStep
         case recipeUserName
         case recipeUserID
+//        case isLike
     }
     
     var toDict: [String: Any] {
@@ -42,6 +45,7 @@ struct Recipe: Codable {
             "recipeStep": recipeStep as Any,
             "recipeUserName": recipeUserName as Any,
             "recipeUserID": recipeUserID as Any
+//            "isLike": isLike as Any
         ]
     }
 

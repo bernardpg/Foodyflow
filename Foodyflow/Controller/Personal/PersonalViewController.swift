@@ -4,10 +4,10 @@
 //
 //  Created by 曹珮綺 on 6/20/22.
 //
-// delete food delete shoppingList
-// 字體未完全
+
 import UIKit
 import SnapKit
+import FirebaseStorage
 import FirebaseAuth
 import SwifterSwift
 
@@ -30,7 +30,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     
     private let personalChangeImageButton = UIButton()
     
-    private let personalChangNameButton = UIButton()
+    private lazy var personalChangNameButton = UIButton()
     
     private let personalTableView = UITableView()
     
@@ -106,6 +106,9 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    
+        personalImage.clipsToBounds = true
+        personalImage.contentMode = .scaleAspectFill
         
         verifyUser {
             
@@ -116,71 +119,168 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         // fetch user // fetchRefrige
     }
     
-    @objc func changeUserName() {
-        
-        verifyUser {
-            guard let  userID = Auth.auth().currentUser?.uid else { return }
-
-            self.fetchUser(userID: userID) { userInfo in
-                self.changeUserNames { userName in
-                    var userData = userInfo
-                    userData.userName = userName
-                    self.userManager.updateUserInfo(user: userData) {
-                        self.fetchUserByUserID(userID: userID) { _ in
-                        
-                        }
-                    }
-                    
-                }
-            }
-
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.refrigeAmount = []
+        DispatchQueue.main.async {
+            self.personalTableView.reloadData()
         }
         
-        // update User info 
+    }
+    
+    @objc func changeUserName() {
+        
+        Auth.auth().addStateDidChangeListener { ( _, user) in
+            if user != nil {
+                guard let userID = user?.uid else { return }
+                
+                self.fetchUser(userID: userID) { userInfo in
+                    self.changeUserNames { userName in
+                        var userData = userInfo
+                        userData.userName = userName
+                        self.userManager.updateUserInfo(user: userData) {
+                            self.fetchUserByUserID(userID: userID) { _ in
+                            
+                            }
+                        }
+                        
+                    }
+                }
+            } else {
+                self.present( LoginViewController(), animated: true )
+            }
+        }
     }
     
     func fetchUserByUserID(userID: String, completion: @escaping (UserInfo) -> Void ) {
         
         self.fetchUser(userID: userID) { userInfo in
-            self.fetchAllRefrige(userRefriges: userInfo.personalRefrige)
+            if userInfo.personalRefrige.isEmpty {
+                self.personalName.text = userInfo.userName
+                if userInfo.userPhoto == "" {
+                    self.personalImage.image = self.personalImageChange
+                } else {self.personalImage.kf.setImage(with: URL(string: userInfo.userPhoto ))}
+                self.refrigeAmount = []
+                DispatchQueue.main.async {
+                    self.personalTableView.reloadData()
+                }
+               
+            } else {
             self.personalName.text = userInfo.userName
+            if userInfo.userPhoto == "" {
+                self.personalImage.image = self.personalImageChange
+            } else {self.personalImage.kf.setImage(with: URL(string: userInfo.userPhoto ))}
+
+            self.fetchAllRefrige(userRefriges: userInfo.personalRefrige)
             
-            // self.personalImage.image = UIImage
-            // User photo
-            
+            }
         }
             
     }
     
-    // MARK: ERRor to fix 
-    @objc func changeUserImage() {
+    @objc func changeUserImage(completion: @escaping () -> Void) {
         
-        photoManager.tapPhoto(controller: self, alertText: "選擇個人照片", imagePickerController: imagePickerController)
+        tapPhotos(controller: self, alertText: "選擇個人照片", imagePickerController: imagePickerController)
+    }
+    
+    func tapPhotos(controller: UIViewController, alertText: String, imagePickerController: UIImagePickerController) {
         
+        let alertController = UIAlertController(title: alertText, message: "", preferredStyle: .alert)
         
-        verifyUser {
-            guard let  userID = Auth.auth().currentUser?.uid else { return }
+        alertController.view.tintColor = UIColor.gray
+        
+        // Camera
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
+            takePic()
+        }
+        alertController.addAction(cameraAction)
+        
+        // Photo
+        let photoLibraryAction = UIAlertAction(title: "Gallery", style: .default) { _ in
+            openPhotoLibrary()
+        }
+        alertController.addAction(photoLibraryAction)
+        
+        // Gallery
+        let savedPhotoAlbumAction = UIAlertAction(title: "Album", style: .default) { _ in
+            openPhotosAlbum()
+        }
+        alertController.addAction(savedPhotoAlbumAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        controller.present(alertController, animated: true, completion: nil)
+        
+        func takePic() {
+            imagePickerController.sourceType = .camera
+            controller.present(imagePickerController, animated: true)
+        }
+        
+        // turn on libary
+        func openPhotoLibrary() {
+            imagePickerController.sourceType = .photoLibrary
+            controller.present(imagePickerController, animated: true)
+        }
+        
+        // turn on album
+        func openPhotosAlbum() {
+            imagePickerController.sourceType = .savedPhotosAlbum
+            controller.present(imagePickerController, animated: true)
+        }
+    }
 
-            self.fetchUser(userID: userID) { userInfo in
-                self.changeUserNames { userName in
+    func changesImage() {
+
+        guard let  userID = Auth.auth().currentUser?.uid else { return }
+
+        self.fetchUser(userID: userID) { userInfo in
+            
+            guard let personalImageChange = self.personalImageChange else { return }
+            
+            self.uploadPhoto(image: personalImageChange) {  result in
+                switch result {
+                case .success(let url):
                     var userData = userInfo
-                    userData.userName = userName
+                    userData.userPhoto = "\(url)"
                     self.userManager.updateUserInfo(user: userData) {
-                        self.fetchUserByUserID(userID: userID) { _ in
-                        
-                        }
+                    self.fetchUserByUserID(userID: userID) { _ in }
                     }
-                    
+//                    HandleInputResult.uploadImage.messageHUD
+                case .failure:
+                    HandleResult.addDataFailed.messageHUD
                 }
             }
-
         }
-        
-        // upload photo
 
-        // update user info
     }
     
+    func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+            
+            let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
+            if let data = image.jpegData(compressionQuality: 0.6) {
+                
+                fileReference.putData(data, metadata: nil) { result in
+                    switch result {
+                    case .success:
+                        fileReference.downloadURL { result in
+                            switch result {
+                            case .success(let url):
+                                
+                                // self..foodImages = "\(url)"
+                                completion(.success(url))
+                            case .failure(let error):
+                                completion(.failure(error))
+
+                            }
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            }
+    }
+
     func verifyUser( completion: @escaping () -> Void) {
         Auth.auth().addStateDidChangeListener { ( _, user) in
             if user != nil {
@@ -193,7 +293,6 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                                 
             } else {
                 self.present( LoginViewController(), animated: true )
-                completion()
             }
         }
         
@@ -206,28 +305,39 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                                   preferredStyle: .alert)
     // delete user delete refrige delete personalDorecipe
     let deleteAction = UIAlertAction(title: "刪除帳號", style: .destructive) { _ in
-                    
-    guard let userID = Auth.auth().currentUser?.uid else { return }
-                    
-    self.deleteAccount(userID: userID) { [ weak self ] userInfo in
-       let personalRefrige = userInfo.personalRefrige
-        
-        for element in personalRefrige {
-            guard let element = element else { return }
-            RefrigeManager.shared.removeFrige(refrigeID: element) { result in
-                switch result {
-                case .success:
-                    HandleResult.deleteDataSuccessed.messageHUD
-                case .failure:
-                    HandleResult.deleteDataFailed.messageHUD
+    
+    if Auth.auth().currentUser != nil {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+    
+        self.deleteAccount(userID: userID) { [ weak self ] userInfo in
+           let personalRefrige = userInfo.personalRefrige
+            
+            for element in personalRefrige {
+                guard let element = element else { return }
+                RefrigeManager.shared.removeFrige(refrigeID: element) { result in
+                    switch result {
+                    case .success:
+                        HandleResult.deleteDataSuccessed.messageHUD
+//                        self?.refrigeAmount = []
+//                        DispatchQueue.main.async {
+//                            self?.personalTableView.reloadData()
+//                        }
+                    case .failure:
+                        HandleResult.deleteDataFailed.messageHUD
+                    }
                 }
             }
-        }
-        
-        let personalDoRecipe = userInfo.personalDoRecipe
-        
-        self?.recipeManager.deleteRecipe(recipesID: personalDoRecipe)
+            
+            let personalDoRecipe = userInfo.personalDoRecipe
+            
+            self?.recipeManager.deleteRecipe(recipesID: personalDoRecipe)
+            
+        }} else {
+            self.present(LoginViewController(), animated: true)
     }
+        let loginVC =  LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        self.present(loginVC, animated: true)
     }
         
         alert.addAction(deleteAction)
@@ -236,11 +346,24 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         alert.addAction(falseAction)
                 
     let logoutAction = UIAlertAction(title: "登出", style: .default) { _  in
-        self.signout()}
+        
+        if Auth.auth().currentUser != nil {self.signout()
+        } else {
+            self.present( LoginViewController(), animated: true )
+            
+        }
+        
+    }
         alert.addAction(logoutAction)
         
     let blockActionUser = UIAlertAction(title: "查看封鎖名單", style: .default) { _ in
-        self.blockList()}
+        
+        if Auth.auth().currentUser != nil {self.blockList()}
+        else {
+            self.present( LoginViewController(), animated: true )
+
+        }
+        }
         alert.addAction(blockActionUser)
         alert.show(animated: true, vibrate: false)
         
@@ -249,10 +372,23 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     func deleteAccount( userID: String, completion: @escaping(UserInfo) -> Void) {
         
         let user = Auth.auth().currentUser
+        
         user?.delete { error in
             if error != nil {
                 // An error happened.
             } else {
+                guard let userID = user?.uid else {
+                    return
+                }
+                self.userManager.fetchUserInfo(fetchUserID: userID) { result in
+                    switch result {
+                    case .success(let userInfos):
+                        completion(userInfos)
+                    case .failure:
+                        HandleResult.readDataFailed.messageHUD
+                    }
+                }
+           //     completion()
                 // Account deleted.
             }
         }
@@ -287,6 +423,9 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
             do {
                 try Auth.auth().signOut()
                 dismiss(animated: true, completion: nil)
+                let loginVC =  LoginViewController()
+                loginVC.modalPresentationStyle = .fullScreen
+                self.present(loginVC, animated: true)
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
@@ -369,8 +508,6 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
             // Photo
             let photoLibraryAction = UIAlertAction(title: "\(secondTitle)", style: .default) { _ in
                 
-                
-                
             }
             alertController.addAction(photoLibraryAction)
             
@@ -410,8 +547,11 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         signOut.addTarget(self, action: #selector(signOutTap), for: .touchUpInside)
         
         personalName.text = "Ryan"
+        
+        personalName.font = UIFont(name: "PingFang TC", size: 20)
         view.backgroundColor = UIColor.FoodyFlow.darkOrange
         personalImage.image = personalImageChange
+        
         personalBackgroundView.backgroundColor = .white
         personalBackgroundView.addSubview(personalChangeImageView)
         personalChangeImageView.backgroundColor = UIColor.FoodyFlow.lightOrange
@@ -456,14 +596,16 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         personalTableView.backgroundColor = UIColor.FoodyFlow.white
         
         background.addSubview(notificationLabel)
+        notificationLabel.isHidden = true
         
         notificationLabel.snp.makeConstraints { make in
             make.top.equalTo(personalTableView.snp.bottom).offset(5)
             make.leading.equalTo(view).offset(20)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(0)
         }
-        notificationLabel.text = "開啟即將到期提醒通知"
+//        notificationLabel.text = "開啟即將到期提醒通知"
         background.addSubview(notificationSwitch)
+        notificationSwitch.isHidden = true 
         
         notificationSwitch.snp.makeConstraints { make in
             make.centerY.equalTo(notificationLabel)
@@ -582,6 +724,8 @@ extension PersonalViewController: UITableViewDelegate, UITableViewDataSource {
         cell.indexPath = indexPath
         cell.selectionStyle  = .none
         cell.delegate = self
+        cell.refreigeName.font = UIFont(name: "PingFang TC", size: 20)
+
         cell.refreigeName.text = refrigeAmount[indexPath.row].title
         
         return cell
@@ -639,6 +783,8 @@ extension PersonalViewController: UIImagePickerControllerDelegate {
             self.personalImage.image = image
         }
         
-        picker.dismiss(animated: true)
+        picker.dismiss(animated: true) {
+            self.changesImage()
+        }
     }
 }

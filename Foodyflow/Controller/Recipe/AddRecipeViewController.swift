@@ -9,6 +9,7 @@ import UIKit
 import FirebaseStorage
 import AVFoundation
 import FirebaseAuth
+import MBProgressHUD
 
 class AddRecipeViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -36,7 +37,10 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     
     var userManager = UserManager()
     
-    var userInfos = UserInfo(userID: "", userName: "", userEmail: "", userPhoto: "", signInType: "", personalRefrige: [], personalLikeRecipe: [], personalDoRecipe: [], blockLists: [])
+    var userInfos = UserInfo(userID: "", userName: "",
+                             userEmail: "", userPhoto: "",
+                             signInType: "", personalRefrige: [],
+                             personalLikeRecipe: [], personalDoRecipe: [], blockLists: [])
     
     var onPublished: (() -> Void)?
     
@@ -45,7 +49,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     var recipeholderLabel = UILabel()
     
     var recipe: Recipe?
-    // = Recipe(recipeID: "", recipeName: "", recipeImage: "", recipeFood: "", recipeStep: "")
     
     var recipeName: String = ""
     
@@ -77,7 +80,6 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
             }
         }
         
-        
         setUI()
 
     }
@@ -91,10 +93,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         
         imagePickerController.delegate = self
         
-        // changeRecipePic.backgroundColor = UIColor.FoodyFlow.lightOrange
         recipeImage.lkCornerRadius = 20
-        // changeRecipePic.layer.backgroundColor = UIColor.FoodyFlow.darkOrange.cgColor
-        // changeRecipePic.imageView?.tintColor = UIColor.FoodyFlow.white
         changeRecipePic.addTarget(self, action: #selector(changeRecipeImage), for: .touchUpInside)
         recipeImage.isOpaque = true
         recipeNameLabel.text = "食譜名稱"
@@ -151,11 +150,9 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         
     }
     @objc func postToRecipeDB() {
-    //    let url = URL(string: ("\(recipe?.recipeImage)"))
-    //    guard let url = url else {
-     //       return
-     //   }
-      //  let recipeURL =  String(contentsOf: url)
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Loading"
         guard let recipeImage = recipeImage.image else {
             return
         }
@@ -169,22 +166,23 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
                                     recipeStep: foodStepTypeIn.text,
                                     recipeUserName: self.userInfos.userName,
                                     recipeUserID: self.userInfos.userID)
-        //        recipe.recipeName = recipeTextField.text!
-        //        recipe.recipeFood = foodTypeIn.text
-        //        recipe.recipeStep = foodStepTypeIn.text
                 RecipeManager.shared.createRecipe(recipe: &recipe) {
                     result in
                         switch result {
-                        case .success:
-                            self.onPublished?()
-                            self.navigationController?.popViewController(animated: true)
+                        case .success(let recipeID):
+                            UserManager.shared.addRecipe(userID: userInfos.userID, recipeID: recipeID) {
+                                loadingNotification.hide(animated: true)
+                                self.onPublished?()
+                                self.navigationController?.popViewController(animated: true)
+
+                            }
                         case .failure(let error):
                             
                             print("publishArticle.failure: \(error)")
                         }
                 }
                 
-            case .failure(_):
+            case .failure:
                 print("UploadPhoto Error")
             }
         }

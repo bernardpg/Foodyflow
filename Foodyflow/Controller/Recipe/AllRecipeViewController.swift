@@ -5,6 +5,9 @@
 //  Created by 曹珮綺 on 6/27/22.
 //
 
+// block user long touch
+// 點擊愛心 deque error
+
 import UIKit
 import SnapKit
 import Combine
@@ -12,8 +15,6 @@ import FirebaseAuth
 import Kingfisher
 import PKHUD
 import SwifterSwift
-
-// block user long touch
 
 class AllRecipeViewController: UIViewController {
     
@@ -25,8 +26,7 @@ class AllRecipeViewController: UIViewController {
     }
         
     private var recipeAmount: [Recipe] = []
-    
-    private var usersinfo: UserInfo?
+    private var usersinfo: UserInfo? { didSet { fetchReload() } }
     
     private lazy var searchController: UISearchController = {
         let searchVC = UISearchController(searchResultsController: nil)
@@ -50,7 +50,7 @@ class AllRecipeViewController: UIViewController {
     // subscriber
     private var subscribers = Set<AnyCancellable>()
     
-    private var searchResults: SearchResults?{didSet{allRecipeTableView.reloadData() }} // nil
+    private var searchResults: SearchResults? {didSet {allRecipeTableView.reloadData() }} // nil
     @Published private var mode: Mode = .onboarding // image / label
     @Published private var searchQuery = String() // observer changes
     
@@ -59,7 +59,7 @@ class AllRecipeViewController: UIViewController {
 //        observeForm()
         allRecipeTableView.delegate = self
         allRecipeTableView.dataSource = self
-        setupNavigationBar()
+//        setupNavigationBar()
         setUI()
         allRecipeTableView.register(UINib(nibName: "RecipeTableViewCell",
                                           bundle: nil),
@@ -69,7 +69,19 @@ class AllRecipeViewController: UIViewController {
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
         allRecipeTableView.addGestureRecognizer(longPress)
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        UserManager.shared.fetchUserInfo(fetchUserID: userID) { result in
+            switch result {
+            case .success(let userInfo):
+                self.usersinfo = userInfo
                 
+            case .failure:
+                HandleResult.readDataFailed.messageHUD
+            }
+        }
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -80,15 +92,24 @@ class AllRecipeViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.searchController.searchBar.isHidden = true
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.searchController.searchBar.isHidden = false
+        self.searchController.searchBar.isHidden = true
+//        self.searchController.searchBar.isHidden = false
         // RecipeMa // fetchAllRecipe
+        fetchRecipe()
+    }
+    
+    func fetchRecipe() {
+        
         RecipeManager.shared.fetchAllRecipe {  result in
         switch result {
         case .success(let recipeAmount):
+            self.recipeAmount = recipeAmount.filter { !(self.usersinfo?.blockLists.contains($0.recipeName) ?? true)
+            }
                 self.recipeAmount = recipeAmount
                 DispatchQueue.main.async {
                     self.allRecipeTableView.reloadData() }
@@ -96,23 +117,29 @@ class AllRecipeViewController: UIViewController {
                     print("cannot fetch data")
             }
         }
+
+    }
+    
+    func fetchReload() {
         guard let userID = Auth.auth().currentUser?.uid else { return }
+        
         UserManager.shared.fetchUserInfo(fetchUserID: userID) { result in
-            switch result{
+            switch result {
             case .success(let userInfo):
                 self.usersinfo = userInfo
-                
+                self.fetchRecipe()
             case .failure:
                 HandleResult.readDataFailed.messageHUD
             }
         }
+
     }
     
     @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             let touchPoint = sender.location(in: allRecipeTableView)
             if let indexPath = allRecipeTableView.indexPathForRow(at: touchPoint) {
-                
+                self.blockUser(indexPathRow: indexPath.row)
             }
         }
     }
@@ -122,13 +149,23 @@ class AllRecipeViewController: UIViewController {
         let alert = UIAlertController(title: "封鎖用戶",
                                       message: "是否封鎖\(recipeAmount[indexPathRow].recipeUserName)",
                                       preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "封鎖", style: .destructive) { _  in
-        
-            
-        
+        let okAction = UIAlertAction(title: "封鎖並舉報", style: .destructive) { _  in
+
+        self.blockUserById(blockID: self.recipeAmount[indexPathRow].recipeUserID) {
+            UserManager.shared.fetchUserInfo(fetchUserID: self.usersinfo?.userID ?? "") { result in
+                switch result {
+                case .success(let myownUserInfo):
+                    self.usersinfo = myownUserInfo
+                case .failure:
+                    HandleResult.addDataFailed.messageHUD
+                }
+            }
+
+                print("ook")
+        }
         // po blockUser fetall block user and filter
             
-/*            self.blockUserById(userID: self.recipeAmount[indexPathRow].recipeUserID) {
+        /*    self.blockUserById(userID: self.recipeAmount[indexPathRow].recipeUserID) {
 
                 RecipeManager.shared.fetchAllRecipe { result in
                 switch result {
@@ -152,44 +189,65 @@ class AllRecipeViewController: UIViewController {
         alert.show(animated: true, vibrate: true)
     }
     
-   /* private func blockUserById(blockID: String, completion: @escaping () -> Void) {
+    private func blockUserById(blockID: String, completion: @escaping () -> Void) {
         
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        
-        UserManager.shared.addBlockList(uid: userID, blockID: blockID) { result in
-            switch result {
-            case .success()
+        verifyUser {
+            
+            guard let userID = Auth.auth().currentUser?.uid else { return }
+            
+            UserManager.shared.addBlockList(uid: userID, blockID: blockID) { result in
+                switch result {
+                case .success:
+                    completion()
 
-            case .failure:
-                HandleResult.readDataFailed.messageHUD
+                case .failure:
+                    HandleResult.readDataFailed.messageHUD
+                }
             }
+            
         }
         
-        UserManager.shared.fetchUserInfo(fetchUserID: myUserID) { result in
-            switch result {
-            case .success(let myownUserInfo):
-                
-                var myUserInfo = myownUserInfo
-                // myUserInfo.blockLists.append(userID)
+    }
+    
+    func verifyUser( completion: @escaping () -> Void) {
+        Auth.auth().addStateDidChangeListener { ( _, user) in
+            if user != nil {
+                guard let user = user?.uid else {
+                    return
+                }
+                self.fetchUserByUserID(userID: user) { _ in
+                    completion()
+                }
                                 
-//                myownUserInfo.blockLists.append(<#T##newElement: String?##String?#>)
-                
-                //blockUsers.append(blockUserInfo)
-                
-                // fetch allblockuser
-                
+            } else {
+                self.present( LoginViewController(), animated: true )
                 completion()
-                
-                HandleResult.isUnBlockUser.messageHUD
-                
-            case .failure:
-                HandleResult.readDataFailed.messageHUD
             }
         }
         
-    } */
+    }
     
+    func fetchUserByUserID(userID: String, completion: @escaping (UserInfo) -> Void ) {
+        
+        self.fetchUser(userID: userID) { userInfo in
+            completion(userInfo)
+            
+        }
+            
+    }
     
+    func fetchUser(userID: String, completion: @escaping (UserInfo) -> Void) {
+        UserManager.shared.fetchUserInfo(fetchUserID: userID) { result in
+            
+            switch result {
+            case.success(let userInfo):
+                completion(userInfo)
+            case.failure:
+                print(LocalizedError.self)
+            }
+        }
+    }
+
     private func setupNavigationBar() {
         navigationItem.searchController = searchController // 實例
         navigationItem.title = "Search "
@@ -239,6 +297,18 @@ class AllRecipeViewController: UIViewController {
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
         }
+    }
+    
+    // array Union 改寫
+    func likeRecipe( userInfo: UserInfo, needtoLike: String, completion: @escaping () -> Void) {
+        var newUserInfo = userInfo
+        
+        // recipeChangeLike
+        newUserInfo.personalLikeRecipe.append(needtoLike)
+        UserManager.shared.updateUserInfo(user: newUserInfo) {
+            
+        }
+        
     }
     
     func fetchSingleRecipe(recipe: Recipe, completion: @escaping(Recipe?) -> Void) {
@@ -300,10 +370,10 @@ class AllRecipeViewController: UIViewController {
 
 }
 
-extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
+extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, RecipeLikeDelegate {
+        
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         recipeAmount.count
-//        20 //searchResults?.items.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -311,13 +381,15 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             withIdentifier: "recipeTableViewCell",
             for: indexPath) as? RecipeTableViewCell
         guard let cell = cell else { return UITableViewCell() }
+        cell.selectionStyle = .none
+        cell.delegate = self
+        cell.indexPath = indexPath
+        cell.recipeName.font = UIFont(name: "PingFang TC", size: 20)
+        cell.recipeUserName.font =  UIFont(name: "PingFang TC", size: 16)
+
         cell.recipeName.text =
         recipeAmount[indexPath.row].recipeName
-     //   if let searchResults = self.searchResults {
-     //       let searchResult = searchResults.items[indexPath.row]
-     //       cell.recipeName.text = searchResult.name
-            // cell.configure(with: searchResult)
-     //   }
+
         if recipeAmount[indexPath.row].recipeImage == "" {
         cell.recipeImage.image = UIImage(named: "imageDefault") } else {
             //        cell.recipeImage.download(from: URL(string: recipeAmount[indexPath.row].recipeImage)!)
@@ -328,6 +400,17 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.recipeImage.clipsToBounds = true
         cell.recipeImage.contentMode = .scaleAspectFill
         cell.recipeImage.lkCornerRadius = 20
+        cell.likeRecipeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+        guard let usersinfo = usersinfo else { return cell }
+        
+        for personalike in usersinfo.personalLikeRecipe {
+            if personalike == recipeAmount[indexPath.row].recipeID {
+                cell.likeRecipeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            } else {
+                cell.likeRecipeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+            }
+        }
+
         return cell
     }
     
@@ -351,20 +434,38 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
     }
+    
+    func didLikeTap(indexPathRow: IndexPath) {
         
+        Auth.auth().addStateDidChangeListener { ( _, user) in
+            if user != nil {
+                
+                let likeRecipe = self.recipeAmount[indexPathRow.row].recipeID
+                
+                self.fetchUser(userID: Auth.auth().currentUser?.uid ?? "") { userInfo in
+                    self.likeRecipe(userInfo: userInfo, needtoLike: "\(likeRecipe)") {
+                        
+                    }
+                }
+                                
+            } else {
+                
+                self.present( LoginViewController(), animated: true )
+            }
+        }
+
+    }
+
 }
 
 extension AllRecipeViewController: UISearchResultsUpdating, UISearchControllerDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         
         guard let searchQuery = searchController.searchBar.text, !searchQuery.isEmpty else { return }
-        self.searchQuery = searchQuery
-    }
+        self.searchQuery = searchQuery }
     func willDismissSearchController(_ searchController: UISearchController) {
-        mode = .onboarding
-    }
+        mode = .onboarding }
     func willPresentSearchController(_ searchController: UISearchController) {
-        mode = .search
-    }
+        mode = .search }
     
 }

@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 import FirebaseAuth
+import Photos
 
 class RecipeManager {
     
@@ -20,7 +21,7 @@ class RecipeManager {
     
     // photos
     
-    // create recipe and 收藏 個人 封鎖 
+    // create recipe and 收藏 個人 封鎖  // create 沒完全做好
     
     func createRecipe( recipe: inout Recipe, completion: @escaping (Result<String, Error>) -> Void) {
         
@@ -28,6 +29,7 @@ class RecipeManager {
         
         let document = db.collection("recipe").document()
         recipe.recipeID = document.documentID
+        let recipeID = recipe.recipeID
         document.setData(recipe.toDict) { error in
             
             if let error = error {
@@ -36,7 +38,7 @@ class RecipeManager {
             } else {
                 
                 HandleResult.imageUploadSuccess.messageHUD
-                completion(.success("Success"))
+                completion(.success(recipeID))
             }
         }
     }    
@@ -79,6 +81,15 @@ class RecipeManager {
         }
     }
     
+    func deleteSingleRecipe(recipeID: String?) {
+    
+    let colRef = db.collection("recipe")
+    
+        guard let recipeID = recipeID else { return }
+
+        colRef.document(recipeID).delete()
+    }
+    
     func fetchFoodinRecipe () {
         
     }
@@ -86,7 +97,7 @@ class RecipeManager {
     func personalRecipe() {
         
     }
-    
+        
     func fetchSingleRecipe( recipe: Recipe, completion: @escaping(Result<Recipe, Error>) -> Void) {
          let collection = db.collection("recipe")
         
@@ -97,7 +108,6 @@ class RecipeManager {
             } else {
                 do {
                     if let recipe = try document?.data(as: Recipe.self, decoder: Firestore.Decoder()) {
-                        print(recipe)
                         completion(.success(recipe))
                     }
                 } catch {
@@ -106,4 +116,24 @@ class RecipeManager {
             }
         }
     }
+    
+    func fetchSingleReci( recipe: String, completion: @escaping(Result<Recipe, Error>) -> Void) {
+         let collection = db.collection("recipe")
+        
+        collection.document(recipe).getDocument {
+            (document, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                do {
+                    if let recipe = try document?.data(as: Recipe.self, decoder: Firestore.Decoder()) {
+                        completion(.success(recipe))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
 }

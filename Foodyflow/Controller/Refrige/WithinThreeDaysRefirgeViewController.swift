@@ -51,7 +51,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     
     var othersInfo: [FoodInfo] = []
     
-    var searchView = SearchPlaceholderView()
+    var searchView = WithinThreeDaysView()
     
     var didSelectDifferentRef: Int? { didSet { reloadRefrige() } }
     
@@ -94,8 +94,8 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
         let semaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async {
-            self.fetchAllCate { [weak self] cate in
-                self?.cate = cate
+            self.fetchAllCate { [weak self] cates in
+                self?.cate = cates
                 semaphore.signal()
             }
             semaphore.wait()
@@ -103,10 +103,45 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
         self.userManager.fetchUserInfo(fetchUserID: userID) { result in
             switch result {
             case .success(let userInfo):
+                if userInfo.personalRefrige.isEmpty {
+                    
+                    self.refrigeTableView.isHidden = true
+                    self.view.addSubview(self.searchView)
+                    self.searchView.isHidden = false
+                    self.searchView.translatesAutoresizingMaskIntoConstraints = false
+                    self.searchView.leadingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.trailingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                    self.searchView.bottomAnchor.constraint(
+                        equalTo: self.view.bottomAnchor,
+                        constant: -300).isActive = true
+                    
+                }
+
                 self.fetchAllRefrige(userRefriges: userInfo.personalRefrige) { [weak self] refrige in
                     self?.resetRefrigeFood()
                     self?.fetAllFood(completion: { foodInfo in
                         
+                        if foodInfo.isEmpty {
+                            self?.refrigeTableView.isHidden = true
+                            self?.view.addSubview(self?.searchView ?? NoExpiredView())
+                            self?.searchView.isHidden = false
+                            self?.searchView.translatesAutoresizingMaskIntoConstraints = false
+                            self?.searchView.leadingAnchor.constraint(
+                                equalTo: (self?.view.safeAreaLayoutGuide.leadingAnchor)!,
+                                constant: 0).isActive = true
+                            self?.searchView.trailingAnchor.constraint(
+                                equalTo: (self?.view.safeAreaLayoutGuide.trailingAnchor)!,
+                                constant: 0).isActive = true
+                            self?.searchView.topAnchor.constraint(equalTo: (self?.view.topAnchor)!, constant: 0).isActive = true
+                            self?.searchView.bottomAnchor.constraint(
+                                equalTo: (self?.view.bottomAnchor)!,
+                                constant: -300).isActive = true }
+
                         guard let cates = self?.cate else { return }
                         
                         self?.cateFilter(allFood: foodInfo, cates: cates)
@@ -135,43 +170,32 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     private func cateOfCount() -> Int {
         var count: Int = 0
         if meatsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beansInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if eggsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if vegsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if picklesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fruitsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if fishesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seafoodsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if beveragesInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if seasonsInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         if othersInfo.count > 0 {
-            count += 1
-        }
+            count += 1 }
         return count
 
     }
 
-    private func reloadRefrige() {
+/*    private func reloadRefrige() {
         
         HandleResult.readData.messageHUD
         let semaphore = DispatchSemaphore(value: 0)
@@ -212,12 +236,70 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
             
             semaphore.wait()
         }
+    }*/
+    
+    private func reloadRefrige() {
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        DispatchQueue.global().async {
+            
+            self.resetRefrigeFood()
+            
+            self.fetAllFood(completion: { foodinfo21 in
+                self.cateFilter(allFood: foodinfo21, cates: self.cate)
+                if foodinfo21.isEmpty {
+                    self.refrigeTableView.isHidden = true
+                    self.view.addSubview(self.searchView)
+                    self.searchView.isHidden = false
+                    self.searchView.translatesAutoresizingMaskIntoConstraints = false
+                    self.searchView.leadingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.trailingAnchor.constraint(
+                        equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                        constant: 0).isActive = true
+                    self.searchView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                    self.searchView.bottomAnchor.constraint(
+                        equalTo: self.view.bottomAnchor,
+                        constant: -300).isActive = true } else {
+                DispatchQueue.main.async {
+                    // lottie 消失
+                    if foodinfo21[0].foodId != nil {
+                        self.searchView.isHidden = true
+                        self.refrigeTableView.isHidden = false
+                        self.refrigeTableView.reloadData() } else {
+                        self.refrigeTableView.isHidden = true
+                        self.view.addSubview(self.searchView)
+                        self.searchView.isHidden = false
+                        self.searchView.translatesAutoresizingMaskIntoConstraints = false
+                        self.searchView.leadingAnchor.constraint(
+                            equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
+                            constant: 0).isActive = true
+                        self.searchView.trailingAnchor.constraint(
+                            equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                            constant: 0).isActive = true
+                        self.searchView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                        self.searchView.bottomAnchor.constraint(
+                            equalTo: self.view.bottomAnchor,
+                            constant: -300).isActive = true
+                    }
+//                    guard let didSelectDifferentRef = self.didSelectDifferentRef else { return }
+//                    refrigeNow = self.refrige[didSelectDifferentRef]
+                    semaphore.signal()
+                    
+                }}
+                
+            })
+            
+            semaphore.wait()
+        }
     }
     
     // change refrige
     //    refrigeNow = refrige[0]
     func verifyUser() {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (_, user) in
             if user != nil {
                 let shoppingVC = RefrigeProductDetailViewController(
                     nibName: "ShoppingProductDetailViewController",
@@ -237,7 +319,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     }
     
     func verifyUserloading( completion: @escaping () -> Void) {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (_, user) in
             if user != nil {
                 guard let user = user?.uid else {
                     return
@@ -419,11 +501,7 @@ extension WithinThreeDaysRefirgeViewController: UITableViewDelegate, UITableView
         guard let cell = cell else { return UITableViewCell() }
         cell.cateFood.text = self.cate[indexPath.row]
         cell.cateFood.font =  UIFont(name: "PingFang TC", size: 20)
-        
-        // need to change for dictionary to solve
-        
-        // Need to fix
-        
+        cell.selectionStyle = .none
         switch indexPath.row {
         case 0:
             cell.configure(with: meatsInfo)
@@ -464,10 +542,4 @@ extension WithinThreeDaysRefirgeViewController: UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat { 250.0 }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // UIAlert to didselect or delete
-        
-    }
 }

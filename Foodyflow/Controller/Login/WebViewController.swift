@@ -17,7 +17,6 @@ class WebViewController: UIViewController {
     }
     private var urlString: String?
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let urlString = urlString else { return }

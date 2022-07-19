@@ -73,8 +73,7 @@ class UserManager {
     func updateUserInfo(user: UserInfo, completion: @escaping () -> Void ) {
         
         do {
-            
-                
+
                 try database.document(user.userID).setData(from: user, merge: true)
                 
                 completion()
@@ -143,6 +142,15 @@ class UserManager {
                 completion(.success(()))
             }
         }
+    }
+    
+    func addRecipe(userID: String, recipeID: String, completion: @escaping() -> Void) {
+        
+        let userRef = database.document(userID)
+        
+        userRef.updateData(["personalDoRecipe": FieldValue.arrayUnion([recipeID])])
+        
+        completion()
     }
     
 }

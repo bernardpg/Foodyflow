@@ -4,13 +4,14 @@
 //
 //  Created by 曹珮綺 on 6/20/22.
 //
+
+// delete food delete shoppingList
+
 // shoppingList 再次確認有無問題
 
 // bug shoppingList Name fetch 回來
 
 // bug 更換時 沒有的話不能新增
-
-// bug 照片不能新增上去
 
 import UIKit
 import BTNavigationDropdownMenu
@@ -63,8 +64,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     var menuView: BTNavigationDropdownMenu!
     
-    private lazy var createVC = CreatePersonViewController()
-    
+    private lazy var notiname = Notification.Name("dropDownShopReloadNoti")
+        
     private var viewPager =  LZViewPager()
     
     private lazy var wishListVC = UIStoryboard(name: "Main", bundle: nil)
@@ -80,8 +81,8 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         
         viewPagerProperties()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadDropdown), name: notiname, object: nil)
         //        shoppingList.collectionViewLayout = UICollectionViewLayout()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -90,25 +91,28 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { ( _, user) in
             if user != nil {
-                print( "\(String(describing: user?.uid))" )
-                return
+                
+                self.fetchAllCate { [weak self] cates in
+                self?.cate = cates }
+
+                self.loadShopList()
+                
             } else {
                 self.present( LoginViewController(), animated: true )
                 self.setDropdown(shoppingLists: self.shoppingLists)
             }
         }
-        self.fetchAllCate { [weak self] cate in
-            self?.cate = cate
-        }
         
         // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
         // w for fix error 應該先fetch 在回來抓
-        self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
+        
+      /*  self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
             self?.shoppingLists = shoppingLists
             if shoppingLists.isEmpty {
-                self?.present(self?.createVC ?? CreatePersonViewController(), animated: true)
+            self?.cate = []
+            self?.setDropdown(shoppingLists: self?.shoppingLists ?? [])
             }
             self?.fetchAllShoppingListInfoInsingleRefrige(
                 shopingLists: shoppingLists,
@@ -133,10 +137,30 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                     }
                 })
             }*/
-        }
+        }*/
     }
     
-    // MARK: - Main VC
+    private func loadShopList() {
+        
+        self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
+            self?.shoppingLists = shoppingLists
+            print("DD" + "\(shoppingLists)")
+            if shoppingLists.isEmpty {
+            self?.cate = []
+            self?.setDropdown(shoppingLists: self?.shoppingLists ?? [])
+            }
+            self?.fetchAllShoppingListInfoInsingleRefrige(
+                shopingLists: shoppingLists,
+                completion: { [weak self] totalShopListInfo in
+                
+                self?.setDropdown(shoppingLists: totalShopListInfo)
+                })
+            self?.setDropdown(shoppingLists: shoppingLists)
+        }
+
+    }
+    
+    // MARK: - Main containerView
     func viewPagerProperties() {
         view.addSubview(viewPager)
         
@@ -162,12 +186,10 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     }
     
     func numberOfItems() -> Int {
-        containerView.count
-    }
+        containerView.count }
     
     func controller(at index: Int) -> UIViewController {
-        containerView[index]
-    }
+        containerView[index] }
     
     func button(at index: Int) -> UIButton {
         let button = UIButton()
@@ -181,16 +203,26 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     
     func backgroundColorForHeader() -> UIColor {
         
-        return UIColor.FoodyFlow.lightOrange
-    }
+        return UIColor.FoodyFlow.lightOrange }
     
     func colorForIndicator(at index: Int) -> UIColor {
         
-        return UIColor.FoodyFlow.darkOrange
-    }
+        return UIColor.FoodyFlow.darkOrange }
     
     func heightForIndicator(at index: Int) -> CGFloat {
-        return CGFloat(50.0)
+        return CGFloat(50.0) }
+    
+    // MARK: - dropdownView
+    
+    @objc func reloadDropdown() {
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        self.fetchAllCate { [weak self] cate in
+            self?.cate = cate }
+        
+        self.loadShopList()
+        
     }
     
     func setDropdown(shoppingLists: [String?]) {
@@ -215,13 +247,16 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 containerView: self.navigationController!.view,
                 title: BTTitle.index(0), items: items)
             menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
-                print("Did select item at index: \(indexPath)")}
+                print("Did select item at index: \(indexPath)")
+                self.shopDidSelectDifferentRef = nil 
+            // refresh 
+            }
 
         } else {
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
             containerView: self.navigationController!.view,
-            title: BTTitle.index(0), items: items)
+            title: BTTitle.index(shopDidSelectDifferentRef ?? 0), items: items)
         menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
             print("Did select item at index: \(indexPath)")
             self.shopDidSelectDifferentRef = indexPath
@@ -230,22 +265,18 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         }
 
         }
+        menuView.navigationBarTitleFont = UIFont(name: "PingFang TC", size: 20)
         menuView.cellHeight = 50
         menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
         menuView.selectedCellTextLabelColor = UIColor.FoodyFlow.lightGray
         menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = UIColor.FoodyFlow.white
-        menuView.cellTextLabelFont = UIFont(name: "PingFang TC", size: 16)
+        menuView.cellTextLabelFont = UIFont(name: "PingFang TC", size: 20)
         menuView.cellTextLabelAlignment = .left // .Center // .Right // .Left
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5
         menuView.maskBackgroundOpacity = 0.3
-//        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
-//            print("Did select item at index: \(indexPath)")
-//        }
-        
-        
         self.navigationItem.titleView = menuView
     }
     
@@ -305,10 +336,13 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
     // fetch shoppingList number
     
     func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
+        
         refrigeNowID = refrigeNow?.id // rename
         
         // 此處判斷shoppingList 是否是空的 如果是空的創建shoppingList
-        
+  //      if refrigeNowID
+        // MARK: - refrige is empty
+        if ((refrigeNowID?.isEmpty) == nil) {completion([])}
         ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige(completion: { result  in
             switch result {
             case .success(let shoppingLists):
@@ -316,7 +350,10 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
             case .failure:
                 print("fetch shoppingListID error")
                 
-            }})
+            }
+            
+        })
+        
     }
     
     func fetchAllShoppingListInfoInsingleRefrige( shopingLists:[String?],  completion: @escaping([String?]) -> Void) {
@@ -328,8 +365,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 shoppingListsTitle.append(shoppingList?.title ?? "我的購買清單")
                 // change shoppingList 判別數量相同
                 if ((self.shoppingLists[0]?.count) != nil) {
-                    completion(shoppingListsTitle)}
-                else { print("not finish ") }
+                    completion(shoppingListsTitle)} else { print("not finish ") }
             case .failure:
                 print("fetch shoppingListInfo error")
             }
@@ -440,4 +476,3 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         }
     }
 }
-

@@ -13,14 +13,17 @@ import LZViewPager
 import SnapKit
 import Combine
 import FirebaseAuth
-//  signin signout
+
+// launchScreen
+
+// refirige 要 dropdown 下拉才會更新  // fetch順序可能會有不同
+
 // refrige  內部未完全更改
+    
 // shoppinglist 也是
-// 圖片與文字如果沒有的話要改成預設值
-// personal 更改畫面圖片跟文字
+
 //  fetch 資料及更改 再次確認
-//    開啟提醒通知
-// 個人頁面照片上傳跟fetch 未用
+
 // MARK: - fetch for change UI and add photos
 // logic change for fetch on this VC
 // MARK: - create Recipe Page
@@ -47,7 +50,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     var menuView: BTNavigationDropdownMenu!
 
     private var tapButton = UIButton()
-    
+        
     var refrige: [Refrige] = []
     
     var completion: CompletionHandler?
@@ -90,6 +93,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     
     var didSelectDifferentRef: Int? // {didSet{reloadRefrige()}}
     
+    private lazy var notiname = Notification.Name("dropDownReloadNoti")
+
     private enum Mode {
         case onboarding
         case login
@@ -104,6 +109,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         super.viewDidLoad()
         observeForm()
         viewPagerProperties()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadDropdown), name: notiname, object: nil)
 
     }
     
@@ -114,12 +121,12 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+        Auth.auth().addStateDidChangeListener { (_, user) in
             if user != nil {
                 guard let userID = user?.uid else { return }
                 
-                self.fetchAllCate { [weak self] cate in
-                    self?.cate = cate }
+                self.fetchAllCate { [weak self] cates in
+                    self?.cate = cates }
                 
                 self.userLoadRefrige(userID: userID)
                                             
@@ -137,12 +144,22 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             case .onboarding:
 //                self.searchResults = nil
                 // each cancel will become nil
-                self.refrigeAllFoodVC.refrigeTableView.backgroundView = SearchPlaceholderView()
+                self.refrigeAllFoodVC.refrigeTableView.backgroundView = RefrigeView()
                 self.refrigeAllFoodVC.refrigeTableView.reloadData()
             case .login:
                 self.refrigeAllFoodVC.refrigeTableView.backgroundView = nil
             }
         }.store(in: &subscribers)
+    }
+    
+    @objc func reloadDropdown() {
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        self.fetchAllCate { [weak self] cate in
+            self?.cate = cate }
+        
+        self.userLoadRefrige(userID: userID)
     }
         
     func userLoadRefrige(userID: String) {
@@ -157,6 +174,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                 self.fetchAllRefrige(userRefriges: userInfo.personalRefrige) { [weak self] refrige in
                     
                     self?.setDropdown(self?.refrige)
+                    guard !(self?.refrige.isEmpty ?? true) else { return }
+                    // MARK: - initial open refrige as one
                     refrigeNow = self?.refrige[0]
                     DispatchQueue.main.async {
                                     // lottie 消失
@@ -174,7 +193,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         }
     }
     
-    func reloadRefrige() {
+   /* func reloadRefrige() {
         
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -195,9 +214,13 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             semaphore.wait()}
         )
         }
-    }
-
-    func fetchAllRefrige(userRefriges: [String?],completion: @escaping (CompletionHandler)) {
+    }*/
+    
+    func fetchAllRefrige(userRefriges: [String?], completion: @escaping (CompletionHandler)) {
+        
+        if userRefriges.isEmpty {
+            self.refrige = []
+            completion(["refrige": []])}
         RefrigeManager.shared.fetchArticles(userRefrige: userRefriges) { [weak self] result in
             switch result {
             case .success(let refrige):
@@ -284,8 +307,8 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                 if ((foodInfo.foodId?.isEmpty) != nil)
                 { self?.foodsInfo.append(foodInfo)
                     if self?.foodsInfo.count == self?.refrige[self?.didSelectDifferentRef ?? 0].foodID.count
-                    {completion(self?.foodsInfo ?? [foodInfo])}
-                    else { print("append not finish yet ") }
+                    { completion(self?.foodsInfo ?? [foodInfo])} else{
+                    print("append not finish yet ") }
                 }
                 else {completion([foodInfo])}
             case .failure:
@@ -318,14 +341,15 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                 navigationController: self.navigationController,
                 containerView: self.navigationController!.view,
                 title: BTTitle.index(0), items: items)
+                refrigeNow = nil
                 menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
                     print("Did select item at index: \(indexPath)")}
-
         } else {
+            
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
             containerView: self.navigationController!.view,
-            title: BTTitle.index(0), items: items)
+            title: BTTitle.index(didSelectDifferentRef ?? 0), items: items)
             menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
                 print("Did select item at index: \(indexPath)")
             self.didSelectDifferentRef = indexPath
@@ -334,19 +358,19 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
             self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
                 self.expiredRefrigeVC.didSelectDifferentRef = indexPath        }
         }
+        menuView.navigationBarTitleFont = UIFont(name: "PingFang TC", size: 20)
         menuView.cellHeight = 50
         menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
         menuView.selectedCellTextLabelColor = UIColor.lightGray
         menuView.cellSelectionColor = UIColor.FoodyFlow.darkOrange
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = UIColor.white
-        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 17)
+        menuView.cellTextLabelFont =  UIFont(name: "PingFang TC", size: 20)
         menuView.cellTextLabelAlignment = .left
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5
         menuView.maskBackgroundOpacity = 0.3
 
-        
         self.navigationItem.titleView = menuView
         
     }
@@ -471,9 +495,4 @@ extension RefrigeViewController: UITableViewDelegate, UITableViewDataSource {
         250.0
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // UIAlert to didselect or delete
-        
-    }
 }
