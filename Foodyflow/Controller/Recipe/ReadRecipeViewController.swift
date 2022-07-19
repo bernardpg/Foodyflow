@@ -48,7 +48,7 @@ class ReadRecipeViewController: UIViewController {
         recipePersonName.text = "製作人\(recipeDoName)"
         
         if recipeInImage == "" {
-                recipeImage.image = UIImage(named: "imageDefault") } else{
+                recipeImage.image = UIImage(named: "imageDefault") } else {
             recipeImage.kf.setImage( with: URL(string: recipeInImage ))
         }
         recipeImage.clipsToBounds = true

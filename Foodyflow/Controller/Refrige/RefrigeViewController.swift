@@ -125,6 +125,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                                             
             } else {
                     self.present( LoginViewController(), animated: true)
+                    self.setDropdown(self.refrige)
                     }
                 }
         self.tabBarController?.tabBar.isHidden = false
@@ -164,7 +165,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
                     }
                     
                 }
-                    case .failure:
+            case .failure:
                         HandleResult.readDataFailed.messageHUD
                     }
             
@@ -310,10 +311,29 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         self.navigationController?.navigationBar.barTintColor = UIColor.FoodyFlow.darkOrange
         self.navigationController?.navigationBar.titleTextAttributes =
         [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        if items.count == 0 {
+            items = ["我的冰箱"]
+            menuView = BTNavigationDropdownMenu(
+                navigationController: self.navigationController,
+                containerView: self.navigationController!.view,
+                title: BTTitle.index(0), items: items)
+                menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
+                    print("Did select item at index: \(indexPath)")}
+
+        } else {
         menuView = BTNavigationDropdownMenu(
             navigationController: self.navigationController,
             containerView: self.navigationController!.view,
             title: BTTitle.index(0), items: items)
+            menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
+                print("Did select item at index: \(indexPath)")
+            self.didSelectDifferentRef = indexPath
+            refrigeNow =  self.refrige[self.didSelectDifferentRef ?? 0]
+            self.refrigeAllFoodVC.didSelectDifferentRef = indexPath
+            self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
+                self.expiredRefrigeVC.didSelectDifferentRef = indexPath        }
+        }
         menuView.cellHeight = 50
         menuView.cellBackgroundColor = UIColor.FoodyFlow.darkOrange
         menuView.selectedCellTextLabelColor = UIColor.lightGray
@@ -325,14 +345,7 @@ class RefrigeViewController: UIViewController, LZViewPagerDelegate, LZViewPagerD
         menuView.arrowPadding = 15
         menuView.animationDuration = 0.5
         menuView.maskBackgroundOpacity = 0.3
-        menuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> Void in
-            print("Did select item at index: \(indexPath)")
-        self.didSelectDifferentRef = indexPath
-        refrigeNow =  self.refrige[self.didSelectDifferentRef ?? 0]
-        self.refrigeAllFoodVC.didSelectDifferentRef = indexPath
-        self.threeDaysRefrigeVC.didSelectDifferentRef = indexPath
-        self.expiredRefrigeVC.didSelectDifferentRef = indexPath
-        }
+
         
         self.navigationItem.titleView = menuView
         

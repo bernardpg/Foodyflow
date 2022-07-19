@@ -15,6 +15,8 @@ class ShoppingListManager {
     static let shared = ShoppingListManager()
     
     lazy var db = Firestore.firestore()
+    
+    let database = Firestore.firestore().collection("User")
         
     func fetchAllShoppingListIDInSingleRefrige(  completion: @escaping (Result<[String?], Error>) -> Void) {
         
@@ -42,10 +44,10 @@ class ShoppingListManager {
                 completion(.success(shopingLists))
         }
     }
-    func fetchALLShopListInfoInSingleRefrige(shopplingLists: [String?],
-                                             completion: @escaping (Result<ShoppingList?, Error >) -> Void){
-        let colRef = db.collection("shoppingList")
-        
+    
+    func fetchALLShopListInfoInSingleRefrige(shopplingLists: [String?], completion: @escaping (Result<ShoppingList?, Error >) -> Void) {
+    let colRef = db.collection("shoppingList")
+    
 //        let foods = FoodInfo()
 //        guard !refrige.foodID.isEmpty else {
 //            completion(.success(foods))
@@ -53,26 +55,26 @@ class ShoppingListManager {
 //        }
 
 //        guard !shopplingLists.isEmpty else { completion() return }
-        
-        for shopplingList in shopplingLists {
-            guard let shopplingList = shopplingList else { return }
-            colRef.document(shopplingList).getDocument { (document, error) in
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    
-                    do {
-                        if let shoppingList = try document?.data(as: ShoppingList.self, decoder: Firestore.Decoder()) {
-                            completion(.success(shoppingList))
-                        }
-                    } catch {
-                        completion(.failure(error))
+    
+    for shopplingList in shopplingLists {
+        guard let shopplingList = shopplingList else { return }
+        colRef.document(shopplingList).getDocument { (document, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                
+                do {
+                    if let shoppingList = try document?.data(as: ShoppingList.self, decoder: Firestore.Decoder()) {
+                        completion(.success(shoppingList))
                     }
+                } catch {
+                    completion(.failure(error))
                 }
             }
         }
-        
     }
+    
+}
     
     func fetchfoodInfoInsideSingleShoppingList(completion: @escaping (Result<[String?], Error>) -> Void) {
         
@@ -113,7 +115,25 @@ class ShoppingListManager {
         }
     }
     
-    // func createShoppingList() {
-    //
-   // }
+//    func createShoppingList( shoppingList:  ) {
+    
+//    }
+        
+    func createShoppingListOnSingleUser(user: UserInfo, refrigeID: [String?], completion: @escaping (Result<String, Error>) -> Void ) {
+
+        let userRef = database.document(user.userID)
+        
+        userRef.updateData(["personalRefrige": refrigeID]) { error in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                completion(.success("success"))
+            }
+        }
+        
+    }
+
 }

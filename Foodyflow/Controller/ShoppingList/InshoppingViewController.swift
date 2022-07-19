@@ -127,8 +127,7 @@ class InshoppingViewController: UIViewController {
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     if foodssInfo.isEmpty {
                         self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView()
-                    }
-                    else {
+                    } else {
                     if foodssInfo[0] == "" {
                         self?.inShoppingListCollectionView.backgroundView = SearchPlaceholderView() } else {
                         

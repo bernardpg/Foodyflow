@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseStorage
 
-class ShoppingListProductDetailViewController: UIViewController {
+class ShoppingListProductDetailViewController: UIViewController, UINavigationControllerDelegate {
 
     @IBOutlet weak var foodCateName: UILabel!
     
@@ -56,6 +56,9 @@ class ShoppingListProductDetailViewController: UIViewController {
         selectPhoto.addTarget(self, action: #selector(changePhoto), for: .touchUpInside)
         updateButton.addTarget(self, action: #selector(postToRefirgeDB), for: .touchUpInside)
         catePicker.isHidden = true
+        
+        imagePickerController.delegate = self
+
 
     }
     

@@ -9,21 +9,42 @@ import UIKit
 import SnapKit
 import AuthenticationServices
 import FirebaseAuth
+import Firebase
+import FirebaseFirestore
 import CryptoKit
 
 class LoginViewController: UIViewController {
     
     private lazy var appleButton = UIButton()
     private lazy var googleButton = UIButton()
-    private lazy var userTry = UIButton()
     private lazy var appOutsideIcon = UIView()
     private lazy var appIcon = UIImageView()
+    
+    lazy var licenseLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.isUserInteractionEnabled = true
+        
+        let stringValue = "By continuing, you agree to our Privacy Police and Apple EULA"
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
+        attributedString.setColor(color: UIColor.FoodyFlow.lightOrange, forText: "Privacy Police")
+        attributedString.setColor(color: UIColor.FoodyFlow.lightOrange, forText: "EULA")
+        label.attributedText = attributedString
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapLabel))
+        label.addGestureRecognizer(tap)
+        return label
+    }()
+
+ //   private lazy var licenseLabel
     
     var userManager = UserManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setSignInWithAppleButton()
+        observeAppleIDState()
 
     }
     
@@ -40,11 +61,11 @@ class LoginViewController: UIViewController {
 //            make.top.equalTo(view).offset(200)
 //            make.bottom.equalTo(googleButton.snp.top).offset(151)
 //            make.leading.equalTo(view).offset(109)
-            make.centerY.equalTo(view).offset(-100)
+            make.centerY.equalTo(view).offset(-50)
             make.centerX.equalTo(view)
 //            make.trailing.equalTo(view).offset(90)
-            make.width.equalTo(300)
-            make.height.equalTo(300)
+            make.width.equalTo(400)
+            make.height.equalTo(400)
             
         }
         
@@ -52,9 +73,10 @@ class LoginViewController: UIViewController {
         
         appOutsideIcon.addSubview(appIcon)
         appIcon.snp.makeConstraints { make in
-            make.edges.equalTo(appOutsideIcon).inset(UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30))
+            make.edges.equalTo(appOutsideIcon).inset(UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         }
         appIcon.image = UIImage(named: "Frame")
+        
         view.addSubview(googleButton)
         googleButton.isHidden = true 
         googleButton.lkCornerRadius = 20
@@ -65,41 +87,67 @@ class LoginViewController: UIViewController {
             make.height.equalTo(53)
         }
         googleButton.backgroundColor = .systemBlue
-
-        view.addSubview(appleButton)
-        appleButton.lkCornerRadius = 20
-        appleButton.snp.makeConstraints { make in
+        
+        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn,
+                                                              authorizationButtonStyle: chooseAppleButtonStyle())
+        view.addSubview(signInWithAppleBtn)
+        signInWithAppleBtn.snp.makeConstraints { make in
             make.top.equalTo(googleButton.snp.bottom).offset(17)
             make.centerX.equalTo(googleButton.snp.centerX)
-            make.width.equalTo(271)
-            make.height.equalTo(53)
+            make.width.equalTo(300)
+            make.height.equalTo(50)
         }
-        appleButton.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
-        appleButton.setImage(UIImage(named: "appleidButton"), for: .normal)
+        signInWithAppleBtn.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
+//        appleButton.setImage(UIImage(named: "appleidButton"), for: .normal)
         
-//        appleButton.image(for: .normal) = UIImage(named: "appleidButton")
-//        appleButton.backgroundColor = .systemPink
-        
-        view.addSubview(userTry)
-        userTry.snp.makeConstraints { make in
-            make.top.equalTo(appleButton.snp.bottom).offset(10)
-            make.centerX.equalTo(appleButton.snp.centerX)
+        self.view.addSubview(licenseLabel)
+        licenseLabel.snp.makeConstraints { make in
+            make.top.equalTo(signInWithAppleBtn.snp.bottom).offset(10)
+            make.centerX.equalTo(signInWithAppleBtn.snp.centerX)
             make.width.equalTo(271)
             make.height.equalTo(50)
-            let signInWithAppleBtn =
-            ASAuthorizationAppleIDButton(authorizationButtonType: .signIn,
-                                                                  authorizationButtonStyle: chooseAppleButtonStyle())
+            /*
+             let signInWithAppleBtn =
+             ASAuthorizationAppleIDButton(authorizationButtonType: .signIn,
+                                                                   authorizationButtonStyle: chooseAppleButtonStyle())
+             */
         }
-        // userTry.setTitle("以訪客登入使用", for: .normal)
-        // userTry.setTitleColor(UIColor.systemBlue, for: .normal)
-        // userTry.addTarget(self, action: #selector(createVC), for: .touchUpInside)
         
+    }
+    
+    func observeAppleIDState() {
+        
+        NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification,
+                                               object: nil,
+                                               queue: nil) { (notification: Notification) in
+            CustomFunc.customAlert(title: "使用者登入或登出",
+                                   message: "",
+                                   vc: self,
+                                   actionHandler: nil)
+        }
     }
     
     @objc func createVC() {
         let createVC = CreatePersonViewController()
         present(createVC, animated: true)
     }
+    
+    @objc private func tapLabel(_ gesture: UITapGestureRecognizer) {
+        guard let text = licenseLabel.text else { return }
+        let privacyRange = (text as NSString).range(of: "Privacy Police")
+        let standardRange = (text as NSString).range(of: "EULA")
+        
+        var webVC: WebViewController
+        if gesture.didTapAttributedTextInLabel(label: licenseLabel, inRange: privacyRange) {
+            webVC = WebViewController(urlString: "https://www.privacypolicies.com/live/f47437a1-9d69-4959-bebe-f50c1928bcaf")
+        } else if gesture.didTapAttributedTextInLabel(label: licenseLabel, inRange: standardRange) {
+            webVC = WebViewController(urlString: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")
+        } else {
+            return
+        }
+        self.present(webVC, animated: true, completion: nil)
+    }
+
     
     func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
         return (UITraitCollection.current.userInterfaceStyle == .light) ? .black : .white // 淺色模式就顯示黑色的按鈕，深色模式就顯示白色的按鈕
@@ -237,22 +285,34 @@ extension LoginViewController {
             let userID = Auth.auth().currentUser?.uid
             let userEmail = Auth.auth().currentUser?.email
             let userInfo = UserInfo.init(userID: userID ?? "",
-                                         userName: "",
+                                         userName: "Ryan",
                                          userEmail: userEmail ?? "" ,
                                          userPhoto: "",
-                                         signInType: "",
+                                            signInType: "",
                                          personalRefrige: [],
                                          personalLikeRecipe: [],
-                                         personalDoRecipe: [])
+                                         personalDoRecipe: [], blockLists: [])
             
             self.userManager.fetchUserInfo(fetchUserID: userID!) { result in
                 switch result {
-                case.success(let usersInfo):
+                case.success:
                       print("success")
-//                    HandleResult.signOutFailed.messageHUD
+                    
                 case .failure:
                     self.userManager.addUserInfo(user: userInfo)
                     print("error")
+                }
+            }
+            
+            let db = Firestore.firestore().collection("User")
+            
+//            guard let userID = userID else { return }
+            
+            db.whereField("userID", isEqualTo: userID ).getDocuments { (querySnapshot, error) in
+                if let doc = querySnapshot?.documents.first {
+                    print("ok")
+                } else {
+                    self.userManager.addUserInfo(user: userInfo)
                 }
             }
             
@@ -270,6 +330,7 @@ extension LoginViewController {
         }
         let uid = user.uid
         let email = user.email
+        
         CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self, actionHandler: nil)
     }
 }

@@ -97,8 +97,7 @@ class WishListViewController: UIViewController {
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                     if foodssInfo.isEmpty {
                         self?.wishListCollectionView.backgroundView = SearchPlaceholderView()
-                    }
-                    else {
+                    } else {
                     if foodssInfo[0] == "" {
                         self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } else {
                         
@@ -139,8 +138,7 @@ class WishListViewController: UIViewController {
         shoppingListNowID = self.shoppingLists[shopDidSelectDifferentRef ?? 0]
             self.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
                 if foodssInfo.isEmpty {
-                    self?.wishListCollectionView.backgroundView = SearchPlaceholderView() }
-                else {
+                    self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } else {
                 if foodssInfo[0] == "" {
                     DispatchQueue.main.async {
                         self?.cate = []
@@ -149,7 +147,7 @@ class WishListViewController: UIViewController {
                         self?.wishListCollectionView.backgroundView = SearchPlaceholderView() } } else {
                     self?.wishListCollectionView.backgroundView = nil
                     self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                        var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
+                    var wishshopFoodInfo = allfoodInfo.filter { foodinfo in
                                 foodinfo.foodStatus == 1 }
                         guard let cates = self?.cate else { return }
                         self?.resetRefrigeFood()

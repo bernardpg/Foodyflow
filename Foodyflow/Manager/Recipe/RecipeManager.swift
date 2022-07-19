@@ -69,8 +69,14 @@ class RecipeManager {
         
     }
     // delete by user
-    func deleteRecipe () {
+    func deleteRecipe (recipesID: [String?]) {
         
+        let colRef = db.collection("recipe")
+        
+        for element in recipesID {
+            guard let element = element else { return }
+            colRef.document(element).delete()
+        }
     }
     
     func fetchFoodinRecipe () {

@@ -36,7 +36,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     
     var userManager = UserManager()
     
-    var userInfos = UserInfo(userID: "", userName: "", userEmail: "", userPhoto: "", signInType: "", personalRefrige: [], personalLikeRecipe: [], personalDoRecipe: [])
+    var userInfos = UserInfo(userID: "", userName: "", userEmail: "", userPhoto: "", signInType: "", personalRefrige: [], personalLikeRecipe: [], personalDoRecipe: [], blockLists: [])
     
     var onPublished: (() -> Void)?
     
@@ -63,13 +63,13 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
         foodStepTypeIn.text = recipeStep
         
         if recipeInImage == "" {
-                recipeImage.image = UIImage(named: "imageDefault") } else{
+                recipeImage.image = UIImage(named: "imageDefault") } else {
             recipeImage.kf.setImage( with: URL(string: recipeInImage ))
         }
         
         guard let userID = Auth.auth().currentUser?.uid else { return }
         userManager.fetchUserInfo(fetchUserID: userID) { result in
-            switch result{
+            switch result {
             case .success(let userInfo):
                 self.userInfos = userInfo
             case .failure:
@@ -167,7 +167,8 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
                                     recipeImage: "\(url)",
                                     recipeFood: foodTypeIn.text,
                                     recipeStep: foodStepTypeIn.text,
-                                    recipeUserName: self.userInfos.userName)
+                                    recipeUserName: self.userInfos.userName,
+                                    recipeUserID: self.userInfos.userID)
         //        recipe.recipeName = recipeTextField.text!
         //        recipe.recipeFood = foodTypeIn.text
         //        recipe.recipeStep = foodStepTypeIn.text
@@ -215,7 +216,7 @@ class AddRecipeViewController: UIViewController, UINavigationControllerDelegate 
     }
 }
 
-extension AddRecipeViewController : UITextViewDelegate {
+extension AddRecipeViewController: UITextViewDelegate {
    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
