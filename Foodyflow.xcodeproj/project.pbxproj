@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A91F09722887A09100381CB6 /* CategoryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F09712887A09100381CB6 /* CategoryHelper.swift */; };
 		A925B7C72878229800FCA480 /* PresonalLikeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925B7C52878229800FCA480 /* PresonalLikeTableViewCell.swift */; };
 		A925B7C82878229800FCA480 /* PresonalLikeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A925B7C62878229800FCA480 /* PresonalLikeTableViewCell.xib */; };
 		A92F0991286D7973005C99F8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F0990286D7973005C99F8 /* LoginView.swift */; };
@@ -65,6 +66,8 @@
 		A96EA158285F50D900941433 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EA157285F50D900941433 /* ImageHelper.swift */; };
 		A96EA15E285FB99100941433 /* ShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EA15D285FB99100941433 /* ShoppingListViewController.swift */; };
 		A96EA162285FBAA700941433 /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EA161285FBAA700941433 /* RecipeViewController.swift */; };
+		A9780ECA2886A269005E4D73 /* FetchDB+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9780EC92886A268005E4D73 /* FetchDB+Extension.swift */; };
+		A9780ECC2886A68C005E4D73 /* cate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9780ECB2886A68C005E4D73 /* cate+Extension.swift */; };
 		A97939772873E15A006D6EDD /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97939762873E159006D6EDD /* UIImage + Extension.swift */; };
 		A98D50EC2863F8BA00B326AC /* ShoppingListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */; };
 		A98D50EE28640AB900B326AC /* ShoppingListCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */; };
@@ -101,6 +104,7 @@
 		1FA0E6F1BFFB230473E85551 /* Pods-Foodyflow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodyflow.release.xcconfig"; path = "Target Support Files/Pods-Foodyflow/Pods-Foodyflow.release.xcconfig"; sourceTree = "<group>"; };
 		A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodyflow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A91505DD286ADA60008DF98C /* Foodyflow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Foodyflow.entitlements; sourceTree = "<group>"; };
+		A91F09712887A09100381CB6 /* CategoryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHelper.swift; sourceTree = "<group>"; };
 		A925B7C52878229800FCA480 /* PresonalLikeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresonalLikeTableViewCell.swift; sourceTree = "<group>"; };
 		A925B7C62878229800FCA480 /* PresonalLikeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PresonalLikeTableViewCell.xib; sourceTree = "<group>"; };
 		A92F0990286D7973005C99F8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 		A96EA157285F50D900941433 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		A96EA15D285FB99100941433 /* ShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListViewController.swift; sourceTree = "<group>"; };
 		A96EA161285FBAA700941433 /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
+		A9780EC92886A268005E4D73 /* FetchDB+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FetchDB+Extension.swift"; sourceTree = "<group>"; };
+		A9780ECB2886A68C005E4D73 /* cate+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "cate+Extension.swift"; sourceTree = "<group>"; };
 		A97939762873E159006D6EDD /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		A98D50EB2863F8B900B326AC /* ShoppingListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListManager.swift; sourceTree = "<group>"; };
 		A98D50ED28640AB900B326AC /* ShoppingListCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -306,6 +312,8 @@
 			children = (
 				A944E695285E0EE60068D7DD /* DateHelper.swift */,
 				A96EA157285F50D900941433 /* ImageHelper.swift */,
+				A91F09712887A09100381CB6 /* CategoryHelper.swift */,
+				A9780ECB2886A68C005E4D73 /* cate+Extension.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -418,6 +426,7 @@
 				A97939762873E159006D6EDD /* UIImage + Extension.swift */,
 				A991AE7B287FB43100836785 /* NSMutableAttributedString+Extension.swift */,
 				A991AE7D287FB4E600836785 /* UItapGestureRecognizer+Extension.swift */,
+				A9780EC92886A268005E4D73 /* FetchDB+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -712,12 +721,15 @@
 				A948AA95285B0B7400355C59 /* AppDelegate.swift in Sources */,
 				A96DA97128600949008993BB /* PersonalViewController.swift in Sources */,
 				A941E03C286BE51E00B603AF /* AuthManager.swift in Sources */,
+				A9780ECC2886A68C005E4D73 /* cate+Extension.swift in Sources */,
+				A9780ECA2886A269005E4D73 /* FetchDB+Extension.swift in Sources */,
 				A925B7C72878229800FCA480 /* PresonalLikeTableViewCell.swift in Sources */,
 				A92F0991286D7973005C99F8 /* LoginView.swift in Sources */,
 				A948AA97285B0B7400355C59 /* SceneDelegate.swift in Sources */,
 				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
 				A9DC8AA02876F0E6000D6BC5 /* PersonalTitleTableViewCell.swift in Sources */,
 				A9C1A7E72881127B007A891C /* WithinThreeDaysView.swift in Sources */,
+				A91F09722887A09100381CB6 /* CategoryHelper.swift in Sources */,
 				A944E691285DE1300068D7DD /* FoodManager.swift in Sources */,
 				A99B9E992876C80C0050F086 /* PersonalRecipe.swift in Sources */,
 				A991AE7C287FB43200836785 /* NSMutableAttributedString+Extension.swift in Sources */,
@@ -893,7 +905,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodyflow/Info.plist;
@@ -906,6 +918,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -927,7 +940,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodyflow/Info.plist;
@@ -940,6 +953,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

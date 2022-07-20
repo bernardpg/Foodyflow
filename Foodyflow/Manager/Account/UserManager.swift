@@ -96,6 +96,7 @@ class UserManager {
                 
                 completion(.failure(error))
             } else {
+                HandleResult.addDataSuccess.messageHUD
                 
                 completion(.success("success"))
             }
