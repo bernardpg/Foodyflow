@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A91F09722887A09100381CB6 /* CategoryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F09712887A09100381CB6 /* CategoryHelper.swift */; };
+		A91F0994288822EC00381CB6 /* FoodyflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F0993288822EC00381CB6 /* FoodyflowTests.swift */; };
 		A925B7C72878229800FCA480 /* PresonalLikeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925B7C52878229800FCA480 /* PresonalLikeTableViewCell.swift */; };
 		A925B7C82878229800FCA480 /* PresonalLikeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A925B7C62878229800FCA480 /* PresonalLikeTableViewCell.xib */; };
 		A92F0991286D7973005C99F8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F0990286D7973005C99F8 /* LoginView.swift */; };
@@ -100,11 +101,23 @@
 		EDE22383516BBDB6FD3B700C /* Pods_Foodyflow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A91F0995288822EC00381CB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A948AA89285B0B7400355C59 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A948AA90285B0B7400355C59;
+			remoteInfo = Foodyflow;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1FA0E6F1BFFB230473E85551 /* Pods-Foodyflow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodyflow.release.xcconfig"; path = "Target Support Files/Pods-Foodyflow/Pods-Foodyflow.release.xcconfig"; sourceTree = "<group>"; };
 		A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodyflow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A91505DD286ADA60008DF98C /* Foodyflow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Foodyflow.entitlements; sourceTree = "<group>"; };
 		A91F09712887A09100381CB6 /* CategoryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHelper.swift; sourceTree = "<group>"; };
+		A91F0991288822EC00381CB6 /* FoodyflowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodyflowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A91F0993288822EC00381CB6 /* FoodyflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodyflowTests.swift; sourceTree = "<group>"; };
 		A925B7C52878229800FCA480 /* PresonalLikeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresonalLikeTableViewCell.swift; sourceTree = "<group>"; };
 		A925B7C62878229800FCA480 /* PresonalLikeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PresonalLikeTableViewCell.xib; sourceTree = "<group>"; };
 		A92F0990286D7973005C99F8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -200,6 +213,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A91F098E288822EC00381CB6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A948AA8E285B0B7400355C59 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,6 +238,14 @@
 				1FA0E6F1BFFB230473E85551 /* Pods-Foodyflow.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		A91F0992288822EC00381CB6 /* FoodyflowTests */ = {
+			isa = PBXGroup;
+			children = (
+				A91F0993288822EC00381CB6 /* FoodyflowTests.swift */,
+			);
+			path = FoodyflowTests;
 			sourceTree = "<group>";
 		};
 		A92F6BB3285C38D10090EE90 /* Refrige */ = {
@@ -330,6 +358,7 @@
 			isa = PBXGroup;
 			children = (
 				A948AA93285B0B7400355C59 /* Foodyflow */,
+				A91F0992288822EC00381CB6 /* FoodyflowTests */,
 				A948AA92285B0B7400355C59 /* Products */,
 				61EC6B489FC742FC1DD455A2 /* Pods */,
 				D34D5DAADC47A17E2531A2E3 /* Frameworks */,
@@ -340,6 +369,7 @@
 			isa = PBXGroup;
 			children = (
 				A948AA91285B0B7400355C59 /* Foodyflow.app */,
+				A91F0991288822EC00381CB6 /* FoodyflowTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -540,6 +570,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A91F0990288822EC00381CB6 /* FoodyflowTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A91F0999288822EC00381CB6 /* Build configuration list for PBXNativeTarget "FoodyflowTests" */;
+			buildPhases = (
+				A91F098D288822EC00381CB6 /* Sources */,
+				A91F098E288822EC00381CB6 /* Frameworks */,
+				A91F098F288822EC00381CB6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A91F0996288822EC00381CB6 /* PBXTargetDependency */,
+			);
+			name = FoodyflowTests;
+			productName = FoodyflowTests;
+			productReference = A91F0991288822EC00381CB6 /* FoodyflowTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A948AA90285B0B7400355C59 /* Foodyflow */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A948AAA5285B0B7500355C59 /* Build configuration list for PBXNativeTarget "Foodyflow" */;
@@ -570,6 +618,10 @@
 				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					A91F0990288822EC00381CB6 = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = A948AA90285B0B7400355C59;
+					};
 					A948AA90285B0B7400355C59 = {
 						CreatedOnToolsVersion = 13.3;
 					};
@@ -589,11 +641,19 @@
 			projectRoot = "";
 			targets = (
 				A948AA90285B0B7400355C59 /* Foodyflow */,
+				A91F0990288822EC00381CB6 /* FoodyflowTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A91F098F288822EC00381CB6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A948AA8F285B0B7400355C59 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -681,6 +741,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A91F098D288822EC00381CB6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A91F0994288822EC00381CB6 /* FoodyflowTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A948AA8D285B0B7400355C59 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -763,6 +831,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A91F0996288822EC00381CB6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A948AA90285B0B7400355C59 /* Foodyflow */;
+			targetProxy = A91F0995288822EC00381CB6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		A948AA9A285B0B7400355C59 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -783,6 +859,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A91F0997288822EC00381CB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HXP4AVQY66;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.YenCheng.FoodyflowTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Foodyflow.app/Foodyflow";
+			};
+			name = Debug;
+		};
+		A91F0998288822EC00381CB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HXP4AVQY66;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.YenCheng.FoodyflowTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Foodyflow.app/Foodyflow";
+			};
+			name = Release;
+		};
 		A948AAA3285B0B7500355C59 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -970,6 +1084,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A91F0999288822EC00381CB6 /* Build configuration list for PBXNativeTarget "FoodyflowTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A91F0997288822EC00381CB6 /* Debug */,
+				A91F0998288822EC00381CB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A948AA8C285B0B7400355C59 /* Build configuration list for PBXProject "Foodyflow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

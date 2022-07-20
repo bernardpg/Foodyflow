@@ -449,7 +449,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                            cancelTitle: "取消")
         }
         cameraAc3tion {
-        }}
+            }}
     func cameraAc3tion(completion: @escaping () -> Void) {
             RefrigeManager.shared.createFrige(refrige: &self.refrige) { result in
             switch result {
