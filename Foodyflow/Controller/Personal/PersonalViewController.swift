@@ -179,8 +179,9 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     @objc func changeUserImage(completion: @escaping () -> Void) {
-        
-        tapPhotos(controller: self, alertText: "選擇個人照片", imagePickerController: imagePickerController)
+        DispatchQueue.main.async {
+            self.tapPhotos(controller: self, alertText: "選擇個人照片", imagePickerController: self.imagePickerController)
+        }
     }
     
     func tapPhotos(controller: UIViewController, alertText: String, imagePickerController: UIImagePickerController) {
@@ -288,7 +289,9 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                     return
                 }
                 self.fetchUserByUserID(userID: user) { _ in
-                    completion()
+ 
+                        completion()
+
                 }
                                 
             } else {
@@ -445,10 +448,9 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                            secondTitle: "邀請加入xxx食光",
                            cancelTitle: "取消")
         }
-        cameraAc3tion()}
-    func cameraAc3tion() {
-         // User create // Refrige Create
-        
+        cameraAc3tion {
+        }}
+    func cameraAc3tion(completion: @escaping () -> Void) {
             RefrigeManager.shared.createFrige(refrige: &self.refrige) { result in
             switch result {
             case .success(let refrigeID):
@@ -460,8 +462,8 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                         switch result {
                         case .success:
                             self.verifyUser {
-                                HandleResult.addDataSuccess.messageHUD
-
+                                completion()
+                                
                             }
                         case .failure:
                             HandleResult.addDataFailed.messageHUD
@@ -690,15 +692,12 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         RefrigeManager.shared.removeFrige(refrigeID: needtoRemove) { result in
             switch result {
             case.success:
-                print("ddd")
-                
                 self.verifyUser {
                     
                 }
             case.failure:
                 print(LocalizedError.self)
             }
-            
         }
     }
     
@@ -782,7 +781,6 @@ extension PersonalViewController: UIImagePickerControllerDelegate {
             self.personalImageChange = image
             self.personalImage.image = image
         }
-        
         picker.dismiss(animated: true) {
             self.changesImage()
         }
