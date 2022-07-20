@@ -56,5 +56,4 @@ struct PhotoManager {
             controller.present(imagePickerController, animated: true)
         }
     }
-    
 }
