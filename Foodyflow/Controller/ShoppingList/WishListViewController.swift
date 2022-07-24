@@ -309,9 +309,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
                     case .failure:
                         HandleResult.reportFailed.messageHUD
                         
-                    }
-                        
-                    }
+                    } }
                     } } else if btn == 2 {
                     // create shopList
                     if refrigeNow?.id == nil {

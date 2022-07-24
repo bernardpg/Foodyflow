@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "playstore.png",
+      "filename" : "emptyRefrige.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "emptyRefrige@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "emptyRefrige@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

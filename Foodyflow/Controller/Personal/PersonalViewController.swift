@@ -61,9 +61,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        verifyUser {
-            
-        }
+        verifyUser { }
         
         imagePickerController.delegate = self
         
@@ -110,13 +108,9 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
         personalImage.clipsToBounds = true
         personalImage.contentMode = .scaleAspectFill
         
-        verifyUser {
-            
-        }
-        
+        verifyUser { }
         addRefrigeButton.titleLabel?.text = ""
         addRefrigeButton.setImage(UIImage(systemName: "plus" ), for: .normal)
-        // fetch user // fetchRefrige
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -162,6 +156,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                 } else {self.personalImage.kf.setImage(with: URL(string: userInfo.userPhoto ))}
                 self.refrigeAmount = []
                 DispatchQueue.main.async {
+                    self.personalTableView.backgroundView = EmptyRefrigeView()
                     self.personalTableView.reloadData()
                 }
                
@@ -247,7 +242,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
                     self.userManager.updateUserInfo(user: userData) {
                     self.fetchUserByUserID(userID: userID) { _ in }
                     }
-//                    HandleInputResult.uploadImage.messageHUD
+                    HandleInputResult.uploadImage.messageHUD
                 case .failure:
                     HandleResult.addDataFailed.messageHUD
                 }
@@ -283,19 +278,20 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
     }
 
     func verifyUser( completion: @escaping () -> Void) {
-        Auth.auth().addStateDidChangeListener { ( _, user) in
+        Auth.auth().addStateDidChangeListener { [ weak self ]( _, user) in
             if user != nil {
                 guard let user = user?.uid else {
                     return
                 }
-                self.fetchUserByUserID(userID: user) { _ in
+                self?.fetchUserByUserID(userID: user) { _ in
  
                         completion()
 
                 }
                                 
             } else {
-                self.present( LoginViewController(), animated: true )
+                self?.personalTableView.backgroundView = EmptyRefrigeView()
+                self?.present( LoginViewController(), animated: true )
             }
         }
         
@@ -673,6 +669,7 @@ class PersonalViewController: UIViewController, UINavigationControllerDelegate {
             case .success(let refrigeAmount):
                 self?.refrigeAmount = refrigeAmount
                 DispatchQueue.main.async {
+                    self?.personalTableView.backgroundView = nil
                     self?.personalTableView.reloadData()
                 }
             case .failure:

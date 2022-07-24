@@ -305,8 +305,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
                     nibName: "ShoppingProductDetailViewController",
                     bundle: nil)
                 
-                // bug fixs
-                guard let currentRefrige = refrigeNow else { return }
+                 guard let currentRefrige = refrigeNow else { return }
                 shoppingVC.refrige = currentRefrige
                 self.navigationController!.pushViewController(shoppingVC, animated: true)
                 

@@ -392,10 +392,7 @@ extension AllRecipeViewController: UITableViewDelegate, UITableViewDataSource, R
 
         if recipeAmount[indexPath.row].recipeImage == "" {
         cell.recipeImage.image = UIImage(named: "imageDefault") } else {
-            //        cell.recipeImage.download(from: URL(string: recipeAmount[indexPath.row].recipeImage)!)
-            cell.recipeImage.kf.setImage(with: URL(string: recipeAmount[indexPath.row].recipeImage))
-            
-        }
+            cell.recipeImage.kf.setImage(with: URL(string: recipeAmount[indexPath.row].recipeImage)) }
         cell.recipeUserName.text = recipeAmount[indexPath.row].recipeUserName
         cell.recipeImage.clipsToBounds = true
         cell.recipeImage.contentMode = .scaleAspectFill
