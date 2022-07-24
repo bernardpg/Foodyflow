@@ -38,6 +38,16 @@
                ReferencedContainer = "container:Foodyflow.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A91F099F2889298B00381CB6"
+               BuildableName = "FoodyflowUITests.xctest"
+               BlueprintName = "FoodyflowUITests"
+               ReferencedContainer = "container:Foodyflow.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

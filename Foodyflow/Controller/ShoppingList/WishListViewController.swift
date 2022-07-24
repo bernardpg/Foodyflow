@@ -197,7 +197,6 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
     }
         
     func cateFilter(allFood: [FoodInfo], cates: [String?]) {
-        // swtich  case
         meatsInfo = []
         beansInfo = []
         eggsInfo = []
@@ -677,48 +676,42 @@ extension WishListViewController: UICollectionViewDataSource,
     private func collectionView(_ collectionView: UICollectionView,
                                 layout collectionViewLayout: UICollectionViewLayout,
                                 sizeForItemAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20.0, left: 16.0, bottom: 10.0, right: 16.0)
-        }
+        return UIEdgeInsets(top: 20.0, left: 16.0, bottom: 10.0, right: 16.0) }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: 200, height: 200) }
-    
-    func putInCollectionView(){
-        
-    }
 
     // MARK: - single tap edit
     // MARK: - delete food or send to shoppingList to long gestture
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
+        guard let section = CategoryType(rawValue: indexPath.section) else { assertionFailure(); return }
+        switch section {
+        case .meat:
             alertSheet(food: meatsInfo[indexPath.item])
-        case 1:
+        case .beans:
             alertSheet(food: beansInfo[indexPath.item])
-        case 2:
+        case .eggs:
             alertSheet(food: eggsInfo[indexPath.item])
-        case 3:
+        case .vegs:
             alertSheet(food: vegsInfo[indexPath.item])
-        case 4:
+        case .pickles:
             alertSheet(food: picklesInfo[indexPath.item])
-        case 5:
+        case .fruit:
             alertSheet(food: fruitsInfo[indexPath.item])
-        case 6:
+        case .fishes:
             alertSheet(food: fishesInfo[indexPath.item])
-        case 7:
+        case .seafoods:
             alertSheet(food: seafoodsInfo[indexPath.item])
-        case 8:
+        case .beverage:
             alertSheet(food: beveragesInfo[indexPath.item])
-        case 9:
+        case .seasons:
             alertSheet(food: seasonsInfo[indexPath.item])
-        case 10:
+        case .others:
             alertSheet(food: othersInfo[indexPath.item])
-        default:
-            print("dd")
         }
     }
 }
