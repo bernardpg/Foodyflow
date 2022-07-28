@@ -32,7 +32,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
     
     var foodsInfo: [FoodInfo] = []
 
-    var allfoodInfo: [[FoodInfo]] = []
+    var allfoodInfo = [CategoryType: [FoodInfo]]()
     
     var meatsInfo: [FoodInfo] = []
     
@@ -197,6 +197,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
     }
         
     func cateFilter(allFood: [FoodInfo], cates: [String?]) {
+//        allfoodInfo = [:]
         meatsInfo = []
         beansInfo = []
         eggsInfo = []
@@ -212,24 +213,40 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
         for foodInfo in allFood {
             switch foodInfo.foodCategory {
             case Categorytype.meat.rawValue:
+                self.allfoodInfo[.meat]?.append(foodInfo)
+//                self.allfoodInfo[.meat]?.append(["meat": foodInfo])
+                // nil debug
                 self.meatsInfo.append(foodInfo)
             case Categorytype.beans.rawValue:
+                self.allfoodInfo[.beans]?.append(foodInfo)
                 self.beansInfo.append(foodInfo)
             case Categorytype.eggs.rawValue:
+                self.allfoodInfo[.eggs]?.append(foodInfo)
                 self.eggsInfo.append(foodInfo)
+                print(allfoodInfo)
             case Categorytype.vegs.rawValue:
+                self.allfoodInfo[.vegs]?.append(foodInfo)
                 self.vegsInfo.append(foodInfo)
             case Categorytype.pickles.rawValue:
+                self.allfoodInfo[.pickles]?.append(foodInfo)
                 self.picklesInfo.append(foodInfo)
             case Categorytype.fruit.rawValue:
+                self.allfoodInfo[.fruit]?.append(foodInfo)
                 self.fruitsInfo.append(foodInfo)
             case Categorytype.fishes.rawValue:
+                self.allfoodInfo[.fishes]?.append(foodInfo)
                 self.fishesInfo.append(foodInfo)
             case Categorytype.seafoods.rawValue:
+                self.allfoodInfo[.seafoods]?.append(foodInfo)
                 self.seafoodsInfo.append(foodInfo)
             case Categorytype.beverage.rawValue:
+                self.allfoodInfo[.vegs]?.append(foodInfo)
                 self.beveragesInfo.append(foodInfo)
+            case Categorytype.seasons.rawValue:
+                self.allfoodInfo[.seasons]?.append(foodInfo)
+                self.seasonsInfo.append(foodInfo)
             case Categorytype.others.rawValue:
+                self.allfoodInfo[.others]?.append(foodInfo)
                 self.othersInfo.append(foodInfo)
             default:
                 break
@@ -526,7 +543,7 @@ extension WishListViewController: UICollectionViewDataSource,
                                       UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return cate.count
+        return allfoodInfo.count
     }
      // change enum
     func collectionView(_ collectionView: UICollectionView,
