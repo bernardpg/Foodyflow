@@ -543,7 +543,7 @@ extension WishListViewController: UICollectionViewDataSource,
                                       UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return allfoodInfo.count
+        return cate.count
     }
      // change enum
     func collectionView(_ collectionView: UICollectionView,
