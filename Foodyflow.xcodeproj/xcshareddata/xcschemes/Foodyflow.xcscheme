@@ -28,6 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A91F0990288822EC00381CB6"
+               BuildableName = "FoodyflowTests.xctest"
+               BlueprintName = "FoodyflowTests"
+               ReferencedContainer = "container:Foodyflow.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A91F099F2889298B00381CB6"
+               BuildableName = "FoodyflowUITests.xctest"
+               BlueprintName = "FoodyflowUITests"
+               ReferencedContainer = "container:Foodyflow.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
