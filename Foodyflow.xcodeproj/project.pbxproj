@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		A91F09722887A09100381CB6 /* CategoryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F09712887A09100381CB6 /* CategoryHelper.swift */; };
+		A91F0994288822EC00381CB6 /* FoodyflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F0993288822EC00381CB6 /* FoodyflowTests.swift */; };
+		A91F099B2888EB1E00381CB6 /* RobustViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F099A2888EB1E00381CB6 /* RobustViewController.swift */; };
+		A91F09A32889298C00381CB6 /* FoodyflowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F09A22889298C00381CB6 /* FoodyflowUITests.swift */; };
+		A91F09A52889298C00381CB6 /* FoodyflowUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F09A42889298C00381CB6 /* FoodyflowUITestsLaunchTests.swift */; };
 		A925B7C72878229800FCA480 /* PresonalLikeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925B7C52878229800FCA480 /* PresonalLikeTableViewCell.swift */; };
 		A925B7C82878229800FCA480 /* PresonalLikeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A925B7C62878229800FCA480 /* PresonalLikeTableViewCell.xib */; };
 		A92F0991286D7973005C99F8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92F0990286D7973005C99F8 /* LoginView.swift */; };
@@ -55,6 +59,7 @@
 		A9532C01287197BF00697A13 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9532C00287197BF00697A13 /* PhotoManager.swift */; };
 		A95B6CAE286165CC003153B0 /* PersonalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95B6CAC286165CC003153B0 /* PersonalTableViewCell.swift */; };
 		A95B6CAF286165CC003153B0 /* PersonalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A95B6CAD286165CC003153B0 /* PersonalTableViewCell.xib */; };
+		A9627B77288D49320024C6C2 /* EmptyRefrigeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9627B76288D49320024C6C2 /* EmptyRefrigeView.swift */; };
 		A96C5562287D0BF600F95671 /* BlockUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C5561287D0BF600F95671 /* BlockUserTableViewController.swift */; };
 		A96C5569287D0C5000F95671 /* BlockUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C5567287D0C4F00F95671 /* BlockUserTableViewCell.swift */; };
 		A96C556A287D0C5000F95671 /* BlockUserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96C5568287D0C4F00F95671 /* BlockUserTableViewCell.xib */; };
@@ -100,11 +105,34 @@
 		EDE22383516BBDB6FD3B700C /* Pods_Foodyflow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A91F0995288822EC00381CB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A948AA89285B0B7400355C59 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A948AA90285B0B7400355C59;
+			remoteInfo = Foodyflow;
+		};
+		A91F09A62889298C00381CB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A948AA89285B0B7400355C59 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A948AA90285B0B7400355C59;
+			remoteInfo = Foodyflow;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1FA0E6F1BFFB230473E85551 /* Pods-Foodyflow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodyflow.release.xcconfig"; path = "Target Support Files/Pods-Foodyflow/Pods-Foodyflow.release.xcconfig"; sourceTree = "<group>"; };
 		A083A02B9F331F732AAB453C /* Pods_Foodyflow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodyflow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A91505DD286ADA60008DF98C /* Foodyflow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Foodyflow.entitlements; sourceTree = "<group>"; };
 		A91F09712887A09100381CB6 /* CategoryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHelper.swift; sourceTree = "<group>"; };
+		A91F0991288822EC00381CB6 /* FoodyflowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodyflowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A91F0993288822EC00381CB6 /* FoodyflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodyflowTests.swift; sourceTree = "<group>"; };
+		A91F099A2888EB1E00381CB6 /* RobustViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobustViewController.swift; sourceTree = "<group>"; };
+		A91F09A02889298B00381CB6 /* FoodyflowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodyflowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A91F09A22889298C00381CB6 /* FoodyflowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodyflowUITests.swift; sourceTree = "<group>"; };
+		A91F09A42889298C00381CB6 /* FoodyflowUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodyflowUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A925B7C52878229800FCA480 /* PresonalLikeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresonalLikeTableViewCell.swift; sourceTree = "<group>"; };
 		A925B7C62878229800FCA480 /* PresonalLikeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PresonalLikeTableViewCell.xib; sourceTree = "<group>"; };
 		A92F0990286D7973005C99F8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -154,6 +182,7 @@
 		A9532C00287197BF00697A13 /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
 		A95B6CAC286165CC003153B0 /* PersonalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalTableViewCell.swift; sourceTree = "<group>"; };
 		A95B6CAD286165CC003153B0 /* PersonalTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PersonalTableViewCell.xib; sourceTree = "<group>"; };
+		A9627B76288D49320024C6C2 /* EmptyRefrigeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyRefrigeView.swift; sourceTree = "<group>"; };
 		A96C5561287D0BF600F95671 /* BlockUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUserTableViewController.swift; sourceTree = "<group>"; };
 		A96C5567287D0C4F00F95671 /* BlockUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockUserTableViewCell.swift; sourceTree = "<group>"; };
 		A96C5568287D0C4F00F95671 /* BlockUserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockUserTableViewCell.xib; sourceTree = "<group>"; };
@@ -200,6 +229,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A91F098E288822EC00381CB6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A91F099D2889298B00381CB6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A948AA8E285B0B7400355C59 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,6 +261,23 @@
 				1FA0E6F1BFFB230473E85551 /* Pods-Foodyflow.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		A91F0992288822EC00381CB6 /* FoodyflowTests */ = {
+			isa = PBXGroup;
+			children = (
+				A91F0993288822EC00381CB6 /* FoodyflowTests.swift */,
+			);
+			path = FoodyflowTests;
+			sourceTree = "<group>";
+		};
+		A91F09A12889298C00381CB6 /* FoodyflowUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A91F09A22889298C00381CB6 /* FoodyflowUITests.swift */,
+				A91F09A42889298C00381CB6 /* FoodyflowUITestsLaunchTests.swift */,
+			);
+			path = FoodyflowUITests;
 			sourceTree = "<group>";
 		};
 		A92F6BB3285C38D10090EE90 /* Refrige */ = {
@@ -330,6 +390,8 @@
 			isa = PBXGroup;
 			children = (
 				A948AA93285B0B7400355C59 /* Foodyflow */,
+				A91F0992288822EC00381CB6 /* FoodyflowTests */,
+				A91F09A12889298C00381CB6 /* FoodyflowUITests */,
 				A948AA92285B0B7400355C59 /* Products */,
 				61EC6B489FC742FC1DD455A2 /* Pods */,
 				D34D5DAADC47A17E2531A2E3 /* Frameworks */,
@@ -340,6 +402,8 @@
 			isa = PBXGroup;
 			children = (
 				A948AA91285B0B7400355C59 /* Foodyflow.app */,
+				A91F0991288822EC00381CB6 /* FoodyflowTests.xctest */,
+				A91F09A02889298B00381CB6 /* FoodyflowUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -381,6 +445,7 @@
 				A9C1A7E8288112F5007A891C /* ShoppingListView.swift */,
 				A9C1A7EA28819008007A891C /* ButtonPanelView.swift */,
 				A9A2AADD2881CD04005977A0 /* ShoppingListBtnPanelView.swift */,
+				A9627B76288D49320024C6C2 /* EmptyRefrigeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -409,6 +474,7 @@
 				A96EA15B285FB8B700941433 /* Refrige */,
 				A96EA15A285FB8B100941433 /* ShoppingList */,
 				A96EA159285FB8AC00941433 /* Recipe */,
+				A91F099A2888EB1E00381CB6 /* RobustViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -540,6 +606,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A91F0990288822EC00381CB6 /* FoodyflowTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A91F0999288822EC00381CB6 /* Build configuration list for PBXNativeTarget "FoodyflowTests" */;
+			buildPhases = (
+				A91F098D288822EC00381CB6 /* Sources */,
+				A91F098E288822EC00381CB6 /* Frameworks */,
+				A91F098F288822EC00381CB6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A91F0996288822EC00381CB6 /* PBXTargetDependency */,
+			);
+			name = FoodyflowTests;
+			productName = FoodyflowTests;
+			productReference = A91F0991288822EC00381CB6 /* FoodyflowTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A91F099F2889298B00381CB6 /* FoodyflowUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A91F09A82889298C00381CB6 /* Build configuration list for PBXNativeTarget "FoodyflowUITests" */;
+			buildPhases = (
+				A91F099C2889298B00381CB6 /* Sources */,
+				A91F099D2889298B00381CB6 /* Frameworks */,
+				A91F099E2889298B00381CB6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A91F09A72889298C00381CB6 /* PBXTargetDependency */,
+			);
+			name = FoodyflowUITests;
+			productName = FoodyflowUITests;
+			productReference = A91F09A02889298B00381CB6 /* FoodyflowUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		A948AA90285B0B7400355C59 /* Foodyflow */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A948AAA5285B0B7500355C59 /* Build configuration list for PBXNativeTarget "Foodyflow" */;
@@ -570,6 +672,14 @@
 				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					A91F0990288822EC00381CB6 = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = A948AA90285B0B7400355C59;
+					};
+					A91F099F2889298B00381CB6 = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = A948AA90285B0B7400355C59;
+					};
 					A948AA90285B0B7400355C59 = {
 						CreatedOnToolsVersion = 13.3;
 					};
@@ -589,11 +699,27 @@
 			projectRoot = "";
 			targets = (
 				A948AA90285B0B7400355C59 /* Foodyflow */,
+				A91F0990288822EC00381CB6 /* FoodyflowTests */,
+				A91F099F2889298B00381CB6 /* FoodyflowUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A91F098F288822EC00381CB6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A91F099E2889298B00381CB6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A948AA8F285B0B7400355C59 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -681,6 +807,23 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A91F098D288822EC00381CB6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A91F0994288822EC00381CB6 /* FoodyflowTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A91F099C2889298B00381CB6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A91F09A52889298C00381CB6 /* FoodyflowUITestsLaunchTests.swift in Sources */,
+				A91F09A32889298C00381CB6 /* FoodyflowUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A948AA8D285B0B7400355C59 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -700,6 +843,7 @@
 				A944E693285DE3B70068D7DD /* UserManager.swift in Sources */,
 				A96DA97F2860365A008993BB /* CategoryManager.swift in Sources */,
 				A9C1A7E5288109DF007A891C /* NoExpiredView.swift in Sources */,
+				A91F099B2888EB1E00381CB6 /* RobustViewController.swift in Sources */,
 				A944E68F285DE1210068D7DD /* RefrigeManeger.swift in Sources */,
 				A93EF955286B2A4800EDDA4B /* CreatePersonViewController.swift in Sources */,
 				A9335AD128691DD800AE551B /* AllRecipeViewController.swift in Sources */,
@@ -724,6 +868,7 @@
 				A9780ECC2886A68C005E4D73 /* cate+Extension.swift in Sources */,
 				A9780ECA2886A269005E4D73 /* FetchDB+Extension.swift in Sources */,
 				A925B7C72878229800FCA480 /* PresonalLikeTableViewCell.swift in Sources */,
+				A9627B77288D49320024C6C2 /* EmptyRefrigeView.swift in Sources */,
 				A92F0991286D7973005C99F8 /* LoginView.swift in Sources */,
 				A948AA97285B0B7400355C59 /* SceneDelegate.swift in Sources */,
 				A948AAC0285B3D0100355C59 /* UITableView+Extension.swift in Sources */,
@@ -763,6 +908,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A91F0996288822EC00381CB6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A948AA90285B0B7400355C59 /* Foodyflow */;
+			targetProxy = A91F0995288822EC00381CB6 /* PBXContainerItemProxy */;
+		};
+		A91F09A72889298C00381CB6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A948AA90285B0B7400355C59 /* Foodyflow */;
+			targetProxy = A91F09A62889298C00381CB6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		A948AA9A285B0B7400355C59 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -783,6 +941,82 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A91F0997288822EC00381CB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HXP4AVQY66;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/Pods/Firebase/CoreOnly/Sources";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.YenCheng.FoodyflowTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Foodyflow.app/Foodyflow";
+			};
+			name = Debug;
+		};
+		A91F0998288822EC00381CB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HXP4AVQY66;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/Pods/Firebase/CoreOnly/Sources";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.YenCheng.FoodyflowTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Foodyflow.app/Foodyflow";
+			};
+			name = Release;
+		};
+		A91F09A92889298C00381CB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HXP4AVQY66;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.YenCheng.FoodyflowUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Foodyflow;
+			};
+			name = Debug;
+		};
+		A91F09AA2889298C00381CB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HXP4AVQY66;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.YenCheng.FoodyflowUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Foodyflow;
+			};
+			name = Release;
+		};
 		A948AAA3285B0B7500355C59 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -905,9 +1139,47 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BTNavigationDropdownMenu/BTNavigationDropdownMenu.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC/openssl_grpc.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAppCheckInterop/FirebaseAppCheckInterop.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth/FirebaseAuth.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuthInterop/FirebaseAuthInterop.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreExtension/FirebaseCoreExtension.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore/FirebaseFirestore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestoreSwift/FirebaseFirestoreSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage/FirebaseStorage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorageInternal/FirebaseStorageInternal.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher/Kingfisher.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LZViewPager/LZViewPager.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Libuv-gRPC/uv.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MBProgressHUD/MBProgressHUD.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh/MJRefresh.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PKHUD/PKHUD.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwifterSwift/SwifterSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil/absl.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/grpcpp.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core/grpc.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library/leveldb.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb.framework/Headers\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+				);
 				INFOPLIST_FILE = Foodyflow/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please provide Camera privacy for setting profile photo, adding pictures to refriges, shoppingList and upload your recipes";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please provide Photo Library Addition Privacy for upload your refirges or shoppingList or recipe or personalPhtots to your photo library";
@@ -923,7 +1195,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.YenCheng.foodyflow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -940,9 +1212,47 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Foodyflow/Foodyflow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = HXP4AVQY66;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BTNavigationDropdownMenu/BTNavigationDropdownMenu.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC/openssl_grpc.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAppCheckInterop/FirebaseAppCheckInterop.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth/FirebaseAuth.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuthInterop/FirebaseAuthInterop.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreExtension/FirebaseCoreExtension.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore/FirebaseFirestore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestoreSwift/FirebaseFirestoreSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage/FirebaseStorage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorageInternal/FirebaseStorageInternal.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher/Kingfisher.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LZViewPager/LZViewPager.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Libuv-gRPC/uv.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MBProgressHUD/MBProgressHUD.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh/MJRefresh.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PKHUD/PKHUD.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwifterSwift/SwifterSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/abseil/absl.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/grpcpp.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-Core/grpc.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library/leveldb.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb.framework/Headers\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+				);
 				INFOPLIST_FILE = Foodyflow/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please provide Camera privacy for setting profile photo, adding pictures to refriges, shoppingList and upload your recipes";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please provide Photo Library Addition Privacy for upload your refirges or shoppingList or recipe or personalPhtots to your photo library";
@@ -958,7 +1268,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.YenCheng.foodyflow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -970,6 +1280,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A91F0999288822EC00381CB6 /* Build configuration list for PBXNativeTarget "FoodyflowTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A91F0997288822EC00381CB6 /* Debug */,
+				A91F0998288822EC00381CB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A91F09A82889298C00381CB6 /* Build configuration list for PBXNativeTarget "FoodyflowUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A91F09A92889298C00381CB6 /* Debug */,
+				A91F09AA2889298C00381CB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A948AA8C285B0B7400355C59 /* Build configuration list for PBXProject "Foodyflow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

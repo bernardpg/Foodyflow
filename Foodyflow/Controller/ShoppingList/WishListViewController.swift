@@ -32,7 +32,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
     
     var foodsInfo: [FoodInfo] = []
 
-    var allfoodInfo: [[FoodInfo]] = []
+    var allfoodInfo = [CategoryType: [FoodInfo]]()
     
     var meatsInfo: [FoodInfo] = []
     
@@ -197,7 +197,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
     }
         
     func cateFilter(allFood: [FoodInfo], cates: [String?]) {
-        // swtich  case
+//        allfoodInfo = [:]
         meatsInfo = []
         beansInfo = []
         eggsInfo = []
@@ -213,24 +213,40 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
         for foodInfo in allFood {
             switch foodInfo.foodCategory {
             case Categorytype.meat.rawValue:
+                self.allfoodInfo[.meat]?.append(foodInfo)
+//                self.allfoodInfo[.meat]?.append(["meat": foodInfo])
+                // nil debug
                 self.meatsInfo.append(foodInfo)
             case Categorytype.beans.rawValue:
+                self.allfoodInfo[.beans]?.append(foodInfo)
                 self.beansInfo.append(foodInfo)
             case Categorytype.eggs.rawValue:
+                self.allfoodInfo[.eggs]?.append(foodInfo)
                 self.eggsInfo.append(foodInfo)
+                print(allfoodInfo)
             case Categorytype.vegs.rawValue:
+                self.allfoodInfo[.vegs]?.append(foodInfo)
                 self.vegsInfo.append(foodInfo)
             case Categorytype.pickles.rawValue:
+                self.allfoodInfo[.pickles]?.append(foodInfo)
                 self.picklesInfo.append(foodInfo)
             case Categorytype.fruit.rawValue:
+                self.allfoodInfo[.fruit]?.append(foodInfo)
                 self.fruitsInfo.append(foodInfo)
             case Categorytype.fishes.rawValue:
+                self.allfoodInfo[.fishes]?.append(foodInfo)
                 self.fishesInfo.append(foodInfo)
             case Categorytype.seafoods.rawValue:
+                self.allfoodInfo[.seafoods]?.append(foodInfo)
                 self.seafoodsInfo.append(foodInfo)
             case Categorytype.beverage.rawValue:
+                self.allfoodInfo[.vegs]?.append(foodInfo)
                 self.beveragesInfo.append(foodInfo)
+            case Categorytype.seasons.rawValue:
+                self.allfoodInfo[.seasons]?.append(foodInfo)
+                self.seasonsInfo.append(foodInfo)
             case Categorytype.others.rawValue:
+                self.allfoodInfo[.others]?.append(foodInfo)
                 self.othersInfo.append(foodInfo)
             default:
                 break
@@ -310,9 +326,7 @@ class WishListViewController: UIViewController, ShopButtonPanelDelegate {
                     case .failure:
                         HandleResult.reportFailed.messageHUD
                         
-                    }
-                        
-                    }
+                    } }
                     } } else if btn == 2 {
                     // create shopList
                     if refrigeNow?.id == nil {
@@ -677,48 +691,42 @@ extension WishListViewController: UICollectionViewDataSource,
     private func collectionView(_ collectionView: UICollectionView,
                                 layout collectionViewLayout: UICollectionViewLayout,
                                 sizeForItemAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20.0, left: 16.0, bottom: 10.0, right: 16.0)
-        }
+        return UIEdgeInsets(top: 20.0, left: 16.0, bottom: 10.0, right: 16.0) }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: 200, height: 200) }
-    
-    func putInCollectionView(){
-        
-    }
 
     // MARK: - single tap edit
     // MARK: - delete food or send to shoppingList to long gestture
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
+        guard let section = CategoryType(rawValue: indexPath.section) else { assertionFailure(); return }
+        switch section {
+        case .meat:
             alertSheet(food: meatsInfo[indexPath.item])
-        case 1:
+        case .beans:
             alertSheet(food: beansInfo[indexPath.item])
-        case 2:
+        case .eggs:
             alertSheet(food: eggsInfo[indexPath.item])
-        case 3:
+        case .vegs:
             alertSheet(food: vegsInfo[indexPath.item])
-        case 4:
+        case .pickles:
             alertSheet(food: picklesInfo[indexPath.item])
-        case 5:
+        case .fruit:
             alertSheet(food: fruitsInfo[indexPath.item])
-        case 6:
+        case .fishes:
             alertSheet(food: fishesInfo[indexPath.item])
-        case 7:
+        case .seafoods:
             alertSheet(food: seafoodsInfo[indexPath.item])
-        case 8:
+        case .beverage:
             alertSheet(food: beveragesInfo[indexPath.item])
-        case 9:
+        case .seasons:
             alertSheet(food: seasonsInfo[indexPath.item])
-        case 10:
+        case .others:
             alertSheet(food: othersInfo[indexPath.item])
-        default:
-            print("dd")
         }
     }
 }

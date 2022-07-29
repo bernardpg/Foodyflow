@@ -5,7 +5,6 @@
 //  Created by 曹珮綺 on 6/26/22.
 //
 // delete food // 點進去 
-// Filter status 2
 
 import UIKit
 import Kingfisher
@@ -59,26 +58,18 @@ class InshoppingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         inShoppingListCollectionView.delegate = self
-        inShoppingListCollectionView.dataSource = self
-
-    }
+        inShoppingListCollectionView.dataSource = self }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        inShoppingListCollectionView.layoutIfNeeded()
-    }
+        inShoppingListCollectionView.layoutIfNeeded() }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let semaphore = DispatchSemaphore(value: 0)
         
-        DispatchQueue.global().async {
-            self.fetchAllCate { [weak self] cate in
-                self?.cate = cate
-            }
+        DispatchQueue.global().async { self.fetchAllCate { [weak self] cate in  self?.cate = cate }
             
-            // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
-            // w for fix error 應該先fetch 在回來抓
             self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
             self?.shoppingLists = shoppingLists
             if shoppingLists.isEmpty {
@@ -86,8 +77,6 @@ class InshoppingViewController: UIViewController {
                         self?.cate = []
                         self?.inShoppingListCollectionView.backgroundView = self?.inshoppingListView
                         self?.inShoppingListCollectionView.reloadData()
-                      //  self?.present(CreatePersonViewController(), animated: true)
-                        
                     }} else {
             shoppingListNowID = self?.shoppingLists[self?.shopDidSelectDifferentRef ?? 0]
                 self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
@@ -138,9 +127,7 @@ class InshoppingViewController: UIViewController {
             bundle: nil)
         
         shoppingVC.shoppingList.foodID = foodsInShoppingList
-//        shoppingVC.refrige = refrige[0]
         self.navigationController!.pushViewController(shoppingVC, animated: true)
-
     }
     
     // MARK: reset filter
@@ -162,31 +149,36 @@ class InshoppingViewController: UIViewController {
     func cateFilter(allFood: [FoodInfo], cates: [String?]) {
         
         for foodInfo in allFood {
-            for cate in cates {
-                if foodInfo.foodCategory! == cate! && cate! == "肉類" {
-                    self.meatsInfo.append(foodInfo) } else if
-                foodInfo.foodCategory! == cate! && cate! == "豆類" {
-                    self.beansInfo.append(foodInfo) } else if
-                foodInfo.foodCategory! == cate! && cate! == "雞蛋類" {
-                    self.eggsInfo.append(foodInfo) } else if
-                foodInfo.foodCategory! == cate! && cate! == "青菜類" {
-                    self.vegsInfo.append(foodInfo) } else if
-                foodInfo.foodCategory! == cate! && cate! == "醃製類"{
-                    self.picklesInfo.append(foodInfo) } else if
-                foodInfo.foodCategory! == cate! && cate! == "水果類" {
-                    self.fruitsInfo.append(foodInfo) } else if
-                foodInfo.foodCategory! == cate! && cate! == "魚類" {
-                    self.fishesInfo.append(foodInfo) } else if
-                foodInfo.foodCategory! == cate! && cate! == "海鮮類" {
-                    self.seafoodsInfo.append(foodInfo) } else if
-                foodInfo.foodCategory! == cate! && cate! == "飲料類"{
-                    self.beveragesInfo.append(foodInfo) } else if
-                foodInfo.foodCategory! == cate! && cate! == "調味料類"{
-                    self.seasonsInfo.append(foodInfo)} else if
-                foodInfo.foodCategory! == cate! && cate! == "其他" {
-                    self.othersInfo.append(foodInfo) } }
+            switch foodInfo.foodCategory {
+            case CategoryType.meat.description:
+                self.meatsInfo.append(foodInfo)
+            case CategoryType.beans.description:
+                self.beansInfo.append(foodInfo)
+            case CategoryType.eggs.description:
+                self.eggsInfo.append(foodInfo)
+            case CategoryType.vegs.description:
+                self.vegsInfo.append(foodInfo)
+            case CategoryType.pickles.description:
+                self.picklesInfo.append(foodInfo)
+            case CategoryType.fruit.description:
+                self.fruitsInfo.append(foodInfo)
+            case CategoryType.fishes.description:
+                self.fishesInfo.append(foodInfo)
+            case CategoryType.seafoods.description:
+                self.seafoodsInfo.append(foodInfo)
+            case CategoryType.beverage.description:
+                self.beveragesInfo.append(foodInfo)
+            case CategoryType.seasons.description:
+                self.seasonsInfo.append(foodInfo)
+            case CategoryType.others.description:
+                self.othersInfo.append(foodInfo)
+            case .none:
+                HandleResult.addDataFailed.messageHUD
+            case .some:
+                HandleResult.addDataFailed.messageHUD
+            }
         }
-    }
+        }
 
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
         CategoryManager.shared.fetchArticles(completion: { result in
@@ -203,10 +195,7 @@ class InshoppingViewController: UIViewController {
     
     private func reloadShoppingList() {
         
-//        HandleResult.readData.messageHUD
-        
-        self.fetchAllCate { [weak self] cates in
-            self?.cate = cates  }
+        self.fetchAllCate { [weak self] cates in self?.cate = cates  }
     
         self.resetRefrigeFood()
         
@@ -247,7 +236,6 @@ class InshoppingViewController: UIViewController {
     }
     // fetch shoppingList number
     private func fetchAllShoppingListInSingleRefrige(completion: @escaping([String?]) -> Void) {
-//        refrigeNowID = "2" // rename
         ShoppingListManager.shared.fetchAllShoppingListIDInSingleRefrige(completion: { result in
           switch result {
           case .success(let shoppingLists):
@@ -289,10 +277,7 @@ class InshoppingViewController: UIViewController {
         })
     }
     
-    func finishShoppingToRefrige(foodId: String, complection: @escaping() -> Void) {
-        
-//        guard var refrigeNow = refrigeNow else { return }
-//        guard let foodId = foodId else { return }  // bugs
+    func finishShoppingToRefrige(foodId: String, complection: @escaping(String) -> Void) {
         
         refrigeNow!.foodID.append(foodId) // global
         RefrigeManager.shared.publishFoodOnRefrige(refrige: refrigeNow!) { result in
@@ -300,16 +285,11 @@ class InshoppingViewController: UIViewController {
             case .success:
                 // change food status
                 self.foodManager.changeFoodStatus(foodId: foodId, foodStatus: 3) {
-//                    self.onPublished?()
                     RefrigeManager.shared.fetchSingleRefrigeInfo(refrige: refrigeNow!) { result in
                         switch result {
                         case .success(let refrigeInfo):
                             refrigeNow = refrigeInfo
-                            complection()
-                            // 抓 fetch shoppingList foodInfo
-                            // remove foodID
-                            // d
-
+                            complection(foodId)
                         case .failure:
                             print("cannot fetch cate data")
                         }
@@ -346,6 +326,7 @@ class InshoppingViewController: UIViewController {
                         DispatchQueue.main.async {
                             // lottie 消失
                             self.inShoppingListCollectionView.reloadData()
+                            complection()
                             semaphore.signal()
                         }
                             
@@ -409,89 +390,77 @@ extension InshoppingViewController: UICollectionViewDataSource,
         cell.layer.backgroundColor = UIColor(red: 1, green: 0.964, blue: 0.929, alpha: 1).cgColor
         cell.layer.cornerRadius = 20
         cell.shoppingItemImage.lkCornerRadius = 20
-
-        switch indexPath.section {
-        case 0:
+        
+        guard let section = CategoryType(rawValue: indexPath.section) else {
+            assertionFailure()
+        return UICollectionViewCell() }
+        switch section {
+        case .meat:
             cell.shoppingName.text = meatsInfo[indexPath.item].foodName
-                cell.shoppingItemImage.kf.setImage(with: URL( string: meatsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: meatsInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = meatsInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = meatsInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true  // meatsInfo[indexPath.item].foodWeightAmount
-        case 1:
+        case .beans:
             cell.shoppingName.text = beansInfo[indexPath.item].foodName
-
-                cell.shoppingItemImage.kf.setImage(with: URL( string: beansInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: beansInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = beansInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = beansInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-         //   cell.shoppingItemImage
-
-        case 2:
+        case .eggs:
             cell.shoppingName.text = eggsInfo[indexPath.item].foodName
-            
-                cell.shoppingItemImage.kf.setImage(with: URL( string: eggsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: eggsInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = eggsInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = eggsInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-         //   cell.shoppingItemImage
-        case 3:
+        case .vegs:
             cell.shoppingName.text = vegsInfo[indexPath.item].foodName
-
-                cell.shoppingItemImage.kf.setImage(with: URL( string: vegsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: vegsInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = vegsInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = vegsInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-        case 4:
+        case .pickles:
             cell.shoppingName.text = picklesInfo[indexPath.item].foodName
-
-                cell.shoppingItemImage.kf.setImage(with: URL( string: picklesInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: picklesInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = picklesInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = picklesInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-        case 5:
+        case .fruit:
             cell.shoppingName.text = fruitsInfo[indexPath.item].foodName
-
-                cell.shoppingItemImage.kf.setImage(with: URL( string: fruitsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: fruitsInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = fruitsInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = fruitsInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-        case 6:
+        case .fishes:
             cell.shoppingName.text = fishesInfo[indexPath.item].foodName
-
-                cell.shoppingItemImage.kf.setImage(with: URL( string: fishesInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: fishesInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = fishesInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = fishesInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-        case 7:
+        case .seafoods:
             cell.shoppingName.text = seafoodsInfo[indexPath.item].foodName
-
-                cell.shoppingItemImage.kf.setImage(with: URL( string: seafoodsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: seafoodsInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = seafoodsInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = seafoodsInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-        case 8:
+        case .beverage:
             cell.shoppingName.text = beveragesInfo[indexPath.item].foodName
-
-                cell.shoppingItemImage.kf.setImage(with: URL( string: beveragesInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: beveragesInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = beveragesInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = beveragesInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-        case 9:
+        case .seasons:
             cell.shoppingName.text = seasonsInfo[indexPath.item].foodName
-
-                cell.shoppingItemImage.kf.setImage(with: URL( string: seasonsInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: seasonsInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = seasonsInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = seasonsInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-        case 10:
+        case .others:
             cell.shoppingName.text = othersInfo[indexPath.item].foodName
-                cell.shoppingItemImage.kf.setImage(with: URL( string: othersInfo[indexPath.item].foodImages ?? "" ))
+            cell.shoppingItemImage.kf.setImage(with: URL( string: othersInfo[indexPath.item].foodImages ?? "" ))
             cell.shoppingBrand.text = othersInfo[indexPath.item].foodBrand
             cell.shoppingLocation.text = othersInfo[indexPath.item].foodPurchasePlace
             cell.shoppingWeight.isHidden = true
-        default:
-            cell.shoppingName.text = foodsInfo[indexPath.item].foodName
-            
         }
         return cell
 
@@ -525,78 +494,63 @@ extension InshoppingViewController: UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            finishShoppingToRefrige(foodId: meatsInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                
+        guard let section = CategoryType(rawValue: indexPath.section) else { assertionFailure(); return }
+        switch section {
+        case .meat:
+            finishShoppingToRefrige(foodId: meatsInfo[indexPath.item].foodId ?? "2") { [weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-        case 1:
-            finishShoppingToRefrige(foodId: beansInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                print("success to reFirge ")
+        case .beans:
+            finishShoppingToRefrige(foodId: beansInfo[indexPath.item].foodId ?? "2") { [ weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-        case 2:
-            finishShoppingToRefrige(foodId: eggsInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                print("success to reFirge ")
+        case .eggs:
+            finishShoppingToRefrige(foodId: eggsInfo[indexPath.item].foodId ?? "2") { [ weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-
-        case 3:
-            finishShoppingToRefrige(foodId: vegsInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                print("success to reFirge ")
+        case .vegs:
+            finishShoppingToRefrige(foodId: vegsInfo[indexPath.item].foodId ?? "2") { [ weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-
-        case 4:
-            finishShoppingToRefrige(foodId: picklesInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                print("success to reFirge ")
+        case .pickles:
+            finishShoppingToRefrige(foodId: picklesInfo[indexPath.item].foodId ?? "2") { [ weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-        case 5:
-            finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                self.deleteFoodOnShoppingList(foodId: self.fruitsInfo[indexPath.item].foodId ?? "2", complection: {
-                    print("success reload")
-                })
-                print("success to reFirge ")
+        case .fruit:
+            finishShoppingToRefrige(foodId: fruitsInfo[indexPath.item].foodId ?? "2") { [ weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-            deleteFoodOnShoppingList(foodId: fruitsInfo[indexPath.item].foodId ?? "2") {
-                
-                print("success to delete " )
+        case .fishes:
+            finishShoppingToRefrige(foodId: fishesInfo[indexPath.item].foodId ?? "2") { [ weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-        case 6:
-            finishShoppingToRefrige(foodId: fishesInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                print("success to reFirge ")
+        case .seafoods:
+            finishShoppingToRefrige(foodId: seafoodsInfo[indexPath.item].foodId ?? "2") { [ weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-        case 7:
-            finishShoppingToRefrige(foodId: seafoodsInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                print("success to reFirge ")
+        case .beverage:
+            finishShoppingToRefrige(foodId: beveragesInfo[indexPath.item].foodId ?? "2") { [ weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-        case 8:
-            finishShoppingToRefrige(foodId: beveragesInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                print("success to reFirge ")
+        case .seasons:
+            finishShoppingToRefrige(foodId: seasonsInfo[indexPath.item].foodId ?? "2") { [weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-
-        case 9:
-            finishShoppingToRefrige(foodId: seasonsInfo[indexPath.item].foodId ?? "2") {
-                self.reloadShoppingList()
-                print("success to reFirge ")
+        case .others:
+            finishShoppingToRefrige(foodId: othersInfo[indexPath.item].foodId ?? "2") { [ weak self ] removeFoodID in
+                self?.reloadShoppingList()
+                self?.deleteFoodOnShoppingList(foodId: removeFoodID, complection: { })
             }
-
-        case 10:
-            finishShoppingToRefrige(foodId: othersInfo[indexPath.item].foodId ?? "2") {
-                
-                self.reloadShoppingList()
-                print("success to reFirge ")
-            }
-
-        default:
-            print("dd")
         }
     }
-
 }

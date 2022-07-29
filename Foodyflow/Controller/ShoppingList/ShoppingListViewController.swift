@@ -103,41 +103,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
                 self.present( LoginViewController(), animated: true )
                 self.setDropdown(shoppingLists: self.shoppingLists)
             }
-        }
-        
-        // fetch refrige fetch 購買清單  // fetch 食物 -> 分類
-        // w for fix error 應該先fetch 在回來抓
-        
-      /*  self.fetchAllShoppingListInSingleRefrige { [weak self] shoppingLists in
-            self?.shoppingLists = shoppingLists
-            if shoppingLists.isEmpty {
-            self?.cate = []
-            self?.setDropdown(shoppingLists: self?.shoppingLists ?? [])
-            }
-            self?.fetchAllShoppingListInfoInsingleRefrige(
-                shopingLists: shoppingLists,
-                completion: { [weak self] totalShopListInfo in
-                
-                self?.setDropdown(shoppingLists: totalShopListInfo)
-                })
-            self?.setDropdown(shoppingLists: shoppingLists)
-            // change name Bugs
-            
-//            shoppingListNowID = "dwdwdwd" // fetch initial
-/*            self?.fetchAllFoodInfoInSingleShopList { [weak self] foodssInfo in
-                self?.fetAllFood(foodID: foodssInfo, completion: { allfoodInfo in
-                    guard let cates = self?.cate else { return }
-                    self?.resetRefrigeFood()
-                    self?.cateFilter(allFood: allfoodInfo, cates: cates)
-                    DispatchQueue.main.async {
-                        // lottie 消失
-                        
-                        //                            self?.shoppingList.reloadData()
-                        //                           semaphore.signal()
-                    }
-                })
-            }*/
-        }*/
+        }        
     }
     
     private func loadShopList() {
@@ -279,50 +245,7 @@ class ShoppingListViewController: UIViewController, LZViewPagerDelegate, LZViewP
         menuView.maskBackgroundOpacity = 0.3
         self.navigationItem.titleView = menuView
     }
-    
-    func resetRefrigeFood() {
-        meatsInfo = []
-        beansInfo = []
-        eggsInfo = []
-        vegsInfo = []
-        picklesInfo = []
-        fruitsInfo = []
-        fishesInfo = []
-        seafoodsInfo = []
-        beveragesInfo = []
-        seasonsInfo = []
-        othersInfo = []
-    }
-    
-    func cateFilter( allFood: [FoodInfo], cates: [String?] ) {
-        for foodInfo in allFood {
-            for cate in cates {
-                guard let foodCategory = foodInfo.foodCategory else { return }
-                if foodCategory == cate! && cate! == "肉類" {
-                    self.meatsInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "豆類" {
-                    self.beansInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "雞蛋類" {
-                    self.eggsInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "青菜類" {
-                    self.vegsInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "醃製類" {
-                    self.picklesInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "水果類" {
-                    self.fruitsInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "魚類" {
-                    self.fishesInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "海鮮類" {
-                    self.seafoodsInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "飲料類" {
-                    self.beveragesInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "調味料類" {
-                    self.seasonsInfo.append(foodInfo) } else if
-                    foodCategory == cate! && cate! == "其他" {
-                    self.othersInfo.append(foodInfo) }}
-        }
-    }
-    
+            
     func fetchAllCate(completion: @escaping([String?]) -> Void) {
         CategoryManager.shared.fetchArticles(completion: { result in
             switch result {

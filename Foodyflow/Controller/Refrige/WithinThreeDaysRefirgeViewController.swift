@@ -305,8 +305,7 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
                     nibName: "ShoppingProductDetailViewController",
                     bundle: nil)
                 
-                // bug fixs
-                guard let currentRefrige = refrigeNow else { return }
+                 guard let currentRefrige = refrigeNow else { return }
                 shoppingVC.refrige = currentRefrige
                 self.navigationController!.pushViewController(shoppingVC, animated: true)
                 
@@ -440,34 +439,34 @@ class WithinThreeDaysRefirgeViewController: UIViewController {
     }
     
     private func cateFilter(allFood: [FoodInfo], cates: [String?]) {
+       
         for foodInfo in allFood {
-            for cate in cates {
-                guard let foodCategory = foodInfo.foodCategory
-                else { return }
-                if foodCategory == cate! && cate! == "肉類"{
-                self.meatsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "豆類"{
-                self.beansInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "雞蛋類"{
-                self.eggsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "青菜類"{
-                self.vegsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "醃製類"{
-                self.picklesInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "水果類" {
-                self.fruitsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "魚類"{
-                self.fishesInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "海鮮類" {
-                self.seafoodsInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "飲料類" {
-                self.beveragesInfo.append(foodInfo) } else if
-                foodCategory == cate! && cate! == "調味料類" {
-                self.seasonsInfo.append(foodInfo)} else if
-                foodCategory == cate! && cate! == "其他" {
-                self.othersInfo.append(foodInfo)}}
+            switch foodInfo.foodCategory {
+            case Categorytype.meat.rawValue:
+                self.meatsInfo.append(foodInfo)
+            case Categorytype.beans.rawValue:
+                self.beansInfo.append(foodInfo)
+            case Categorytype.eggs.rawValue:
+                self.eggsInfo.append(foodInfo)
+            case Categorytype.vegs.rawValue:
+                self.vegsInfo.append(foodInfo)
+            case Categorytype.pickles.rawValue:
+                self.picklesInfo.append(foodInfo)
+            case Categorytype.fruit.rawValue:
+                self.fruitsInfo.append(foodInfo)
+            case Categorytype.fishes.rawValue:
+                self.fishesInfo.append(foodInfo)
+            case Categorytype.seafoods.rawValue:
+                self.seafoodsInfo.append(foodInfo)
+            case Categorytype.beverage.rawValue:
+                self.beveragesInfo.append(foodInfo)
+            case Categorytype.others.rawValue:
+                self.othersInfo.append(foodInfo)
+            default:
+                break
+            }
         }
-        
+
     }
     
     private func setUI() {
