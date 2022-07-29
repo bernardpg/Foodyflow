@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 [![Swift version](https://img.shields.io/badge/Swift-5.0-orange)](https://developer.apple.com/swift/)
-[![App version](https://img.shields.io/badge/version-1.0.-blue)](https://apple.co/3xVk2Aj)
+[![App version](https://img.shields.io/badge/version-1.0.1-blue)](https://apple.co/3xVk2Aj)
 [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey)](https://www.apple.com/tw/ios/ios-15/)
 
 <p align="center">
