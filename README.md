@@ -95,4 +95,7 @@ bookmark recipes.
 
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
 
+## License 
+Copyright © 2022 YenCheng Huang 
 
+CatCafe is released under the MIT license. See [License](https://github.com/bernardpg/Foodyflow/blob/main/LICENSE) for detail.
