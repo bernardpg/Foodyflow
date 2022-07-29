@@ -32,7 +32,7 @@ Foodyflow is an easy-to-use application providing users to manage their refriger
 
 #### own recipes 
 - Users could manage their own and bookmark recipes. 
-- <img src="https://github.com/bernardpg/Foodyflow/blob/main/Screenshots/MyOwnRecipe.gif" width = "200" height = "433"/>
+<img src="https://github.com/bernardpg/Foodyflow/blob/main/Screenshots/MyOwnRecipe.gif" width = "200" height = "433"/>
 
 ### Refrigerator
 - Users can manage their own food by days.
